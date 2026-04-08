@@ -7,7 +7,6 @@
 
 #include "app/common/BuildVer/BuildVer.h"
 #include "platform/IPlatformNetwork.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "PacketListener.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"

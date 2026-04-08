@@ -13,7 +13,6 @@
 #include "app/common/BuildVer/BuildVer.h"
 #include "app/common/Network/NetworkPlayerInterface.h"
 #include "platform/IPlatformNetwork.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "platform/NetTypes.h"
 #include "PlayerConnection.h"
 #include "ServerConnection.h"

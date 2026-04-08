@@ -12,7 +12,6 @@
 
 #include "minecraft/GameEnums.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "StrongholdPieces.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"

@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "app/common/Network/NetworkPlayerInterface.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "ServerLevel.h"
 #include "ServerPlayer.h"
 #include "TrackedEntity.h"

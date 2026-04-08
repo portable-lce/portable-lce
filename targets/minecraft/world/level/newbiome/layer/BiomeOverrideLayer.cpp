@@ -7,7 +7,6 @@
 #include "platform/fs/fs.h"
 #include "minecraft/world/level/newbiome/layer/Layer.h"
 #if defined(__linux__)
-#include "app/linux/Stubs/winapi_stubs.h"
 #endif
 #include "minecraft/world/level/biome/Biome.h"
 

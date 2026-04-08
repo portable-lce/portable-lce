@@ -11,7 +11,6 @@
 
 #include "platform/renderer/renderer.h"
 #include "LevelRenderer.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "util/FrameProfiler.h"
 #include "TileRenderer.h"
 #include "minecraft/client/renderer/Tesselator.h"

@@ -6,7 +6,6 @@
 #include <format>
 #include <utility>
 
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/client/BufferedImage.h"
 #include "StitchSlot.h"
 #include "StitchedTexture.h"

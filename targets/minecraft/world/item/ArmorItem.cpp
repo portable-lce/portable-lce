@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "app/common/Colours/ColourTable.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "java/Class.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/core/BehaviorRegistry.h"

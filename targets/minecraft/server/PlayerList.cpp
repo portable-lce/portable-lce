@@ -20,7 +20,6 @@
 #include "app/common/Network/Socket.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "platform/NetTypes.h"
 #include "MinecraftServer.h"
 #include "Settings.h"

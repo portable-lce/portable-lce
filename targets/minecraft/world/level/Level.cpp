@@ -21,7 +21,6 @@
 #include "app/common/Colours/ColourTable.h"
 #include "app/common/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "util/FrameProfiler.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"

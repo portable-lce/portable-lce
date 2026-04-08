@@ -38,7 +38,6 @@
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "PlatformTypes.h"
 #include "Pos.h"
 #include "minecraft/SharedConstants.h"

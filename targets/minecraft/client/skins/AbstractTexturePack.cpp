@@ -9,7 +9,6 @@
 #include "app/common/Colours/ColourTable.h"
 #include "minecraft/IGameServices.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/client/BufferedImage.h"
 #include "util/StringHelpers.h"
 #include "java/File.h"

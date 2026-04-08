@@ -11,7 +11,6 @@
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
 #if defined(__linux__)
-#include "app/linux/Stubs/winapi_stubs.h"
 #endif
 #include "java/Random.h"
 #include "minecraft/world/entity/MobCategory.h"
