@@ -1,7 +1,9 @@
 #include "app/common/GameSettingsManager.h"
 
 #include "app/common/Game.h"
-#include "app/common/App_Defines.h"
+#include "minecraft/GameHostOptions.h"
+#include "minecraft/GameTypes.h"
+#include "platform/profile/ProfileConstants.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"

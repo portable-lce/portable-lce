@@ -3,7 +3,8 @@
 #include <cstdint>
 
 #include "platform/storage/storage.h"
-#include "app/common/App_Defines.h"
+#include "minecraft/GameTypes.h"
+#include "platform/profile/ProfileConstants.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameTypes.h"
 #include "app/common/Tutorial/TutorialEnum.h"

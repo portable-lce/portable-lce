@@ -8,7 +8,7 @@
 
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
-#include "app/common/App_Defines.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"

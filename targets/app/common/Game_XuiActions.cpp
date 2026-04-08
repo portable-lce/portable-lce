@@ -1,4 +1,4 @@
-#include "app/common/App_Defines.h"
+#include "minecraft/GameTypes.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"

@@ -58,7 +58,7 @@ static void sigsegv_handler(int sig) {
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #include "platform/storage/storage.h"
-#include "app/common/App_Defines.h"
+#include "platform/profile/ProfileConstants.h"
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/linux/LinuxGame.h"

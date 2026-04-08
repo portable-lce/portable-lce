@@ -6,7 +6,7 @@ class Random;
 
 #include <string>
 
-#include "app/common/App_Defines.h"
+#include "platform/PlatformTypes.h"
 #include "app/common/Audio/Consoles_SoundEngine.h"
 #include "app/linux/Iggy/include/rrCore.h"
 #include "minecraft/sounds/SoundTypes.h"

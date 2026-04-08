@@ -6,8 +6,8 @@
 #include <algorithm>
 #include <cmath>
 
-#include "app/common/App_Defines.h"
 #include "minecraft/GameEnums.h"
+#include "minecraft/GameHostOptions.h"
 #include "app/linux/LinuxGame.h"
 #include "java/System.h"
 #include "minecraft/world/level/GameRules.h"

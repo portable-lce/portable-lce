@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "app/common/App_Defines.h"
+#include "minecraft/GameTypes.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/Network/SessionInfo.h"
 #include "app/common/UI/All Platforms/UIStructs.h"

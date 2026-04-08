@@ -6,8 +6,6 @@
 
 #include "../ProfileConstants.h"
 #include "input/input.h"
-#include "../../../app/common/Tutorial/TutorialEnum.h" // 4jcraft TODO
-#include "../../../app/common/App_Defines.h" // 4jcraft TODO
 
 StubProfile stub_profile_instance;
 IPlatformProfile& PlatformProfile = stub_profile_instance;

@@ -7,7 +7,7 @@
 #include <functional>
 
 #include "platform/storage/storage.h"
-#include "app/common/App_Defines.h"
+#include "minecraft/GameHostOptions.h"
 #include "UIEnums.h"
 #include "platform/C4JThread.h"
 

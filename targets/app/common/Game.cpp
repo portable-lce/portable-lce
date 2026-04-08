@@ -5,7 +5,7 @@
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #include "platform/storage/storage.h"
-#include "app/common/App_Defines.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/App_structs.h"
 #include "app/common/Console_Debug_enum.h"

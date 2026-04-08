@@ -2,7 +2,7 @@
 #include "UIScene_TrialExitUpsell.h"
 
 #include "platform/profile/profile.h"
-#include "app/common/App_Defines.h"
+#include "minecraft/GameTypes.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"

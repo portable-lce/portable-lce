@@ -6,7 +6,7 @@
 #include "platform/PlatformTypes.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
-#include "app/common/App_Defines.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_DynamicLabel.h"

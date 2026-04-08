@@ -17,11 +17,9 @@ typedef struct {
 #define TUTORIAL_NO_TEXT -1
 #define TUTORIAL_NO_ICON -1
 
-// If you want to make these bigger, be aware that that will affect what is
-// stored after the tutorial data in the profile data See Xbox_App.h for the
-// struct
-#define TUTORIAL_PROFILE_STORAGE_BITS 512
-#define TUTORIAL_PROFILE_STORAGE_BYTES (TUTORIAL_PROFILE_STORAGE_BITS / 8)
+// TUTORIAL_PROFILE_STORAGE_BITS / TUTORIAL_PROFILE_STORAGE_BYTES moved to
+// platform/profile/ProfileConstants.h since they describe profile data
+// layout. Anything that needs them should include that header directly.
 
 // 4J Stu - The total number of eTutorial_State and eTutorial_Hint must be less
 // than 512, as we only have 512 bits of profile data to flag whether or not the

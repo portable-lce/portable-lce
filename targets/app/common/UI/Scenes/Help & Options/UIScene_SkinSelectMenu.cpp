@@ -7,7 +7,7 @@
 
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
-#include "app/common/App_Defines.h"
+#include "platform/profile/ProfileConstants.h"
 #include "app/common/Minecraft_Macros.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"

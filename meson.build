@@ -24,6 +24,7 @@ global_cpp_defs = [
   '-D_LARGE_WORLDS',
   '-D_EXTENDED_ACHIEVEMENTS',
   '-D_FORTIFY_SOURCE=2',
+  '-DMULTITHREAD_ENABLE', # always-on threading flag (formerly in App_Defines.h)
 ]
 
 # Debug-only defines: keep for debug + debugoptimized so iteration is unchanged.

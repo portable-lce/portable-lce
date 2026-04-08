@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "app/common/App_Defines.h"
+#include "platform/profile/ProfileConstants.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Controls/UIControl_ButtonList.h"

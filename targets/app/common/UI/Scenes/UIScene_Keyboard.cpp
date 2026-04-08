@@ -1,6 +1,6 @@
 #include "UIScene_Keyboard.h"
 
-#include "app/common/App_Defines.h"
+#include "minecraft/GameTypes.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_TextInput.h"

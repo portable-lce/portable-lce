@@ -74,6 +74,11 @@ inline constexpr int XUSER_MAX_COUNT = 4;
 inline constexpr int XUSER_NAME_SIZE = 32;
 inline constexpr int XUSER_INDEX_FOCUS = 254;
 
+// Maximum local (split-screen) players. Same as XUSER_MAX_COUNT; kept as a
+// separate name because gameplay code talks about "local players" rather
+// than Xbox user slots.
+#define MAX_LOCAL_PLAYERS 4
+
 using PlayerUID = unsigned long long;
 using PPlayerUID = PlayerUID*;
 inline constexpr PlayerUID INVALID_XUID = 0;

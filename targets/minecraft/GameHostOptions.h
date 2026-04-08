@@ -2,12 +2,53 @@
 
 #include <cstdint>
 
-#include "app/common/App_Defines.h"
 #include "minecraft/GameEnums.h"
 
-// Stateless bitfield utilities - no app dependency.
-// The global-state overloads (get/set with no settings arg) have moved
-// to IgameServices().getGameHostOption / setGameHostOption.
+// Bitmask layout for the game host option settings word, plus the
+// stateless bitfield utilities used to read and write it.
+//
+// The global-state overloads (get/set with no settings arg) have moved to
+// IGameServices::getGameHostOption / setGameHostOption.
+
+#define GAME_HOST_OPTION_BITMASK_DIFFICULTY 0x00000003  // 0 - 3
+#define GAME_HOST_OPTION_BITMASK_FRIENDSOFFRIENDS 0x00000004
+#define GAME_HOST_OPTION_BITMASK_GAMERTAGS 0x00000008
+#define GAME_HOST_OPTION_BITMASK_GAMETYPE 0x00000030
+#define GAME_HOST_OPTION_BITMASK_LEVELTYPE 0x00000040
+#define GAME_HOST_OPTION_BITMASK_STRUCTURES 0x00000080
+#define GAME_HOST_OPTION_BITMASK_BONUSCHEST 0x00000100
+#define GAME_HOST_OPTION_BITMASK_BEENINCREATIVE 0x00000200
+#define GAME_HOST_OPTION_BITMASK_PVP 0x00000400
+#define GAME_HOST_OPTION_BITMASK_TRUSTPLAYERS 0x00000800
+#define GAME_HOST_OPTION_BITMASK_TNT 0x00001000
+#define GAME_HOST_OPTION_BITMASK_FIRESPREADS 0x00002000
+#define GAME_HOST_OPTION_BITMASK_HOSTFLY 0x00004000
+#define GAME_HOST_OPTION_BITMASK_HOSTHUNGER 0x00008000
+#define GAME_HOST_OPTION_BITMASK_HOSTINVISIBLE 0x00010000
+#define GAME_HOST_OPTION_BITMASK_BEDROCKFOG 0x00020000
+#define GAME_HOST_OPTION_BITMASK_DISABLESAVE 0x00040000
+#define GAME_HOST_OPTION_BITMASK_NOTOWNER 0x00080000
+// 3 bits, 5 values: unset(0), classic(1), small(2), medium(3), large(4)
+#define GAME_HOST_OPTION_BITMASK_WORLDSIZE 0x00700000
+#define GAME_HOST_OPTION_BITMASK_MOBGRIEFING 0x00800000
+#define GAME_HOST_OPTION_BITMASK_KEEPINVENTORY 0x01000000
+#define GAME_HOST_OPTION_BITMASK_DOMOBSPAWNING 0x02000000
+#define GAME_HOST_OPTION_BITMASK_DOMOBLOOT 0x04000000
+#define GAME_HOST_OPTION_BITMASK_DOTILEDROPS 0x08000000
+#define GAME_HOST_OPTION_BITMASK_NATURALREGEN 0x10000000
+#define GAME_HOST_OPTION_BITMASK_DODAYLIGHTCYCLE 0x20000000
+#define GAME_HOST_OPTION_BITMASK_ALL 0xFFFFFFFF
+
+#define GAME_HOST_OPTION_BITMASK_WORLDSIZE_BITSHIFT 20
+
+enum EGameHostOptionWorldSize {
+    e_worldSize_Unknown = 0,
+    e_worldSize_Classic,
+    e_worldSize_Small,
+    e_worldSize_Medium,
+    e_worldSize_Large
+};
+
 namespace GameHostOptions {
 
 unsigned int get(unsigned int settings, eGameHostOption option);
