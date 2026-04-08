@@ -16,6 +16,7 @@ client_dependencies = [
   profile_dep,
   storage_dep,
   fs_dep,
+  sound_dep,
   assets_localisation_dep,
   platform_dep,
   minecraft_dep,

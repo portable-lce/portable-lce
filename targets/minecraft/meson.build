@@ -23,7 +23,7 @@ endif
 lib_minecraft = static_library('minecraft',
   minecraft_sources,
   dependencies : [
-    miniaudio_dep, # TODO: remove once a SoundEngine facade is present
+    sound_dep,
     render_dep,
     input_dep,
     profile_dep,
