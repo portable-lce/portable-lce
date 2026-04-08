@@ -76,7 +76,7 @@
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/Colours/ColourTable.h"
 #include "app/common/DLC/DLCPack.h"
-#include "app/common/Localisation/StringTable.h"
+#include "minecraft/locale/StringTable.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
 #include "Minecraft_Macros.h"

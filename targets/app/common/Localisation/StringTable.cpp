@@ -1,4 +1,4 @@
-#include "StringTable.h"
+#include "minecraft/locale/StringTable.h"
 
 #include <ranges>
 #include <utility>

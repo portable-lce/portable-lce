@@ -17,7 +17,7 @@
 #include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
 #include "app/common/GameRules/LevelGeneration/StartFeature.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
-#include "app/common/Localisation/StringTable.h"
+#include "minecraft/locale/StringTable.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "java/File.h"

@@ -23,7 +23,7 @@
 #include "app/common/DLC/DLCUIDataFile.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/common/Localisation/StringTable.h"
+#include "minecraft/locale/StringTable.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/linux/Linux_UIController.h"
 #include "app/linux/Stubs/winapi_stubs.h"

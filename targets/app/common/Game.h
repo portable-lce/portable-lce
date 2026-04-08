@@ -26,7 +26,7 @@
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/GameRules/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/GameRuleManager.h"
-#include "app/common/Localisation/StringTable.h"
+#include "minecraft/locale/StringTable.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/common/UI/All Platforms/UIStructs.h"

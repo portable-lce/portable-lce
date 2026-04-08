@@ -11,7 +11,7 @@
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/GameRules/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
-#include "app/common/Localisation/StringTable.h"
+#include "minecraft/locale/StringTable.h"
 #include "minecraft/world/level/levelgen/structure/StructureFeature.h"
 
 class ApplySchematicRuleDefinition;

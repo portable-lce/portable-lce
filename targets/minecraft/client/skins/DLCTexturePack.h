@@ -5,7 +5,7 @@
 
 #include "platform/PlatformTypes.h"
 #include "AbstractTexturePack.h"
-#include "app/common/Localisation/StringTable.h"
+#include "minecraft/locale/StringTable.h"
 
 class DLCPack;
 class StringTable;

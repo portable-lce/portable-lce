@@ -18,7 +18,7 @@
 #include "app/common/GameRules/LevelRules/LevelRules.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"
-#include "app/common/Localisation/StringTable.h"
+#include "minecraft/locale/StringTable.h"
 #include "app/linux/LinuxGame.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/File.h"
