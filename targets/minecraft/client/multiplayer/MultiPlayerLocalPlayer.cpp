@@ -70,7 +70,7 @@ void MultiplayerLocalPlayer::heal(float heal) {}
 void MultiplayerLocalPlayer::tick() {
     // 4J Added
     // 4J-PB - changing this to a game host option ot hide gamertags
-    // bool bIsisPrimaryHost=g_NetworkManager.IsHost() &&
+    // bool bIsisPrimaryHost=NetworkService.IsHost() &&
     // (PlatformInput.GetPrimaryPad()==m_iPad);
 
     /*if((gameServices().getGameSettings(m_iPad,eGameSetting_PlayerVisibleInMap)!=0) !=

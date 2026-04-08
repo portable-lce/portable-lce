@@ -108,7 +108,7 @@ void SignTileEntity::setChanged() {
     // 4J-PB - For TU14 we are allowed to not verify strings anymore !
     m_bVerified = true;
     /*
-    if(!g_NetworkManager.IsLocalGame() && !m_bVerified)
+    if(!NetworkService.IsLocalGame() && !m_bVerified)
     //if (pMinecraft->level->isClientSide)
     {
             char *wcMessages[MAX_SIGN_LINES];

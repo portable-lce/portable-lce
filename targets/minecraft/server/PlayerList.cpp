@@ -15,7 +15,7 @@
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"
 #include "minecraft/world/level/GameRules/GameRulesInstance.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
 #include "app/common/Tutorial/Tutorial.h"
@@ -915,7 +915,7 @@ void PlayerList::toggleDimension(std::shared_ptr<ServerPlayer> player,
     player->gameMode->setLevel(newLevel);
 
     // Resend the teleport if we haven't yet sent the chunk they will land on
-    if (!g_NetworkManager.SystemFlagGet(
+    if (!NetworkService.SystemFlagGet(
             player->connection->getNetworkPlayer(),
             ServerPlayer::getFlagIndexForChunk(
                 ChunkPos(player->xChunk, player->zChunk),
@@ -1069,7 +1069,7 @@ void PlayerList::tick() {
             std::uint8_t smallId = m_smallIdsToKick.front();
             m_smallIdsToKick.pop_front();
             INetworkPlayer* selectedPlayer =
-                g_NetworkManager.GetPlayerBySmallId(smallId);
+                NetworkService.GetPlayerBySmallId(smallId);
             if (selectedPlayer != nullptr) {
                 if (selectedPlayer->IsLocal() != true) {
                     // #if 0

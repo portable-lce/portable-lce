@@ -14,7 +14,7 @@
 #include "EntityTracker.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/world/level/GameRules/GameRulesInstance.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "ServerLevel.h"
 #include "ServerPlayerGameMode.h"
@@ -442,7 +442,7 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks) {
                 //						connection->getNetworkPlayer()->GetSmallId(),
                 //						canSendToPlayer,
                 // connection->countDelayedPackets(),
-                //						g_NetworkManager.GetHostPlayer()->GetSendQueueSizeMessages(
+                //						NetworkService.GetHostPlayer()->GetSendQueueSizeMessages(
                 // nullptr, true ),
                 // connection->done);
                 //				}
@@ -450,7 +450,7 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks) {
                 if (dontDelayChunks ||
                     (canSendToPlayer &&
                      (connection->countDelayedPackets() < 4) &&
-                     (g_NetworkManager.GetHostPlayer()
+                     (NetworkService.GetHostPlayer()
                           ->GetSendQueueSizeMessages(nullptr, true) < 4) &&
                      //(tickCount - lastBrupSendTickCount) >
                      //(connection->getNetworkPlayer()->GetCurrentRtt()>>4) &&
@@ -504,7 +504,7 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks) {
                     //     ever request that chunks be unloaded on the client
                     //     and so just gradually build up more and more of the
                     //     finite set of chunks as the player moves
-                    if (!g_NetworkManager.SystemFlagGet(
+                    if (!NetworkService.SystemFlagGet(
                             connection->getNetworkPlayer(), flagIndex)) {
                         //						Log::info("Creating
                         // BRUP for %d %d\n",nearest.x, nearest.z);
@@ -530,7 +530,7 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks) {
                         }
                         // Set flag to say we have send this block already to
                         // this system
-                        g_NetworkManager.SystemFlagSet(
+                        NetworkService.SystemFlagSet(
                             connection->getNetworkPlayer(), flagIndex);
 
                         chunkDataSent = true;

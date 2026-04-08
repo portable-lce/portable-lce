@@ -6,7 +6,7 @@
 #include "Button.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "platform/stubs.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Screen.h"
@@ -40,8 +40,8 @@ void Screen::keyPressed(char eventCharacter, int eventKey) {
         //    minecraft->grabMouse();	// 4J - removed
         // 4jcraft: moved here from PauseScreen to ensure that serverside
         // unpausing is done in all scenarios
-        if (g_NetworkManager.IsLocalGame() &&
-            g_NetworkManager.GetPlayerCount() == 1)
+        if (NetworkService.IsLocalGame() &&
+            NetworkService.GetPlayerCount() == 1)
             gameServices().setXuiServerAction(PlatformInput.GetPrimaryPad(),
                                    eXuiServerAction_PauseServer, false);
     }

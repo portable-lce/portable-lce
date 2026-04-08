@@ -33,7 +33,7 @@
 #include "platform/renderer/renderer.h"
 #include "app/common/App_structs.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
@@ -490,9 +490,9 @@ void LocalPlayer::aiStep() {
     } else if (m_bIsIdle &&
                PlatformInput.GetIdleSeconds(m_iPad) < PLAYER_IDLE_TIME) {
         // Are we offline or online, and how many players are there
-        if (g_NetworkManager.GetPlayerCount() > 1) {
+        if (NetworkService.GetPlayerCount() > 1) {
             // only do it for this player here - each player will run this code
-            if (g_NetworkManager.IsLocalGame()) {
+            if (NetworkService.IsLocalGame()) {
                 PlatformProfile.SetCurrentGameActivity(
                     m_iPad, CONTEXT_PRESENCE_MULTIPLAYEROFFLINE, false);
             } else {
@@ -500,7 +500,7 @@ void LocalPlayer::aiStep() {
                     m_iPad, CONTEXT_PRESENCE_MULTIPLAYER, false);
             }
         } else {
-            if (g_NetworkManager.IsLocalGame()) {
+            if (NetworkService.IsLocalGame()) {
                 PlatformProfile.SetCurrentGameActivity(
                     m_iPad, CONTEXT_PRESENCE_MULTIPLAYER_1POFFLINE, false);
             } else {
@@ -848,8 +848,8 @@ void LocalPlayer::awardStat(Stat* stat, const std::vector<uint8_t>& param) {
                 // especially if you are surrounded by mobs! We cannot pause the
                 // game unless in offline single player, but lets at least do it
                 // then
-                if (g_NetworkManager.IsLocalGame() &&
-                    g_NetworkManager.GetPlayerCount() == 1 &&
+                if (NetworkService.IsLocalGame() &&
+                    NetworkService.GetPlayerCount() == 1 &&
                     PlatformProfile.GetAwardType(ach->getAchievementID()) !=
                         EAwardType::Achievement) {
                     ui.CloseUIScenes(m_iPad);

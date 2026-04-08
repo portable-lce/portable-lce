@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "util/StringHelpers.h"
 #include "minecraft/server/MinecraftServer.h"
@@ -167,7 +167,7 @@ LevelChunk* MultiPlayerChunkCache::create(int x, int z) {
             std::unique_lock<std::mutex> lock(m_csLoadCreate);
 
             // LevelChunk *chunk;
-            if (g_NetworkManager
+            if (NetworkService
                     .IsHost())  // force here to disable sharing of data
             {
                 // 4J-JEV: We are about to use shared data, abort if the server
@@ -223,7 +223,7 @@ LevelChunk* MultiPlayerChunkCache::create(int x, int z) {
             // If we're sharing with the server, we'll need to calculate our
             // heightmap now, which isn't shared. If we aren't sharing with the
             // server, then this will be calculated when the chunk data arrives.
-            if (g_NetworkManager.IsHost()) {
+            if (NetworkService.IsHost()) {
                 chunk->recalcHeightmapOnly();
             }
 

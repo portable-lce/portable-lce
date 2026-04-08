@@ -10,6 +10,7 @@
 #include "platform/PlatformTypes.h"
 #include "app/common/Network/IPlatformNetwork.h"
 #include "platform/NetTypes.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "PlatformNetworkManagerStub.h"
 #include "minecraft/network/platform/SessionInfo.h"
@@ -29,7 +30,7 @@ const int NON_QNET_SENDDATA_ACK_REQUIRED = 1;
 // network implementation (eg QNET), rather it should interface with an
 // implementation of PlatformNetworkManager to provide this functionality.
 
-class CGameNetworkManager {
+class CGameNetworkManager : public ::minecraft::network::INetworkService {
     friend class IPlatformNetworkStub;
 
 public:

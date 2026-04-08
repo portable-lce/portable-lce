@@ -20,7 +20,7 @@
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/Console_Debug_enum.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "util/FrameProfiler.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
@@ -3830,7 +3830,7 @@ void Level::setBlocksAndData(int x, int y, int z, int xs, int ys, int zs,
             // This is quite expensive so only actually do it if we are hosting,
             // online, and the update will actually change something
             bool forceUnshare = false;
-            if (g_NetworkManager.IsHost() && isClientSide) {
+            if (NetworkService.IsHost() && isClientSide) {
                 forceUnshare =
                     lc->testSetBlocksAndData(data, x0, y0, z0, x1, y1, z1, p);
             }
@@ -3844,7 +3844,7 @@ void Level::setBlocksAndData(int x, int y, int z, int xs, int ys, int zs,
             setTilesDirty(xc * 16 + x0, y0, zc * 16 + z0, xc * 16 + x1, y1,
                           zc * 16 + z1);
 
-            if (g_NetworkManager.IsHost() && isClientSide) {
+            if (NetworkService.IsHost() && isClientSide) {
                 lc->startSharingTilesAndData();
             }
         }

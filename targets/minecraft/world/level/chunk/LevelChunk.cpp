@@ -9,7 +9,7 @@
 #include <string>
 #include <utility>
 
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "SparseLightStorage.h"
 #include "java/Class.h"
 #include "java/Random.h"
@@ -1832,7 +1832,7 @@ int LevelChunk::setBlocksAndData(std::vector<uint8_t>& data, int x0, int y0,
         // server updated them. This will leave the lighting information out of
         // sync on the client, so resync for this & surrounding chunks that
         // might have been affected
-        if (level->isClientSide && g_NetworkManager.IsHost()) {
+        if (level->isClientSide && NetworkService.IsHost()) {
             reSyncLighting();
             level->getChunk(x - 1, z - 1)->reSyncLighting();
             level->getChunk(x - 0, z - 1)->reSyncLighting();
@@ -2154,7 +2154,7 @@ void LevelChunk::compressBlocks() {
     // compress the local client copy of the data if the data is unshared, since
     // we'll be throwing this data away again anyway once we share with the
     // server again.
-    if (level->isClientSide && g_NetworkManager.IsHost()) {
+    if (level->isClientSide && NetworkService.IsHost()) {
         // Note - only the extraction of the pointers needs to be done in the
         // lock, since even if the data is unshared whilst we are
         // processing this data is still valid (for the server)
@@ -2254,7 +2254,7 @@ void LevelChunk::compressData() {
     // compress the local client copy of the data if the data is unshared, since
     // we'll be throwing this data away again anyway once we share with the
     // server again.
-    if (level->isClientSide && g_NetworkManager.IsHost()) {
+    if (level->isClientSide && NetworkService.IsHost()) {
         // Note - only the extraction of the pointers needs to be done in the
         // lock, since even if the data is unshared whilst we are
         // processing this data is still valid (for the server)

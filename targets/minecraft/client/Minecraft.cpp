@@ -19,7 +19,7 @@
 #include "User.h"
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/DLC/DLCManager.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
@@ -806,7 +806,7 @@ bool Minecraft::addLocalPlayer(int idx) {
     m_connectionFailed[idx] = false;
     m_pendingLocalConnections[idx] = nullptr;
 
-    bool success = g_NetworkManager.AddLocalPlayerByUserIndex(idx);
+    bool success = NetworkService.AddLocalPlayerByUserIndex(idx);
 
     if (success) {
         Log::info("Adding temp local player on pad %d\n", idx);
@@ -827,7 +827,7 @@ bool Minecraft::addLocalPlayer(int idx) {
         ui.NavigateToScene(idx, eUIScene_ConnectingProgress, param);
 
     } else {
-        Log::info("g_NetworkManager.AddLocalPlayerByUserIndex failed\n");
+        Log::info("NetworkService.AddLocalPlayerByUserIndex failed\n");
     }
 
     return success;
@@ -957,7 +957,7 @@ void Minecraft::removeLocalPlayerIdx(int idx) {
                 ->removeClientConnection(mplp->connection, true);
             delete mplp->connection;
             mplp->connection = nullptr;
-            g_NetworkManager.RemoveLocalPlayerByUserIndex(idx);
+            NetworkService.RemoveLocalPlayerByUserIndex(idx);
         }
         getLevel(localplayers[idx]->dimension)->removeEntity(localplayers[idx]);
 
@@ -975,7 +975,7 @@ void Minecraft::removeLocalPlayerIdx(int idx) {
         ;
         delete m_pendingLocalConnections[idx];
         m_pendingLocalConnections[idx] = nullptr;
-        g_NetworkManager.RemoveLocalPlayerByUserIndex(idx);
+        NetworkService.RemoveLocalPlayerByUserIndex(idx);
     } else {
         // Not sure how this works on qnet, but for other platforms, calling
         // RemoveLocalPlayerByUserIndex won't do anything if there isn't a local
@@ -1062,7 +1062,7 @@ void Minecraft::run_middle() {
                 //            }
 
                 // 4J-PB - AUTOSAVE TIMER - if the player is the host
-                if (level != nullptr && g_NetworkManager.IsHost()) {
+                if (level != nullptr && NetworkService.IsHost()) {
                     /*if(!bAutosaveTimerSet)
                     {
                     // set the timer
@@ -1184,7 +1184,7 @@ void Minecraft::run_middle() {
                             // list get the unique save name and xuid from
                             // whoever is the host
                             INetworkPlayer* pHostPlayer =
-                                g_NetworkManager.GetHostPlayer();
+                                NetworkService.GetHostPlayer();
                             PlayerUID xuid = pHostPlayer->GetUID();
 
                             if (gameServices().isInBannedLevelList(
@@ -1216,7 +1216,7 @@ void Minecraft::run_middle() {
                 // quadrant display to remind them to press start (if the
                 // session has space)
                 if (level != nullptr && bFirstTimeIntoGame &&
-                    g_NetworkManager.SessionHasSpace()) {
+                    NetworkService.SessionHasSpace()) {
                     // have a short delay before the display
                     if (iFirstTimeCountdown == 0) {
                         bFirstTimeIntoGame = false;
@@ -1390,7 +1390,7 @@ void Minecraft::run_middle() {
                         bool tryJoin = !pause &&
                                        !ui.IsIgnorePlayerJoinMenuDisplayed(
                                            PlatformInput.GetPrimaryPad()) &&
-                                       g_NetworkManager.SessionHasSpace() &&
+                                       NetworkService.SessionHasSpace() &&
                                        PlatformRenderer.IsHiDef() &&
                                        PlatformInput.ButtonPressed(i);
                         if (tryJoin) {
@@ -1408,7 +1408,7 @@ void Minecraft::run_middle() {
                                     if (PlatformProfile.IsSignedIn(i)) {
                                         // if this is a local game, then the
                                         // player just needs to be signed in
-                                        if (g_NetworkManager.IsLocalGame() ||
+                                        if (NetworkService.IsLocalGame() ||
                                             (PlatformProfile.IsSignedInLive(
                                                  i) &&
                                              PlatformProfile
@@ -1425,7 +1425,7 @@ void Minecraft::run_middle() {
                                                         "ui\n");
                                                     PlatformProfile.RequestSignInUI(
                                                         false,
-                                                        g_NetworkManager
+                                                        NetworkService
                                                             .IsLocalGame(),
                                                         true, false, true,
                                                         [this](bool b, int p) {
@@ -1497,7 +1497,7 @@ void Minecraft::run_middle() {
                                                     "ui\n");
                                                 PlatformProfile.RequestSignInUI(
                                                     false,
-                                                    g_NetworkManager
+                                                    NetworkService
                                                         .IsLocalGame(),
                                                     true, false, true,
                                                     [this](bool b, int p) {
@@ -1513,7 +1513,7 @@ void Minecraft::run_middle() {
                                             "Bringing up the sign in ui\n");
                                         PlatformProfile.RequestSignInUI(
                                             false,
-                                            g_NetworkManager.IsLocalGame(),
+                                            NetworkService.IsLocalGame(),
                                             true, false, true,
                                             [this](bool b, int p) {
                                                 return InGame_SignInReturned(
@@ -1739,7 +1739,7 @@ void Minecraft::run_middle() {
                     Packet::renderAllPacketStats();
 #else
                     // To show the size of the QNet queue in bytes and messages
-                    g_NetworkManager.renderQueueMeter();
+                    NetworkService.renderQueueMeter();
 #endif
                 } else {
                     lastTimer = System::nanoTime();
@@ -1778,8 +1778,8 @@ void Minecraft::run_middle() {
                 // pause = !isClientSide() && screen != nullptr &&
                 // screen->isPauseScreen();
 #if defined(ENABLE_JAVA_GUIS)
-                pause = g_NetworkManager.IsLocalGame() &&
-                        g_NetworkManager.GetPlayerCount() == 1 &&
+                pause = NetworkService.IsLocalGame() &&
+                        NetworkService.GetPlayerCount() == 1 &&
                         screen != nullptr && screen->isPauseScreen();
 #else
                 pause = gameServices().isAppPaused();
@@ -3980,12 +3980,12 @@ std::string Minecraft::gatherStats1() {
 }
 
 std::string Minecraft::gatherStats2() {
-    return g_NetworkManager.GatherStats();
+    return NetworkService.GatherStats();
     // return levelRenderer->gatherStats2();
 }
 
 std::string Minecraft::gatherStats3() {
-    return g_NetworkManager.GatherRTTStats();
+    return NetworkService.GatherRTTStats();
     // return "P: " + particleEngine->countParticles() + ". T: " +
     // level->gatherStats();
 }
@@ -4465,7 +4465,7 @@ void Minecraft::playerLeftTutorial(int iPad) {
 int Minecraft::InGame_SignInReturned(void* pParam, bool bContinue, int iPad) {
     Minecraft* pMinecraftClass = (Minecraft*)pParam;
 
-    if (g_NetworkManager.IsInSession()) {
+    if (NetworkService.IsInSession()) {
         // 4J Stu - There seems to be a bug in the signin ui call that enables
         // guest sign in. We never allow this within game, so make sure that
         // it's disabled Fix for #66516 - TCR #124: MPS Guest Support ; #001:
@@ -4477,19 +4477,19 @@ int Minecraft::InGame_SignInReturned(void* pParam, bool bContinue, int iPad) {
 
     // If sign in succeded, we're in game and this player isn't already playing,
     // continue
-    if (bContinue == true && g_NetworkManager.IsInSession() &&
+    if (bContinue == true && NetworkService.IsInSession() &&
         pMinecraftClass->localplayers[iPad] == nullptr) {
         // It's possible that the player has not signed in - they can back out
         // or choose no for the converttoguest
         if (PlatformProfile.IsSignedIn(iPad)) {
-            if (!g_NetworkManager.SessionHasSpace()) {
+            if (!NetworkService.SessionHasSpace()) {
                 unsigned int uiIDA[1];
                 uiIDA[0] = IDS_OK;
                 ui.RequestErrorMessage(IDS_MULTIPLAYER_FULL_TITLE,
                                        IDS_MULTIPLAYER_FULL_TEXT, uiIDA, 1);
             }
             // if this is a local game then profiles just need to be signed in
-            else if (g_NetworkManager.IsLocalGame() ||
+            else if (NetworkService.IsLocalGame() ||
                      (PlatformProfile.IsSignedInLive(iPad) &&
                       PlatformProfile.AllowedToPlayMultiplayer(iPad))) {
                 if (pMinecraftClass->level->isClientSide) {

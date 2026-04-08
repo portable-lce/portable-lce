@@ -10,7 +10,7 @@
 #include <unordered_set>
 #include <utility>
 
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "ServerChunkCache.h"
 #include "ServerLevel.h"
@@ -264,7 +264,7 @@ void PlayerChunkMap::PlayerChunk::broadcast(std::shared_ptr<Packet> packet) {
             ServerPlayer::getFlagIndexForChunk(pos, parent->dimension);
         if (player->seenChunks.find(pos) != player->seenChunks.end() &&
             (player->connection->isLocal() ||
-             g_NetworkManager.SystemFlagGet(
+             NetworkService.SystemFlagGet(
                  player->connection->getNetworkPlayer(), flagIndex))) {
             player->connection->send(packet);
             sentTo.push_back(player);
@@ -298,7 +298,7 @@ void PlayerChunkMap::PlayerChunk::broadcast(std::shared_ptr<Packet> packet) {
         // (this flag will be the same for all players on the same system)
         int flagIndex =
             ServerPlayer::getFlagIndexForChunk(pos, parent->dimension);
-        if (!g_NetworkManager.SystemFlagGet(
+        if (!NetworkService.SystemFlagGet(
                 player->connection->getNetworkPlayer(), flagIndex))
             continue;
 

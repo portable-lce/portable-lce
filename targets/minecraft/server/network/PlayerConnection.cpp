@@ -15,7 +15,7 @@
 #include "minecraft/Console_Debug_enum.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCSkinFile.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
 #include "minecraft/client/model/SkinBox.h"
@@ -1098,7 +1098,7 @@ void PlayerConnection::handleServerSettingsChanged(
                         gameServices().getGameHostOption(eGameHostOption_All))));
 
             // Update the QoS data
-            g_NetworkManager.UpdateAndSetGameSessionData();
+            NetworkService.UpdateAndSetGameSessionData();
         }
     }
 }

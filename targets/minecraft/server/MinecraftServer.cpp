@@ -20,7 +20,7 @@
 #include "minecraft/GameEnums.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "PlayerList.h"
 #include "Settings.h"
@@ -261,7 +261,7 @@ bool MinecraftServer::initServer(int64_t seed, NetworkGameInitData* initData,
         initData->saveData->fileSize = 0;
     }
 
-    g_NetworkManager.ServerReady();  // 4J added
+    NetworkService.ServerReady();  // 4J added
     return m_bLoaded;
 }
 
@@ -446,7 +446,7 @@ bool MinecraftServer::loadLevel(LevelStorageSource* storageSource,
     //    McRegionLevelStorage *storage = new McRegionLevelStorage(File("."),
     //    name, true); // TODO
     for (unsigned int i = 0; i < levels.size(); i++) {
-        if (s_bServerHalted || !g_NetworkManager.IsInSession()) {
+        if (s_bServerHalted || !NetworkService.IsInSession()) {
             return false;
         }
 
@@ -516,7 +516,7 @@ bool MinecraftServer::loadLevel(LevelStorageSource* storageSource,
     gameServices().setGameHostOption(eGameHostOption_Structures,
                           levels[0]->isGenerateMapFeatures());
 
-    if (s_bServerHalted || !g_NetworkManager.IsInSession()) return false;
+    if (s_bServerHalted || !NetworkService.IsInSession()) return false;
 
     // 4J - Make a new thread to do post processing
 
@@ -590,7 +590,7 @@ bool MinecraftServer::loadLevel(LevelStorageSource* storageSource,
             int total = twoRPlusOne * twoRPlusOne;
             for (int x = -r; x <= r && running; x += 16) {
                 for (int z = -r; z <= r && running; z += 16) {
-                    if (s_bServerHalted || !g_NetworkManager.IsInSession()) {
+                    if (s_bServerHalted || !NetworkService.IsInSession()) {
                         delete spawnPos;
                         m_postUpdateTerminate = true;
                         postProcessTerminate(mcprogress);
@@ -678,19 +678,19 @@ bool MinecraftServer::loadLevel(LevelStorageSource* storageSource,
     //	printf("Lighting complete at %dms\n",System::currentTimeMillis() -
     // startTime);
 
-    if (s_bServerHalted || !g_NetworkManager.IsInSession()) return false;
+    if (s_bServerHalted || !NetworkService.IsInSession()) return false;
 
     if (levels[1]->isNew) {
         levels[1]->save(true, mcprogress);
     }
 
-    if (s_bServerHalted || !g_NetworkManager.IsInSession()) return false;
+    if (s_bServerHalted || !NetworkService.IsInSession()) return false;
 
     if (levels[2]->isNew) {
         levels[2]->save(true, mcprogress);
     }
 
-    if (s_bServerHalted || !g_NetworkManager.IsInSession()) return false;
+    if (s_bServerHalted || !NetworkService.IsInSession()) return false;
 
     // 4J - added - immediately save newly created level, like single player
     // game 4J Stu - We also want to immediately save the tutorial
@@ -700,13 +700,13 @@ bool MinecraftServer::loadLevel(LevelStorageSource* storageSource,
         levels[0]->save(true, mcprogress);
     }
 
-    if (s_bServerHalted || !g_NetworkManager.IsInSession()) return false;
+    if (s_bServerHalted || !NetworkService.IsInSession()) return false;
 
     if (levels[0]->isNew || levels[1]->isNew || levels[2]->isNew) {
         levels[0]->saveToDisc(mcprogress, false);
     }
 
-    if (s_bServerHalted || !g_NetworkManager.IsInSession()) return false;
+    if (s_bServerHalted || !NetworkService.IsInSession()) return false;
 
     /*
      * int r = 24; for (int x = -r; x <= r; x++) {
@@ -960,7 +960,7 @@ void MinecraftServer::stopServer(bool didInit) {
     delete settings;
     settings = nullptr;
 
-    g_NetworkManager.ServerStopped();
+    NetworkService.ServerStopped();
 }
 
 void MinecraftServer::halt() { running = false; }
@@ -1692,13 +1692,13 @@ void MinecraftServer::chunkPacketManagement_PostTick() {
 }
 
 void MinecraftServer::cycleSlowQueueIndex() {
-    if (!g_NetworkManager.IsInSession()) return;
+    if (!NetworkService.IsInSession()) return;
 
     int startingIndex = s_slowQueuePlayerIndex;
     INetworkPlayer* currentPlayer = nullptr;
     int currentPlayerCount = 0;
     do {
-        currentPlayerCount = g_NetworkManager.GetPlayerCount();
+        currentPlayerCount = NetworkService.GetPlayerCount();
         if (startingIndex >= currentPlayerCount) startingIndex = 0;
         ++s_slowQueuePlayerIndex;
 
@@ -1709,11 +1709,11 @@ void MinecraftServer::cycleSlowQueueIndex() {
             // join. The QNet session might be ending while we do this, so do a
             // few more checks that the player is real
             currentPlayer =
-                g_NetworkManager.GetPlayerByIndex(s_slowQueuePlayerIndex);
+                NetworkService.GetPlayerByIndex(s_slowQueuePlayerIndex);
         } else {
             s_slowQueuePlayerIndex = 0;
         }
-    } while (g_NetworkManager.IsInSession() && currentPlayerCount > 0 &&
+    } while (NetworkService.IsInSession() && currentPlayerCount > 0 &&
              s_slowQueuePlayerIndex != startingIndex &&
              currentPlayer != nullptr && currentPlayer->IsLocal());
     //	Log::info("Cycled slow queue index to %d\n",

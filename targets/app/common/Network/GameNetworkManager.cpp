@@ -61,6 +61,13 @@ class INVITE_INFO;
 CGameNetworkManager g_NetworkManager;
 IPlatformNetwork* CGameNetworkManager::s_pPlatformNetworkManager;
 
+// minecraft/-side function accessor for INetworkService.
+namespace minecraft::network::platform_internal {
+::minecraft::network::INetworkService& NetworkService_get() {
+    return g_NetworkManager;
+}
+}  // namespace minecraft::network::platform_internal
+
 int64_t CGameNetworkManager::messageQueue[512];
 int64_t CGameNetworkManager::byteQueue[512];
 int CGameNetworkManager::messageQueuePos = 0;

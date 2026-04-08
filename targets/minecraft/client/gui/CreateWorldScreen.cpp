@@ -13,6 +13,10 @@
 #include "EditBox.h"
 #include "MessageScreen.h"
 #include "minecraft/GameEnums.h"
+#include "minecraft/network/INetworkService.h"
+// Needed for the &CGameNetworkManager::RunNetworkGameThreadProc address-of
+// below. Static thread procs can't be virtual; this one consumer keeps the
+// concrete type include.
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
@@ -286,10 +290,10 @@ void CreateWorldScreen::buttonClicked(Button* button) {
         param->xzSize = LEVEL_MAX_WIDTH;
         param->hellScale = HELL_LEVEL_MAX_SCALE;
 
-        g_NetworkManager.HostGame(0, false, false, MINECRAFT_NET_MAX_PLAYERS,
+        NetworkService.HostGame(0, false, false, MINECRAFT_NET_MAX_PLAYERS,
                                   0);
 
-        g_NetworkManager.FakeLocalPlayerJoined();
+        NetworkService.FakeLocalPlayerJoined();
 
         LoadingInputParams* loadingParams = new LoadingInputParams();
         loadingParams->func = &CGameNetworkManager::RunNetworkGameThreadProc;

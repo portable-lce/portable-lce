@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "platform/ShutdownManager.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
 #include "util/StringHelpers.h"
@@ -471,8 +471,8 @@ void Connection::tick() {
     std::vector<std::shared_ptr<Packet> > packetsToHandle;
     {
         std::lock_guard<std::mutex> lock(incoming_cs);
-        while (!disconnected && !g_NetworkManager.IsLeavingGame() &&
-               g_NetworkManager.IsInSession() && !incoming.empty() &&
+        while (!disconnected && !NetworkService.IsLeavingGame() &&
+               NetworkService.IsInSession() && !incoming.empty() &&
                max-- >= 0) {
             std::shared_ptr<Packet> packet = incoming.front();
             packetsToHandle.push_back(packet);

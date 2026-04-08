@@ -22,7 +22,7 @@
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/DLC/DLCSkinFile.h"
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"
-#include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
@@ -273,11 +273,11 @@ void ClientConnection::handleLogin(std::shared_ptr<LoginPacket> packet) {
     PlatformProfile.GetXUID(m_userIndex, &OnlineXuid, true);  // online xuid
     MOJANG_DATA* pMojangData = nullptr;
 
-    if (!g_NetworkManager.IsLocalGame()) {
+    if (!NetworkService.IsLocalGame()) {
         pMojangData = gameServices().getMojangDataForXuid(OnlineXuid);
     }
 
-    if (!g_NetworkManager.IsHost()) {
+    if (!NetworkService.IsHost()) {
         Minecraft::GetInstance()->progressRenderer->progressStagePercentage(
             (eCCLoginReceived * 100) / (eCCConnected));
     }
@@ -295,7 +295,7 @@ void ClientConnection::handleLogin(std::shared_ptr<LoginPacket> packet) {
             // find the pad number of this local player
             for (int i = 0; i < XUSER_MAX_COUNT; i++) {
                 INetworkPlayer* networkLocalPlayer =
-                    g_NetworkManager.GetLocalPlayerByUserIndex(i);
+                    NetworkService.GetLocalPlayerByUserIndex(i);
                 if (networkLocalPlayer == networkPlayer) {
                     iUserID = i;
                 }
@@ -1091,7 +1091,7 @@ void ClientConnection::handleMovePlayer(
     packet->yView = player->y;
     connection->send(packet);
     if (!started) {
-        if (!g_NetworkManager.IsHost()) {
+        if (!NetworkService.IsHost()) {
             Minecraft::GetInstance()->progressRenderer->progressStagePercentage(
                 (eCCConnected * 100) / (eCCConnected));
         }
@@ -1274,7 +1274,7 @@ void ClientConnection::handleTileUpdate(
     MultiPlayerLevel* dimensionLevel =
         (MultiPlayerLevel*)minecraft->levels[packet->levelIdx];
     if (dimensionLevel) {
-        if (g_NetworkManager.IsHost()) {
+        if (NetworkService.IsHost()) {
             // 4J Stu - Unshare before we make any changes incase the server is
             // already another step ahead of us Fix for #7904 - Gameplay:
             // Players can dupe torches by throwing them repeatedly into water.
@@ -1357,7 +1357,7 @@ void ClientConnection::onDisconnect(DisconnectPacket::eDisconnectReason reason,
     // Fix for #13191 - The host of a game can get a message informing them that
     // the connection to the server has been lost In the (now unlikely) event
     // that the host connections times out, allow the player to save their game
-    if (g_NetworkManager.IsHost() &&
+    if (NetworkService.IsHost() &&
         (reason == DisconnectPacket::eDisconnect_TimeOut ||
          reason == DisconnectPacket::eDisconnect_Overflow) &&
         m_userIndex == PlatformInput.GetPrimaryPad() &&
@@ -1918,16 +1918,16 @@ void ClientConnection::handleEntityActionAtPosition(
 void ClientConnection::handlePreLogin(std::shared_ptr<PreLoginPacket> packet) {
     fprintf(stderr,
             "[LOGIN-CLI] handlePreLogin entered, isHost=%d, userIdx=%d\n",
-            (int)g_NetworkManager.IsHost(), m_userIndex);
+            (int)NetworkService.IsHost(), m_userIndex);
     // 4J - Check that we can play with all the players already in the game who
     // have Friends-Only UGC set
     bool canPlay = true;
     bool canPlayLocal = true;
-    bool isAtLeastOneFriend = g_NetworkManager.IsHost();
+    bool isAtLeastOneFriend = NetworkService.IsHost();
     bool isFriendsWithHost = true;
     bool cantPlayContentRestricted = false;
 
-    if (!g_NetworkManager.IsHost()) {
+    if (!NetworkService.IsHost()) {
         // set the game host settings
         gameServices().setGameHostOption(eGameHostOption_All, packet->m_serverSettings);
 
@@ -2031,7 +2031,7 @@ void ClientConnection::handlePreLogin(std::shared_ptr<PreLoginPacket> packet) {
             }
         }
 
-        if (!g_NetworkManager.IsHost()) {
+        if (!NetworkService.IsHost()) {
             Minecraft::GetInstance()->progressRenderer->progressStagePercentage(
                 (eCCPreLoginReceived * 100) / (eCCConnected));
         }
@@ -2060,7 +2060,7 @@ void ClientConnection::handlePreLogin(std::shared_ptr<PreLoginPacket> packet) {
                 "isHost=%d\n",
                 minecraft->user->name.c_str(),
                 SharedConstants::NETWORK_PROTOCOL_VERSION, m_userIndex,
-                (int)g_NetworkManager.IsHost());
+                (int)NetworkService.IsHost());
         send(std::make_shared<LoginPacket>(
             minecraft->user->name, SharedConstants::NETWORK_PROTOCOL_VERSION,
             offlineXUID, onlineXUID, (!allAllowed && friendsAllowed),
@@ -2069,7 +2069,7 @@ void ClientConnection::handlePreLogin(std::shared_ptr<PreLoginPacket> packet) {
             PlatformProfile.IsGuest(m_userIndex)));
         fprintf(stderr, "[LOGIN] LoginPacket sent successfully\n");
 
-        if (!g_NetworkManager.IsHost()) {
+        if (!NetworkService.IsHost()) {
             Minecraft::GetInstance()->progressRenderer->progressStagePercentage(
                 (eCCLoginSent * 100) / (eCCConnected));
         }
@@ -3014,7 +3014,7 @@ void ClientConnection::handleGameEvent(
         ui.NavigateToScene(PlatformInput.GetPrimaryPad(), eUIScene_EndPoem,
                            nullptr, eUILayer_Scene, eUIGroup_Fullscreen);
     } else if (event == GameEventPacket::START_SAVING) {
-        if (!g_NetworkManager.IsHost()) {
+        if (!NetworkService.IsHost()) {
             // Move app started to here so that it happens immediately otherwise
             // back-to-back START/STOP packets leave the client stuck in the
             // loading screen
@@ -3023,7 +3023,7 @@ void ClientConnection::handleGameEvent(
                           eAppAction_RemoteServerSave);
         }
     } else if (event == GameEventPacket::STOP_SAVING) {
-        if (!g_NetworkManager.IsHost()) gameServices().setGameStarted(true);
+        if (!NetworkService.IsHost()) gameServices().setGameStarted(true);
     } else if (event == GameEventPacket::SUCCESSFUL_BOW_HIT) {
         std::shared_ptr<MultiplayerLocalPlayer> player =
             minecraft->localplayers[m_userIndex];
@@ -3109,7 +3109,7 @@ void ClientConnection::handlePlayerInfo(
         gameServices().getPlayerPrivileges(packet->m_networkSmallId);
 
     INetworkPlayer* networkPlayer =
-        g_NetworkManager.GetPlayerBySmallId(packet->m_networkSmallId);
+        NetworkService.GetPlayerBySmallId(packet->m_networkSmallId);
 
     if (networkPlayer != nullptr && networkPlayer->IsHost()) {
         // Some settings should always be considered on for the host player
@@ -3393,7 +3393,7 @@ void ClientConnection::handleXZ(std::shared_ptr<XZPacket> packet) {
 
 void ClientConnection::handleUpdateProgress(
     std::shared_ptr<UpdateProgressPacket> packet) {
-    if (!g_NetworkManager.IsHost())
+    if (!NetworkService.IsHost())
         Minecraft::GetInstance()->progressRenderer->progressStagePercentage(
             packet->m_percentage);
 }
