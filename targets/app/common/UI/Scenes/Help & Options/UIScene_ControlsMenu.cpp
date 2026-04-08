@@ -6,7 +6,7 @@
 
 #include "platform/input/input.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/BuildVer/BuildVer.h"
+#include "minecraft/BuildVer.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
 #include "app/common/UI/Controls/UIControl_Label.h"

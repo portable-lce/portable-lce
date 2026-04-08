@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <cstring>
 
-#include "app/common/BuildVer/BuildVer.h"
+#include "minecraft/BuildVer.h"
 #include "platform/IPlatformNetwork.h"
 #include "PacketListener.h"
 #include "java/InputOutputStream/DataInputStream.h"

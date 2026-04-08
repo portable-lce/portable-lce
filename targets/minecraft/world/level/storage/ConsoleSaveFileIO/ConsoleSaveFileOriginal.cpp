@@ -16,7 +16,7 @@
 
 #include "platform/PlatformTypes.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/BuildVer/BuildVer.h"
+#include "minecraft/BuildVer.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"

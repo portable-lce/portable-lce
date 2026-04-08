@@ -10,7 +10,7 @@
 #include "platform/PlatformTypes.h"
 #include "platform/storage/storage.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/BuildVer/BuildVer.h"
+#include "minecraft/BuildVer.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "platform/IPlatformNetwork.h"
 #include "platform/NetTypes.h"
