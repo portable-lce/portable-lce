@@ -20,8 +20,12 @@
 #include "../InputConstants.h"
 #include "../../PlatformTypes.h"
 
-SDL2Input sdl2_input_instance;
-IPlatformInput& PlatformInput = sdl2_input_instance;
+namespace platform_internal {
+IPlatformInput& PlatformInput_get() {
+    static SDL2Input instance;
+    return instance;
+}
+}
 
 static const int KEY_COUNT = SDL_NUM_SCANCODES;
 static const int BTN_COUNT = SDL_CONTROLLER_BUTTON_MAX;

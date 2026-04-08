@@ -6,8 +6,12 @@
 #include <unistd.h>
 #endif
 
-StdFilesystem std_filesystem_instance;
-IPlatformFilesystem& PlatformFilesystem = std_filesystem_instance;
+namespace platform_internal {
+IPlatformFilesystem& PlatformFilesystem_get() {
+    static StdFilesystem instance;
+    return instance;
+}
+}
 
 IPlatformFilesystem::ReadResult StdFilesystem::readFile(const std::filesystem::path& path,
                                    void* buffer, std::size_t capacity) {

@@ -6,8 +6,12 @@
 #include <string>
 #include <vector>
 
-StubStorage stub_storage_instance;
-IPlatformStorage& PlatformStorage = stub_storage_instance;
+namespace platform_internal {
+IPlatformStorage& PlatformStorage_get() {
+    static StubStorage instance;
+    return instance;
+}
+}
 
 static XMARKETPLACE_CONTENTOFFER_INFO s_dummyOffer = {};
 static XCONTENT_DATA s_dummyContentData = {};

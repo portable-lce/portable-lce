@@ -7,8 +7,12 @@
 #include "../ProfileConstants.h"
 #include "input/input.h"
 
-StubProfile stub_profile_instance;
-IPlatformProfile& PlatformProfile = stub_profile_instance;
+namespace platform_internal {
+IPlatformProfile& PlatformProfile_get() {
+    static StubProfile instance;
+    return instance;
+}
+}
 
 namespace {
 constexpr PlayerUID kFakeXuidBase = 0xe000d45248242f2eULL;

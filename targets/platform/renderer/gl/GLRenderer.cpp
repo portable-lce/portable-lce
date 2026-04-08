@@ -1,5 +1,6 @@
 #include "GLRenderer.h"
 
+#include "renderer/renderer.h"
 #include "PlatformTypes.h"
 #include "SDL.h"
 #include "SDL_error.h"
@@ -54,8 +55,12 @@
 #include <utility>
 #include <vector>
 
-GLRenderer gl_renderer_instance;
-IPlatformRenderer& PlatformRenderer = gl_renderer_instance;
+namespace platform_internal {
+IPlatformRenderer& PlatformRenderer_get() {
+    static GLRenderer instance;
+    return instance;
+}
+}
 
 // MARK: Shaders
 
