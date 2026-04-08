@@ -4,7 +4,7 @@
 
 #include "platform/renderer/renderer.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Random.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"

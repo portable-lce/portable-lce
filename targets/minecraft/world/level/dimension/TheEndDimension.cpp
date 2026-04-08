@@ -5,7 +5,7 @@
 #include <numbers>
 
 #include "minecraft/GameEnums.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/Pos.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/world/level/Level.h"

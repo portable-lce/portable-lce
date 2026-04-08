@@ -6,7 +6,7 @@
 
 #include "Entity.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Class.h"
 #include "java/JavaIntHash.h"
 

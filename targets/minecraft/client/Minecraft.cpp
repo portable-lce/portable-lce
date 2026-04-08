@@ -103,7 +103,7 @@
 #if defined(ENABLE_JAVA_GUIS)
 #include "minecraft/client/gui/inventory/CreativeInventoryScreen.h"
 #endif
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/ConsoleGameMode.h"
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/Minecraft_Macros.h"

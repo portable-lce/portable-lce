@@ -1,4 +1,4 @@
-#include "ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 
 #include <cstring>
 #include <utility>

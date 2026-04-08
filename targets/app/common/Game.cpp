@@ -74,7 +74,7 @@
 
 #include "platform/input/input.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/DLC/DLCPack.h"
 #include "minecraft/locale/StringTable.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"

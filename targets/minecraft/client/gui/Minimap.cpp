@@ -10,7 +10,7 @@
 #include "platform/renderer/renderer.h"
 #include "Font.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/Tesselator.h"

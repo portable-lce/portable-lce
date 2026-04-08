@@ -1,7 +1,7 @@
 #include "NetherPortalParticle.h"
 
 #include "minecraft/GameEnums.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
 #include "minecraft/client/Minecraft.h"

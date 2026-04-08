@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "Facing.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "util/StringHelpers.h"
 #include "java/Class.h"
 #include "java/Random.h"

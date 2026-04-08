@@ -1,7 +1,7 @@
 #include "DLCColourTableFile.h"
 
 #include "DLCManager.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/DLC/DLCFile.h"
 #include "app/linux/LinuxGame.h"
 #include "minecraft/client/Minecraft.h"

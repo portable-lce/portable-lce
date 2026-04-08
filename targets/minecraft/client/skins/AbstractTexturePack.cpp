@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/IGameServices.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/client/BufferedImage.h"

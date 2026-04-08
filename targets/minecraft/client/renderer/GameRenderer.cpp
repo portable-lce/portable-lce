@@ -17,7 +17,7 @@
 #include "LevelRenderer.h"
 #include "minecraft/GameEnums.h"
 #include "platform/ShutdownManager.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/BufferedImage.h"
 #include "util/FrameProfiler.h"
 #include "platform/stubs.h"

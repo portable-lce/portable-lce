@@ -18,7 +18,7 @@
 #include "platform/input/input.h"
 #include "LevelListener.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "util/FrameProfiler.h"

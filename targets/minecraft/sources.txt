@@ -255,6 +255,7 @@ client/renderer/tileentity/SkullTileRenderer.cpp
 client/renderer/tileentity/TheEndPortalRenderer.cpp
 client/renderer/tileentity/TileEntityRenderDispatcher.cpp
 client/renderer/tileentity/TileEntityRenderer.cpp
+client/resources/Colours/ColourTable.cpp
 client/skins/AbstractTexturePack.cpp
 client/skins/DLCTexturePack.cpp
 client/skins/DefaultTexturePack.cpp

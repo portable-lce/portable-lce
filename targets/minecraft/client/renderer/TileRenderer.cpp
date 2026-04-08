@@ -13,7 +13,7 @@
 #include "EntityTileRenderer.h"
 #include "GameRenderer.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "util/FrameProfiler.h"
 #include "Tesselator.h"
 #include "minecraft/Direction.h"

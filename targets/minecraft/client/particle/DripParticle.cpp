@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include "minecraft/GameEnums.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/JavaMath.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/particle/Particle.h"

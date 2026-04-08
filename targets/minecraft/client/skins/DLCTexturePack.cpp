@@ -11,7 +11,7 @@
 #include "platform/storage/storage.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/DLC/DLCAudioFile.h"
 #include "app/common/DLC/DLCColourTableFile.h"
 #include "app/common/DLC/DLCFile.h"

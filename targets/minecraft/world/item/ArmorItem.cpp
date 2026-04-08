@@ -5,7 +5,7 @@
 #include <format>
 #include <vector>
 
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Class.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/core/BehaviorRegistry.h"

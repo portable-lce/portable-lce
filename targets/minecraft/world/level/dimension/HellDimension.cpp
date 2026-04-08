@@ -5,7 +5,7 @@
 
 #include "platform/input/input.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/Colours/ColourTable.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/Console_Debug_enum.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/world/level/Level.h"

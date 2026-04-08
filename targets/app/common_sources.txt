@@ -4,7 +4,6 @@ common/Audio/Consoles_SoundEngine.cpp
 common/Audio/SoundEngine.cpp
 common/Audio/SoundNames.cpp
 common/BannedListManager.cpp
-common/Colours/ColourTable.cpp
 common/ConsoleGameMode.cpp
 common/DLC/DLCAudioFile.cpp
 common/DLC/DLCCapeFile.cpp
