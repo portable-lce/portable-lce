@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 #include "java/FloatBuffer.h"
 #include "minecraft/client/MemoryTracker.h"
 

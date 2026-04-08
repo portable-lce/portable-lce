@@ -1,4 +1,5 @@
 #include "BoatRenderer.h"
+#include "platform/stubs.h"
 
 #include <math.h>
 

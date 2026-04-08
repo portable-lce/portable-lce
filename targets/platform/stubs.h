@@ -3,6 +3,7 @@
 #include <string>
 
 #ifdef __linux__
+#include "renderer/gl/gl_compat.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 

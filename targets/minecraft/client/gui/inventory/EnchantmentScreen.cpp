@@ -1,4 +1,5 @@
 #include "EnchantmentScreen.h"
+#include "platform/stubs.h"
 
 #include <algorithm>
 #include <cmath>

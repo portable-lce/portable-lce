@@ -1,4 +1,5 @@
 #include "EnderChestRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 #include <numbers>

@@ -1,4 +1,5 @@
 #include "HumanoidMobRenderer.h"
+#include "platform/stubs.h"
 
 #include <utility>
 #include <vector>

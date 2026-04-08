@@ -1,4 +1,5 @@
 #include "minecraft/util/Log.h"
+#include "platform/stubs.h"
 #include "AbstractTexturePack.h"
 
 

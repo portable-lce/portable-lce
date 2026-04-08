@@ -1,4 +1,5 @@
 #include "BeaconScreen.h"
+#include "platform/stubs.h"
 
 
 

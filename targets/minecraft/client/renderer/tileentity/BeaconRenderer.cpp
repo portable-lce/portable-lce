@@ -1,4 +1,5 @@
 #include "BeaconRenderer.h"
+#include "platform/stubs.h"
 
 #include <cmath>
 #include <memory>

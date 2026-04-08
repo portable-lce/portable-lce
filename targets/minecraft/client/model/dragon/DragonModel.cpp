@@ -1,4 +1,5 @@
 #include "DragonModel.h"
+#include "platform/stubs.h"
 
 #include <math.h>
 

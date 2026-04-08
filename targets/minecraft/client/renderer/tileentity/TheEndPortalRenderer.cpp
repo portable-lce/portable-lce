@@ -1,4 +1,5 @@
 #include "TheEndPortalRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 

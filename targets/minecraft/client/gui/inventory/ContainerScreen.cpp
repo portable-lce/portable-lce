@@ -1,4 +1,5 @@
 #include "ContainerScreen.h"
+#include "platform/stubs.h"
 
 #include "minecraft/client/gui/inventory/AbstractContainerScreen.h"
 #include "minecraft/client/Minecraft.h"

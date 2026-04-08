@@ -1,4 +1,5 @@
 #include "ItemRenderer.h"
+#include "platform/stubs.h"
 
 #include <math.h>
 

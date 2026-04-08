@@ -1,4 +1,5 @@
 #include "Lighting.h"
+#include "platform/stubs.h"
 
 
 

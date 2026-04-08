@@ -1,4 +1,5 @@
 #include "OcelotModel.h"
+#include "platform/stubs.h"
 
 #include <math.h>
 

@@ -1,4 +1,5 @@
 #include "PaintingRenderer.h"
+#include "platform/stubs.h"
 
 #include <cmath>
 

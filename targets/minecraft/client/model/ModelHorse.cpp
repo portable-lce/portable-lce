@@ -1,4 +1,5 @@
 #include "ModelHorse.h"
+#include "platform/stubs.h"
 
 #include <algorithm>
 #include <cmath>

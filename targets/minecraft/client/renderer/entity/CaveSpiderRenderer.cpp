@@ -1,4 +1,5 @@
 #include "CaveSpiderRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 

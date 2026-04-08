@@ -1,4 +1,5 @@
 #include "minecraft/IGameServices.h"
+#include "platform/stubs.h"
 #include "SignRenderer.h"
 
 #include <cstdint>

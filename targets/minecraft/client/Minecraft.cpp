@@ -1,4 +1,5 @@
 #include "Minecraft.h"
+#include "platform/stubs.h"
 
 #include <assert.h>
 #include <stdlib.h>

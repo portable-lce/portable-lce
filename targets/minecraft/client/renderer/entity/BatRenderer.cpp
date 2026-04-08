@@ -1,4 +1,5 @@
 #include "BatRenderer.h"
+#include "platform/stubs.h"
 
 #include <cmath>
 #include <memory>

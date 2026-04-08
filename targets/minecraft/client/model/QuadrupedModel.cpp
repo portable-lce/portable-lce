@@ -1,4 +1,5 @@
 #include "QuadrupedModel.h"
+#include "platform/stubs.h"
 
 #include <math.h>
 

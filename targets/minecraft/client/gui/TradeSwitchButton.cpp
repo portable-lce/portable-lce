@@ -1,4 +1,5 @@
 #include "TradeSwitchButton.h"
+#include "platform/stubs.h"
 
 #include <string>
 

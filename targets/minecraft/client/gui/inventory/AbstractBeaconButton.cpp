@@ -1,4 +1,5 @@
 #include "AbstractBeaconButton.h"
+#include "platform/stubs.h"
 
 #include <string>
 

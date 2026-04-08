@@ -1,4 +1,5 @@
 #include "FootstepParticle.h"
+#include "platform/stubs.h"
 
 
 

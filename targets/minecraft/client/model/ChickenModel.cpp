@@ -1,4 +1,5 @@
 #include "ChickenModel.h"
+#include "platform/stubs.h"
 
 #include <math.h>
 

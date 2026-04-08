@@ -1,4 +1,5 @@
 #include "FallingTileRenderer.h"
+#include "platform/stubs.h"
 
 #include <cmath>
 #include <memory>

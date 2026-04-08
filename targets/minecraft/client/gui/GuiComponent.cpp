@@ -1,4 +1,5 @@
 #include "GuiComponent.h"
+#include "platform/stubs.h"
 
 
 #include <math.h>

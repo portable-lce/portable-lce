@@ -1,6 +1,7 @@
 
 
 #include <string>
+#include "platform/stubs.h"
 
 #include "EntityRenderDispatcher.h"
 #include "minecraft/client/renderer/TileRenderer.h"

@@ -1,4 +1,5 @@
 #include "EnderCrystalModel.h"
+#include "platform/stubs.h"
 
 #include <memory>
 #include <string>

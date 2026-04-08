@@ -1,4 +1,5 @@
 #include "PistonPieceRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 

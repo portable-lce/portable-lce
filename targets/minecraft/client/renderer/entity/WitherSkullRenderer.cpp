@@ -1,4 +1,5 @@
 #include "WitherSkullRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 

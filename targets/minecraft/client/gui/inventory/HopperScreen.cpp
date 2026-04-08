@@ -1,4 +1,5 @@
 #include "HopperScreen.h"
+#include "platform/stubs.h"
 
 #include "minecraft/client/gui/Font.h"
 #include "minecraft/client/gui/inventory/AbstractContainerScreen.h"

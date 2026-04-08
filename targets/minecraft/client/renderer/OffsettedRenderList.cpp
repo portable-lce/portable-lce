@@ -1,4 +1,5 @@
 #include "OffsettedRenderList.h"
+#include "platform/stubs.h"
 
 #include "platform/renderer/renderer.h"
 #include "java/IntBuffer.h"

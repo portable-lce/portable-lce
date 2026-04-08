@@ -1,4 +1,5 @@
 #include "HugeExplosionParticle.h"
+#include "platform/stubs.h"
 
 
 

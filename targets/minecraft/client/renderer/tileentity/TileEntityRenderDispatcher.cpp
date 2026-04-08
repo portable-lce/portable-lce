@@ -1,4 +1,5 @@
 #include "TileEntityRenderDispatcher.h"
+#include "platform/stubs.h"
 
 #include <utility>
 

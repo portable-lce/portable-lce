@@ -1,4 +1,5 @@
 #include "minecraft/IGameServices.h"
+#include "platform/stubs.h"
 #include "Gui.h"
 
 #include <cmath>

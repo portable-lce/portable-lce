@@ -1,4 +1,5 @@
 #include "Font.h"
+#include "platform/stubs.h"
 
 #include <string.h>
 

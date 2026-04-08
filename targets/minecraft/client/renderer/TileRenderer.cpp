@@ -1,4 +1,5 @@
 #include "TileRenderer.h"
+#include "platform/stubs.h"
 
 
 #include <assert.h>

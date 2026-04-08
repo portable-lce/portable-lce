@@ -1,4 +1,5 @@
 #include "Minimap.h"
+#include "platform/stubs.h"
 
 
 #include <math.h>

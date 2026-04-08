@@ -1,6 +1,7 @@
 #pragma once
 
 #include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 #include <format>
 #include <string>

@@ -1,4 +1,5 @@
 #include "HorseRenderer.h"
+#include "platform/stubs.h"
 
 #include <utility>
 

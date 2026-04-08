@@ -1,4 +1,5 @@
 #include "ChestModel.h"
+#include "platform/stubs.h"
 
 #include "platform/renderer/renderer.h"
 #include "minecraft/client/model/geom/ModelPart.h"

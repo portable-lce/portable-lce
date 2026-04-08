@@ -1,4 +1,5 @@
 #include "VillagerRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 

@@ -1,4 +1,5 @@
 #include "TntRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 

@@ -1,4 +1,5 @@
 #include "EnderDragonRenderer.h"
+#include "platform/stubs.h"
 
 #include <cmath>
 #include <memory>

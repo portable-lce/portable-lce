@@ -1,4 +1,5 @@
 #include "SlideButton.h"
+#include "platform/stubs.h"
 
 #include "platform/renderer/renderer.h"
 #include "minecraft/client/Minecraft.h"

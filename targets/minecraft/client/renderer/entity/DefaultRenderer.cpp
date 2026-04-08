@@ -1,4 +1,5 @@
 #include "DefaultRenderer.h"
+#include "platform/stubs.h"
 
 #include "platform/renderer/renderer.h"
 

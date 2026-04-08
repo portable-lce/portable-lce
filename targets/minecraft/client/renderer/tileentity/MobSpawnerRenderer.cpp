@@ -1,4 +1,5 @@
 #include "MobSpawnerRenderer.h"
+#include "platform/stubs.h"
 
 #include "platform/renderer/renderer.h"
 #include "minecraft/client/renderer/entity/EntityRenderDispatcher.h"

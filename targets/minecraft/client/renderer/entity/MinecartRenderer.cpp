@@ -1,4 +1,5 @@
 #include "MinecartRenderer.h"
+#include "platform/stubs.h"
 
 #include <math.h>
 #include <stdint.h>

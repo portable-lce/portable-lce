@@ -1,4 +1,5 @@
 #include "CraftingScreen.h"
+#include "platform/stubs.h"
 
 #include <string>
 

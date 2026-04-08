@@ -1,4 +1,5 @@
 #include "ChestRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 #include <numbers>

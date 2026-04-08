@@ -1,4 +1,5 @@
 #include "WitchRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 #include <vector>

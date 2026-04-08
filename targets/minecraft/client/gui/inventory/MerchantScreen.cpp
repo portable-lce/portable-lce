@@ -1,4 +1,5 @@
 #include "MerchantScreen.h"
+#include "platform/stubs.h"
 
 #include <memory>
 #include <string>

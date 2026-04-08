@@ -1,4 +1,5 @@
 #include "TntMinecartRenderer.h"
+#include "platform/stubs.h"
 
 #include <memory>
 

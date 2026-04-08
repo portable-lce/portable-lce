@@ -1,4 +1,5 @@
 #include "minecraft/IGameServices.h"
+#include "platform/stubs.h"
 #include "minecraft/util/Log.h"
 #include "LevelRenderer.h"
 

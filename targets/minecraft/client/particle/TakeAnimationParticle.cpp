@@ -1,4 +1,5 @@
 #include "TakeAnimationParticle.h"
+#include "platform/stubs.h"
 
 
 
