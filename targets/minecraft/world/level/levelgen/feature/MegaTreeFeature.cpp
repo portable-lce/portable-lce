@@ -4,7 +4,7 @@
 
 #include <numbers>
 
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "java/Random.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/level/Level.h"

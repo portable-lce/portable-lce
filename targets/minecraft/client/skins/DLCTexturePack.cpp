@@ -22,7 +22,7 @@
 #include "app/common/DLC/DLCTextureFile.h"
 #include "app/common/DLC/DLCUIDataFile.h"
 #include "app/common/GameRules/GameRuleManager.h"
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/locale/StringTable.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/linux/Linux_UIController.h"

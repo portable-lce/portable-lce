@@ -11,7 +11,7 @@
 #include "minecraft/GameTypes.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/DLC/DLCManager.h"
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/platform/SessionInfo.h"
 #include "app/common/UI/Controls/UIControl_Label.h"

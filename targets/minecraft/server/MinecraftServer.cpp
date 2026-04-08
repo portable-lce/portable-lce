@@ -19,7 +19,7 @@
 #include "DispenserBootstrap.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/GameRules/GameRuleManager.h"
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "PlayerList.h"

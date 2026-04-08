@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "app/common/GameRules/LevelRules/Rules/GameRulesInstance.h"
+#include "minecraft/world/level/GameRules/GameRulesInstance.h"
 #include "ServerLevel.h"
 #include "ServerPlayer.h"
 #include "minecraft/client/Minecraft.h"

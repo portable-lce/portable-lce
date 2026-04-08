@@ -2,7 +2,7 @@
 // using namespace std;
 #include <vector>
 
-#include "GameRule.h"
+#include "minecraft/world/level/GameRules/GameRule.h"
 
 class GameRuleDefinition;
 

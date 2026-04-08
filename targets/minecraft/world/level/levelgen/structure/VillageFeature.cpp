@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "minecraft/GameEnums.h"
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "VillagePieces.h"
 #include "java/Random.h"
 #include "minecraft/util/Mth.h"

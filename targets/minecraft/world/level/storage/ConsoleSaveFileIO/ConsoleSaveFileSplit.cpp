@@ -19,7 +19,7 @@
 #include "platform/PlatformTypes.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/BuildVer.h"
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "util/Timer.h"
 #include "util/StringHelpers.h"

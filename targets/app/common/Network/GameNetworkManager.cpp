@@ -16,7 +16,7 @@
 #include "minecraft/GameEnums.h"
 #include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/PlatformNetworkManagerStub.h"
 #include "app/common/UI/All Platforms/UIEnums.h"

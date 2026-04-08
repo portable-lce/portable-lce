@@ -1,5 +1,5 @@
 
-#include "app/common/GameRules/LevelRules/Rules/GameRule.h"
+#include "minecraft/world/level/GameRules/GameRule.h"
 
 #include <wchar.h>
 
@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <utility>
 
-#include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"

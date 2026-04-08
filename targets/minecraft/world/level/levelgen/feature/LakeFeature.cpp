@@ -2,7 +2,7 @@
 #include "minecraft/util/Log.h"
 #include "LakeFeature.h"
 
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "java/Random.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LightLayer.h"

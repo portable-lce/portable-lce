@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "GameRuleDefinition.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
 
 class ItemInstance;

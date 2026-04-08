@@ -1,4 +1,4 @@
-#include "LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 
 #include <limits.h>
 #include <wchar.h>
@@ -16,7 +16,7 @@
 #include "app/common/GameRules/LevelGeneration/ConsoleGenerateStructure.h"
 #include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
 #include "app/common/GameRules/LevelGeneration/StartFeature.h"
-#include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/locale/StringTable.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Stubs/winapi_stubs.h"

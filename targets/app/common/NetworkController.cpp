@@ -4,6 +4,7 @@
 #include <cstring>
 #include <thread>
 
+#include "app/common/DLC/DLCPack.h"
 #include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/linux/LinuxGame.h"

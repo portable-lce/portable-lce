@@ -12,9 +12,9 @@
 
 #include "platform/profile/profile.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"
-#include "app/common/GameRules/LevelRules/Rules/GameRulesInstance.h"
+#include "minecraft/world/level/GameRules/GameRulesInstance.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"

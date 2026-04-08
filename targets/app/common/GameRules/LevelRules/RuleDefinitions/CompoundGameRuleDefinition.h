@@ -2,9 +2,9 @@
 
 #include <vector>
 
-#include "GameRuleDefinition.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
-#include "app/common/GameRules/LevelRules/Rules/GameRulesInstance.h"
+#include "minecraft/world/level/GameRules/GameRulesInstance.h"
 
 class CompoundGameRuleDefinition : public GameRuleDefinition {
 protected:

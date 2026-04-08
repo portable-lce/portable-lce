@@ -10,7 +10,7 @@
 #include <utility>
 
 #include "minecraft/GameEnums.h"
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "java/Random.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/level/levelgen/structure/MineShaftStart.h"

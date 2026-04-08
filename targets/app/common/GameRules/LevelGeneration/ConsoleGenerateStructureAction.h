@@ -1,6 +1,6 @@
 #pragma once
 
-#include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 
 class ConsoleGenerateStructureAction : public GameRuleDefinition {
 public:

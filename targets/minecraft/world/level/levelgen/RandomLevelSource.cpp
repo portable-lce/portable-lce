@@ -6,7 +6,7 @@
 
 #include <cstdint>
 
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "util/Timer.h"
 #include "java/Random.h"
 #include "minecraft/util/Mth.h"

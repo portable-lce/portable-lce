@@ -4,7 +4,7 @@
 #include <list>
 #include <utility>
 
-#include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "ScatteredFeaturePieces.h"
 #include "java/Class.h"
 #include "java/Random.h"

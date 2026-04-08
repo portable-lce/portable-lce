@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "LevelGenerationOptions.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 
 LevelGenerators::LevelGenerators() {}
 

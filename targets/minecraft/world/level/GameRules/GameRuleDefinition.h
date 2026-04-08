@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
-#include "app/common/GameRules/LevelRules/Rules/GameRulesInstance.h"
+#include "minecraft/world/level/GameRules/GameRulesInstance.h"
 #include "minecraft/world/item/ItemInstance.h"
 
 class GameRule;

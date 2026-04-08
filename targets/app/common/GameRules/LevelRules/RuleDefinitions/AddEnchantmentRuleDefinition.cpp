@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
-#include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "app/linux/LinuxGame.h"
 #include "util/StringHelpers.h"
 #include "java/InputOutputStream/DataOutputStream.h"
