@@ -117,13 +117,28 @@ char SoundEngine::m_szRedistName[] = {"redist64"};
 
 // Linux specific functions
 #if defined(__linux__)
-SoundEngine::SoundEngine() {}
+
+// PIMPL'd state for the miniaudio backend. Defined here so SoundEngine.h
+// stays free of miniaudio.h.
+struct SoundEngineMiniAudio {
+    ma_engine engine{};
+    ma_engine_config engineConfig{};
+    ma_sound musicStream{};
+};
+
+struct MiniAudioSound {
+    ma_sound sound;
+    AUDIO_INFO info;
+    bool active;
+};
+
+SoundEngine::SoundEngine() : m_audio(std::make_unique<SoundEngineMiniAudio>()) {}
+SoundEngine::~SoundEngine() = default;
 std::vector<MiniAudioSound*> m_activeSounds;
 void SoundEngine::init(Options* pOptions) {
     app.DebugPrintf("---SoundEngine::init\n");
     random = new Random();
-    memset(&m_engine, 0, sizeof(ma_engine));
-    memset(&m_engineConfig, 0, sizeof(ma_engine_config));
+    *m_audio = SoundEngineMiniAudio{};
     m_musicStreamActive = false;
     m_StreamState = eMusicStreamState_Idle;
     m_iMusicDelay = 0;
@@ -149,15 +164,15 @@ void SoundEngine::init(Options* pOptions) {
            sizeof(int) *
                (static_cast<int>(eSoundType_MAX) + static_cast<int>(eSFX_MAX)));
     memset(m_ListenerA, 0, sizeof(AUDIO_LISTENER) * XUSER_MAX_COUNT);
-    m_engineConfig = ma_engine_config_init();
-    m_engineConfig.listenerCount = MAX_LOCAL_PLAYERS;
+    m_audio->engineConfig = ma_engine_config_init();
+    m_audio->engineConfig.listenerCount = MAX_LOCAL_PLAYERS;
 
-    if (ma_engine_init(&m_engineConfig, &m_engine) != MA_SUCCESS) {
+    if (ma_engine_init(&m_audio->engineConfig, &m_audio->engine) != MA_SUCCESS) {
         app.DebugPrintf("Failed to initialize miniaudio engine\n");
         return;
     }
 
-    ma_engine_set_volume(&m_engine, 1.0f);
+    ma_engine_set_volume(&m_audio->engine, 1.0f);
 
     m_MasterMusicVolume = 1.0f;
     m_MasterEffectsVolume = 1.0f;
@@ -166,7 +181,7 @@ void SoundEngine::init(Options* pOptions) {
 
     m_bSystemMusicPlaying = false;
 }
-void SoundEngine::destroy() { ma_engine_uninit(&m_engine); }
+void SoundEngine::destroy() { ma_engine_uninit(&m_audio->engine); }
 
 void SoundEngine::play(int iSound, float x, float y, float z, float volume,
                        float pitch) {
@@ -222,7 +237,7 @@ void SoundEngine::play(int iSound, float x, float y, float z, float volume,
     s->info.pitch = pitch;
     s->info.bIs3D = true;
 
-    if (ma_sound_init_from_file(&m_engine, finalPath, MA_SOUND_FLAG_ASYNC,
+    if (ma_sound_init_from_file(&m_audio->engine, finalPath, MA_SOUND_FLAG_ASYNC,
                                 nullptr, nullptr, &s->sound) == MA_SUCCESS) {
         ma_sound_set_spatialization_enabled(&s->sound, MA_TRUE);
         ma_sound_set_min_distance(&s->sound, 2.0f);
@@ -274,7 +289,7 @@ void SoundEngine::playUI(int iSound, float volume, float pitch) {
     s->info.pitch = pitch;
     s->info.bIs3D = false;
 
-    if (ma_sound_init_from_file(&m_engine, finalPath, MA_SOUND_FLAG_ASYNC,
+    if (ma_sound_init_from_file(&m_audio->engine, finalPath, MA_SOUND_FLAG_ASYNC,
                                 nullptr, nullptr, &s->sound) == MA_SUCCESS) {
         ma_sound_set_spatialization_enabled(&s->sound, MA_FALSE);
         ma_sound_set_volume(&s->sound, volume * m_MasterEffectsVolume);
@@ -410,14 +425,14 @@ int SoundEngine::OpenStreamThreadProc(void* lpParameter) {
     const char* ext = strrchr(soundEngine->m_szStreamName, '.');
 
     if (soundEngine->m_musicStreamActive) {
-        ma_sound_stop(&soundEngine->m_musicStream);
-        ma_sound_uninit(&soundEngine->m_musicStream);
+        ma_sound_stop(&soundEngine->m_audio->musicStream);
+        ma_sound_uninit(&soundEngine->m_audio->musicStream);
         soundEngine->m_musicStreamActive = false;
     }
 
     ma_result result = ma_sound_init_from_file(
-        &soundEngine->m_engine, soundEngine->m_szStreamName,
-        MA_SOUND_FLAG_STREAM, nullptr, nullptr, &soundEngine->m_musicStream);
+        &soundEngine->m_audio->engine, soundEngine->m_szStreamName,
+        MA_SOUND_FLAG_STREAM, nullptr, nullptr, &soundEngine->m_audio->musicStream);
 
     if (result != MA_SUCCESS) {
         app.DebugPrintf(
@@ -427,8 +442,8 @@ int SoundEngine::OpenStreamThreadProc(void* lpParameter) {
         return 0;
     }
 
-    ma_sound_set_spatialization_enabled(&soundEngine->m_musicStream, MA_FALSE);
-    ma_sound_set_looping(&soundEngine->m_musicStream, MA_FALSE);
+    ma_sound_set_spatialization_enabled(&soundEngine->m_audio->musicStream, MA_FALSE);
+    ma_sound_set_looping(&soundEngine->m_audio->musicStream, MA_FALSE);
 
     soundEngine->m_musicStreamActive = true;
 
@@ -503,19 +518,19 @@ void SoundEngine::playMusicTick() {
                 }
 
                 ma_sound_set_spatialization_enabled(
-                    &m_musicStream,
+                    &m_audio->musicStream,
                     m_StreamingAudioInfo.bIs3D ? MA_TRUE : MA_FALSE);
                 if (m_StreamingAudioInfo.bIs3D) {
                     ma_sound_set_position(
-                        &m_musicStream, m_StreamingAudioInfo.x,
+                        &m_audio->musicStream, m_StreamingAudioInfo.x,
                         m_StreamingAudioInfo.y, m_StreamingAudioInfo.z);
                 }
 
-                ma_sound_set_pitch(&m_musicStream, m_StreamingAudioInfo.pitch);
+                ma_sound_set_pitch(&m_audio->musicStream, m_StreamingAudioInfo.pitch);
                 ma_sound_set_volume(
-                    &m_musicStream,
+                    &m_audio->musicStream,
                     m_StreamingAudioInfo.volume * getMasterMusicVolume());
-                ma_sound_start(&m_musicStream);
+                ma_sound_start(&m_audio->musicStream);
 
                 m_StreamState = eMusicStreamState_Playing;
             }
@@ -531,8 +546,8 @@ void SoundEngine::playMusicTick() {
 
         case eMusicStreamState_Stop:
             if (m_musicStreamActive) {
-                ma_sound_stop(&m_musicStream);
-                ma_sound_uninit(&m_musicStream);
+                ma_sound_stop(&m_audio->musicStream);
+                ma_sound_uninit(&m_audio->musicStream);
                 m_musicStreamActive = false;
             }
             SetIsPlayingStreamingCDMusic(false);
@@ -591,7 +606,7 @@ void SoundEngine::playMusicTick() {
                 // volume change required?
                 if (m_musicStreamActive)
                     ma_sound_set_volume(
-                        &m_musicStream,
+                        &m_audio->musicStream,
                         m_StreamingAudioInfo.volume * fMusicVol);
 
             } else if (m_StreamingAudioInfo.bIs3D && m_validListenerCount > 1 &&
@@ -616,7 +631,7 @@ void SoundEngine::playMusicTick() {
                     }
                 }
                 ma_sound_set_position(
-                    &m_musicStream,
+                    &m_audio->musicStream,
                     m_StreamingAudioInfo.x - m_ListenerA[iClosest].vPosition.x,
                     m_StreamingAudioInfo.y - m_ListenerA[iClosest].vPosition.y,
                     m_StreamingAudioInfo.z - m_ListenerA[iClosest].vPosition.z);
@@ -645,9 +660,9 @@ void SoundEngine::playMusicTick() {
     // check the status of the stream - this is for when a track completes
     // rather than is stopped by the user action
 
-    if (m_musicStreamActive && !ma_sound_is_playing(&m_musicStream) &&
-        ma_sound_at_end(&m_musicStream)) {
-        ma_sound_uninit(&m_musicStream);
+    if (m_musicStreamActive && !ma_sound_is_playing(&m_audio->musicStream) &&
+        ma_sound_at_end(&m_audio->musicStream)) {
+        ma_sound_uninit(&m_audio->musicStream);
         m_musicStreamActive = false;
         SetIsPlayingStreamingCDMusic(false);
         SetIsPlayingStreamingGameMusic(false);
@@ -660,23 +675,23 @@ void SoundEngine::updateMiniAudio() {
         for (size_t i = 0; i < MAX_LOCAL_PLAYERS; i++) {
             if (m_ListenerA[i].bValid) {
                 ma_engine_listener_set_position(
-                    &m_engine, 0, m_ListenerA[i].vPosition.x,
+                    &m_audio->engine, 0, m_ListenerA[i].vPosition.x,
                     m_ListenerA[i].vPosition.y, m_ListenerA[i].vPosition.z);
 
-                ma_engine_listener_set_direction(&m_engine, 0,
+                ma_engine_listener_set_direction(&m_audio->engine, 0,
                                                  m_ListenerA[i].vOrientFront.x,
                                                  m_ListenerA[i].vOrientFront.y,
                                                  m_ListenerA[i].vOrientFront.z);
 
-                ma_engine_listener_set_world_up(&m_engine, 0, 0.0f, 1.0f, 0.0f);
+                ma_engine_listener_set_world_up(&m_audio->engine, 0, 0.0f, 1.0f, 0.0f);
 
                 break;
             }
         }
     } else {
-        ma_engine_listener_set_position(&m_engine, 0, 0.0f, 0.0f, 0.0f);
-        ma_engine_listener_set_direction(&m_engine, 0, 0.0f, 0.0f, 1.0f);
-        ma_engine_listener_set_world_up(&m_engine, 0, 0.0f, 1.0f, 0.0f);
+        ma_engine_listener_set_position(&m_audio->engine, 0, 0.0f, 0.0f, 0.0f);
+        ma_engine_listener_set_direction(&m_audio->engine, 0, 0.0f, 0.0f, 1.0f);
+        ma_engine_listener_set_world_up(&m_audio->engine, 0, 0.0f, 1.0f, 0.0f);
     }
 
     for (auto it = m_activeSounds.begin(); it != m_activeSounds.end();) {

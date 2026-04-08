@@ -4,13 +4,19 @@ class Options;
 class C4JThread;
 class Random;
 
+#include <memory>
 #include <string>
 
 #include "platform/PlatformTypes.h"
 #include "app/common/Audio/Consoles_SoundEngine.h"
 #include "app/linux/Iggy/include/rrCore.h"
 #include "minecraft/sounds/SoundTypes.h"
-#include "miniaudio.h"
+
+// Forward-declare the miniaudio backing state. The full struct lives in
+// SoundEngine.cpp where miniaudio.h is actually included. This keeps
+// miniaudio.h out of the 9 minecraft files that include SoundEngine.h
+// via the 4j include chain.
+struct SoundEngineMiniAudio;
 
 constexpr float SFX_3D_MIN_DISTANCE = 1.0f;
 constexpr float SFX_3D_MAX_DISTANCE = 16.0f;
@@ -90,15 +96,15 @@ typedef struct {
     char chName[64];
 #endif
 } AUDIO_INFO;
-struct MiniAudioSound {
-    ma_sound sound;
-    AUDIO_INFO info;
-    bool active;
-};
+
+// MiniAudioSound's definition lives in SoundEngine.cpp alongside the
+// miniaudio backend; consumers of this header don't need to see it.
+
 class SoundEngine : public ConsoleSoundEngine {
     static const int MAX_SAME_SOUNDS_PLAYING = 8;  // 4J added
 public:
     SoundEngine();
+    ~SoundEngine();
     virtual void destroy();
 #if defined(_DEBUG)
     void GetSoundName(char* szSoundName, int iSound);
@@ -142,9 +148,11 @@ private:
 
     int GetRandomishTrack(int iStart, int iEnd);
 
-    ma_engine m_engine;
-    ma_engine_config m_engineConfig;
-    ma_sound m_musicStream;
+    // Miniaudio engine + music stream PIMPL'd into SoundEngineMiniAudio,
+    // defined in SoundEngine.cpp. Owned via unique_ptr; the destructor
+    // is out-of-line so the unique_ptr instantiation can see the full
+    // type.
+    std::unique_ptr<SoundEngineMiniAudio> m_audio;
     bool m_musicStreamActive;
 
     static char m_szSoundPath[];
