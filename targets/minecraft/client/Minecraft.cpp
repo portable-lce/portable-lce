@@ -107,7 +107,7 @@
 #include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/ConsoleGameMode.h"
 #include "app/common/DLC/DLCPack.h"
-#include "app/common/Minecraft_Macros.h"
+#include "minecraft/Minecraft_Macros.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
 #include "app/common/UI/All Platforms/IUIScene_CreativeMenu.h"
 #include "app/common/UI/UIFontData.h"

@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-#include "app/common/Minecraft_Macros.h"
+#include "minecraft/Minecraft_Macros.h"
 #include "app/common/DLC/DLCManager.h"
 
 DLCFile::DLCFile(DLCManager::EDLCType type, const std::string& path) {

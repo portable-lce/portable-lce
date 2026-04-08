@@ -9,7 +9,7 @@
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/DLC/DLCSkinFile.h"
-#include "app/common/Minecraft_Macros.h"
+#include "minecraft/Minecraft_Macros.h"
 #include "app/linux/LinuxGame.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/model/geom/Model.h"

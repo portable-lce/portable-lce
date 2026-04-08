@@ -79,7 +79,7 @@
 #include "minecraft/locale/StringTable.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
-#include "Minecraft_Macros.h"
+#include "minecraft/Minecraft_Macros.h"
 #include "util/Timer.h"
 #include "util/StringHelpers.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
