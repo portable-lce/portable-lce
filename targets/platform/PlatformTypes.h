@@ -1,25 +1,39 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
-#include <cstdlib>
+#include <memory>
 
 // Shared value types used by platform interfaces. These are NOT interfaces
 // themselves — they are data carriers that cross the platform boundary.
 
 struct ImageFileBuffer {
     enum EImageType { e_typePNG, e_typeJPG };
-    EImageType m_type;
-    void* m_pBuffer = nullptr;
-    int m_bufferSize = 0;
 
-    [[nodiscard]] int GetType() const { return m_type; }
-    [[nodiscard]] void* GetBufferPointer() const { return m_pBuffer; }
+    ImageFileBuffer() = default;
+    ImageFileBuffer(EImageType type, std::size_t size)
+        : m_type(type),
+          m_pBuffer(size > 0 ? std::make_unique<std::byte[]>(size) : nullptr),
+          m_bufferSize(static_cast<int>(size)) {}
+
+    // move-only
+    ImageFileBuffer(ImageFileBuffer&&) noexcept = default;
+    ImageFileBuffer& operator=(ImageFileBuffer&&) noexcept = default;
+    ImageFileBuffer(const ImageFileBuffer&) = delete;
+    ImageFileBuffer& operator=(const ImageFileBuffer&) = delete;
+
+    [[nodiscard]] EImageType GetType() const { return m_type; }
+    [[nodiscard]] std::byte* GetBufferPointer() const { return m_pBuffer.get(); }
     [[nodiscard]] int GetBufferSize() const { return m_bufferSize; }
     [[nodiscard]] bool Allocated() const { return m_pBuffer != nullptr; }
     void Release() {
-        std::free(m_pBuffer);
-        m_pBuffer = nullptr;
+        m_pBuffer.reset();
+        m_bufferSize = 0;
     }
+
+    EImageType m_type{e_typePNG};
+    std::unique_ptr<std::byte[]> m_pBuffer;
+    int m_bufferSize = 0;
 };
 
 struct D3DXIMAGE_INFO {
