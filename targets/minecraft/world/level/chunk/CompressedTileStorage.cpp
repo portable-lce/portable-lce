@@ -8,7 +8,6 @@
 
 #include <vector>
 
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "platform/NetTypes.h"
 #include "util/Definitions.h"
 #include "java/InputOutputStream/DataInputStream.h"

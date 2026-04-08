@@ -33,7 +33,6 @@
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_TradingMenu.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "MultiPlayerLevel.h"
 #include "ReceivingLevelScreen.h"
 #include "util/Timer.h"

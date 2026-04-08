@@ -67,8 +67,20 @@ USAGE_PATTERNS = [
 ]
 
 
+def strip_comments(text: str) -> str:
+    """Strip C++ // and /* */ comments. Approximate but good enough for
+    detecting whether a symbol appears in real code vs commented-out
+    code."""
+    # Strip /* ... */ comments (multiline)
+    text = re.sub(r'/\*.*?\*/', '', text, flags=re.DOTALL)
+    # Strip // ... comments (single line)
+    text = re.sub(r'//[^\n]*', '', text)
+    return text
+
+
 def needs_winapi(text: str) -> bool:
     scan = INCLUDE_RE.sub("", text)
+    scan = strip_comments(scan)
     return any(p.search(scan) for p in USAGE_PATTERNS)
 
 
