@@ -22,7 +22,6 @@
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/Network/NetworkPlayerInterface.h"
-#include "app/linux/LinuxGame.h"
 #include "PlayerList.h"
 #include "Settings.h"
 #include "util/Timer.h"

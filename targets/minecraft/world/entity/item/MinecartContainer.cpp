@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 
-#include "app/linux/LinuxGame.h"
 #include "java/Random.h"
 #include "minecraft/world/Container.h"
 #include "minecraft/world/entity/item/ItemEntity.h"

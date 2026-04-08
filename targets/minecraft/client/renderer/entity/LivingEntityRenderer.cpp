@@ -8,7 +8,6 @@
 #include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 
 #include "java/Class.h"
 #include "java/Random.h"

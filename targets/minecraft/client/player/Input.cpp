@@ -6,7 +6,6 @@
 #include "platform/input/input.h"
 #include "LocalPlayer.h"
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/world/entity/player/Abilities.h"

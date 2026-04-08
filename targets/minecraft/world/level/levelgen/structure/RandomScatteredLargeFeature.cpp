@@ -5,7 +5,6 @@
 #include <utility>
 
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/linux/LinuxGame.h"
 #include "ScatteredFeaturePieces.h"
 #include "java/Class.h"
 #include "java/Random.h"

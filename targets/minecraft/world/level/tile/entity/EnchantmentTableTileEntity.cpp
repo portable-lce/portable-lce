@@ -5,7 +5,6 @@
 #include <memory>
 #include <numbers>
 
-#include "app/linux/LinuxGame.h"
 #include "java/Random.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/level/Level.h"

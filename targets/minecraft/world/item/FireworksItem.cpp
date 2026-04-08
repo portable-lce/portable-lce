@@ -4,7 +4,6 @@
 #include <memory>
 #include <vector>
 
-#include "app/linux/LinuxGame.h"
 #include "util/StringHelpers.h"
 #include "minecraft/util/HtmlString.h"
 #include "minecraft/world/entity/player/Abilities.h"

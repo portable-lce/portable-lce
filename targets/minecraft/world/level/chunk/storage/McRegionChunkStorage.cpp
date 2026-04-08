@@ -12,7 +12,6 @@
 
 #include "platform/input/input.h"
 #include "app/common/Console_Debug_enum.h"
-#include "app/linux/LinuxGame.h"
 #include "platform/C4JThread.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/InputOutputStream/BufferedOutputStream.h"

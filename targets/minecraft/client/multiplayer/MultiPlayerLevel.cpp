@@ -16,7 +16,6 @@
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/linux/LinuxGame.h"
 #include "MultiPlayerChunkCache.h"
 #include "MultiPlayerLocalPlayer.h"
 #include "java/JavaMath.h"

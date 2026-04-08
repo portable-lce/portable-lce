@@ -3,7 +3,6 @@
 
 #include "KeyMapping.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "app/linux/LinuxGame.h"
 #include "util/StringHelpers.h"
 #include "java/File.h"
 #include "java/InputOutputStream/BufferedReader.h"

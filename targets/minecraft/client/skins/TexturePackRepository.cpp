@@ -13,7 +13,6 @@
 #include "minecraft/GameEnums.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
-#include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/File.h"
 #include "minecraft/client/Minecraft.h"

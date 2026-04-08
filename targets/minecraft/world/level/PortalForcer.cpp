@@ -3,7 +3,6 @@
 
 #include <utility>
 
-#include "app/linux/LinuxGame.h"
 #include "Pos.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"

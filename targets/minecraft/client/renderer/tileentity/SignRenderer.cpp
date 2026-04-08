@@ -8,7 +8,6 @@
 #include "platform/renderer/renderer.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/Colours/ColourTable.h"
-#include "app/linux/LinuxGame.h"
 #include "platform/XboxStubs.h"
 
 #include "minecraft/client/Minecraft.h"

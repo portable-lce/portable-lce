@@ -6,7 +6,6 @@
 #include <optional>
 
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 #include "java/Random.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/server/MinecraftServer.h"

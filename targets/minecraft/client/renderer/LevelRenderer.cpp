@@ -24,7 +24,6 @@
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/Colours/ColourTable.h"
 #include "app/common/Console_Debug_enum.h"
-#include "app/linux/LinuxGame.h"
 #include "util/FrameProfiler.h"
 #include "minecraft/client/renderer/MobSkinMemTextureProcessor.h"
 #include "Tesselator.h"

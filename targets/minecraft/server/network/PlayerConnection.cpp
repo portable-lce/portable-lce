@@ -18,7 +18,6 @@
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/Network/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/client/model/SkinBox.h"
 #include "ServerConnection.h"
 #include "java/Class.h"

@@ -10,7 +10,6 @@
 #include "Direction.h"
 #include "Facing.h"
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/HtmlString.h"
 #include "minecraft/world/entity/HangingEntity.h"

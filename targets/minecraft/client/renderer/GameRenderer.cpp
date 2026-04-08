@@ -18,7 +18,6 @@
 #include "minecraft/GameEnums.h"
 #include "platform/ShutdownManager.h"
 #include "app/common/Colours/ColourTable.h"
-#include "app/linux/LinuxGame.h"
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/client/BufferedImage.h"
 #include "util/FrameProfiler.h"

@@ -4,7 +4,6 @@
 #include <string>
 #include <utility>
 
-#include "app/linux/LinuxGame.h"
 #include "minecraft/commands/Command.h"
 #include "minecraft/commands/CommandSender.h"
 #include "minecraft/commands/CommandsEnum.h"

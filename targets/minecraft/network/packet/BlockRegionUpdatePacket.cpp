@@ -4,7 +4,6 @@
 #include <assert.h>
 #include <string.h>
 
-#include "app/linux/LinuxGame.h"
 #include "PacketListener.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/InputOutputStream/DataInputStream.h"

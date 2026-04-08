@@ -5,7 +5,6 @@
 #include <utility>
 #include <vector>
 
-#include "app/linux/LinuxGame.h"
 #include "Pos.h"
 #include "SharedConstants.h"
 #include "java/Random.h"

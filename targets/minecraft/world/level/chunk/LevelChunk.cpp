@@ -10,7 +10,6 @@
 #include <utility>
 
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/linux/LinuxGame.h"
 #include "SparseLightStorage.h"
 #include "java/Class.h"
 #include "java/Random.h"

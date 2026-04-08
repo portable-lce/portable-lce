@@ -6,7 +6,6 @@
 
 #include "Facing.h"
 #include "app/common/Colours/ColourTable.h"
-#include "app/linux/LinuxGame.h"
 #include "util/StringHelpers.h"
 #include "java/Class.h"
 #include "java/Random.h"

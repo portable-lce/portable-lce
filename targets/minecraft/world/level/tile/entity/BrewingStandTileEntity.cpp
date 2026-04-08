@@ -7,7 +7,6 @@
 #include <format>
 
 #include "Facing.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/item/Item.h"

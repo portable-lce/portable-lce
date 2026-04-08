@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/linux/LinuxGame.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
 #include "minecraft/world/level/Level.h"

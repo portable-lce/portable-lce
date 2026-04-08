@@ -9,7 +9,6 @@
 #include "Button.h"
 #include "ConfirmScreen.h"
 #include "CreateWorldScreen.h"
-#include "app/linux/LinuxGame.h"
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "RenameWorldScreen.h"
 #include "util/StringHelpers.h"

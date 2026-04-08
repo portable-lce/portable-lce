@@ -7,7 +7,6 @@
 #include <string.h>
 
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/linux/LinuxGame.h"
 #include "platform/fs/fs.h"
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"

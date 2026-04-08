@@ -1,7 +1,6 @@
 #include "minecraft/IGameServices.h"
 #include "CompoundContainer.h"
 
-#include "app/linux/LinuxGame.h"
 #include "minecraft/network/packet/ContainerOpenPacket.h"
 #include "minecraft/world/Container.h"
 

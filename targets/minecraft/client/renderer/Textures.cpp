@@ -11,7 +11,6 @@
 
 #include "platform/renderer/renderer.h"
 #include "HttpTexture.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/renderer/MemTexture.h"
 #include "minecraft/client/renderer/MemTextureProcessor.h"

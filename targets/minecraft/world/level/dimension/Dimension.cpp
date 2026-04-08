@@ -10,7 +10,6 @@
 #include "minecraft/GameEnums.h"
 #include "app/common/Colours/ColourTable.h"
 #include "app/common/Console_Debug_enum.h"
-#include "app/linux/LinuxGame.h"
 #include "NormalDimension.h"
 #include "TheEndDimension.h"
 #include "minecraft/client/Minecraft.h"

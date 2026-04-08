@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "LevelData.h"
-#include "app/linux/LinuxGame.h"
 #include "java/File.h"
 #include "minecraft/world/level/chunk/storage/McRegionChunkStorage.h"
 #include "minecraft/world/level/chunk/storage/RegionFileCache.h"

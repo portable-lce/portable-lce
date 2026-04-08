@@ -8,7 +8,6 @@
 
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameHostOptions.h"
-#include "app/linux/LinuxGame.h"
 #include "java/System.h"
 #include "minecraft/world/level/GameRules.h"
 #include "minecraft/world/level/LevelSettings.h"

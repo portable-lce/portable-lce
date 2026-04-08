@@ -6,7 +6,6 @@
 #include <memory>
 #include <numbers>
 
-#include "app/linux/LinuxGame.h"
 #include "java/Random.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/util/Mth.h"

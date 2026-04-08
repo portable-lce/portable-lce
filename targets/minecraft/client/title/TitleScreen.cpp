@@ -8,7 +8,6 @@
 #include <vector>
 
 #include "platform/renderer/renderer.h"
-#include "app/linux/LinuxGame.h"
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/client/BufferedImage.h"
 #include "util/StringHelpers.h"

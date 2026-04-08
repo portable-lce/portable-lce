@@ -10,7 +10,6 @@
 #include "platform/renderer/renderer.h"
 #include "AbstractContainerScreen.h"
 #include "app/common/UI/All Platforms/IUIScene_CreativeMenu.h"
-#include "app/linux/LinuxGame.h"
 #include "platform/stubs.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/Lighting.h"

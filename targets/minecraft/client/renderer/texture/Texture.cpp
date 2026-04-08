@@ -7,7 +7,6 @@
 #include <vector>
 
 #include "platform/renderer/renderer.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/client/BufferedImage.h"
 #include "TextureManager.h"
 #include "java/Buffer.h"

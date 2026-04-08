@@ -8,7 +8,6 @@
 
 #include "minecraft/GameEnums.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/linux/LinuxGame.h"
 #include "VillagePieces.h"
 #include "java/Random.h"
 #include "minecraft/util/Mth.h"

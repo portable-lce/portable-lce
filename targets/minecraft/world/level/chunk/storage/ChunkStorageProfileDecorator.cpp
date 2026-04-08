@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 
-#include "app/linux/LinuxGame.h"
 #include "java/System.h"
 #include "minecraft/world/level/chunk/storage/ChunkStorage.h"
 

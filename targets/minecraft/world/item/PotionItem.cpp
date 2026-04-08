@@ -4,7 +4,6 @@
 #include <utility>
 
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 #include "util/StringHelpers.h"
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"

@@ -15,7 +15,6 @@
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/Network/NetworkPlayerInterface.h"
-#include "app/linux/LinuxGame.h"
 #include "PlayerChunkMap.h"
 #include "Pos.h"
 #include "ServerChunkCache.h"

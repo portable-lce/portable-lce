@@ -9,7 +9,6 @@
 
 #include "GenericStats.h"
 #include "minecraft/IGameServices.h"
-#include "app/linux/LinuxGame.h"
 #include "StatFormatter.h"
 
 class DecimalFormat;

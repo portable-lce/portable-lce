@@ -3,7 +3,6 @@
 
 #include <utility>
 
-#include "app/linux/LinuxGame.h"
 #include "PistonPieceTileEntity.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/tile/JukeboxTile.h"

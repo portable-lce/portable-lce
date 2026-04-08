@@ -11,7 +11,6 @@
 
 #include "minecraft/GameEnums.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/linux/LinuxGame.h"
 #include "java/Random.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/level/levelgen/structure/MineShaftStart.h"

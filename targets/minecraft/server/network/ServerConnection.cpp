@@ -4,7 +4,6 @@
 
 #include <algorithm>
 
-#include "app/linux/LinuxGame.h"
 #include "PendingConnection.h"
 #include "PlayerConnection.h"
 #include "util/StringHelpers.h"

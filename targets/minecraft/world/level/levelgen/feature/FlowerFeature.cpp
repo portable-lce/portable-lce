@@ -3,7 +3,6 @@
 #include "FlowerFeature.h"
 
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/linux/LinuxGame.h"
 #include "java/Random.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/dimension/Dimension.h"

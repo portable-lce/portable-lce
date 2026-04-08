@@ -4,7 +4,6 @@
 #include <assert.h>
 
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 
 // 4J: GameRules isn't in use anymore, just routes any requests to app game host
 // options, kept things commented out for context

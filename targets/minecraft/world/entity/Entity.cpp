@@ -18,7 +18,6 @@
 #include "EntityPos.h"
 #include "SyncedEntityData.h"
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "java/Class.h"
 #include "java/Random.h"

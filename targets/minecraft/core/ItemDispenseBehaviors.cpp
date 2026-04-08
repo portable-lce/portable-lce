@@ -5,7 +5,6 @@
 #include <string>
 
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "minecraft/core/AbstractProjectileDispenseBehavior.h"

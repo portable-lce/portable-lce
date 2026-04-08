@@ -9,7 +9,6 @@
 
 #include "HangingEntityItem.h"
 #include "MapItem.h"
-#include "app/linux/LinuxGame.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "minecraft/stats/Stats.h"

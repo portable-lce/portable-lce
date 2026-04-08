@@ -5,7 +5,6 @@
 #include <unordered_map>
 
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/linux/LinuxGame.h"
 #include "NetherBridgePieces.h"
 #include "java/Class.h"
 #include "java/Random.h"

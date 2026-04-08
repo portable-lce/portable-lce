@@ -1,7 +1,6 @@
 #include "minecraft/util/Log.h"
 #include "LoginPacket.h"
 
-#include "app/linux/LinuxGame.h"
 #include "PacketListener.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"

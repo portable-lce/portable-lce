@@ -5,7 +5,6 @@
 #include <wchar.h>
 
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/util/HtmlString.h"
 #include "minecraft/world/entity/ai/attributes/Attribute.h"
 

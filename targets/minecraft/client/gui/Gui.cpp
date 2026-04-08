@@ -10,7 +10,6 @@
 #include "Facing.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/App_structs.h"
-#include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
 #include "platform/XboxStubs.h"
 #include "util/StringHelpers.h"

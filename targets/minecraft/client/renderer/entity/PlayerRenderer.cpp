@@ -10,7 +10,6 @@
 #include "EntityRenderDispatcher.h"
 #include "HumanoidMobRenderer.h"
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
 #include "java/Class.h"
 #include "minecraft/Facing.h"
 #include "minecraft/SharedConstants.h"

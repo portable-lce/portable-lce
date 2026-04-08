@@ -5,7 +5,6 @@
 
 #include <vector>
 
-#include "app/linux/LinuxGame.h"
 #include "platform/stubs.h"
 #include "minecraft/client/KeyMapping.h"
 #include "minecraft/client/Lighting.h"

@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-#include "app/linux/LinuxGame.h"
 #include "java/Random.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/world/Difficulty.h"

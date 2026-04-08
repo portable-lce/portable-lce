@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "platform/renderer/renderer.h"
-#include "app/linux/LinuxGame.h"
 #include "platform/stubs.h"
 #include "minecraft/client/MemoryTracker.h"
 

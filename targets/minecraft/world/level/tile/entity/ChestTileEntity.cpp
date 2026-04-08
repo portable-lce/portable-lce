@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "Direction.h"
-#include "app/linux/LinuxGame.h"
 #include "SharedConstants.h"
 #include "TileEntity.h"
 #include "java/Random.h"

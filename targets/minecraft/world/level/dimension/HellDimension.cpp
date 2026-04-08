@@ -7,7 +7,6 @@
 #include "minecraft/GameEnums.h"
 #include "app/common/Colours/ColourTable.h"
 #include "app/common/Console_Debug_enum.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LevelType.h"

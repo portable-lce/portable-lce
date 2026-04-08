@@ -3,7 +3,6 @@
 
 #include <stdint.h>
 
-#include "app/linux/LinuxGame.h"
 #include "minecraft/util/HtmlString.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/item/DyePowderItem.h"

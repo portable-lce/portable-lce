@@ -6,7 +6,6 @@
 #include <utility>
 #include <vector>
 
-#include "app/linux/LinuxGame.h"
 #include "minecraft/client/BufferedImage.h"
 #include "Stitcher.h"
 #include "Texture.h"

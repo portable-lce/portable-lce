@@ -3,7 +3,6 @@
 #include "SpringFeature.h"
 
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/tile/Tile.h"
 

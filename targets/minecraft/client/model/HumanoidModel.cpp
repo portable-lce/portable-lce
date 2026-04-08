@@ -6,7 +6,6 @@
 #include <numbers>
 
 #include "platform/renderer/renderer.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/client/model/geom/Model.h"
 #include "minecraft/client/model/geom/ModelPart.h"
 #include "minecraft/world/entity/Entity.h"

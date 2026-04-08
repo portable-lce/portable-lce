@@ -11,7 +11,6 @@
 #include "platform/renderer/renderer.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/Colours/ColourTable.h"
-#include "app/linux/LinuxGame.h"
 #include "Tesselator.h"
 #include "Textures.h"
 #include "TileRenderer.h"
