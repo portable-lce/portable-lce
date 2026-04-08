@@ -45,7 +45,6 @@ common/GameRules/LevelRules/RuleDefinitions/NamedAreaRuleDefinition.cpp
 common/GameRules/LevelRules/RuleDefinitions/UpdatePlayerRuleDefinition.cpp
 common/GameRules/LevelRules/RuleDefinitions/UseTileRuleDefinition.cpp
 common/GameRules/LevelRules/Rules/GameRule.cpp
-common/GameRules/WstringLookup.cpp
 common/GameSettingsManager.cpp
 common/Game_XuiActions.cpp
 common/Leaderboards/LeaderboardInterface.cpp

@@ -731,6 +731,7 @@ world/level/TickNextTickData.cpp
 world/level/TileEventData.cpp
 world/level/TilePos.cpp
 world/level/WaterColor.cpp
+world/level/WstringLookup.cpp
 world/level/biome/BeachBiome.cpp
 world/level/biome/Biome.cpp
 world/level/biome/BiomeCache.cpp
