@@ -16,7 +16,7 @@ public:
     virtual void tick() override;
 
 protected:
-    virtual void keyPressed(char eventCharacter, int eventKey);
+    virtual void keyPressed(char eventCharacter, int eventKey) override;
 
 public:
     virtual void init() override;

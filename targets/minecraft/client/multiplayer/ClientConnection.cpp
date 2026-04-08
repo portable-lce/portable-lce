@@ -2375,7 +2375,7 @@ void ClientConnection::handleTextureChange(
 #if !defined(_CONTENT_PACKAGE)
             printf("Skin for remote player %s has changed to %s (%d)\n",
                     player->name.c_str(), player->customTextureUrl.c_str(),
-                    player->getPlayerDefaultSkin());
+                    static_cast<int>(player->getPlayerDefaultSkin()));
 #endif
             break;
         case TextureChangePacket::e_TextureChange_Cape:
@@ -2431,7 +2431,7 @@ void ClientConnection::handleTextureAndGeometryChange(
 #if !defined(_CONTENT_PACKAGE)
     printf("Skin for remote player %s has changed to %s (%d)\n",
             player->name.c_str(), player->customTextureUrl.c_str(),
-            player->getPlayerDefaultSkin());
+            static_cast<int>(player->getPlayerDefaultSkin()));
 #endif
 
     if (!packet->path.empty() &&

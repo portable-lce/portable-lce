@@ -1563,7 +1563,8 @@ void glCallLists_4J(IntBuffer* lists) {
     if (!lists) return;
     int count = lists->limit() - lists->position();
     int* ids = getIntPtr(lists);
-    for (int i = 0; i < count; i++) PlatformRenderer.CBuffCall(ids[i], false);
+    for (int i = 0; i < count; i++)
+        (void)PlatformRenderer.CBuffCall(ids[i], false);
 }
 
 void glReadPixels_4J(int x, int y, int w, int h, int f, int t, ByteBuffer* p) {

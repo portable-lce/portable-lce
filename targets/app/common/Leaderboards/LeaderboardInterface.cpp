@@ -15,7 +15,7 @@ LeaderboardInterface::LeaderboardInterface(IPlatformLeaderboard* man) {
     m_startIndex = 0;
     m_readCount = 0;
 
-    m_manager->OpenSession();
+    (void)m_manager->OpenSession();
 }
 
 LeaderboardInterface::~LeaderboardInterface() {

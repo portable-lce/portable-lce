@@ -302,7 +302,7 @@ void UIScene_LoadMenu::tick() {
 
         if (szSeed[0] != 0) {
             char TempString[256];
-            snprintf(TempString, 256, "%s: %hs", app.GetString(IDS_SEED),
+            snprintf(TempString, 256, "%s: %s", app.GetString(IDS_SEED),
                      szSeed);
             m_labelSeed.setLabel(TempString);
         } else {

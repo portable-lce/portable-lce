@@ -36,7 +36,7 @@ public:
 
     std::string toString() {
         static char buf[32];
-        snprintf(buf, 32, "[%d bytes]", data.size());
+        snprintf(buf, 32, "[%zu bytes]", data.size());
         return std::string(buf);
     }
 

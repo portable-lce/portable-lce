@@ -13,7 +13,7 @@ public:
 protected:
     using Screen::keyPressed;
 
-    virtual void keyPressed(char eventCharacter, int eventKey);
+    virtual void keyPressed(char eventCharacter, int eventKey) override;
 
 public:
     virtual void init() override;

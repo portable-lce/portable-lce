@@ -49,7 +49,7 @@ public:
 
 protected:
     virtual void buttonClicked(Button* button) override;
-    virtual void keyPressed(char eventCharacter, int eventKey);
+    virtual void keyPressed(char eventCharacter, int eventKey) override;
 
 public:
     virtual void render(int mouseX, int mouseY, float a) override;

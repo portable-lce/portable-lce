@@ -717,7 +717,7 @@ int CGameNetworkManager::JoinFromInvite_SignInReturned(void* pParam,
                 // If the player was signed in before selecting play, we'll not
                 // have read the profile yet, so query the sign-in status to get
                 // this to happen
-                PlatformProfile.QuerySigninStatus();
+                (void)PlatformProfile.QuerySigninStatus();
 
                 // 4J-PB - clear any previous connection errors
                 Minecraft::GetInstance()->clearConnectionFailed();
@@ -1377,7 +1377,7 @@ void CGameNetworkManager::HandleInviteWhenInMenus(
                 // If the player was signed in before selecting play, we'll not
                 // have read the profile yet, so query the sign-in status to get
                 // this to happen
-                PlatformProfile.QuerySigninStatus();
+                (void)PlatformProfile.QuerySigninStatus();
 
                 // 4J-PB - clear any previous connection errors
                 Minecraft::GetInstance()->clearConnectionFailed();

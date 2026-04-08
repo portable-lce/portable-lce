@@ -6,7 +6,7 @@ public:
     virtual void init() override;
 
 protected:
-    virtual void keyPressed(char eventCharacter, int eventKey);
+    virtual void keyPressed(char eventCharacter, int eventKey) override;
     virtual void buttonClicked(Button* button) override;
 
 public:

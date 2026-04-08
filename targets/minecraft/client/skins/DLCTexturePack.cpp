@@ -2,6 +2,7 @@
 #include "minecraft/util/Log.h"
 #include "DLCTexturePack.h"
 
+#include <cinttypes>
 #include <cstdint>
 #include <cwchar>
 #include <limits>
@@ -451,8 +452,9 @@ std::string DLCTexturePack::getXuiRootPath() {
         constexpr int LOCATOR_SIZE =
             256;  // Use this to allocate space to hold a ResourceLocator string
         char szResourceLocator[LOCATOR_SIZE];
-        snprintf(szResourceLocator, LOCATOR_SIZE, "memory://%08X,%04X#",
-                 pbData, dwSize);
+        snprintf(szResourceLocator, LOCATOR_SIZE,
+                 "memory://%08" PRIxPTR ",%04X#",
+                 reinterpret_cast<std::uintptr_t>(pbData), dwSize);
         path = szResourceLocator;
     }
     return path;

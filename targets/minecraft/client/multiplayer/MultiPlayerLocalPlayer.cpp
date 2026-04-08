@@ -373,7 +373,8 @@ void MultiplayerLocalPlayer::setAndBroadcastCustomSkin(std::uint32_t skinId) {
     LocalPlayer::setCustomSkin(skinId);
 #if !defined(_CONTENT_PACKAGE)
     printf("Skin for local player %s has changed to %s (%d)\n",
-            name.c_str(), customTextureUrl.c_str(), getPlayerDefaultSkin());
+            name.c_str(), customTextureUrl.c_str(),
+            static_cast<int>(getPlayerDefaultSkin()));
 #endif
     if (getCustomSkin() != oldSkinIndex)
         connection->send(std::shared_ptr<TextureAndGeometryChangePacket>(

@@ -44,8 +44,7 @@ void SignTileEntity::save(CompoundTag* tag) {
 #if !defined(_CONTENT_PACKAGE)
     fprintf(stderr, "### - Saving a sign with text - \n");
     for (int i = 0; i < 4; i++) {
-        fprintf(stderr, m_wsmessages[i].c_str());
-        fprintf(stderr, "\n");
+        fprintf(stderr, "%s\n", m_wsmessages[i].c_str());
     }
 #endif
 }
@@ -63,8 +62,7 @@ void SignTileEntity::load(CompoundTag* tag) {
 #if !defined(_CONTENT_PACKAGE)
     fprintf(stderr, "### - Loaded a sign with text - \n");
     for (int i = 0; i < 4; i++) {
-        fprintf(stderr, m_wsmessages[i].c_str());
-        fprintf(stderr, "\n");
+        fprintf(stderr, "%s\n", m_wsmessages[i].c_str());
     }
 #endif
 

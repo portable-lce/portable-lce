@@ -787,7 +787,7 @@ void UIScene_MainMenu::RunPlayGame(int iPad) {
         // If the player was signed in before selecting play, we'll not have
         // read the profile yet, so query the sign-in status to get this to
         // happen
-        PlatformProfile.QuerySigninStatus();
+        (void)PlatformProfile.QuerySigninStatus();
 
         // 4J-PB - Need to check for installed DLC
         if (!app.DLCInstallProcessCompleted()) app.StartInstallDLCProcess(iPad);
@@ -896,7 +896,7 @@ void UIScene_MainMenu::RunLeaderboards(int iPad) {
             // If the player was signed in before selecting play, we'll not have
             // read the profile yet, so query the sign-in status to get this to
             // happen
-            PlatformProfile.QuerySigninStatus();
+            (void)PlatformProfile.QuerySigninStatus();
 
             proceedToScene(iPad, eUIScene_LeaderboardsMenu);
         }
@@ -916,7 +916,7 @@ void UIScene_MainMenu::RunUnlockOrDLC(int iPad) {
             // If the player was signed in before selecting play, we'll not
             // have read the profile yet, so query the sign-in status to get
             // this to happen
-            PlatformProfile.QuerySigninStatus();
+            (void)PlatformProfile.QuerySigninStatus();
 
             {
                 bool bContentRestricted = false;
@@ -1015,7 +1015,7 @@ void UIScene_MainMenu::RunHelpAndOptions(int iPad) {
         // If the player was signed in before selecting play, we'll not have
         // read the profile yet, so query the sign-in status to get this to
         // happen
-        PlatformProfile.QuerySigninStatus();
+        (void)PlatformProfile.QuerySigninStatus();
 
 #if TO_BE_IMPLEMENTED
         // 4J-PB - You can be offline and still can go into help and options

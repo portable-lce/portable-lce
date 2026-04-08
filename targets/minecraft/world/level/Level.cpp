@@ -2570,7 +2570,7 @@ std::string Level::gatherStats() {
     char buf[64];
     {
         std::lock_guard<std::recursive_mutex> lock(m_entitiesCS);
-        snprintf(buf, 64, "All:%d", entities.size());
+        snprintf(buf, 64, "All:%zu", entities.size());
     }
     return std::string(buf);
 }

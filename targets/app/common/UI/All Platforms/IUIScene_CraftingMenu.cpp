@@ -875,7 +875,7 @@ void IUIScene_CraftingMenu::CheckRecipesAvailable() {
                         app.DebugPrintf("Need more H slots - ");
 #if !defined(_CONTENT_PACKAGE)
                         fprintf(
-                            stderr,
+                            stderr, "%s",
                             app.GetString(pTempItemInst->getDescriptionId()));
 #endif
                         app.DebugPrintf("\n");

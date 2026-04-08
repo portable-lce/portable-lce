@@ -15,7 +15,7 @@ public:
     uint8_t getId() { return TAG_Long; }
     std::string toString() {
         static char buf[32];
-        snprintf(buf, 32, "%I64d", data);
+        snprintf(buf, 32, "%lld", static_cast<long long>(data));
         return std::string(buf);
     }
 

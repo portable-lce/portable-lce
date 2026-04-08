@@ -188,8 +188,8 @@ void Font::draw(const std::string& str, bool dropShadow) {
         // 4jcraft: this is a check for §. This was easy in UTF-16, since a
         // single widechar can fit §, but it's encoded as 0xA7 0xC2 in UTF-8, so
         // we need to check both characters.
-        if (i + 2 < cleanStr.length() && c == '\xC2' &&
-            (unsigned char)cleanStr[i + 1] == '\xA7') {
+        if (i + 2 < cleanStr.length() && c == 0xC2u &&
+            (unsigned char)cleanStr[i + 1] == 0xA7u) {
             // 4J - following block was:
             // int colorN =
             // "0123456789abcdefk".indexOf(str.toLowerCase().charAt(i + 1));

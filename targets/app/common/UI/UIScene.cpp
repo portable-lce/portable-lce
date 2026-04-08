@@ -586,7 +586,7 @@ void UIScene::customDrawSlotControl(IggyCustomDrawCallbackRegion* region,
                 }
                 m_cachedSlotDraw.clear();
 
-                if (useCommandBuffers) PlatformRenderer.CBuffCall(list);
+                if (useCommandBuffers) (void)PlatformRenderer.CBuffCall(list);
 
                 // Finish GDraw and anything else that needs to be finalised
                 ui.endCustomDraw(region);

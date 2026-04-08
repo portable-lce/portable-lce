@@ -885,6 +885,8 @@ TEXTURE_NAME UIScene_SkinSelectMenu::getTextureId(int skinIndex) {
         case EDefaultSkins::Skin7:
             texture = TN_MOB_CHAR7;
             break;
+        case EDefaultSkins::Count:
+            break;
     };
 
     return texture;

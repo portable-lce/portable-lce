@@ -3,6 +3,7 @@
 #include "AbstractTexturePack.h"
 
 
+#include <cinttypes>
 #include <wchar.h>
 
 #include <vector>
@@ -222,7 +223,7 @@ std::string AbstractTexturePack::getXuiRootPath() {
         256;  // Use this to allocate space to hold a ResourceLocator string
     char szResourceLocator[LOCATOR_SIZE];
 
-    snprintf(szResourceLocator, LOCATOR_SIZE, "section://%X,%s#%s",
+    snprintf(szResourceLocator, LOCATOR_SIZE, "section://%" PRIxPTR ",%s#%s",
              c_ModuleHandle, "media", "media/");
     return szResourceLocator;
 }

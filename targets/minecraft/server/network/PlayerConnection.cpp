@@ -969,7 +969,7 @@ void PlayerConnection::handleTextureChange(
 #if !defined(_CONTENT_PACKAGE)
             printf("Skin for server player %s has changed to %s (%d)\n",
                     player->name.c_str(), player->customTextureUrl.c_str(),
-                    player->getPlayerDefaultSkin());
+                    static_cast<int>(player->getPlayerDefaultSkin()));
 #endif
             break;
         case TextureChangePacket::e_TextureChange_Cape:
@@ -1013,7 +1013,7 @@ void PlayerConnection::handleTextureAndGeometryChange(
         "PlayerConnection::handleTextureAndGeometryChange - Skin for server "
         "player %s has changed to %s (%d)\n",
         player->name.c_str(), player->customTextureUrl.c_str(),
-        player->getPlayerDefaultSkin());
+        static_cast<int>(player->getPlayerDefaultSkin()));
 #endif
 
     if (!packet->path.empty() &&
@@ -1423,7 +1423,7 @@ void PlayerConnection::handlePlayerInfo(
                     gameType) {
 #if !defined(_CONTENT_PACKAGE)
                     printf("Setting %s to game mode %d\n",
-                            serverPlayer->name.c_str(), gameType);
+                            serverPlayer->name.c_str(), gameType->getId());
 #endif
                     serverPlayer->setPlayerGamePrivilege(
                         Player::ePlayerGamePrivilege_CreativeMode,
@@ -1438,7 +1438,7 @@ void PlayerConnection::handlePlayerInfo(
                 } else {
 #if !defined(_CONTENT_PACKAGE)
                     printf("%s already has game mode %d\n",
-                            serverPlayer->name.c_str(), gameType);
+                            serverPlayer->name.c_str(), gameType->getId());
 #endif
                 }
                 if (cheats) {

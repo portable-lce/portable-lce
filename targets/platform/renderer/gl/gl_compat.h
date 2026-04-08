@@ -264,7 +264,11 @@
 #undef glEndList
 #define glEndList() PlatformRenderer.CBuffEnd()
 #undef glCallList
-#define glCallList(_list) PlatformRenderer.CBuffCall(_list)
+// CBuffCall is [[nodiscard]] because it can fail (chunk not ready), but
+// legacy display list call sites treat it as fire-and-forget rendering -
+// a missed call just means nothing draws this frame, which is what the
+// old GL display list semantics already gave them.
+#define glCallList(_list) ((void)PlatformRenderer.CBuffCall(_list))
 
 // glGenLists / glDeleteLists, lists are not supported in core!!!!!
 #undef glGenLists

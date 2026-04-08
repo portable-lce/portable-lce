@@ -14,7 +14,7 @@ struct ImageFileBuffer {
     ImageFileBuffer(EImageType type, std::size_t size)
         : m_type(type),
           m_pBuffer(size > 0 ? std::make_unique<std::byte[]>(size) : nullptr),
-          m_bufferSize(static_cast<int>(size)) {}
+          m_bufferSize(size) {}
 
     // move-only
     ImageFileBuffer(ImageFileBuffer&&) noexcept = default;
@@ -24,7 +24,7 @@ struct ImageFileBuffer {
 
     [[nodiscard]] EImageType GetType() const { return m_type; }
     [[nodiscard]] std::byte* GetBufferPointer() const { return m_pBuffer.get(); }
-    [[nodiscard]] int GetBufferSize() const { return m_bufferSize; }
+    [[nodiscard]] std::size_t GetBufferSize() const { return m_bufferSize; }
     [[nodiscard]] bool Allocated() const { return m_pBuffer != nullptr; }
     void Release() {
         m_pBuffer.reset();
@@ -33,7 +33,7 @@ struct ImageFileBuffer {
 
     EImageType m_type{e_typePNG};
     std::unique_ptr<std::byte[]> m_pBuffer;
-    int m_bufferSize = 0;
+    std::size_t m_bufferSize = 0;
 };
 
 struct D3DXIMAGE_INFO {
