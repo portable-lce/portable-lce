@@ -3,7 +3,6 @@
 
 #include <memory>
 
-#include "app/linux/LinuxGame.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
 #include "minecraft/core/particles/ParticleTypes.h"

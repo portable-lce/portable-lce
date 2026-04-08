@@ -48,10 +48,18 @@ USAGE_PATTERNS = [
 ]
 
 
+def strip_comments(text: str) -> str:
+    text = re.sub(r'/\*.*?\*/', '', text, flags=re.DOTALL)
+    text = re.sub(r'//[^\n]*', '', text)
+    return text
+
+
 def file_needs_linuxgame(text: str) -> bool:
     # Strip the LinuxGame.h include line itself before checking, to avoid
-    # the include path matching `LinuxGame`.
+    # the include path matching `LinuxGame`. Also strip comments so
+    # references in commented-out code don't keep the include alive.
     scan = INCLUDE_RE.sub("", text)
+    scan = strip_comments(scan)
     for pat in USAGE_PATTERNS:
         if pat.search(scan):
             return True

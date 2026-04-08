@@ -10,7 +10,6 @@
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
-#include "app/linux/LinuxGame.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/player/Input.h"
