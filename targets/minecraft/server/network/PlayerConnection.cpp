@@ -13,7 +13,7 @@
 
 #include "minecraft/GameEnums.h"
 #include "minecraft/Console_Debug_enum.h"
-#include "app/common/DLC/DLCManager.h"
+#include "minecraft/world/level/dlc/DLCConstants.h"
 #include "app/common/DLC/DLCSkinFile.h"
 #include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"

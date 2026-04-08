@@ -25,7 +25,7 @@
 #include "minecraft/GameEnums.h"
 #include "app/common/App_structs.h"
 #include "minecraft/Minecraft_Macros.h"
-#include "app/common/DLC/DLCManager.h"
+#include "minecraft/world/level/dlc/DLCConstants.h"
 #include "app/common/DLC/DLCSkinFile.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"

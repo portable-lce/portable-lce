@@ -3,50 +3,52 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+
+#include "minecraft/world/level/dlc/DLCConstants.h"
+
 class DLCPack;
 class DLCSkinFile;
 
 class DLCManager {
 public:
-    enum EDLCType {
-        e_DLCType_Skin = 0,
-        e_DLCType_Cape,
-        e_DLCType_Texture,
-        e_DLCType_UIData,
-        e_DLCType_PackConfig,
-        e_DLCType_TexturePack,
-        e_DLCType_LocalisationData,
-        e_DLCType_GameRules,
-        e_DLCType_Audio,
-        e_DLCType_ColourTable,
-        e_DLCType_GameRulesHeader,
+    // Re-export the file-scope enums as nested type aliases so existing
+    // app-side call sites that use DLCManager::EDLCType /
+    // DLCManager::e_DLCType_Texture continue to compile. minecraft/-side
+    // call sites should use the namespaced names from DLCConstants.h
+    // directly.
+    using EDLCType = ::minecraft::dlc::EDLCType;
+    using EDLCParameterType = ::minecraft::dlc::EDLCParameterType;
 
-        e_DLCType_Max,
-        e_DLCType_All,
-    };
+    static constexpr EDLCType e_DLCType_Skin = ::minecraft::dlc::e_DLCType_Skin;
+    static constexpr EDLCType e_DLCType_Cape = ::minecraft::dlc::e_DLCType_Cape;
+    static constexpr EDLCType e_DLCType_Texture = ::minecraft::dlc::e_DLCType_Texture;
+    static constexpr EDLCType e_DLCType_UIData = ::minecraft::dlc::e_DLCType_UIData;
+    static constexpr EDLCType e_DLCType_PackConfig = ::minecraft::dlc::e_DLCType_PackConfig;
+    static constexpr EDLCType e_DLCType_TexturePack = ::minecraft::dlc::e_DLCType_TexturePack;
+    static constexpr EDLCType e_DLCType_LocalisationData = ::minecraft::dlc::e_DLCType_LocalisationData;
+    static constexpr EDLCType e_DLCType_GameRules = ::minecraft::dlc::e_DLCType_GameRules;
+    static constexpr EDLCType e_DLCType_Audio = ::minecraft::dlc::e_DLCType_Audio;
+    static constexpr EDLCType e_DLCType_ColourTable = ::minecraft::dlc::e_DLCType_ColourTable;
+    static constexpr EDLCType e_DLCType_GameRulesHeader = ::minecraft::dlc::e_DLCType_GameRulesHeader;
+    static constexpr EDLCType e_DLCType_Max = ::minecraft::dlc::e_DLCType_Max;
+    static constexpr EDLCType e_DLCType_All = ::minecraft::dlc::e_DLCType_All;
 
-    // If you add to the Enum,then you need to add the array of type names
-    // These are the names used in the XML for the parameters
-    enum EDLCParameterType {
-        e_DLCParamType_Invalid = -1,
+    static constexpr EDLCParameterType e_DLCParamType_Invalid = ::minecraft::dlc::e_DLCParamType_Invalid;
+    static constexpr EDLCParameterType e_DLCParamType_DisplayName = ::minecraft::dlc::e_DLCParamType_DisplayName;
+    static constexpr EDLCParameterType e_DLCParamType_ThemeName = ::minecraft::dlc::e_DLCParamType_ThemeName;
+    static constexpr EDLCParameterType e_DLCParamType_Free = ::minecraft::dlc::e_DLCParamType_Free;
+    static constexpr EDLCParameterType e_DLCParamType_Credit = ::minecraft::dlc::e_DLCParamType_Credit;
+    static constexpr EDLCParameterType e_DLCParamType_Cape = ::minecraft::dlc::e_DLCParamType_Cape;
+    static constexpr EDLCParameterType e_DLCParamType_Box = ::minecraft::dlc::e_DLCParamType_Box;
+    static constexpr EDLCParameterType e_DLCParamType_Anim = ::minecraft::dlc::e_DLCParamType_Anim;
+    static constexpr EDLCParameterType e_DLCParamType_PackId = ::minecraft::dlc::e_DLCParamType_PackId;
+    static constexpr EDLCParameterType e_DLCParamType_NetherParticleColour = ::minecraft::dlc::e_DLCParamType_NetherParticleColour;
+    static constexpr EDLCParameterType e_DLCParamType_EnchantmentTextColour = ::minecraft::dlc::e_DLCParamType_EnchantmentTextColour;
+    static constexpr EDLCParameterType e_DLCParamType_EnchantmentTextFocusColour = ::minecraft::dlc::e_DLCParamType_EnchantmentTextFocusColour;
+    static constexpr EDLCParameterType e_DLCParamType_DataPath = ::minecraft::dlc::e_DLCParamType_DataPath;
+    static constexpr EDLCParameterType e_DLCParamType_PackVersion = ::minecraft::dlc::e_DLCParamType_PackVersion;
+    static constexpr EDLCParameterType e_DLCParamType_Max = ::minecraft::dlc::e_DLCParamType_Max;
 
-        e_DLCParamType_DisplayName = 0,
-        e_DLCParamType_ThemeName,
-        e_DLCParamType_Free,    // identify free skins
-        e_DLCParamType_Credit,  // legal credits for DLC
-        e_DLCParamType_Cape,
-        e_DLCParamType_Box,
-        e_DLCParamType_Anim,
-        e_DLCParamType_PackId,
-        e_DLCParamType_NetherParticleColour,
-        e_DLCParamType_EnchantmentTextColour,
-        e_DLCParamType_EnchantmentTextFocusColour,
-        e_DLCParamType_DataPath,
-        e_DLCParamType_PackVersion,
-
-        e_DLCParamType_Max,
-
-    };
     const static char* wchTypeNamesA[e_DLCParamType_Max];
 
 private:

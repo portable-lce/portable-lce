@@ -18,7 +18,7 @@
 #include "Timer.h"
 #include "User.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "app/common/DLC/DLCManager.h"
+#include "minecraft/world/level/dlc/DLCConstants.h"
 #include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Tutorial/Tutorial.h"
