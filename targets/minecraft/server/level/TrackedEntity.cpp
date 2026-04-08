@@ -11,7 +11,7 @@
 
 #include "platform/PlatformTypes.h"
 #include "EntityTracker.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "ServerPlayer.h"
 #include "java/Class.h"
 #include "minecraft/SharedConstants.h"

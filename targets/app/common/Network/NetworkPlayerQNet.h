@@ -5,7 +5,7 @@
 #include <string>
 
 #include "platform/PlatformTypes.h"
-#include "NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 
 class IQNetPlayer;
 class Socket;

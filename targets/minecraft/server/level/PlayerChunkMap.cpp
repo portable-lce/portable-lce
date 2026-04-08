@@ -11,7 +11,7 @@
 #include <utility>
 
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "ServerChunkCache.h"
 #include "ServerLevel.h"
 #include "ServerPlayer.h"

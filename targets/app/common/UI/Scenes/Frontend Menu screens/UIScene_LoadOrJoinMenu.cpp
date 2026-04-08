@@ -13,7 +13,7 @@
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Network/SessionInfo.h"
+#include "minecraft/network/platform/SessionInfo.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_SaveList.h"
 #include "app/common/UI/UILayer.h"

@@ -6,7 +6,7 @@
 
 #include "minecraft/GameTypes.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Network/SessionInfo.h"
+#include "minecraft/network/platform/SessionInfo.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_ButtonList.h"

@@ -9,7 +9,7 @@
 // 4jcraft TODO
 #include "platform/ShutdownManager.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "platform/NetTypes.h"
 #include "minecraft/server/network/ServerConnection.h"
 

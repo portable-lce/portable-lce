@@ -10,9 +10,9 @@
 #include "platform/PlatformTypes.h"
 #include "platform/IPlatformNetwork.h"
 #include "platform/NetTypes.h"
-#include "NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "PlatformNetworkManagerStub.h"
-#include "SessionInfo.h"
+#include "minecraft/network/platform/SessionInfo.h"
 #include "platform/C4JThread.h"
 
 class ClientConnection;

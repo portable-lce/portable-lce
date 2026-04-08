@@ -8,9 +8,9 @@
 #include "platform/NetTypes.h"
 #include "minecraft/client/model/SkinBox.h"
 #include "platform/XboxStubs.h"
-#include "NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "platform/IPlatformNetwork.h"
-#include "SessionInfo.h"
+#include "minecraft/network/platform/SessionInfo.h"
 #include "platform/C4JThread.h"
 
 class C4JThread;

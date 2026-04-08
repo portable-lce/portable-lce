@@ -23,7 +23,7 @@
 #include "app/common/DLC/DLCSkinFile.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
 #include "app/common/Tutorial/Tutorial.h"

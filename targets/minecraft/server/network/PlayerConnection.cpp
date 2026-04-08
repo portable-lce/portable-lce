@@ -16,7 +16,7 @@
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCSkinFile.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
 #include "minecraft/client/model/SkinBox.h"
 #include "ServerConnection.h"

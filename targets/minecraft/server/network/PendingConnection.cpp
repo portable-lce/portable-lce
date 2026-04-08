@@ -11,7 +11,7 @@
 #include "platform/storage/storage.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/BuildVer/BuildVer.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "platform/IPlatformNetwork.h"
 #include "platform/NetTypes.h"
 #include "PlayerConnection.h"

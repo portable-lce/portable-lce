@@ -17,7 +17,7 @@
 #include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerationOptions.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/PlatformNetworkManagerStub.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"

@@ -7,7 +7,7 @@
 #include <utility>
 #include <vector>
 
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "ServerLevel.h"
 #include "ServerPlayer.h"
 #include "TrackedEntity.h"

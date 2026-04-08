@@ -8,7 +8,7 @@
 
 #include "platform/ShutdownManager.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
 #include "util/StringHelpers.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"

@@ -15,7 +15,7 @@
 #include "app/common/Console_Debug_enum.h"
 #include "app/common/GameRules/LevelRules/Rules/GameRulesInstance.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "ServerLevel.h"
 #include "ServerPlayerGameMode.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"

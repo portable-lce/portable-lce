@@ -14,7 +14,7 @@
 #include "app/common/Console_Debug_enum.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
-#include "app/common/Network/NetworkPlayerInterface.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "PlayerChunkMap.h"
 #include "Pos.h"
 #include "ServerChunkCache.h"
