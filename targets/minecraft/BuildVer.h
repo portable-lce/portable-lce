@@ -10,6 +10,11 @@
 #define VER_PRODUCTBUILD 560
 // This goes up if there is any change to network traffic or code in a build
 #define VER_NETWORK 560
+
+// Network protocol version. Sent in the pre-login packet so client and
+// server can detect mismatched builds.
+#define MINECRAFT_NET_VERSION VER_NETWORK
+
 #define VER_PRODUCTBUILD_QFE 0
 
 #define VER_FILEVERSION_STRING "1.6"

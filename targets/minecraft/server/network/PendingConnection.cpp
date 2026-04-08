@@ -12,7 +12,6 @@
 #include "minecraft/GameEnums.h"
 #include "minecraft/BuildVer.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
-#include "platform/IPlatformNetwork.h"
 #include "platform/NetTypes.h"
 #include "PlayerConnection.h"
 #include "ServerConnection.h"

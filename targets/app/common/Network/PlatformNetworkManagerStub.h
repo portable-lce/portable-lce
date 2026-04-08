@@ -9,7 +9,7 @@
 #include "minecraft/client/model/SkinBox.h"
 #include "platform/XboxStubs.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
-#include "platform/IPlatformNetwork.h"
+#include "app/common/Network/IPlatformNetwork.h"
 #include "minecraft/network/platform/SessionInfo.h"
 #include "platform/C4JThread.h"
 

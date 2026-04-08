@@ -6,7 +6,6 @@
 #include <cstring>
 
 #include "minecraft/BuildVer.h"
-#include "platform/IPlatformNetwork.h"
 #include "PacketListener.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
