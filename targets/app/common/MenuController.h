@@ -5,6 +5,7 @@
 #include <string>
 
 #include "app/common/App_structs.h"
+#include "minecraft/XuiActionPayload.h"
 #include "platform/storage/storage.h"
 #include "platform/XboxStubs.h"
 
@@ -70,14 +71,14 @@ public:
     void setAction(int iPad, eXuiAction action, void* param = nullptr);
     eXuiAction getXuiAction(int iPad) { return m_eXuiAction[iPad]; }
     void setXuiServerAction(int iPad, eXuiServerAction action,
-                            void* param = nullptr) {
+                            XuiActionPayload param = {}) {
         m_eXuiServerAction[iPad] = action;
-        m_eXuiServerActionParam[iPad] = param;
+        m_eXuiServerActionParam[iPad] = std::move(param);
     }
     eXuiServerAction getXuiServerAction(int iPad) {
         return m_eXuiServerAction[iPad];
     }
-    void* getXuiServerActionParam(int iPad) {
+    const XuiActionPayload& getXuiServerActionParam(int iPad) {
         return m_eXuiServerActionParam[iPad];
     }
     eXuiAction getGlobalXuiAction() { return m_eGlobalXuiAction; }
@@ -141,7 +142,7 @@ private:
     void* m_eXuiActionParam[XUSER_MAX_COUNT];
     eXuiAction m_eGlobalXuiAction;
     eXuiServerAction m_eXuiServerAction[XUSER_MAX_COUNT];
-    void* m_eXuiServerActionParam[XUSER_MAX_COUNT];
+    XuiActionPayload m_eXuiServerActionParam[XUSER_MAX_COUNT];
     eXuiServerAction m_eGlobalXuiServerAction;
 
     unsigned int m_uiOpacityCountDown[XUSER_MAX_COUNT];

@@ -881,7 +881,7 @@ int CGameNetworkManager::ChangeSessionTypeThreadProc(void* lpParam) {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                           eXuiServerAction_PauseServer, (void*)true);
+                           eXuiServerAction_PauseServer, true);
 
     // wait for the server to be in a non-ticking state
     pServer->m_serverPausedEvent->waitForSignal(C4JThread::kInfiniteTimeout);
@@ -1009,7 +1009,7 @@ int CGameNetworkManager::ChangeSessionTypeThreadProc(void* lpParam) {
     // Start the game again
     app.SetGameStarted(true);
     app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                           eXuiServerAction_PauseServer, (void*)false);
+                           eXuiServerAction_PauseServer, false);
     app.SetChangingSessionType(false);
     app.SetReallyChangingSessionType(false);
 

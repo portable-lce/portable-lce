@@ -260,12 +260,12 @@ public:
     eXuiServerAction GetXuiServerAction(int iPad) {
         return m_menuController.getXuiServerAction(iPad);
     }
-    void* GetXuiServerActionParam(int iPad) {
+    const XuiActionPayload& GetXuiServerActionParam(int iPad) {
         return m_menuController.getXuiServerActionParam(iPad);
     }
     void SetXuiServerAction(int iPad, eXuiServerAction action,
-                            void* param = nullptr) {
-        m_menuController.setXuiServerAction(iPad, action, param);
+                            XuiActionPayload param = {}) {
+        m_menuController.setXuiServerAction(iPad, action, std::move(param));
     }
     eXuiServerAction GetGlobalXuiServerAction() {
         return m_menuController.getGlobalXuiServerAction();

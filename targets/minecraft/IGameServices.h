@@ -17,6 +17,7 @@ class DLCPack;
 #include "minecraft/client/model/SkinBox.h"
 #include "minecraft/GameTypes.h"
 #include "minecraft/GameEnums.h"
+#include "minecraft/XuiActionPayload.h"
 #include "platform/PlatformTypes.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/client/IMenuService.h"
@@ -109,10 +110,11 @@ public:
     virtual void setAction(int iPad, eXuiAction action,
                            void* param = nullptr) = 0;
     virtual void setXuiServerAction(int iPad, eXuiServerAction action,
-                                    void* param = nullptr) = 0;
+                                    XuiActionPayload param = {}) = 0;
     [[nodiscard]] virtual eXuiAction getXuiAction(int iPad) = 0;
     [[nodiscard]] virtual eXuiServerAction getXuiServerAction(int iPad) = 0;
-    [[nodiscard]] virtual void* getXuiServerActionParam(int iPad) = 0;
+    [[nodiscard]] virtual const XuiActionPayload& getXuiServerActionParam(
+        int iPad) = 0;
     virtual void setGlobalXuiAction(eXuiAction action) = 0;
     virtual void handleButtonPresses() = 0;
     virtual void setTMSAction(int iPad, eTMSAction action) = 0;

@@ -178,8 +178,8 @@ void AppGameServices::setAction(int iPad, eXuiAction action, void* param) {
 }
 
 void AppGameServices::setXuiServerAction(int iPad, eXuiServerAction action,
-                                         void* param) {
-    game_.SetXuiServerAction(iPad, action, param);
+                                         XuiActionPayload param) {
+    game_.SetXuiServerAction(iPad, action, std::move(param));
 }
 
 eXuiAction AppGameServices::getXuiAction(int iPad) {
@@ -190,7 +190,7 @@ eXuiServerAction AppGameServices::getXuiServerAction(int iPad) {
     return game_.GetXuiServerAction(iPad);
 }
 
-void* AppGameServices::getXuiServerActionParam(int iPad) {
+const XuiActionPayload& AppGameServices::getXuiServerActionParam(int iPad) {
     return game_.GetXuiServerActionParam(iPad);
 }
 

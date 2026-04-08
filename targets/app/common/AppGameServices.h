@@ -77,10 +77,10 @@ public:
     // -- UI dispatch --
     void setAction(int iPad, eXuiAction action, void* param) override;
     void setXuiServerAction(int iPad, eXuiServerAction action,
-                            void* param) override;
+                            XuiActionPayload param) override;
     eXuiAction getXuiAction(int iPad) override;
     eXuiServerAction getXuiServerAction(int iPad) override;
-    void* getXuiServerActionParam(int iPad) override;
+    const XuiActionPayload& getXuiServerActionParam(int iPad) override;
     void setGlobalXuiAction(eXuiAction action) override;
     void handleButtonPresses() override;
     void setTMSAction(int iPad, eTMSAction action) override;

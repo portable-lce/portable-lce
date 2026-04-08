@@ -36,8 +36,7 @@ void SaveManager::lock() {
             if (g_NetworkManager.IsLocalGame() &&
                 g_NetworkManager.GetPlayerCount() == 1) {
                 app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                       eXuiServerAction_PauseServer,
-                                       (void*)true);
+                                       eXuiServerAction_PauseServer, true);
             }
         }
     }
@@ -55,8 +54,7 @@ void SaveManager::unlock() {
             if (g_NetworkManager.IsLocalGame() &&
                 g_NetworkManager.GetPlayerCount() == 1) {
                 app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                       eXuiServerAction_PauseServer,
-                                       (void*)false);
+                                       eXuiServerAction_PauseServer, false);
             }
         }
     }

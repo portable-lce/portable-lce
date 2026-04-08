@@ -1180,10 +1180,10 @@ void MinecraftServer::run(int64_t seed, void* lpParameter) {
 
             // Process delayed actions
             eXuiServerAction eAction;
-            void* param;
             for (int i = 0; i < XUSER_MAX_COUNT; i++) {
                 eAction = gameServices().getXuiServerAction(i);
-                param = gameServices().getXuiServerActionParam(i);
+                const XuiActionPayload& param =
+                    gameServices().getXuiServerActionParam(i);
 
                 switch (eAction) {
                     case eXuiServerAction_AutoSaveGame:
@@ -1227,18 +1227,20 @@ void MinecraftServer::run(int64_t seed, void* lpParameter) {
                         break;
                     case eXuiServerAction_DropItem:
                         // Find the player, and drop the id at their feet
-                        {
+                        if (auto* id = std::get_if<std::int64_t>(&param)) {
                             std::shared_ptr<ServerPlayer> player =
                                 players->players.at(0);
-                            size_t id = (size_t)param;
                             player->drop(std::shared_ptr<ItemInstance>(
-                                new ItemInstance(id, 1, 0)));
+                                new ItemInstance(static_cast<int>(*id), 1, 0)));
                         }
                         break;
                     case eXuiServerAction_SpawnMob: {
+                        auto* id = std::get_if<std::int64_t>(&param);
+                        if (!id) break;
                         std::shared_ptr<ServerPlayer> player =
                             players->players.at(0);
-                        eINSTANCEOF factory = (eINSTANCEOF)((size_t)param);
+                        eINSTANCEOF factory =
+                            static_cast<eINSTANCEOF>(*id);
                         std::shared_ptr<Mob> mob =
                             std::dynamic_pointer_cast<Mob>(
                                 EntityIO::newByEnumType(factory,
@@ -1254,9 +1256,11 @@ void MinecraftServer::run(int64_t seed, void* lpParameter) {
                         player->level->addEntity(mob);
                     } break;
                     case eXuiServerAction_PauseServer:
-                        m_isServerPaused = ((size_t)param == true);
-                        if (m_isServerPaused) {
-                            m_serverPausedEvent->set();
+                        if (auto* val = std::get_if<bool>(&param)) {
+                            m_isServerPaused = *val;
+                            if (m_isServerPaused) {
+                                m_serverPausedEvent->set();
+                            }
                         }
                         break;
                     case eXuiServerAction_ToggleRain: {
@@ -1311,32 +1315,42 @@ void MinecraftServer::run(int64_t seed, void* lpParameter) {
                         // UpdateProgressPacket(20) ) );
 
                         if (!s_bServerHalted) {
+                            auto* owned = std::get_if<
+                                std::unique_ptr<minecraft::XuiActionOwnedPayload>>(
+                                &param);
                             ConsoleSchematicFile::XboxSchematicInitParam*
-                                initData = (ConsoleSchematicFile::
-                                                XboxSchematicInitParam*)param;
-                            File targetFileDir("Schematics");
-                            if (!targetFileDir.exists()) targetFileDir.mkdir();
+                                initData = owned ? dynamic_cast<
+                                    ConsoleSchematicFile::XboxSchematicInitParam*>(
+                                    owned->get())
+                                                 : nullptr;
+                            if (initData) {
+                                File targetFileDir("Schematics");
+                                if (!targetFileDir.exists())
+                                    targetFileDir.mkdir();
 
-                            char filename[128];
-                            snprintf(filename, 128, "%s%dx%dx%d.sch",
-                                     initData->name,
-                                     (initData->endX - initData->startX + 1),
-                                     (initData->endY - initData->startY + 1),
-                                     (initData->endZ - initData->startZ + 1));
+                                char filename[128];
+                                snprintf(
+                                    filename, 128, "%s%dx%dx%d.sch",
+                                    initData->name,
+                                    (initData->endX - initData->startX + 1),
+                                    (initData->endY - initData->startY + 1),
+                                    (initData->endZ - initData->startZ + 1));
 
-                            File dataFile =
-                                File(targetFileDir, std::string(filename));
-                            if (dataFile.exists()) dataFile._delete();
-                            FileOutputStream fos = FileOutputStream(dataFile);
-                            DataOutputStream dos = DataOutputStream(&fos);
-                            ConsoleSchematicFile::generateSchematicFile(
-                                &dos, levels[0], initData->startX,
-                                initData->startY, initData->startZ,
-                                initData->endX, initData->endY, initData->endZ,
-                                initData->bSaveMobs, initData->compressionType);
-                            dos.close();
-
-                            delete initData;
+                                File dataFile =
+                                    File(targetFileDir, std::string(filename));
+                                if (dataFile.exists()) dataFile._delete();
+                                FileOutputStream fos = FileOutputStream(dataFile);
+                                DataOutputStream dos = DataOutputStream(&fos);
+                                ConsoleSchematicFile::generateSchematicFile(
+                                    &dos, levels[0], initData->startX,
+                                    initData->startY, initData->startZ,
+                                    initData->endX, initData->endY,
+                                    initData->endZ, initData->bSaveMobs,
+                                    initData->compressionType);
+                                dos.close();
+                                // owned unique_ptr is destroyed when the
+                                // payload is overwritten on the next setXuiServerAction
+                            }
                         }
                         gameServices().unlockSaveNotification();
 #endif
@@ -1344,26 +1358,27 @@ void MinecraftServer::run(int64_t seed, void* lpParameter) {
                     case eXuiServerAction_SetCameraLocation:
 #if !defined(_CONTENT_PACKAGE)
                     {
+                        auto* owned = std::get_if<
+                            std::unique_ptr<minecraft::XuiActionOwnedPayload>>(
+                            &param);
                         DebugSetCameraPosition* pos =
-                            (DebugSetCameraPosition*)param;
+                            owned ? dynamic_cast<DebugSetCameraPosition*>(
+                                        owned->get())
+                                  : nullptr;
+                        if (pos) {
+                            Log::info("DEBUG: Player=%i\n", pos->player);
+                            Log::info(
+                                "DEBUG: Teleporting to pos=(%f.2, %f.2, %f.2), "
+                                "looking at=(%f.2,%f.2)\n",
+                                pos->m_camX, pos->m_camY, pos->m_camZ,
+                                pos->m_yRot, pos->m_elev);
 
-                        Log::info("DEBUG: Player=%i\n", pos->player);
-                        Log::info(
-                            "DEBUG: Teleporting to pos=(%f.2, %f.2, %f.2), "
-                            "looking at=(%f.2,%f.2)\n",
-                            pos->m_camX, pos->m_camY, pos->m_camZ, pos->m_yRot,
-                            pos->m_elev);
-
-                        std::shared_ptr<ServerPlayer> player =
-                            players->players.at(pos->player);
-                        player->debug_setPosition(pos->m_camX, pos->m_camY,
-                                                  pos->m_camZ, pos->m_yRot,
-                                                  pos->m_elev);
-
-                        // Doesn't work
-                        // player->setYHeadRot(pos->m_yRot);
-                        // player->absMoveTo(pos->m_camX, pos->m_camY,
-                        // pos->m_camZ, pos->m_yRot, pos->m_elev);
+                            std::shared_ptr<ServerPlayer> player =
+                                players->players.at(pos->player);
+                            player->debug_setPosition(pos->m_camX, pos->m_camY,
+                                                      pos->m_camZ, pos->m_yRot,
+                                                      pos->m_elev);
+                        }
                     }
 #endif
                     break;

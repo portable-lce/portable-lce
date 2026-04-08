@@ -115,9 +115,11 @@ void UIScene_DebugCreateSchematic::handlePress(F64 controlId, F64 childId) {
             else if (m_data->endZ < 0 && m_data->endZ % 2 == 0)
                 m_data->endZ += 1;
 
+            std::unique_ptr<minecraft::XuiActionOwnedPayload> payload(m_data);
+            m_data = nullptr;  // ownership transferred to the action
             app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
                                    eXuiServerAction_ExportSchematic,
-                                   (void*)m_data);
+                                   std::move(payload));
 
             navigateBack();
         } break;

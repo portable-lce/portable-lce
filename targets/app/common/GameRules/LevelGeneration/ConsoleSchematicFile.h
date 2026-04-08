@@ -13,6 +13,8 @@
 #include <utility>
 #include <vector>
 
+#include "minecraft/XuiActionPayload.h"
+
 #include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/phys/Vec3.h"
@@ -43,7 +45,7 @@ public:
     void decrementRefCount() { --m_refCount; }
     bool shouldDelete() { return m_refCount <= 0; }
 
-    typedef struct _XboxSchematicInitParam {
+    struct XboxSchematicInitParam : minecraft::XuiActionOwnedPayload {
         char name[64];
         int startX;
         int startY;
@@ -55,13 +57,13 @@ public:
 
         Compression::ECompressionTypes compressionType;
 
-        _XboxSchematicInitParam() {
+        XboxSchematicInitParam() {
             memset(name, 0, 64 * (sizeof(char)));
             startX = startY = startZ = endX = endY = endZ = 0;
             bSaveMobs = false;
             compressionType = Compression::eCompressionType_None;
         }
-    } XboxSchematicInitParam;
+    };
 
 private:
     int m_xSize, m_ySize, m_zSize;

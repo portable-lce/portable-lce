@@ -65,7 +65,7 @@ UIScene_PauseMenu::UIScene_PauseMenu(int iPad, void* initData,
     if (/*g_NetworkManager.IsLocalGame() &&*/ g_NetworkManager
             .GetPlayerCount() == 1) {
         app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                               eXuiServerAction_PauseServer, (void*)true);
+                               eXuiServerAction_PauseServer, true);
     }
 
     Minecraft* pMinecraft = Minecraft::GetInstance();
@@ -195,8 +195,7 @@ void UIScene_PauseMenu::handleInput(int iPad, int key, bool repeat,
                     /*g_NetworkManager.IsLocalGame()*/ g_NetworkManager
                             .GetPlayerCount() == 1) {
                     app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                           eXuiServerAction_PauseServer,
-                                           (void*)false);
+                                           eXuiServerAction_PauseServer, false);
                 }
 
                 ui.PlayUISFX(eSFX_Back);
@@ -264,8 +263,7 @@ void UIScene_PauseMenu::handlePress(F64 controlId, F64 childId) {
                 /*g_NetworkManager.IsLocalGame()*/ g_NetworkManager
                         .GetPlayerCount() == 1) {
                 app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                       eXuiServerAction_PauseServer,
-                                       (void*)false);
+                                       eXuiServerAction_PauseServer, false);
             }
             navigateBack();
             break;

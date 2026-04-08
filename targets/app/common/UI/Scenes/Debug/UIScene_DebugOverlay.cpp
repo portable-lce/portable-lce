@@ -208,9 +208,9 @@ void UIScene_DebugOverlay::handlePress(F64 controlId, F64 childId) {
         case eControl_Mobs: {
             int id = childId;
             if (id < m_mobFactories.size()) {
-                app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                       eXuiServerAction_SpawnMob,
-                                       (void*)m_mobFactories[id]);
+                app.SetXuiServerAction(
+                    PlatformProfile.GetPrimaryPad(), eXuiServerAction_SpawnMob,
+                    static_cast<std::int64_t>(m_mobFactories[id]));
             }
         } break;
         case eControl_Enchantments: {

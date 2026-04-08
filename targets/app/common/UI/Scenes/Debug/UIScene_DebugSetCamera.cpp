@@ -107,11 +107,14 @@ void UIScene_DebugSetCamera::handleInput(int iPad, int key, bool repeat,
 
 void UIScene_DebugSetCamera::handlePress(F64 controlId, F64 childId) {
     switch ((int)controlId) {
-        case eControl_Teleport:
+        case eControl_Teleport: {
+            std::unique_ptr<minecraft::XuiActionOwnedPayload> payload(
+                currentPosition);
+            currentPosition = nullptr;  // ownership transferred
             app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
                                    eXuiServerAction_SetCameraLocation,
-                                   (void*)currentPosition);
-            break;
+                                   std::move(payload));
+        } break;
         case eControl_CamX:
         case eControl_CamY:
         case eControl_CamZ:

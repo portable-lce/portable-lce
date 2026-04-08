@@ -6,10 +6,11 @@
 #include <cstring>
 #include <functional>
 
-#include "platform/storage/storage.h"
 #include "minecraft/GameHostOptions.h"
-#include "UIEnums.h"
+#include "minecraft/XuiActionPayload.h"
 #include "platform/C4JThread.h"
+#include "platform/storage/storage.h"
+#include "UIEnums.h"
 
 class Container;
 class Inventory;
@@ -417,10 +418,10 @@ typedef struct _InGamePlayerOptionsInitData {
     unsigned int playerPrivileges;
 } InGamePlayerOptionsInitData;
 
-typedef struct _DebugSetCameraPosition {
+struct DebugSetCameraPosition : minecraft::XuiActionOwnedPayload {
     int player;
     double m_camX, m_camY, m_camZ, m_yRot, m_elev;
-} DebugSetCameraPosition;
+};
 
 typedef struct _TeleportMenuInitData {
     int iPad;
