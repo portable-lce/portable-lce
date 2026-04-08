@@ -6,10 +6,11 @@ project(
   default_options: [
     'cpp_std=c++23',
     'warning_level=0',
-    'buildtype=debugoptimized', # for now
     'unity=on', # merge source files per target
     'unity_size=8', # TODO: mess around with this
     'b_pch=true', # precompiled headers
+    'b_lto=true', # link-time optimisation (ThinLTO under clang+lld)
+    'b_ndebug=if-release', # drop assert() in --buildtype=release
   ],
 )
 
@@ -22,11 +23,19 @@ global_cpp_defs = [
   '-DSPLIT_SAVES',
   '-D_LARGE_WORLDS',
   '-D_EXTENDED_ACHIEVEMENTS',
-  '-D_DEBUG_MENUS_ENABLED',
-  '-D_DEBUG',
   '-D_FORTIFY_SOURCE=2',
-  '-DDEBUG',
 ]
+
+# Debug-only defines: keep for debug + debugoptimized so iteration is unchanged.
+# --buildtype=release strips them so shipping builds don't carry debug logging,
+# debug menu UI, or assert-driven sanity checks.
+if get_option('buildtype') in ['debug', 'debugoptimized']
+  global_cpp_defs += [
+    '-D_DEBUG',
+    '-DDEBUG',
+    '-D_DEBUG_MENUS_ENABLED',
+  ]
+endif
 
 if host_machine.system() == 'linux'
   global_cpp_defs += ['-Dlinux', '-D__linux', '-D__linux__']
