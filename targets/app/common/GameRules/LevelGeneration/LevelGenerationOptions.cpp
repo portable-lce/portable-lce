@@ -19,7 +19,6 @@
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/locale/StringTable.h"
 #include "app/linux/LinuxGame.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "java/File.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
@@ -556,7 +555,7 @@ void LevelGenerationOptions::loadBaseSaveData() {
                 [this](int pad, std::uint32_t err, std::uint32_t lic) {
                     return onPackMounted(pad, err, lic);
                 },
-                "WPACK") != ERROR_IO_PENDING) {
+                "WPACK") != 997 /* ERROR_IO_PENDING */) {
             // corrupt DLC
             setLoadedData();
             app.DebugPrintf("Failed to mount LGO DLC %d for pad %d\n",
@@ -577,7 +576,7 @@ int LevelGenerationOptions::onPackMounted(int iPad, uint32_t dwErr,
                                           uint32_t dwLicenceMask) {
     LevelGenerationOptions* lgo = this;
     lgo->m_bLoadingData = false;
-    if (dwErr != ERROR_SUCCESS) {
+    if (dwErr != 0 /* ERROR_SUCCESS */) {
         // corrupt DLC
         app.DebugPrintf("Failed to mount LGO DLC for pad %d: %d\n", iPad,
                         dwErr);

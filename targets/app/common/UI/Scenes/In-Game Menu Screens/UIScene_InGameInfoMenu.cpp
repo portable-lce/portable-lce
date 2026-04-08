@@ -16,7 +16,6 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"

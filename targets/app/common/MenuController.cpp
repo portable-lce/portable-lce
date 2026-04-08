@@ -6,7 +6,6 @@
 #include "app/common/UI/Scenes/UIScene_FullscreenProgress.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
 #include "minecraft/client/renderer/GameRenderer.h"
@@ -498,7 +497,7 @@ int MenuController::remoteSaveThreadProc(void* lpParameter) {
 
     if (app.GetXuiAction(PlatformProfile.GetPrimaryPad()) !=
         eAppAction_WaitRemoteServerSaveComplete) {
-        return ERROR_CANCELLED;
+        return 1223;  // ERROR_CANCELLED
     }
     app.SetAction(PlatformProfile.GetPrimaryPad(), eAppAction_Idle);
 

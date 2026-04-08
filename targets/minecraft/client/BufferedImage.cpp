@@ -11,7 +11,6 @@
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "minecraft/IGameServices.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "PlatformTypes.h"
 #include "util/StringHelpers.h"
 #include "platform/fs/fs.h"
@@ -105,7 +104,7 @@ BufferedImage::BufferedImage(const std::string& File,
             }
         }
 
-        if (hr == ERROR_SUCCESS) {
+        if (hr == 0) {
             if (l == 0) {
                 width = ImageInfo.Width;
                 height = ImageInfo.Height;
@@ -154,7 +153,7 @@ BufferedImage::BufferedImage(DLCPack* dlcPack, const std::string& File,
         D3DXIMAGE_INFO ImageInfo;
         hr = PlatformRenderer.LoadTextureData(pbData, dataBytes, &ImageInfo,
                                            &data[l]);
-        if (hr == ERROR_SUCCESS && l == 0) {
+        if (hr == 0 && l == 0) {
             width = ImageInfo.Width;
             height = ImageInfo.Height;
         }
@@ -171,7 +170,7 @@ BufferedImage::BufferedImage(std::uint8_t* pbData, std::uint32_t dataBytes) {
     int32_t hr =
         PlatformRenderer.LoadTextureData(pbData, dataBytes, &ImageInfo, &data[0]);
 
-    if (hr == ERROR_SUCCESS) {
+    if (hr == 0) {
         width = ImageInfo.Width;
         height = ImageInfo.Height;
     } else {

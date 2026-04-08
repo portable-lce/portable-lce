@@ -18,7 +18,6 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
@@ -243,7 +242,7 @@ int IUIScene_PauseMenu::SaveWorldThreadProc(void* lpParameter) {
     if (app.GetChangingSessionType()) {
         // 4J Stu - This causes the fullscreenprogress scene to ignore the
         // action it was given
-        hr = ERROR_CANCELLED;
+        hr = 1223;  // ERROR_CANCELLED
     }
     return hr;
 }

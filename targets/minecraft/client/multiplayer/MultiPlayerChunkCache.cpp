@@ -1,10 +1,10 @@
 #include "MultiPlayerChunkCache.h"
+#include <atomic>
 
 #include <stdint.h>
 #include <string.h>
 
 #include "minecraft/network/INetworkService.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "util/StringHelpers.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/level/ServerChunkCache.h"
@@ -210,16 +210,10 @@ LevelChunk* MultiPlayerChunkCache::create(int x, int z) {
             chunk->loaded = true;
         }
 
-#if (defined _WIN64 || defined __LP64__)
-        if (InterlockedCompareExchangeRelease64(
-                (int64_t*)&cache[idx], (int64_t)chunk, (int64_t)lastChunk) ==
-            (int64_t)lastChunk)
-#else
-        if (InterlockedCompareExchangeRelease(
-                (int32_t*)&cache[idx], (int32_t)chunk, (int32_t)lastChunk) ==
-            (int32_t)lastChunk)
-#endif  // 0
-        {
+        LevelChunk* expected = lastChunk;
+        if (std::atomic_ref<LevelChunk*>(cache[idx])
+                .compare_exchange_strong(expected, chunk,
+                                         std::memory_order_release)) {
             // If we're sharing with the server, we'll need to calculate our
             // heightmap now, which isn't shared. If we aren't sharing with the
             // server, then this will be calculated when the chunk data arrives.

@@ -24,7 +24,6 @@
 #include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "Socket.h"
 #include "platform/XboxStubs.h"
 #include "util/StringHelpers.h"

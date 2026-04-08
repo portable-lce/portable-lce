@@ -1,4 +1,5 @@
 #include "SparseDataStorage.h"
+#include <atomic>
 
 #include <stddef.h>
 #include <stdlib.h>
@@ -6,7 +7,6 @@
 
 #include <vector>
 
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "platform/NetTypes.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
@@ -426,8 +426,9 @@ void SparseDataStorage::addNewPlane(int y) {
         // succeed if the data stored at dataAndCount is equal to
         // lastDataAndCount, and will return the value present just before the
         // write took place
-        int64_t lastDataAndCount2 = InterlockedCompareExchangeRelease64(
-            (int64_t*)&dataAndCount, newDataAndCount, lastDataAndCount);
+        int64_t lastDataAndCount2 = lastDataAndCount;
+        std::atomic_ref<int64_t>(dataAndCount).compare_exchange_strong(
+            lastDataAndCount2, newDataAndCount, std::memory_order_release);
 
         if (lastDataAndCount2 == lastDataAndCount) {
             success = true;
@@ -500,8 +501,9 @@ void SparseDataStorage::updateDataAndCount(int64_t newDataAndCount) {
         // succeed if the data stored at dataAndCount is equal to
         // lastDataAndCount, and will return the value present just before the
         // write took place
-        int64_t lastDataAndCount2 = InterlockedCompareExchangeRelease64(
-            (int64_t*)&dataAndCount, newDataAndCount, lastDataAndCount);
+        int64_t lastDataAndCount2 = lastDataAndCount;
+        std::atomic_ref<int64_t>(dataAndCount).compare_exchange_strong(
+            lastDataAndCount2, newDataAndCount, std::memory_order_release);
 
         if (lastDataAndCount2 == lastDataAndCount) {
             success = true;
@@ -575,8 +577,9 @@ int SparseDataStorage::compress() {
         // succeed if the data stored at dataAndCount is equal to
         // lastDataAndCount, and will return the value present just before the
         // write took place
-        int64_t lastDataAndCount2 = InterlockedCompareExchangeRelease64(
-            (int64_t*)&dataAndCount, newDataAndCount, lastDataAndCount);
+        int64_t lastDataAndCount2 = lastDataAndCount;
+        std::atomic_ref<int64_t>(dataAndCount).compare_exchange_strong(
+            lastDataAndCount2, newDataAndCount, std::memory_order_release);
 
         if (lastDataAndCount2 != lastDataAndCount) {
             // Failed to write. Don't bother trying again... being very

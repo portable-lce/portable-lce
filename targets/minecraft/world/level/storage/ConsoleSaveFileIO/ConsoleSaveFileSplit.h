@@ -73,18 +73,19 @@ private:
     std::string m_fileName;
     bool m_autosave;
 
-    //	void* hHeap;
-    static void* pvHeap;
-    static unsigned int pagesCommitted;
+    // Backing store for the in-memory save image. The buffer is sized to
+    // MAX_SAVE_SIZE up front; on Linux/macOS the kernel only physically backs
+    // pages that are actually touched, so this gives the same demand-paging
+    // behaviour the legacy VirtualAlloc reserve/commit pattern relied on,
+    // without any OS-specific calls.
 #if defined(_LARGE_WORLDS)
-    static const unsigned int CSF_PAGE_SIZE = 64 * 1024;
-    static const unsigned int MAX_PAGE_COUNT =
-        32 * 1024;  // 2GB virtual allocation
+    static constexpr std::size_t MAX_SAVE_SIZE =
+        2u * 1024u * 1024u * 1024u;  // 2GB
 #else
-    static const unsigned int CSF_PAGE_SIZE = 64 * 1024;
-    static const unsigned int MAX_PAGE_COUNT = 1024;
+    static constexpr std::size_t MAX_SAVE_SIZE = 64u * 1024u * 1024u;  // 64MB
 #endif
-    void* pvSaveMem;
+    std::vector<std::uint8_t> saveBuffer;
+    void* pvSaveMem = saveBuffer.data();
 
     std::recursive_mutex m_lock;
 

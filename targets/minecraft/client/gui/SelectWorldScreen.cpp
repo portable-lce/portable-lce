@@ -2,14 +2,16 @@
 #include "SelectWorldScreen.h"
 
 #include <stdint.h>
+#include <time.h>
 #include <wchar.h>
 
+#include <chrono>
+#include <ctime>
 #include <vector>
 
 #include "Button.h"
 #include "ConfirmScreen.h"
 #include "CreateWorldScreen.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "RenameWorldScreen.h"
 #include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
@@ -258,21 +260,24 @@ void SelectWorldScreen::WorldSelectionList::renderItem(int i, int x, int y,
 
     std::string id = levelSummary->getLevelId();
 
-    ULARGE_INTEGER rawtime;
-    rawtime.QuadPart = levelSummary->getLastPlayed() *
-                       10000;  // Convert it from milliseconds back to FileTime
-
-    FILETIME timeasfiletime;
-    timeasfiletime.dwHighDateTime = rawtime.HighPart;
-    timeasfiletime.dwLowDateTime = rawtime.LowPart;
-
-    SYSTEMTIME time;
-    FileTimeToSystemTime(&timeasfiletime, &time);
+    // levelSummary->getLastPlayed() is milliseconds since the FILETIME
+    // epoch (1601-01-01 UTC). Convert to chrono::system_clock (1970
+    // epoch) by subtracting the constant offset, then break down with
+    // gmtime_r for display.
+    constexpr int64_t kFileTimeEpochToUnixEpochMs = 11644473600000LL;
+    const int64_t lastPlayedUnixMs =
+        levelSummary->getLastPlayed() - kFileTimeEpochToUnixEpochMs;
+    const auto tp = std::chrono::system_clock::time_point{
+        std::chrono::milliseconds{lastPlayedUnixMs}};
+    time_t lastPlayedTime = std::chrono::system_clock::to_time_t(tp);
+    std::tm utc;
+    gmtime_r(&lastPlayedTime, &utc);
 
     char buffer[20];
     // 4J Stu - Currently shows years as 4 digits, where java only showed 2
-    snprintf(buffer, 20, "%d/%d/%d %d:%02d", time.wDay, time.wMonth,
-             time.wYear, time.wHour, time.wMinute);  // 4J - TODO Localise this
+    snprintf(buffer, 20, "%d/%d/%d %d:%02d", utc.tm_mday, utc.tm_mon + 1,
+             utc.tm_year + 1900, utc.tm_hour,
+             utc.tm_min);  // 4J - TODO Localise this
     id = id + " (" + buffer;
 
     int64_t size = levelSummary->getSizeOnDisk();

@@ -20,7 +20,6 @@
 #include "app/common/UI/Scenes/UIScene_FullscreenProgress.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "platform/NetTypes.h"
 #include "minecraft/client/model/SkinBox.h"
 #include "platform/XboxStubs.h"

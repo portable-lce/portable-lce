@@ -2,7 +2,6 @@
 
 #include <wchar.h>
 
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "PlatformTypes.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/network/packet/SignUpdatePacket.h"
@@ -153,7 +152,7 @@ int SignTileEntity::handleStringVerify(STRING_VERIFY_RESPONSE* pResults) {
     m_bVerified = true;
     m_bCensored = false;
     for (int i = 0; i < pResults->wNumStrings; i++) {
-        if (pResults->pStringResult[i] != ERROR_SUCCESS) {
+        if (pResults->pStringResult[i] != 0) {
             m_bCensored = true;
         }
     }

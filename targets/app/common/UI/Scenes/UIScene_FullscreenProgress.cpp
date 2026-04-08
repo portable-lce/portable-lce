@@ -16,7 +16,6 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "platform/C4JThread.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
@@ -166,7 +165,7 @@ void UIScene_FullscreenProgress::tick() {
         // If we failed (currently used by network connection thread), navigate
         // back
         if (exitcode != 0) {
-            if (exitcode == ERROR_CANCELLED) {
+            if (exitcode == 1223 /* ERROR_CANCELLED */) {
                 // Current thread cancelled for whatever reason
                 // Currently used only for the
                 // Game::RemoteSaveThreadProc thread Assume to

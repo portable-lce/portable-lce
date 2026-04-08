@@ -20,7 +20,6 @@
 #include "app/linux/Iggy/include/rrCore.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "java/System.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"

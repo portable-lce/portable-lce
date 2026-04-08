@@ -20,7 +20,6 @@
 #include "minecraft/GameEnums.h"
 #include "minecraft/BuildVer.h"
 #include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "util/Timer.h"
 #include "util/StringHelpers.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
@@ -41,11 +40,6 @@
 
 class ProgressListener;
 
-#define RESERVE_ALLOCATION MEM_RESERVE
-#define COMMIT_ALLOCATION MEM_COMMIT
-
-unsigned int ConsoleSaveFileSplit::pagesCommitted = 0;
-void* ConsoleSaveFileSplit::pvHeap = nullptr;
 
 ConsoleSaveFileSplit::RegionFileReference::RegionFileReference(
     int index, unsigned int regionIndex, unsigned int length /*=0*/,
@@ -363,7 +357,8 @@ FileEntry* ConsoleSaveFileSplit::GetRegionFileEntry(unsigned int regionIndex) {
 ConsoleSaveFileSplit::ConsoleSaveFileSplit(
     const std::string& fileName, void* pvSaveData /*= nullptr*/,
     unsigned int initialFileSize /*= 0*/, bool forceCleanSave /*= false*/,
-    ESavePlatform plat /*= SAVE_FILE_PLATFORM_LOCAL*/) {
+    ESavePlatform plat /*= SAVE_FILE_PLATFORM_LOCAL*/)
+    : saveBuffer(MAX_SAVE_SIZE) {
     unsigned int fileSize = initialFileSize;
 
     // Load a save from the game rules
@@ -389,7 +384,8 @@ ConsoleSaveFileSplit::ConsoleSaveFileSplit(
 
 ConsoleSaveFileSplit::ConsoleSaveFileSplit(ConsoleSaveFile* sourceSave,
                                            bool alreadySmallRegions,
-                                           ProgressListener* progress) {
+                                           ProgressListener* progress)
+    : saveBuffer(MAX_SAVE_SIZE) {
     _init(sourceSave->getFilename(), nullptr, 0, sourceSave->getSavePlatform());
 
     header.setOriginalSaveVersion(sourceSave->getOriginalSaveVersion());
@@ -422,17 +418,6 @@ void ConsoleSaveFileSplit::_init(const std::string& fileName, void* pvSaveData,
                                  unsigned int fileSize, ESavePlatform plat) {
     m_lastTickTime = 0;
 
-    // One time initialise of static stuff required for our storage
-    if (pvHeap == nullptr) {
-        // Reserve a chunk of 64MB of virtual address space for our saves, using
-        // 64KB pages. We'll only be committing these as required to grow the
-        // storage we need, which will the storage to grow without having to use
-        // realloc.
-        pvHeap = VirtualAlloc(nullptr, MAX_PAGE_COUNT * CSF_PAGE_SIZE,
-                              RESERVE_ALLOCATION, PAGE_READWRITE);
-    }
-
-    pvSaveMem = pvHeap;
     m_fileName = fileName;
 
     // Get details of region files. From this point on we are responsible for
@@ -457,34 +442,6 @@ void ConsoleSaveFileSplit::_init(const std::string& fileName, void* pvSaveData,
         regionFileRef->ReleaseCompressed();
         regionFiles[regionIndex] = regionFileRef;
     }
-
-    unsigned int heapSize = std::max(
-        fileSize,
-        1024u * 1024u * 2u);  // 4J Stu - Our files are going to be bigger than
-                              // 2MB so allocate high to start with
-
-    // Initially committ enough room to store headSize bytes (using
-    // CSF_PAGE_SIZE pages, so rounding up here). We should only ever have one
-    // save file at a time, and the pages should be decommitted in the dtor, so
-    // pages committed should always be zero at this point.
-    if (pagesCommitted != 0) {
-#if !defined(_CONTENT_PACKAGE)
-        assert(0);
-#endif
-    }
-
-    unsigned int pagesRequired =
-        (heapSize + (CSF_PAGE_SIZE - 1)) / CSF_PAGE_SIZE;
-
-    void* pvRet = VirtualAlloc(pvHeap, pagesRequired * CSF_PAGE_SIZE,
-                               COMMIT_ALLOCATION, PAGE_READWRITE);
-    if (pvRet == nullptr) {
-#if !defined(_CONTENT_PACKAGE)
-        // Out of physical memory
-        assert(0);
-#endif
-    }
-    pagesCommitted = pagesRequired;
 
     if (fileSize > 0) {
         if (pvSaveData != nullptr) {
@@ -515,26 +472,7 @@ void ConsoleSaveFileSplit::_init(const std::string& fileName, void* pvSaveData,
                 if (Compression::getCompression()->Decompress(
                         buf, &decompSize, (unsigned char*)pvSaveMem + 8,
                         fileSize - 8) == 0) {
-                    // Only ReAlloc if we need to (we might already have enough)
-                    // and align to 512 byte boundaries
-                    unsigned int currentHeapSize =
-                        pagesCommitted * CSF_PAGE_SIZE;
-
-                    unsigned int desiredSize = decompSize;
-
-                    if (desiredSize > currentHeapSize) {
-                        unsigned int pagesRequired =
-                            (desiredSize + (CSF_PAGE_SIZE - 1)) / CSF_PAGE_SIZE;
-                        void* pvRet =
-                            VirtualAlloc(pvHeap, pagesRequired * CSF_PAGE_SIZE,
-                                         COMMIT_ALLOCATION, PAGE_READWRITE);
-                        if (pvRet == nullptr) {
-                            // Out of physical memory
-                            assert(0);
-                        }
-                        pagesCommitted = pagesRequired;
-                    }
-
+                    assert(decompSize <= MAX_SAVE_SIZE);
                     memcpy(pvSaveMem, buf, decompSize);
                 } else {
                     // Corrupt save, although most of the terrain should
@@ -561,8 +499,6 @@ void ConsoleSaveFileSplit::_init(const std::string& fileName, void* pvSaveData,
 }
 
 ConsoleSaveFileSplit::~ConsoleSaveFileSplit() {
-    VirtualFree(pvHeap, MAX_PAGE_COUNT * CSF_PAGE_SIZE, MEM_DECOMMIT);
-    pagesCommitted = 0;
     // Make sure we don't have any thumbnail data still waiting round - we can't
     // need it now we've destroyed the save file anyway
 
@@ -1023,23 +959,7 @@ void ConsoleSaveFileSplit::MoveDataBeyond(FileEntry* file,
     unsigned int buffer1Size = 0;
     unsigned int buffer2Size = 0;
 
-    // Only ReAlloc if we need to (we might already have enough) and align to
-    // 512 byte boundaries
-    unsigned int currentHeapSize = pagesCommitted * CSF_PAGE_SIZE;
-
-    unsigned int desiredSize = header.GetFileSize() + nNumberOfBytesToWrite;
-
-    if (desiredSize > currentHeapSize) {
-        unsigned int pagesRequired =
-            (desiredSize + (CSF_PAGE_SIZE - 1)) / CSF_PAGE_SIZE;
-        void* pvRet = VirtualAlloc(pvHeap, pagesRequired * CSF_PAGE_SIZE,
-                                   COMMIT_ALLOCATION, PAGE_READWRITE);
-        if (pvRet == nullptr) {
-            // Out of physical memory
-            assert(0);
-        }
-        pagesCommitted = pagesRequired;
-    }
+    assert(header.GetFileSize() + nNumberOfBytesToWrite <= MAX_SAVE_SIZE);
 
     // This is the start of where we want the space to be, and the start of the
     // data that we need to move

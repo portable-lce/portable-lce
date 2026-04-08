@@ -26,7 +26,6 @@
 #include "minecraft/locale/StringTable.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/client/BufferedImage.h"
 #include "platform/fs/fs.h"
 #include "java/File.h"
@@ -242,7 +241,7 @@ void DLCTexturePack::loadData() {
                 [this](int pad, std::uint32_t err, std::uint32_t lic) {
                     return onPackMounted(pad, err, lic);
                 },
-                "TPACK") != ERROR_IO_PENDING) {
+                "TPACK") != 997) {
             // corrupt DLC
             m_bHasLoadedData = true;
             if (gameServices().getLevelGenerationOptions())
@@ -273,7 +272,7 @@ int DLCTexturePack::onPackMounted(int iPad, std::uint32_t dwErr,
                                   std::uint32_t dwLicenceMask) {
     DLCTexturePack* texturePack = this;
     texturePack->m_bLoadingData = false;
-    if (dwErr != ERROR_SUCCESS) {
+    if (dwErr != 0) {
         // corrupt DLC
         Log::info("Failed to mount DLC for pad %d: %u\n", iPad, dwErr);
     } else {

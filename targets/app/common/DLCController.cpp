@@ -6,7 +6,6 @@
 #include "app/common/DLC/DLCSkinFile.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
@@ -105,7 +104,7 @@ void DLCController::mountNextDLC(int iPad) {
                 [this](int pad, std::uint32_t dwErr,
                        std::uint32_t dwLicenceMask) {
                     return dlcMountedCallback(pad, dwErr, dwLicenceMask);
-                }) != ERROR_IO_PENDING) {
+                }) != 997 /* ERROR_IO_PENDING */) {
             app.DebugPrintf("Failed to mount DLC %d for pad %d\n",
                             m_iTotalDLCInstalled, iPad);
             ++m_iTotalDLCInstalled;
@@ -131,7 +130,7 @@ int DLCController::dlcMountedCallback(int iPad, std::uint32_t dwErr,
 #if defined(_WINDOWS64)
     app.DebugPrintf("--- DLCController::dlcMountedCallback\n");
 
-    if (dwErr != ERROR_SUCCESS) {
+    if (dwErr != 0 /* ERROR_SUCCESS */) {
         app.DebugPrintf("Failed to mount DLC for pad %d: %u\n", iPad, dwErr);
         app.m_dlcManager.incrementUnnamedCorruptCount();
     } else {

@@ -1,7 +1,9 @@
 
 #include "UIScene_MainMenu.h"
 
+#include <chrono>
 #include <cmath>
+#include <ctime>
 #include <format>
 #include <functional>
 #include <numbers>
@@ -20,7 +22,6 @@
 #include "app/common/UI/UIString.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "platform/NetTypes.h"
 #include "util/StringHelpers.h"
 
@@ -176,18 +177,21 @@ void UIScene_MainMenu::handleGainFocus(bool navBack) {
         random->nextInt((int)m_splashes.size() - (eSplashRandomStart + 1));
 
     // Override splash text on certain dates
-    SYSTEMTIME LocalSysTime;
-    GetLocalTime(&LocalSysTime);
-    if (LocalSysTime.wMonth == 11 && LocalSysTime.wDay == 9) {
+    const std::time_t now = std::chrono::system_clock::to_time_t(
+        std::chrono::system_clock::now());
+    std::tm localTime;
+    localtime_r(&now, &localTime);
+    const int month = localTime.tm_mon + 1;  // tm_mon is 0-based
+    const int day = localTime.tm_mday;
+    if (month == 11 && day == 9) {
         splashIndex = eSplashHappyBirthdayEx;
-    } else if (LocalSysTime.wMonth == 6 && LocalSysTime.wDay == 1) {
+    } else if (month == 6 && day == 1) {
         splashIndex = eSplashHappyBirthdayNotch;
-    } else if (LocalSysTime.wMonth == 12 &&
-               LocalSysTime.wDay == 24)  // the Java game shows this on
-                                         // Christmas Eve, so we will too
+    } else if (month == 12 && day == 24)  // the Java game shows this on
+                                          // Christmas Eve, so we will too
     {
         splashIndex = eSplashMerryXmas;
-    } else if (LocalSysTime.wMonth == 1 && LocalSysTime.wDay == 1) {
+    } else if (month == 1 && day == 1) {
         splashIndex = eSplashHappyNewYear;
     }
     // splashIndex = 47; // Very short string

@@ -4,12 +4,14 @@
 #include "TitleScreen.h"
 
 #include <stdint.h>
+#include <time.h>
 
+#include <chrono>
 #include <cmath>
+#include <ctime>
 #include <vector>
 
 #include "platform/renderer/renderer.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/client/BufferedImage.h"
 #include "util/StringHelpers.h"
 #include "java/InputOutputStream/BufferedReader.h"
@@ -65,18 +67,20 @@ TitleScreen::TitleScreen() {
         random->nextInt((int)splashes.size() - (eSplashRandomStart + 1));
 
     // Override splash text on certain dates
-    SYSTEMTIME LocalSysTime;
-    GetLocalTime(&LocalSysTime);
-    if (LocalSysTime.wMonth == 11 && LocalSysTime.wDay == 9) {
+    const auto now = std::chrono::system_clock::now();
+    const auto t = std::chrono::system_clock::to_time_t(now);
+    std::tm localTime;
+    localtime_r(&t, &localTime);
+    const int month = localTime.tm_mon + 1;  // tm_mon is 0-based
+    const int day = localTime.tm_mday;
+    if (month == 11 && day == 9) {
         splashIndex = eSplashHappyBirthdayEx;
-    } else if (LocalSysTime.wMonth == 6 && LocalSysTime.wDay == 1) {
+    } else if (month == 6 && day == 1) {
         splashIndex = eSplashHappyBirthdayNotch;
-    } else if (LocalSysTime.wMonth == 12 &&
-               LocalSysTime.wDay == 24)  // the Java game shows this on
-                                         // Christmas Eve, so we will too
-    {
+    } else if (month == 12 && day == 24) {
+        // the Java game shows this on Christmas Eve, so we will too
         splashIndex = eSplashMerryXmas;
-    } else if (LocalSysTime.wMonth == 1 && LocalSysTime.wDay == 1) {
+    } else if (month == 1 && day == 1) {
         splashIndex = eSplashHappyNewYear;
     }
 

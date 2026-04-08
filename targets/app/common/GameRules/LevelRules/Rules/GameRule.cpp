@@ -9,7 +9,6 @@
 #include <utility>
 
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 

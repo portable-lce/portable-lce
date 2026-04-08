@@ -18,7 +18,6 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "app/linux/Stubs/winapi_stubs.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
