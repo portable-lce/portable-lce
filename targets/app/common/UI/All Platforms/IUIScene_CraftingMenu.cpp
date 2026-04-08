@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/linux/LinuxGame.h"

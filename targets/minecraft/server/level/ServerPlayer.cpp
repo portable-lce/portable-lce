@@ -12,7 +12,7 @@
 
 #include "platform/input/input.h"
 #include "EntityTracker.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/GameRules/LevelRules/Rules/GameRulesInstance.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"

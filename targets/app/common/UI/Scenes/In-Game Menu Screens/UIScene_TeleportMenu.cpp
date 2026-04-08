@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/UI/All Platforms/UIStructs.h"

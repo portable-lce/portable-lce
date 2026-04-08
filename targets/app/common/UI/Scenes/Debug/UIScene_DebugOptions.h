@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
 #include "app/common/UI/UIScene.h"

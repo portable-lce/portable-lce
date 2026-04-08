@@ -1,6 +1,6 @@
 #pragma once
 
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 
 class DebugOptions {
 public:

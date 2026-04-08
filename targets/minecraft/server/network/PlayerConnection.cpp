@@ -12,7 +12,7 @@
 #include <utility>
 
 #include "minecraft/GameEnums.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCSkinFile.h"
 #include "app/common/Network/GameNetworkManager.h"

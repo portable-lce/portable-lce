@@ -24,7 +24,7 @@
 #include "minecraft/GameEnums.h"
 #include "app/common/Audio/SoundEngine.h"
 #include "minecraft/client/resources/Colours/ColourTable.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "util/FrameProfiler.h"
 #include "minecraft/client/renderer/MobSkinMemTextureProcessor.h"
 #include "Tesselator.h"

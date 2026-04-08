@@ -15,7 +15,7 @@
 #include "DLCLocalisationFile.h"
 #include "DLCTextureFile.h"
 #include "DLCUIDataFile.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/DLC/DLCFile.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCSkinFile.h"

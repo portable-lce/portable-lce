@@ -8,7 +8,7 @@
 
 #include "BiomeOverrideLayer.h"
 #include "platform/input/input.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "minecraft/world/level/LevelType.h"
 #include "minecraft/world/level/newbiome/layer/AddIslandLayer.h"
 #include "minecraft/world/level/newbiome/layer/AddMushroomIslandLayer.h"

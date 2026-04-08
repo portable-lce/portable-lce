@@ -7,7 +7,7 @@
 #include <algorithm>
 
 #include "platform/input/input.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "java/Random.h"
 #include "java/System.h"
 #include "minecraft/client/Minecraft.h"

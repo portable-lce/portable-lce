@@ -19,7 +19,7 @@
 #include "LevelListener.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/resources/Colours/ColourTable.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "util/FrameProfiler.h"
 #include "java/Random.h"

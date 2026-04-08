@@ -13,7 +13,7 @@
 #include <utility>
 
 #include "platform/input/input.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "util/Definitions.h"
 #include "java/File.h"
 #include "java/InputOutputStream/DataInputStream.h"

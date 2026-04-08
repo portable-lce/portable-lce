@@ -14,7 +14,7 @@
 
 #include "platform/input/input.h"
 #include "LevelData.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "util/StringHelpers.h"
 #include "java/File.h"

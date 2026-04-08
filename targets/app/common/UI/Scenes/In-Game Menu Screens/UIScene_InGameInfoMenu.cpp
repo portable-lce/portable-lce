@@ -5,7 +5,7 @@
 #include "platform/PlatformTypes.h"
 #include "platform/profile/profile.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/UI/All Platforms/UIStructs.h"

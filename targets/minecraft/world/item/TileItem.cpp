@@ -6,7 +6,7 @@
 
 #include <string>
 
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "java/Class.h"
 #include "minecraft/Facing.h"
 #include "minecraft/stats/GenericStats.h"

@@ -11,7 +11,7 @@
 #include "platform/storage/storage.h"
 #include "EntityTracker.h"
 #include "platform/ShutdownManager.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"

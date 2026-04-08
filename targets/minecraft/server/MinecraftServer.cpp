@@ -67,7 +67,7 @@
 #endif
 #include "platform/input/input.h"
 #include "platform/ShutdownManager.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
 #include "app/common/Network/Socket.h"
 #include "app/common/UI/All Platforms/UIStructs.h"

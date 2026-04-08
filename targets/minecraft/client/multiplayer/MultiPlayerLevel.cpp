@@ -14,7 +14,7 @@
 #include "platform/input/input.h"
 #include "ClientConnection.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "MultiPlayerChunkCache.h"
 #include "MultiPlayerLocalPlayer.h"

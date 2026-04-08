@@ -5,7 +5,7 @@
 #include "minecraft/GameTypes.h"
 #include "platform/profile/ProfileConstants.h"
 #include "minecraft/GameEnums.h"
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"

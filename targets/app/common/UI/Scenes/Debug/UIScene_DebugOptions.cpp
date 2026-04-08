@@ -1,6 +1,6 @@
 #include "UIScene_DebugOptions.h"
 
-#include "app/common/Console_Debug_enum.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/iggy.h"
 #ifndef _ENABLEIGGY
