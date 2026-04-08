@@ -3,7 +3,7 @@
 #include <string>
 
 #include "GameRuleDefinition.h"
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/phys/AABB.h"
 
 class NamedAreaRuleDefinition : public GameRuleDefinition {

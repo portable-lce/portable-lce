@@ -1,6 +1,6 @@
 #include "LevelRuleset.h"
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/CompoundGameRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/NamedAreaRuleDefinition.h"
 #include "minecraft/locale/StringTable.h"

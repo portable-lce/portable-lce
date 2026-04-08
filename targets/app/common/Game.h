@@ -24,7 +24,7 @@
 #include "app/common/TerrainFeatureManager.h"
 #include "app/common/Audio/Consoles_SoundEngine.h"
 #include "app/common/DLC/DLCManager.h"
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "minecraft/locale/StringTable.h"
 #include "app/common/Tutorial/TutorialEnum.h"

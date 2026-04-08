@@ -8,7 +8,7 @@
 #include <unordered_map>
 
 #include "app/common/DLC/DLCGameRulesHeader.h"
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerators.h"
 #include "app/common/GameRules/LevelRules/LevelRules.h"
 

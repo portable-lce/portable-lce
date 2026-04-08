@@ -3,7 +3,7 @@
 #include <string>
 
 #include "CompoundGameRuleDefinition.h"
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 
 class GameRule;
 

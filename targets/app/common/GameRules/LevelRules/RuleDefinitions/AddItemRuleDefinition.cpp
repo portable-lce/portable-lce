@@ -3,7 +3,7 @@
 #include <algorithm>
 
 #include "AddEnchantmentRuleDefinition.h"
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
 #include "util/StringHelpers.h"
 #include "java/InputOutputStream/DataOutputStream.h"

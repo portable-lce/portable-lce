@@ -1,6 +1,6 @@
 #include "XboxStructureActionGenerateBox.h"
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelGeneration/ConsoleGenerateStructureAction.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
 #include "app/linux/LinuxGame.h"

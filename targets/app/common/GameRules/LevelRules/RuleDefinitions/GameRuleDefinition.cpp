@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/CompleteAllRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"
 #include "app/common/GameRules/LevelRules/Rules/GameRule.h"

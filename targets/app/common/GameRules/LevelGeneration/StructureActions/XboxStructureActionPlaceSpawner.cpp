@@ -4,7 +4,7 @@
 
 #include <memory>
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceBlock.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/world/level/Level.h"

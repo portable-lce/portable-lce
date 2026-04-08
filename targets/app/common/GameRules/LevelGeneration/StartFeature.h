@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
 #include "minecraft/world/level/levelgen/structure/StructureFeature.h"
 

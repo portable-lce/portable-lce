@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
 #include "app/linux/LinuxGame.h"
 #include "util/StringHelpers.h"

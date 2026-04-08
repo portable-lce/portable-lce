@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "GameRuleDefinition.h"
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/Rules/GameRulesInstance.h"
 
 class CompoundGameRuleDefinition : public GameRuleDefinition {

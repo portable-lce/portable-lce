@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "GameRuleDefinition.h"
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 
 class AddItemRuleDefinition;
 class Pos;

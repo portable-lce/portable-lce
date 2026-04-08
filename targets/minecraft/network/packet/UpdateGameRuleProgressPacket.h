@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "Packet.h"
 #include "minecraft/network/packet/Packet.h"
 

@@ -4,7 +4,7 @@
 #include <string>
 
 #include "GameRuleDefinition.h"
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/Pos.h"
 
 class UseTileRuleDefinition : public GameRuleDefinition {

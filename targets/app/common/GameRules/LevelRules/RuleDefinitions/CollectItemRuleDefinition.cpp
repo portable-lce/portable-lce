@@ -1,6 +1,6 @@
 #include "CollectItemRuleDefinition.h"
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/Rules/GameRule.h"
 #include "app/common/GameRules/LevelRules/Rules/GameRulesInstance.h"

@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/Rules/GameRulesInstance.h"
 #include "minecraft/world/item/ItemInstance.h"
 

@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <utility>
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/CollectItemRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/CompleteAllRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/GameRuleDefinition.h"

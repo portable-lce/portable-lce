@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "app/common/GameRules/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "XboxStructureActionPlaceBlock.h"
 
 class StructurePiece;
