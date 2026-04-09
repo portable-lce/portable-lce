@@ -7,7 +7,7 @@
 #include "minecraft/Facing.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/IGameServices.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/LivingEntity.h"

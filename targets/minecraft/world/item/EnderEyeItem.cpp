@@ -5,7 +5,7 @@
 #include "java/Random.h"
 #include "minecraft/Direction.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/world/entity/player/Abilities.h"
 #include "minecraft/world/entity/player/Player.h"

@@ -27,7 +27,7 @@
 #include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/network/INetworkService.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"

@@ -24,7 +24,7 @@
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "util/StringHelpers.h"

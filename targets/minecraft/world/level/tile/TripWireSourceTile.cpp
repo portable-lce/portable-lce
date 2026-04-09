@@ -3,7 +3,7 @@
 #include "java/Random.h"
 #include "minecraft/Direction.h"
 #include "minecraft/Facing.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LevelSource.h"
 #include "minecraft/world/level/material/Material.h"

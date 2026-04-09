@@ -23,7 +23,7 @@
 #include "minecraft/network/packet/TakeItemEntityPacket.h"
 #include "minecraft/server/level/EntityTracker.h"
 #include "minecraft/server/level/ServerLevel.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"

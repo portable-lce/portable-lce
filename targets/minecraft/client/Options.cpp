@@ -1,7 +1,7 @@
 #include "Options.h"
 
 #include "KeyMapping.h"
-#include "minecraft/sounds/ConsoleSoundEngine.h"
+#include "app/common/Audio/ConsoleSoundEngine.h"
 #include "java/File.h"
 #include "java/InputOutputStream/BufferedReader.h"
 #include "java/InputOutputStream/DataOutputStream.h"

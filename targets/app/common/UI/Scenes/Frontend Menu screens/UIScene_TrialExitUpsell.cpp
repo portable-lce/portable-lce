@@ -5,7 +5,7 @@
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/GameTypes.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
 

@@ -27,7 +27,7 @@
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/linux/Iggy/include/rrCore.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/input/input.h"
 #include "platform/renderer/renderer.h"

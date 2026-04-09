@@ -2,7 +2,7 @@
 
 #include "UIEnums.h"
 #include "UIStructs.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "platform/storage/storage.h"
 
 // 4J Stu - An interface class that defines all the public functions that we use

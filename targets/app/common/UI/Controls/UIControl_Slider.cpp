@@ -10,7 +10,7 @@
 #endif
 #include "app/linux/Iggy/include/rrCore.h"
 #include "app/linux/Linux_UIController.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "util/StringHelpers.h"
 
 UIControl_Slider::UIControl_Slider() {

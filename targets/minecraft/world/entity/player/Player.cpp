@@ -32,7 +32,7 @@
 #include "minecraft/client/model/HumanoidModel.h"
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/Difficulty.h"

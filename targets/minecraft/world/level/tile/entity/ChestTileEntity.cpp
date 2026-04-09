@@ -10,7 +10,7 @@
 #include "java/Random.h"
 #include "minecraft/IGameServices.h"
 #include "minecraft/network/packet/ContainerOpenPacket.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/CompoundContainer.h"
 #include "minecraft/world/Container.h"
 #include "minecraft/world/entity/player/Player.h"

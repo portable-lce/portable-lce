@@ -17,7 +17,7 @@
 #include "minecraft/network/packet/GameCommandPacket.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/commands/TeleportCommand.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "strings.h"
 
 UIScene_TeleportMenu::UIScene_TeleportMenu(int iPad, void* initData,

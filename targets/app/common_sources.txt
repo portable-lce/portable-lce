@@ -2,6 +2,7 @@ common/AppGameServices.cpp
 common/ArchiveManager.cpp
 common/Audio/SoundEngine.cpp
 common/Audio/SoundNames.cpp
+common/Audio/ConsoleSoundEngine.cpp
 common/BannedListManager.cpp
 common/ConsoleGameMode.cpp
 common/DLC/DLCAudioFile.cpp

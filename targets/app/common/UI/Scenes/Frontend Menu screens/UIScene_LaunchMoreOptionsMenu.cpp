@@ -16,7 +16,7 @@
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameHostOptions.h"
 #include "minecraft/GameTypes.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"

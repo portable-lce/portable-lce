@@ -12,7 +12,7 @@
 #include "ClientConnection.h"
 #include "MultiPlayerChunkCache.h"
 #include "MultiPlayerLocalPlayer.h"
-#include "minecraft/sounds/ConsoleSoundEngine.h"
+#include "app/common/Audio/ConsoleSoundEngine.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
 #include "minecraft/Console_Debug_enum.h"

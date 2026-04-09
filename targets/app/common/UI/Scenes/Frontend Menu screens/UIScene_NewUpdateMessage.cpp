@@ -11,7 +11,7 @@
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameTypes.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "strings.h"
 
 UIScene_NewUpdateMessage::UIScene_NewUpdateMessage(int iPad, void* initData,

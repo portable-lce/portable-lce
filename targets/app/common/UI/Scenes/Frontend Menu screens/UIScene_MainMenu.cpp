@@ -29,7 +29,7 @@
 #include "minecraft/client/gui/Font.h"
 #include "minecraft/client/gui/ScreenSizeCalculator.h"
 #include "minecraft/server/MinecraftServer.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "platform/NetTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/profile/profile.h"

@@ -1,7 +1,7 @@
 #include "Screen.h"
 
 #include "Button.h"
-#include "minecraft/sounds/ConsoleSoundEngine.h"
+#include "app/common/Audio/ConsoleSoundEngine.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
@@ -12,7 +12,7 @@
 #include "minecraft/network/INetworkService.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/ServerAction.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
 #include "platform/stubs.h"

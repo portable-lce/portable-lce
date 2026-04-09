@@ -1,5 +1,5 @@
-#include "minecraft/sounds/ConsoleSoundEngine.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/ConsoleSoundEngine.h"
+#include "app/common/Audio/SoundTypes.h"
 
 const char* ConsoleSoundEngine::wchSoundNames[eSoundType_MAX] = {
     "mob/chicken/chicken",        //	eSoundType_MOB_CHICKEN_AMBIENT

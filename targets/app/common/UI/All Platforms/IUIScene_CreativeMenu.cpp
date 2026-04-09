@@ -13,7 +13,7 @@
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/SimpleContainer.h"
 #include "minecraft/world/entity/Painting.h"
 #include "minecraft/world/entity/animal/EntityHorse.h"

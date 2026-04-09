@@ -18,7 +18,7 @@
 #include "minecraft/Minecraft_Macros.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/model/SkinBox.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "platform/profile/ProfileConstants.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"

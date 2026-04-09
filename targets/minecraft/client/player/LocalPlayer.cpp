@@ -30,7 +30,7 @@
 // 4J Stu - Added for tutorial callbacks
 #include "PlatformTypes.h"
 #include "Pos.h"
-#include "minecraft/sounds/ConsoleSoundEngine.h"
+#include "app/common/Audio/ConsoleSoundEngine.h"
 #include "platform/profile/ProfileConstants.h"
 #include "minecraft/world/tutorial/ITutorial.h"
 #include "app/linux/Linux_UIController.h"
@@ -54,7 +54,7 @@
 #include "minecraft/commands/CommandsEnum.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/network/INetworkService.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/Achievement.h"
 #include "minecraft/stats/CommonStats.h"
 #include "minecraft/stats/GenericStats.h"

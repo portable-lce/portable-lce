@@ -18,7 +18,7 @@
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/network/packet/KickPlayerPacket.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/profile/profile.h"
 #include "strings.h"

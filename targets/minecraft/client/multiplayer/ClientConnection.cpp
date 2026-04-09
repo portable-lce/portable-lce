@@ -114,7 +114,7 @@
 #include "minecraft/network/packet/XZPacket.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/MinecraftServer.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/world/SimpleContainer.h"

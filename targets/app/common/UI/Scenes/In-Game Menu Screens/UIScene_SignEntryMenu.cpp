@@ -14,7 +14,7 @@
 #include "minecraft/client/multiplayer/MultiPlayerLevel.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/network/packet/SignUpdatePacket.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/level/tile/entity/SignTileEntity.h"
 #include "platform/input/input.h"
 #include "strings.h"

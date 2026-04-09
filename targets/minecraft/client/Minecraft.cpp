@@ -54,7 +54,7 @@
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/Packet.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/Stats.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "minecraft/util/Log.h"

@@ -10,7 +10,7 @@
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
-#include "minecraft/sounds/SoundTypes.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/level/GameRules.h"
 #include "minecraft/world/level/Level.h"
