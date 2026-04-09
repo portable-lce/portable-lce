@@ -6,7 +6,6 @@
 #include <thread>
 #include <vector>
 
-#include "app/common/Network/Socket.h"
 #include "java/InputOutputStream/BufferedOutputStream.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
