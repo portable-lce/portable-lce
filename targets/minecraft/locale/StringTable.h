@@ -1,11 +1,12 @@
 #pragma once
 
 #include <cstdint>
+#include <span>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-#define LOCALE_COUNT 11
+inline constexpr int kLocaleCount = 11;
 
 class StringTable {
 private:
@@ -54,19 +55,17 @@ public:
     // 	};
 
     StringTable(void);
-    StringTable(std::uint8_t* pbData, unsigned int dataSize,
-                const std::vector<std::string>& locales);
+    StringTable(std::span<const std::uint8_t> data,
+                std::span<const std::string> locales);
     ~StringTable(void);
-    void ReloadStringTable(const std::vector<std::string>& locales);
+    void ReloadStringTable(std::span<const std::string> locales);
 
     void getData(std::uint8_t** ppData, unsigned int* pSize);
 
     const char* getString(const std::string& id);
     const char* getString(int id);
 
-    // static const char* m_wchLocaleCode[LOCALE_COUNT];
-
 private:
     // std::string getLangId(uint32_t dwLanguage=0);
-    void ProcessStringTableData(const std::vector<std::string>& locales);
+    void ProcessStringTableData(std::span<const std::string> locales);
 };

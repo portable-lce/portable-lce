@@ -182,7 +182,7 @@ void Arrow::lerpMotion(double xd, double yd, double zd) {
         xRotO = xRot = (float)(atan2(yd, sd) * 180 / std::numbers::pi);
         xRotO = xRot;
         yRotO = yRot;
-        Log::info("%f %f : 0x%x\n", xRot, yRot, &yRot);
+        Log::info("%f %f : %p\n", xRot, yRot, static_cast<void*>(&yRot));
         moveTo(x, y, z, yRot, xRot);
         life = 0;
     }

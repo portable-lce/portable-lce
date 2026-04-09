@@ -12,7 +12,6 @@ DLCLocalisationFile::DLCLocalisationFile(const std::string& path)
 
 void DLCLocalisationFile::addData(std::uint8_t* pbData,
                                   std::uint32_t dataBytes) {
-    std::vector<std::string> locales;
-    app.getLocale(locales);
-    m_strings = new StringTable(pbData, dataBytes, locales);
+    m_strings = new StringTable(
+        std::span<const std::uint8_t>(pbData, dataBytes), app.getLocale());
 }

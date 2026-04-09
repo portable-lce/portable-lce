@@ -351,8 +351,6 @@ void DLCPack::UpdateLanguage() {
         DLCLocalisationFile* localisationFile = (DLCLocalisationFile*)getFile(
             DLCManager::e_DLCType_LocalisationData, "languages.loc");
         StringTable* strTable = localisationFile->getStringTable();
-        std::vector<std::string> locales;
-        app.getLocale(locales);
-        strTable->ReloadStringTable(locales);
+        strTable->ReloadStringTable(app.getLocale());
     }
 }

@@ -13,14 +13,13 @@ StringTable::StringTable(void) {}
 // localisation data only. The caller passes the locale list it wants
 // matched (typically obtained from the LocalizationManager) so that
 // StringTable does not have to know about app-side singletons.
-StringTable::StringTable(std::uint8_t* pbData, unsigned int dataSize,
-                         const std::vector<std::string>& locales) {
-    src = std::vector<uint8_t>(pbData, pbData + dataSize);
-
+StringTable::StringTable(std::span<const std::uint8_t> data,
+                         std::span<const std::string> locales)
+    : src(data.begin(), data.end()) {
     ProcessStringTableData(locales);
 }
 
-void StringTable::ReloadStringTable(const std::vector<std::string>& locales) {
+void StringTable::ReloadStringTable(std::span<const std::string> locales) {
     m_stringsMap.clear();
     m_stringsVec.clear();
 
@@ -28,7 +27,7 @@ void StringTable::ReloadStringTable(const std::vector<std::string>& locales) {
 }
 
 void StringTable::ProcessStringTableData(
-    const std::vector<std::string>& locales) {
+    std::span<const std::string> locales) {
     ByteArrayInputStream bais(src);
     DataInputStream dis(&bais);
 

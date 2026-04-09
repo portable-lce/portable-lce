@@ -144,7 +144,7 @@ LevelChunk* McRegionChunkStorage::load(Level* level, int x, int z) {
             sprintf(buf,
                     "Chunk file at %d, %d is missing level data, skipping\n", x,
                     z);
-            Log::info(buf);
+            Log::info("%s", buf);
             delete chunkData;
             return nullptr;
         }
@@ -153,7 +153,7 @@ LevelChunk* McRegionChunkStorage::load(Level* level, int x, int z) {
             sprintf(buf,
                     "Chunk file at %d, %d is missing block data, skipping\n", x,
                     z);
-            Log::info(buf);
+            Log::info("%s", buf);
             delete chunkData;
             return nullptr;
         }
@@ -165,7 +165,7 @@ LevelChunk* McRegionChunkStorage::load(Level* level, int x, int z) {
                     "Chunk file at %d, %d is in the wrong location; "
                     "relocating. Expected %d, %d, got %d, %d\n",
                     x, z, x, z, levelChunk->x, levelChunk->z);
-            Log::info(buf);
+            Log::info("%s", buf);
             delete levelChunk;
             delete chunkData;
             return nullptr;

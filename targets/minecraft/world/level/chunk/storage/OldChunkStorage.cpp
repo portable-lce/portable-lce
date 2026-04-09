@@ -134,7 +134,7 @@ LevelChunk* OldChunkStorage::load(Level* level, int x, int z) {
             sprintf(buf,
                     "Chunk file at %d, %d is missing level data, skipping\n", x,
                     z);
-            Log::info(buf);
+            Log::info("%s", buf);
             return nullptr;
         }
         if (!tag->getCompound("Level")->contains("Blocks")) {
@@ -142,7 +142,7 @@ LevelChunk* OldChunkStorage::load(Level* level, int x, int z) {
             sprintf(buf,
                     "Chunk file at %d, %d is missing block data, skipping\n", x,
                     z);
-            Log::info(buf);
+            Log::info("%s", buf);
             return nullptr;
         }
         LevelChunk* levelChunk =
@@ -153,7 +153,7 @@ LevelChunk* OldChunkStorage::load(Level* level, int x, int z) {
                     "Chunk fileat %d, %d is in the wrong location; relocating. "
                     "Expected %d, %d, got %d, %d\n",
                     x, z, x, z, levelChunk->x, levelChunk->z);
-            Log::info(buf);
+            Log::info("%s", buf);
             tag->putInt("xPos", x);
             tag->putInt("zPos", z);
             levelChunk =

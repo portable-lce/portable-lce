@@ -1177,6 +1177,11 @@ public:
     void getLocale(std::vector<std::string>& vecWstrLocales) {
         m_localizationManager.getLocale(vecWstrLocales);
     }
+    [[nodiscard]] std::vector<std::string> getLocale() {
+        std::vector<std::string> v;
+        m_localizationManager.getLocale(v);
+        return v;
+    }
     int get_eMCLang(char* pwchLocale) {
         return m_localizationManager.get_eMCLang(pwchLocale);
     }

@@ -164,8 +164,9 @@ void DirectoryLevelStorage::PlayerMappings::writeMappings(
     DataOutputStream* dos) {
     dos->writeInt(m_mappings.size());
     for (auto it = m_mappings.begin(); it != m_mappings.end(); ++it) {
-        Log::info("    -- %lld (0x%016llx) = %d\n", it->first, it->first,
-                  it->second);
+        Log::info("    -- %lld (0x%016llx) = %d\n",
+                  static_cast<long long>(it->first),
+                  static_cast<unsigned long long>(it->first), it->second);
         dos->writeLong(it->first);
         dos->writeInt(it->second);
     }
@@ -177,7 +178,9 @@ void DirectoryLevelStorage::PlayerMappings::readMappings(DataInputStream* dis) {
         int64_t index = dis->readLong();
         int id = dis->readInt();
         m_mappings[index] = id;
-        Log::info("    -- %lld (0x%016llx) = %d\n", index, index, id);
+        Log::info("    -- %lld (0x%016llx) = %d\n",
+                  static_cast<long long>(index),
+                  static_cast<unsigned long long>(index), id);
     }
 }
 #endif
@@ -278,10 +281,12 @@ LevelData* DirectoryLevelStorage::prepareLevel() {
             for (unsigned int i = 0; i < count; ++i) {
                 PlayerUID playerUid = dis.readPlayerUID();
 #if defined(_WINDOWS64) || defined(__linux__)
-                Log::info("  -- %d\n", playerUid);
+                Log::info("  -- %llu\n",
+                          static_cast<unsigned long long>(playerUid));
 #else
 #if defined(__linux__)
-                Log::info("  -- %d\n", playerUid);
+                Log::info("  -- %llu\n",
+                          static_cast<unsigned long long>(playerUid));
 #else
                 Log::info("  -- %s\n", playerUid.toWString().c_str());
 #endif
@@ -633,11 +638,12 @@ void DirectoryLevelStorage::saveMapIdLookup() {
         ByteArrayOutputStream baos;
         DataOutputStream dos(&baos);
         dos.writeInt(m_playerMappings.size());
-        Log::info("Saving %d mappings\n", m_playerMappings.size());
+        Log::info("Saving %zu mappings\n", m_playerMappings.size());
         for (auto it = m_playerMappings.begin(); it != m_playerMappings.end();
              ++it) {
 #if defined(_WINDOWS64) || defined(__linux__)
-            Log::info("  -- %d\n", it->first);
+            Log::info("  -- %llu\n",
+                      static_cast<unsigned long long>(it->first));
 #else
 #if defined(__linux__)
             Log::info("  -- %d\n", it->first);

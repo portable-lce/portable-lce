@@ -3872,8 +3872,8 @@ void Level::setGameTime(int64_t time) {
             // time passing so ignore (moving dimensions does this)
             Log::info(
                 "Level::setTime: Massive time difference, ignoring for time "
-                "passed stat (%lli)\n",
-                timeDiff);
+                "passed stat (%lld)\n",
+                static_cast<long long>(timeDiff));
             timeDiff = 0;
         }
 

@@ -223,10 +223,7 @@ void GameRuleManager::loadGameRules(LevelGenerationOptions* lgo, uint8_t* dIn,
     unsigned int bStringTableSize = dis2.readInt();
     std::vector<uint8_t> bStringTable(bStringTableSize);
     dis2.read(bStringTable);
-    std::vector<std::string> locales;
-    app.getLocale(locales);
-    StringTable* strings =
-        new StringTable(bStringTable.data(), bStringTable.size(), locales);
+    StringTable* strings = new StringTable(bStringTable, app.getLocale());
 
     // Read RuleFile.
     std::vector<uint8_t> bRuleFile(content.size() - bStringTable.size());

@@ -54,7 +54,7 @@ void ChunkStorageProfilerDecorator::tick() {
                     0.000001 * (double)timeSpentLoading / (double)loadCount,
                     loadCount);
 #endif
-            Log::info(buf);
+            Log::info("%s", buf);
 #endif
         }
         if (saveCount > 0) {
@@ -68,7 +68,7 @@ void ChunkStorageProfilerDecorator::tick() {
                     0.000001 * (double)timeSpentSaving / (double)loadCount,
                     loadCount);
 #endif
-            Log::info(buf);
+            Log::info("%s", buf);
 #endif
         }
         counter = 0;

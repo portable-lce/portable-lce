@@ -729,7 +729,7 @@ std::vector<TickNextTickData>* ServerLevel::fetchTicksInChunk(LevelChunk* chunk,
             }
         } else {
             if (!toBeTicked.empty()) {
-                Log::info("To be ticked size: %d\n", toBeTicked.size());
+                Log::info("To be ticked size: %zu\n", toBeTicked.size());
             }
             for (auto it = toBeTicked.begin(); it != toBeTicked.end();) {
                 TickNextTickData td = *it;

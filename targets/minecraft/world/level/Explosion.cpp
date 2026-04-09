@@ -206,7 +206,7 @@ void Explosion::finalizeExplosion(
     if (destroyBlocks) {
         // toBlowArray.addAll(toBlow);
         //  TODO 4J Stu - Reverse iterator
-        Log::info("Finalizing explosion size %d\n", toBlow.size());
+        Log::info("Finalizing explosion size %zu\n", toBlow.size());
         static const int MAX_EXPLODE_PARTICLES = 50;
         // 4J - try and make at most MAX_EXPLODE_PARTICLES pairs of particles
         int fraction = (int)toBlowArray->size() / MAX_EXPLODE_PARTICLES;
