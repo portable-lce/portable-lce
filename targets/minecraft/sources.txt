@@ -772,6 +772,7 @@ world/level/dimension/Dimension.cpp
 world/level/dimension/HellDimension.cpp
 world/level/dimension/TheEndDimension.cpp
 world/level/levelgen/CanyonFeature.cpp
+world/level/levelgen/ConsoleSchematicFile.cpp
 world/level/levelgen/CustomLevelSource.cpp
 world/level/levelgen/DungeonFeature.cpp
 world/level/levelgen/FlatLevelSource.cpp

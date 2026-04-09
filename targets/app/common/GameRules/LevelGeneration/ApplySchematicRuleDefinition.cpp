@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <cmath>
 
-#include "ConsoleSchematicFile.h"
 #include "app/linux/LinuxGame.h"
+#include "minecraft/world/level/levelgen/ConsoleSchematicFile.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"

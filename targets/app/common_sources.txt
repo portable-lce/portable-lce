@@ -24,7 +24,6 @@ common/GameRules/GameRuleManager.cpp
 common/GameRules/LevelGeneration/ApplySchematicRuleDefinition.cpp
 common/GameRules/LevelGeneration/BiomeOverride.cpp
 common/GameRules/LevelGeneration/ConsoleGenerateStructure.cpp
-common/GameRules/LevelGeneration/ConsoleSchematicFile.cpp
 common/GameRules/LevelGeneration/LevelGenerationOptions.cpp
 common/GameRules/LevelGeneration/LevelGenerators.cpp
 common/GameRules/LevelGeneration/StartFeature.cpp

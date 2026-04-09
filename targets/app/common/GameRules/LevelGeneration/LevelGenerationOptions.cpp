@@ -13,7 +13,7 @@
 #include "app/common/GameRules/LevelGeneration/ApplySchematicRuleDefinition.h"
 #include "app/common/GameRules/LevelGeneration/BiomeOverride.h"
 #include "app/common/GameRules/LevelGeneration/ConsoleGenerateStructure.h"
-#include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
+#include "minecraft/world/level/levelgen/ConsoleSchematicFile.h"
 #include "app/common/GameRules/LevelGeneration/StartFeature.h"
 #include "app/linux/LinuxGame.h"
 #include "java/File.h"

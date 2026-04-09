@@ -12,7 +12,7 @@
 #include "app/common/DLC/DLCLocalisationFile.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
-#include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
+#include "minecraft/world/level/levelgen/ConsoleSchematicFile.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerators.h"
 #include "app/common/GameRules/LevelRules/LevelRules.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"

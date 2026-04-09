@@ -65,7 +65,7 @@
 #if defined(SPLIT_SAVES)
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFileSplit.h"
 #endif
-#include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
+#include "minecraft/world/level/levelgen/ConsoleSchematicFile.h"
 #include "minecraft/network/Socket.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/client/Minecraft.h"

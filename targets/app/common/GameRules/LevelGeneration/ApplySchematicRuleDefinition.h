@@ -4,8 +4,8 @@
 #include <optional>
 #include <string>
 
-#include "ConsoleSchematicFile.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/levelgen/ConsoleSchematicFile.h"
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/phys/AABB.h"
 #include "minecraft/world/phys/Vec3.h"

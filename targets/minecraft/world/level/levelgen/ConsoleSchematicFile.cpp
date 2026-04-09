@@ -1,4 +1,4 @@
-#include "ConsoleSchematicFile.h"
+#include "minecraft/world/level/levelgen/ConsoleSchematicFile.h"
 
 #include <assert.h>
 #include <string.h>
@@ -8,10 +8,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include "app/linux/LinuxGame.h"
 #include "java/Class.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/EntityIO.h"
 #include "minecraft/world/entity/ItemFrame.h"
@@ -38,7 +38,7 @@ ConsoleSchematicFile::ConsoleSchematicFile() {
 }
 
 ConsoleSchematicFile::~ConsoleSchematicFile() {
-    app.DebugPrintf("Deleting schematic file\n");
+    Log::info("Deleting schematic file\n");
 }
 
 void ConsoleSchematicFile::save(DataOutputStream* dos) {
@@ -111,7 +111,7 @@ void ConsoleSchematicFile::load(DataInputStream* dis) {
                     m_data.resize(m_dataSize);
                     break;
                 default:
-                    app.DebugPrintf(
+                    Log::info(
                         "Unrecognized compression type for Schematic file "
                         "(%d)\n",
                         (int)compressionType);
@@ -138,7 +138,7 @@ void ConsoleSchematicFile::load(DataInputStream* dis) {
 
                 if (te == nullptr) {
 #ifndef _CONTENT_PACKAGE
-                    app.DebugPrintf(
+                    Log::info(
                         "ConsoleSchematicFile has read a nullptr tile "
                         "entity\n");
                     assert(0);
@@ -215,7 +215,7 @@ int64_t ConsoleSchematicFile::applyBlocksAndData(LevelChunk* chunk,
     int zEnd = std::min(destinationBox->z1, (double)(zStart & ~15) + 16);
 
 #ifdef _DEBUG
-    app.DebugPrintf("Range is (%d,%d,%d) to (%d,%d,%d)\n", xStart, yStart,
+    Log::info("Range is (%d,%d,%d) to (%d,%d,%d)\n", xStart, yStart,
                     zStart, xEnd - 1, yEnd - 1, zEnd - 1);
 #endif
 
@@ -290,7 +290,7 @@ int64_t ConsoleSchematicFile::applyBlocksAndData(LevelChunk* chunk,
             dataP += (rowBlockCount - rowBlocksIncluded) / 2;
         }
     } else {
-        app.DebugPrintf(
+        Log::info(
             "ERROR: Rotation of block and data not implemented!!\n");
     }
 
@@ -555,7 +555,7 @@ void ConsoleSchematicFile::applyTileEntities(LevelChunk* chunk, AABB* chunkBox,
             e->absMoveTo(targetX, targetY, targetZ, e->yRot, e->xRot);
         }
 #ifdef _DEBUG
-        app.DebugPrintf("Adding entity type %d at (%f,%f,%f)\n", e->GetType(),
+        Log::info("Adding entity type %d at (%f,%f,%f)\n", e->GetType(),
                         e->x, e->y, e->z);
 #endif
         e->setLevel(chunk->level);
@@ -616,7 +616,7 @@ void ConsoleSchematicFile::generateSchematicFile(
     int ySize = yEnd - yStart + 1;
     int zSize = zEnd - zStart + 1;
 
-    app.DebugPrintf(
+    Log::info(
         "Generating schematic file for area (%d,%d,%d) to (%d,%d,%d), "
         "%dx%dx%d\n",
         xStart, yStart, zStart, xEnd, yEnd, zEnd, xSize, ySize, zSize);
