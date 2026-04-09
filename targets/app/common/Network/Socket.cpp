@@ -6,7 +6,6 @@
 #include <thread>
 #include <vector>
 
-// 4jcraft TODO
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/network/ServerConnection.h"

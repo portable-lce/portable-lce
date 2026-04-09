@@ -10,7 +10,6 @@
 #include <mutex>
 #include <queue>
 
-#include "app/common/Network/GameNetworkManager.h"
 #include "java/InputOutputStream/InputStream.h"
 #include "java/InputOutputStream/OutputStream.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
@@ -20,6 +19,12 @@ class INetworkPlayer;
 
 #define SOCKET_CLIENT_END 0
 #define SOCKET_SERVER_END 1
+
+// Flag bit for Socket::SocketOutputStream::writeWithFlags. Marks
+// the message as needing positive acknowledgement before the caller
+// can consider it delivered. Defined here so consumers don't have to
+// drag in the entire CGameNetworkManager header just for this constant.
+inline constexpr int NON_QNET_SENDDATA_ACK_REQUIRED = 1;
 
 class SocketAddress;
 class ServerConnection;
