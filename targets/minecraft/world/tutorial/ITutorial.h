@@ -23,6 +23,11 @@ class ITutorial {
 public:
     virtual ~ITutorial() = default;
 
+    // One-time process-wide initialisation. The concrete tutorial
+    // implementation in app/common/Tutorial/Tutorial.cpp provides the
+    // body. Called once from Minecraft::staticCtor.
+    static void staticInit();
+
     [[nodiscard]] virtual bool isStateCompleted(eTutorial_State state) = 0;
     virtual void changeTutorialState(eTutorial_State newState) = 0;
 

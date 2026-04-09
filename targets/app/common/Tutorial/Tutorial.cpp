@@ -72,6 +72,8 @@ bool Tutorial::PopupMessageDetails::isSameContent(PopupMessageDetails* other) {
     return textTheSame && titleTheSame && promptTheSame;
 }
 
+void ITutorial::staticInit() { Tutorial::staticCtor(); }
+
 void Tutorial::staticCtor() {
     //
     /*

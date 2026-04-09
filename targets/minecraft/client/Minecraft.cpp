@@ -17,7 +17,7 @@
 #include "Timer.h"
 #include "User.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "app/common/Tutorial/Tutorial.h"
+#include "minecraft/world/tutorial/ITutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/linux/Linux_UIController.h"
@@ -4207,7 +4207,7 @@ void Minecraft::main(IPlatformLeaderboard& leaderboard) {
     EntityRenderDispatcher::staticCtor();
     TileEntityRenderDispatcher::staticCtor();
     User::staticCtor();
-    Tutorial::staticCtor();
+    ITutorial::staticInit();
     ColourTable::staticCtor();
     gameServices().loadDefaultGameRules();
 
