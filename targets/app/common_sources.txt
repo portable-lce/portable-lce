@@ -48,8 +48,6 @@ common/Game_XuiActions.cpp
 common/LocalizationManager.cpp
 common/MenuController.cpp
 common/Network/GameNetworkManager.cpp
-common/Network/NetworkPlayerQNet.cpp
-common/Network/QNetStubs.cpp
 common/NetworkController.cpp
 common/SaveManager.cpp
 common/SkinManager.cpp
