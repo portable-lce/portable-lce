@@ -157,7 +157,8 @@ ResourceLocation Minecraft::ALT_FONT_LOCATION = ResourceLocation(TN_ALT_FONT);
 
 Minecraft::Minecraft(Component* mouseComponent, Canvas* parent,
                      MinecraftApplet* minecraftApplet, int width, int height,
-                     bool fullscreen) {
+                     bool fullscreen, IPlatformLeaderboard& leaderboard_)
+    : leaderboard(leaderboard_) {
     // 4J - added this block of initialisers
     gameMode = nullptr;
     hasCrashed = false;
@@ -324,7 +325,7 @@ void Minecraft::init() {
     EntityRenderDispatcher::instance->itemInHandRenderer =
         new ItemInHandRenderer(this, false);
 
-    for (int i = 0; i < 4; ++i) stats[i] = new StatsCounter();
+    for (int i = 0; i < 4; ++i) stats[i] = new StatsCounter(leaderboard);
 
     /*		4J - TODO, 4J-JEV: Unnecessary.
     Achievements::openInventory->setDescFormatter(nullptr);
@@ -4100,13 +4101,15 @@ void Minecraft::respawnPlayer(int iPad, int dimension, int newEntityId) {
     gameRenderer->EnableUpdateThread();
 }
 
-void Minecraft::start(const std::string& name, const std::string& sid) {
-    startAndConnectTo(name, sid, "");
+void Minecraft::start(const std::string& name, const std::string& sid,
+                      IPlatformLeaderboard& leaderboard) {
+    startAndConnectTo(name, sid, "", leaderboard);
 }
 
 void Minecraft::startAndConnectTo(const std::string& name,
                                   const std::string& sid,
-                                  const std::string& url) {
+                                  const std::string& url,
+                                  IPlatformLeaderboard& leaderboard) {
     bool fullScreen = false;
     std::string userName = name;
 
@@ -4129,7 +4132,9 @@ void Minecraft::startAndConnectTo(const std::string& name,
     Minecraft* minecraft;
     // 4J - was new Minecraft(frame, canvas, nullptr, 854, 480, fullScreen);
 
-    minecraft = new Minecraft(nullptr, nullptr, nullptr, 1280, 720, fullScreen);
+    minecraft =
+        new Minecraft(nullptr, nullptr, nullptr, 1280, 720, fullScreen,
+                      leaderboard);
 
     /* - 4J - removed
     {
@@ -4201,7 +4206,7 @@ bool useLomp = false;
 
 int g_iMainThreadId;
 
-void Minecraft::main() {
+void Minecraft::main(IPlatformLeaderboard& leaderboard) {
     std::string name;
     std::string sessionId;
 
@@ -4241,7 +4246,7 @@ void Minecraft::main() {
     // On PS4, we call Minecraft::Start from another thread, as this has been
     // timed taking ~2.5 seconds and we need to do some basic rendering stuff so
     // that we don't break the TRCs on SubmitDone calls
-    Minecraft::start(name, sessionId);
+    Minecraft::start(name, sessionId, leaderboard);
 }
 
 bool Minecraft::renderNames() {

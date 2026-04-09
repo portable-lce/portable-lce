@@ -48,9 +48,9 @@ static void sigsegv_handler(int sig) {
 #include <string>
 #include <vector>
 
+#include "app/common/Leaderboards/LeaderboardManager.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "minecraft/world/level/Level.h"
-// #include "app/common/Leaderboards/LeaderboardManager.h"
 // #include "../Common/XUI/XUI_Scene_Container.h"
 // #include "NetworkManager.h"
 #include "platform/PlatformTypes.h"
@@ -513,7 +513,12 @@ int main(int argc, const char* argv[]) {
     Level::enableLightingCache();
     Tile::CreateNewThreadStorage();
 
-    Minecraft::main();
+    // Composition root: read the leaderboard backend from the existing
+    // LinuxLeaderboardManager singleton (still used by the legacy UI
+    // scenes) and pass it down via constructor injection. Once the UI
+    // side is also injected, the singleton can be deleted entirely and
+    // the backend constructed via std::make_unique here.
+    Minecraft::main(*LeaderboardManager::Instance());
     Minecraft* pMinecraft = Minecraft::GetInstance();
 
     app.InitGameSettings();

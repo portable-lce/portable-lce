@@ -11,7 +11,7 @@
 
 #include "app/common/App_structs.h"
 #include "app/linux/LinuxGame.h"
-#include "platform/leaderboard/leaderboard.h"
+#include "platform/leaderboard/IPlatformLeaderboard.h"
 #include "minecraft/stats/Achievement.h"
 #include "minecraft/stats/Achievements.h"
 #include "minecraft/stats/GenericStats.h"
@@ -29,7 +29,8 @@ Stat** StatsCounter::LARGE_STATS[] = {&Stats::walkOneM,     &Stats::swimOneM,
 
 std::unordered_map<Stat*, int> StatsCounter::statBoards;
 
-StatsCounter::StatsCounter() {
+StatsCounter::StatsCounter(IPlatformLeaderboard& leaderboard)
+    : m_leaderboard(leaderboard) {
     requiresSave = false;
     saveCounter = 0;
     modifiedBoards = 0;
@@ -248,9 +249,9 @@ void StatsCounter::save(int player, bool force) {
 }
 
 void StatsCounter::flushLeaderboards() {
-    if (PlatformLeaderboard.OpenSession()) {
+    if (m_leaderboard.OpenSession()) {
         writeStats();
-        PlatformLeaderboard.FlushStats();
+        m_leaderboard.FlushStats();
     } else {
         Log::info(
             "Failed to open a session in order to write to leaderboard\n");
@@ -264,9 +265,9 @@ void StatsCounter::flushLeaderboards() {
 }
 
 void StatsCounter::saveLeaderboards() {
-    if (PlatformLeaderboard.OpenSession()) {
+    if (m_leaderboard.OpenSession()) {
         writeStats();
-        PlatformLeaderboard.CloseSession();
+        m_leaderboard.CloseSession();
     } else {
         Log::info(
             "Failed to open a session in order to write to leaderboard\n");

@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <unordered_map>
 
+class IPlatformLeaderboard;
 class Stat;
 class Achievement;
 class StatsSyncher;
@@ -70,8 +71,13 @@ private:
     static std::unordered_map<Stat*, int> statBoards;
     int flushCounter;
 
+    // Borrowed from the composition root - StatsCounter does not own the
+    // backend. The reference is valid for the lifetime of the StatsCounter
+    // (the leaderboard outlives all StatsCounter instances).
+    IPlatformLeaderboard& m_leaderboard;
+
 public:
-    StatsCounter();
+    explicit StatsCounter(IPlatformLeaderboard& leaderboard);
     void award(Stat* stat, unsigned int difficulty, unsigned int count);
     bool hasTaken(Achievement* ach);
     bool canTake(Achievement* ach);
