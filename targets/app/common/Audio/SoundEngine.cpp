@@ -10,7 +10,7 @@
 #include <memory>
 #include <vector>
 
-#include "app/common/Audio/Consoles_SoundEngine.h"
+#include "minecraft/sounds/ConsoleSoundEngine.h"
 #include "app/linux/Iggy/include/rrCore.h"
 #include "app/linux/LinuxGame.h"
 #include "java/Random.h"
@@ -1938,40 +1938,3 @@ char* SoundEngine::ConvertSoundPathToName(const std::string& name,
     return nullptr;
 }
 
-void ConsoleSoundEngine::tick() {
-    if (scheduledSounds.empty()) {
-        return;
-    }
-
-    for (auto it = scheduledSounds.begin(); it != scheduledSounds.end();) {
-        SoundEngine::ScheduledSound* next = *it;
-        next->delay--;
-
-        if (next->delay <= 0) {
-            play(next->iSound, next->x, next->y, next->z, next->volume,
-                 next->pitch);
-            it = scheduledSounds.erase(it);
-            delete next;
-        } else {
-            ++it;
-        }
-    }
-}
-
-void ConsoleSoundEngine::schedule(int iSound, float x, float y, float z,
-                                  float volume, float pitch, int delayTicks) {
-    scheduledSounds.push_back(new SoundEngine::ScheduledSound(
-        iSound, x, y, z, volume, pitch, delayTicks));
-}
-
-ConsoleSoundEngine::ScheduledSound::ScheduledSound(int iSound, float x, float y,
-                                                   float z, float volume,
-                                                   float pitch, int delay) {
-    this->iSound = iSound;
-    this->x = x;
-    this->y = y;
-    this->z = z;
-    this->volume = volume;
-    this->pitch = pitch;
-    this->delay = delay;
-}

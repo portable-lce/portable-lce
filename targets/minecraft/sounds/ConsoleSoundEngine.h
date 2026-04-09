@@ -21,6 +21,11 @@ typedef struct {
 class Options;
 class Mob;
 
+// Game-side sound engine interface. The concrete backend
+// (app/common/Audio/SoundEngine) inherits from this and forwards into
+// IPlatformSound. minecraft/ consumers see only the abstract base, so
+// they don't have to drag the concrete backend (and its miniaudio
+// pimpl) into their compilation units.
 class ConsoleSoundEngine {
 public:
     ConsoleSoundEngine()
@@ -28,6 +33,8 @@ public:
           m_bIsPlayingStreamingGameMusic(false),
           m_bIsPlayingEndMusic(false),
           m_bIsPlayingNetherMusic(false) {}
+
+    virtual ~ConsoleSoundEngine() = default;
 
     virtual void tick(std::shared_ptr<Mob>* players, float a) = 0;
     virtual void destroy() = 0;

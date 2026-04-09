@@ -31,7 +31,7 @@ class BackgroundDownloader;
 class HumanoidModel;
 class HitResult;
 class Options;
-class SoundEngine;
+class ConsoleSoundEngine;
 class IPlatformLeaderboard;
 class MinecraftApplet;
 class MouseHandler;
@@ -191,7 +191,7 @@ protected:
     MinecraftApplet* minecraftApplet;
 
 public:
-    SoundEngine* soundEngine;
+    ConsoleSoundEngine* soundEngine;
     MouseHandler* mouseHandler;
 
 public:

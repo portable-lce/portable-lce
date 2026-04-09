@@ -395,6 +395,7 @@ server/level/TrackedEntity.cpp
 server/network/PendingConnection.cpp
 server/network/PlayerConnection.cpp
 server/network/ServerConnection.cpp
+sounds/ConsoleSoundEngine.cpp
 stats/Achievement.cpp
 stats/Achievements.cpp
 stats/CommonStats.cpp

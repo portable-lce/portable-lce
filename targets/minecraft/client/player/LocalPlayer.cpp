@@ -31,7 +31,7 @@
 #include "PlatformTypes.h"
 #include "Pos.h"
 #include "app/common/App_structs.h"
-#include "app/common/Audio/SoundEngine.h"
+#include "minecraft/sounds/ConsoleSoundEngine.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/linux/Linux_UIController.h"

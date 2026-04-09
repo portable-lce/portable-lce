@@ -4,7 +4,7 @@
 
 #include "ClientConnection.h"
 #include "MultiPlayerLevel.h"
-#include "app/common/Audio/SoundEngine.h"
+#include "minecraft/sounds/ConsoleSoundEngine.h"
 #include "java/Class.h"
 #include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"

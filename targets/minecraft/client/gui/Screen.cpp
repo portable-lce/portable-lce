@@ -1,7 +1,7 @@
 #include "Screen.h"
 
 #include "Button.h"
-#include "app/common/Audio/SoundEngine.h"
+#include "minecraft/sounds/ConsoleSoundEngine.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"

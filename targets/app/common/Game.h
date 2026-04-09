@@ -11,7 +11,7 @@
 
 #include "app/common/App_structs.h"
 #include "app/common/ArchiveManager.h"
-#include "app/common/Audio/Consoles_SoundEngine.h"
+#include "minecraft/sounds/ConsoleSoundEngine.h"
 #include "app/common/BannedListManager.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLCController.h"

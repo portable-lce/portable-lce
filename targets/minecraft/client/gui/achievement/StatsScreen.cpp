@@ -1,5 +1,5 @@
 #include "StatsScreen.h"
-#include "app/common/Audio/SoundEngine.h"
+#include "minecraft/sounds/ConsoleSoundEngine.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Button.h"
 #include "minecraft/client/gui/Font.h"

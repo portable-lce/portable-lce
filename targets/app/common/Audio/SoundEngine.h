@@ -7,7 +7,7 @@ class Random;
 #include <memory>
 #include <string>
 
-#include "app/common/Audio/Consoles_SoundEngine.h"
+#include "minecraft/sounds/ConsoleSoundEngine.h"
 #include "app/linux/Iggy/include/rrCore.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "platform/PlatformTypes.h"

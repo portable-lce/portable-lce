@@ -15,7 +15,7 @@
 #include "Chunk.h"
 #include "GameRenderer.h"
 #include "Tesselator.h"
-#include "app/common/Audio/SoundEngine.h"
+#include "minecraft/sounds/ConsoleSoundEngine.h"
 #include "java/Class.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"

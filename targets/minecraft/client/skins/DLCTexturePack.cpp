@@ -409,11 +409,14 @@ int DLCTexturePack::onPackMounted(int iPad, std::uint32_t dwErr,
                     iEndC =
                         dlcFile->GetCountofType(DLCAudioFile::e_AudioType_End);
 
-                    Minecraft::GetInstance()->soundEngine->SetStreamingSounds(
-                        iOverworldStart, iOverworldStart + iOverworldC,
-                        iNetherStart, iNetherStart + iNetherC, iEndStart,
-                        iEndStart + iEndC,
-                        iEndStart + iEndC);  // push the CD start to after
+                    static_cast<SoundEngine*>(
+                        Minecraft::GetInstance()->soundEngine)
+                        ->SetStreamingSounds(
+                            iOverworldStart, iOverworldStart + iOverworldC,
+                            iNetherStart, iNetherStart + iNetherC, iEndStart,
+                            iEndStart + iEndC,
+                            iEndStart +
+                                iEndC);  // push the CD start to after
                 }
             }
             texturePack->loadColourTable();
