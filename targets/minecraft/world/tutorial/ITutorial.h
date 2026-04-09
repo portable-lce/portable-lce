@@ -7,6 +7,7 @@
 
 class Entity;
 class ItemInstance;
+class MobEffect;
 
 // Domain interface for the player tutorial.
 //
@@ -44,6 +45,8 @@ public:
     virtual void onLookAt(int id, int iData = 0) = 0;
     virtual void onLookAtEntity(std::shared_ptr<Entity> entity) = 0;
     virtual void onRideEntity(std::shared_ptr<Entity> entity) = 0;
+    virtual void completeUsingItem(std::shared_ptr<ItemInstance> item) = 0;
+    virtual void onEffectChanged(MobEffect* effect, bool bRemoved = false) = 0;
 
     [[nodiscard]] virtual bool canMoveToPosition(double xo, double yo,
                                                  double zo, double xt,

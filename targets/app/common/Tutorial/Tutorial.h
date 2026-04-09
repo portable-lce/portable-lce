@@ -171,7 +171,7 @@ public:
                    int y, int z, bool bTestUseOnly = false);
     void useItemOn(std::shared_ptr<ItemInstance> item,
                    bool bTestUseOnly = false);
-    void completeUsingItem(std::shared_ptr<ItemInstance> item);
+    void completeUsingItem(std::shared_ptr<ItemInstance> item) override;
     void startDestroyBlock(std::shared_ptr<ItemInstance> item, Tile* tile);
     void destroyBlock(Tile* tile);
     void attack(std::shared_ptr<Player> player, std::shared_ptr<Entity> entity);
@@ -187,7 +187,7 @@ public:
     void onLookAt(int id, int iData = 0) override;
     void onLookAtEntity(std::shared_ptr<Entity> entity) override;
     void onRideEntity(std::shared_ptr<Entity> entity) override;
-    void onEffectChanged(MobEffect* effect, bool bRemoved = false);
+    void onEffectChanged(MobEffect* effect, bool bRemoved = false) override;
 
     bool canMoveToPosition(double xo, double yo, double zo, double xt,
                            double yt, double zt) override;
