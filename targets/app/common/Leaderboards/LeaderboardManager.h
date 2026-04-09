@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "app/common/Leaderboards/IPlatformLeaderboard.h"
+#include "platform/leaderboard/IPlatformLeaderboard.h"
 
 class LeaderboardManager : public IPlatformLeaderboard {
 public:

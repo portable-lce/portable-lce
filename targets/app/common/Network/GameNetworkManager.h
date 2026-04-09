@@ -8,7 +8,7 @@
 #include <qnet.h>
 #endif
 #include "PlatformNetworkManagerStub.h"
-#include "app/common/Network/IPlatformNetwork.h"
+#include "platform/network/IPlatformNetwork.h"
 #include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/network/platform/SessionInfo.h"

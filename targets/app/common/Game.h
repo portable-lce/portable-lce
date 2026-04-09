@@ -18,7 +18,7 @@
 #include "app/common/DebugOptions.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/GameSettingsManager.h"
-#include "app/common/IPlatformGame.h"
+#include "platform/game/IPlatformGame.h"
 #include "app/common/LocalizationManager.h"
 #include "app/common/MenuController.h"
 #include "app/common/NetworkController.h"

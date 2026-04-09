@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "app/common/Network/IPlatformNetwork.h"
+#include "platform/network/IPlatformNetwork.h"
 #include "minecraft/client/model/SkinBox.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/network/platform/SessionInfo.h"
