@@ -11,10 +11,10 @@ class Node {
     friend class EnderDragon;
 
 public:
-    const int x, y, z;
+    int x, y, z;
 
 private:
-    const int hash;
+    int hash;
 
 protected:
     int heapIdx;

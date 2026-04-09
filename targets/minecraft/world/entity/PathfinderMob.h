@@ -3,14 +3,14 @@
 #include <memory>
 
 #include "Mob.h"
+#include "minecraft/Pos.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/Mob.h"
+#include "minecraft/world/entity/ai/goal/MoveTowardsRestrictionGoal.h"
 
 class Level;
 class Path;
 class AttributeModifier;
-class Goal;
-class Pos;
 
 class PathfinderMob : public Mob {
 public:
@@ -32,9 +32,9 @@ protected:
     int fleeTime;
 
 private:
-    Pos* restrictCenter;
+    Pos restrictCenter;
     float restrictRadius;
-    Goal* leashRestrictionGoal;
+    MoveTowardsRestrictionGoal leashRestrictionGoal;
     bool addedLeashRestrictionGoal;
 
 protected:

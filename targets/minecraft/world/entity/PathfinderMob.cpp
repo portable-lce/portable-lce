@@ -26,25 +26,20 @@ AttributeModifier* PathfinderMob::SPEED_MODIFIER_FLEEING =
                            AttributeModifier::OPERATION_MULTIPLY_TOTAL))
         ->setSerialize(false);
 
-PathfinderMob::PathfinderMob(Level* level) : Mob(level) {
-    path = nullptr;
-    attackTarget = nullptr;
-    holdGround = false;
-    fleeTime = 0;
-
-    restrictRadius = -1;
-    restrictCenter = new Pos(0, 0, 0);
-    addedLeashRestrictionGoal = false;
-    leashRestrictionGoal = new MoveTowardsRestrictionGoal(this, 1.0f);
-}
+PathfinderMob::PathfinderMob(Level* level)
+    : Mob(level),
+      path(nullptr),
+      attackTarget(nullptr),
+      holdGround(false),
+      fleeTime(0),
+      restrictCenter(0, 0, 0),
+      restrictRadius(-1),
+      leashRestrictionGoal(this, 1.0f),
+      addedLeashRestrictionGoal(false) {}
 
 bool PathfinderMob::shouldHoldGround() { return false; }
 
-PathfinderMob::~PathfinderMob() {
-    delete path;
-    delete restrictCenter;
-    delete leashRestrictionGoal;
-}
+PathfinderMob::~PathfinderMob() { delete path; }
 
 void PathfinderMob::serverAiStep() {
     if (fleeTime > 0) {
@@ -264,15 +259,15 @@ bool PathfinderMob::isWithinRestriction() {
 
 bool PathfinderMob::isWithinRestriction(int x, int y, int z) {
     if (restrictRadius == -1) return true;
-    return restrictCenter->distSqr(x, y, z) < restrictRadius * restrictRadius;
+    return restrictCenter.distSqr(x, y, z) < restrictRadius * restrictRadius;
 }
 
 void PathfinderMob::restrictTo(int x, int y, int z, int radius) {
-    restrictCenter->set(x, y, z);
+    restrictCenter.set(x, y, z);
     restrictRadius = radius;
 }
 
-Pos* PathfinderMob::getRestrictCenter() { return restrictCenter; }
+Pos* PathfinderMob::getRestrictCenter() { return &restrictCenter; }
 
 float PathfinderMob::getRestrictRadius() { return restrictRadius; }
 
@@ -305,7 +300,7 @@ void PathfinderMob::tickLeash() {
         }
 
         if (!addedLeashRestrictionGoal) {
-            goalSelector.addGoal(2, leashRestrictionGoal, false);
+            goalSelector.addGoal(2, &leashRestrictionGoal, false);
             getNavigation()->setAvoidWater(false);
             addedLeashRestrictionGoal = true;
         }
@@ -332,7 +327,7 @@ void PathfinderMob::tickLeash() {
 
     } else if (!isLeashed() && addedLeashRestrictionGoal) {
         addedLeashRestrictionGoal = false;
-        goalSelector.removeGoal(leashRestrictionGoal);
+        goalSelector.removeGoal(&leashRestrictionGoal);
         getNavigation()->setAvoidWater(true);
         clearRestriction();
     }
