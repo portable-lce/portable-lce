@@ -40,3 +40,10 @@ option(
   value: 'frustum',
   description: 'Occlusion culling mode. Off disables ALL CULLING (debug only!), Frustum disables offscreen rendering (default), BFS is experimental connectivity culling, hardware uses GPU queries.',
 )
+
+option(
+  'enable_mimalloc',
+  type: 'feature',
+  value: 'auto',
+  description: 'Link mimalloc as the malloc implementation. Requires libmimalloc-dev.',
+)

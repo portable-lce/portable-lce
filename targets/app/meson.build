@@ -8,7 +8,18 @@ if host_machine.system() == 'linux'
   platform_sources += files(fs.read('linux_sources.txt').strip().split('\n'))
 endif
 
-client_dependencies = [
+client_dependencies = []
+
+# mimalloc must come first so the linker resolves malloc/free symbols to it
+# before glibc. --no-as-needed prevents the linker from dropping it as
+# "unreferenced" (the override happens via weak symbols, not direct calls).
+client_link_args = []
+if mimalloc_dep.found()
+  client_dependencies += mimalloc_dep
+  client_link_args += ['-Wl,--no-as-needed']
+endif
+
+client_dependencies += [
   java_dep,
   nbt_dep,
   render_dep,
@@ -52,6 +63,7 @@ client = executable(
     '-D_UNICODE',
   ],
   c_args: global_cpp_defs + ['-DUNICODE', '-D_UNICODE'],
+  link_args: client_link_args,
   install: true,
   install_dir: '',
 )

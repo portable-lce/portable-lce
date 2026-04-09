@@ -92,6 +92,8 @@ simdutf_dep = dependency('simdutf',
 )
 miniaudio_dep = dependency('miniaudio')
 
+mimalloc_dep = cc.find_library('mimalloc', required: get_option('enable_mimalloc'))
+
 subdir('targets/util')
 subdir('targets/java')
 subdir('targets/nbt')
