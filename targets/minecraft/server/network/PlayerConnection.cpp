@@ -9,7 +9,6 @@
 #include <utility>
 
 #include "ServerConnection.h"
-#include "app/common/Network/Socket.h"
 #include "java/Class.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
