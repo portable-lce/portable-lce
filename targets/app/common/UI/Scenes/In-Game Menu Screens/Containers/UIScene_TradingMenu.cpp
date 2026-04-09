@@ -1,5 +1,6 @@
 
 #include "UIScene_TradingMenu.h"
+#include "platform/game/game.h"
 
 #include <memory>
 #include <utility>
@@ -83,7 +84,7 @@ UIScene_TradingMenu::UIScene_TradingMenu(int iPad, void* _initData,
     ui.OverrideSFX(m_iPad, ACTION_MENU_UP, true);
     ui.OverrideSFX(m_iPad, ACTION_MENU_DOWN, true);
 
-    app.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_TRADING);
+    PlatformGame.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_TRADING);
 }
 
 std::string UIScene_TradingMenu::getMoviePath() {

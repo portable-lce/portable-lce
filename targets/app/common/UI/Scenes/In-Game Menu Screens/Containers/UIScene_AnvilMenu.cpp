@@ -1,5 +1,6 @@
 
 #include "UIScene_AnvilMenu.h"
+#include "platform/game/game.h"
 
 #include <assert.h>
 #include <wchar.h>
@@ -92,7 +93,7 @@ UIScene_AnvilMenu::UIScene_AnvilMenu(int iPad, void* _initData,
 
     setIgnoreInput(false);
 
-    app.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_ANVIL);
+    PlatformGame.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_ANVIL);
 }
 
 std::string UIScene_AnvilMenu::getMoviePath() {

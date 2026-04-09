@@ -1,4 +1,5 @@
 #include "LinuxGame.h"
+#include "platform/game/game.h"
 
 #include <assert.h>
 
@@ -51,7 +52,7 @@ void LinuxGame::TemporaryCreateGameStart() {
 
     // From CScene_Main::RunPlayGame
     Minecraft* pMinecraft = Minecraft::GetInstance();
-    app.ReleaseSaveThumbnail();
+    PlatformGame.ReleaseSaveThumbnail();
     PlatformProfile.SetLockedProfile(0);
     pMinecraft->user->name = "Windows";
     app.ApplyGameSettingsChanged(0);

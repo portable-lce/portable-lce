@@ -1,4 +1,5 @@
 #include "app/common/Audio/SoundEngine.h"
+#include "platform/game/game.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"
@@ -454,13 +455,13 @@ void Game::HandleXuiActions(void) {
                         for (int j = 0; j < XUSER_MAX_COUNT; j++) {
                             if (pMinecraft->localplayers[j]) {
                                 if (g_NetworkManager.IsLocalGame()) {
-                                    app.SetRichPresenceContext(
+                                    PlatformGame.SetRichPresenceContext(
                                         j, CONTEXT_GAME_STATE_BLANK);
                                     PlatformProfile.SetCurrentGameActivity(
                                         j, CONTEXT_PRESENCE_MULTIPLAYEROFFLINE,
                                         false);
                                 } else {
-                                    app.SetRichPresenceContext(
+                                    PlatformGame.SetRichPresenceContext(
                                         j, CONTEXT_GAME_STATE_BLANK);
                                     PlatformProfile.SetCurrentGameActivity(
                                         j, CONTEXT_PRESENCE_MULTIPLAYER, false);
@@ -468,7 +469,7 @@ void Game::HandleXuiActions(void) {
                             }
                         }
                     } else {
-                        app.SetRichPresenceContext(i, CONTEXT_GAME_STATE_BLANK);
+                        PlatformGame.SetRichPresenceContext(i, CONTEXT_GAME_STATE_BLANK);
                         if (g_NetworkManager.IsLocalGame()) {
                             PlatformProfile.SetCurrentGameActivity(
                                 i, CONTEXT_PRESENCE_MULTIPLAYER_1POFFLINE,

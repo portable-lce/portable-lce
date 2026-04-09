@@ -1,4 +1,5 @@
 #include "GameNetworkManager.h"
+#include "platform/game/game.h"
 
 #include <assert.h>
 
@@ -349,7 +350,7 @@ bool CGameNetworkManager::StartNetworkGame(Minecraft* minecraft,
         createdConnections.push_back(connection);
 
         int primaryPad = PlatformProfile.GetPrimaryPad();
-        app.SetRichPresenceContext(primaryPad, CONTEXT_GAME_STATE_BLANK);
+        PlatformGame.SetRichPresenceContext(primaryPad, CONTEXT_GAME_STATE_BLANK);
         if (GetPlayerCount() >
             1)  // Are we offline or online, and how many players are there
         {
@@ -451,7 +452,7 @@ bool CGameNetworkManager::StartNetworkGame(Minecraft* minecraft,
             if (g_NetworkManager.IsLeavingGame() || !IsInSession()) break;
 
             if (PlatformProfile.IsSignedIn(idx) && !connection->isClosed()) {
-                app.SetRichPresenceContext(idx, CONTEXT_GAME_STATE_BLANK);
+                PlatformGame.SetRichPresenceContext(idx, CONTEXT_GAME_STATE_BLANK);
                 if (IsLocalGame())
                     PlatformProfile.SetCurrentGameActivity(
                         idx, CONTEXT_PRESENCE_MULTIPLAYEROFFLINE, false);
@@ -1221,7 +1222,7 @@ void CGameNetworkManager::PlayerJoining(INetworkPlayer* pNetworkPlayer) {
                 g_NetworkManager.GetLocalPlayerByUserIndex(iPad);
             if (pNetworkPlayer == nullptr) continue;
 
-            app.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_BLANK);
+            PlatformGame.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_BLANK);
             if (multiplayer) {
                 if (localgame)
                     PlatformProfile.SetCurrentGameActivity(

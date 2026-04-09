@@ -1,5 +1,6 @@
 
 #include "UIScene_MainMenu.h"
+#include "platform/game/game.h"
 
 #include <chrono>
 #include <cmath>
@@ -769,7 +770,7 @@ void UIScene_MainMenu::RunPlayGame(int iPad) {
     // clear the remembered signed in users so their profiles get read again
     app.ClearSignInChangeUsersMask();
 
-    app.ReleaseSaveThumbnail();
+    PlatformGame.ReleaseSaveThumbnail();
 
     if (PlatformProfile.IsGuest(iPad)) {
         unsigned int uiIDA[1];

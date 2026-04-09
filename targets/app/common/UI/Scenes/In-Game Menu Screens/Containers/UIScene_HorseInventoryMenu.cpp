@@ -1,4 +1,5 @@
 #include "UIScene_HorseInventoryMenu.h"
+#include "platform/game/game.h"
 
 #include <assert.h>
 
@@ -77,7 +78,7 @@ UIScene_HorseInventoryMenu::UIScene_HorseInventoryMenu(int iPad,
 
     setIgnoreInput(false);
 
-    // app.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_HORSE);
+    // PlatformGame.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_HORSE);
 }
 
 std::string UIScene_HorseInventoryMenu::getMoviePath() {

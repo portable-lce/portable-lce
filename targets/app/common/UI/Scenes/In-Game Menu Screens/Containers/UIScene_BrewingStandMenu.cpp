@@ -1,4 +1,5 @@
 #include "UIScene_BrewingStandMenu.h"
+#include "platform/game/game.h"
 
 #include <assert.h>
 
@@ -61,7 +62,7 @@ UIScene_BrewingStandMenu::UIScene_BrewingStandMenu(int iPad, void* _initData,
 
     if (initData) delete initData;
 
-    app.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_BREWING);
+    PlatformGame.SetRichPresenceContext(iPad, CONTEXT_GAME_STATE_BREWING);
 }
 
 std::string UIScene_BrewingStandMenu::getMoviePath() {

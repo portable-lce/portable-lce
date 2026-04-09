@@ -1,4 +1,5 @@
 #include "UIScene_BeaconMenu.h"
+#include "platform/game/game.h"
 
 #include <assert.h>
 
@@ -61,7 +62,7 @@ UIScene_BeaconMenu::UIScene_BeaconMenu(int iPad, void* _initData,
 
     m_slotListActivatorIcons.addSlots(m_menu->getSize(), 4);
 
-    // app.SetRichPresenceContext(m_iPad,CONTEXT_GAME_STATE_BEACON);
+    // PlatformGame.SetRichPresenceContext(m_iPad,CONTEXT_GAME_STATE_BEACON);
 
     delete initData;
 }

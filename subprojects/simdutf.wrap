@@ -1,7 +1,7 @@
 [wrap-git]
 url = https://github.com/simdutf/simdutf.git
 depth = 1
-revision = v8.2.0
+revision = fd476229424b40ae71a58dd5a205795c3d76b5f1
 patch_directory = simdutf
 
 [provide]

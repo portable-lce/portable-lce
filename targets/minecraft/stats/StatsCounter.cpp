@@ -10,8 +10,8 @@
 #include <vector>
 
 #include "app/common/App_structs.h"
-#include "app/common/Leaderboards/LeaderboardManager.h"
 #include "app/linux/LinuxGame.h"
+#include "platform/leaderboard/leaderboard.h"
 #include "minecraft/stats/Achievement.h"
 #include "minecraft/stats/Achievements.h"
 #include "minecraft/stats/GenericStats.h"
@@ -248,9 +248,9 @@ void StatsCounter::save(int player, bool force) {
 }
 
 void StatsCounter::flushLeaderboards() {
-    if (LeaderboardManager::Instance()->OpenSession()) {
+    if (PlatformLeaderboard.OpenSession()) {
         writeStats();
-        LeaderboardManager::Instance()->FlushStats();
+        PlatformLeaderboard.FlushStats();
     } else {
         Log::info(
             "Failed to open a session in order to write to leaderboard\n");
@@ -264,9 +264,9 @@ void StatsCounter::flushLeaderboards() {
 }
 
 void StatsCounter::saveLeaderboards() {
-    if (LeaderboardManager::Instance()->OpenSession()) {
+    if (PlatformLeaderboard.OpenSession()) {
         writeStats();
-        LeaderboardManager::Instance()->CloseSession();
+        PlatformLeaderboard.CloseSession();
     } else {
         Log::info(
             "Failed to open a session in order to write to leaderboard\n");

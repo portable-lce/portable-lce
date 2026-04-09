@@ -1,5 +1,6 @@
 ﻿
 #include "WindowsGame.h"
+#include "platform/game/game.h"
 #include "app/common/Game.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/User.h"
@@ -42,7 +43,7 @@ void WindowsGame::TemporaryCreateGameStart() {
 
     // From CScene_Main::RunPlayGame
     Minecraft* pMinecraft = Minecraft::GetInstance();
-    app.ReleaseSaveThumbnail();
+    PlatformGame.ReleaseSaveThumbnail();
     PlatformProfile.SetLockedProfile(0);
     pMinecraft->user->name = "Windows";
     app.ApplyGameSettingsChanged(0);

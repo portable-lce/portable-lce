@@ -1,5 +1,6 @@
 
 #include "UIScene_FurnaceMenu.h"
+#include "platform/game/game.h"
 
 #include <assert.h>
 
@@ -53,7 +54,7 @@ UIScene_FurnaceMenu::UIScene_FurnaceMenu(int iPad, void* _initData,
     m_slotListIngredient.addSlots(FurnaceMenu::INGREDIENT_SLOT, 1);
     m_slotListResult.addSlots(FurnaceMenu::RESULT_SLOT, 1);
 
-    app.SetRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_FORGING);
+    PlatformGame.SetRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_FORGING);
 
     delete initData;
 }

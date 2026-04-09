@@ -1,5 +1,6 @@
 
 #include "UIScene_CraftingMenu.h"
+#include "platform/game/game.h"
 
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
@@ -118,7 +119,7 @@ UIScene_CraftingMenu::UIScene_CraftingMenu(int iPad, void* _initData,
 
 #endif
 
-    app.SetRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_CRAFTING);
+    PlatformGame.SetRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_CRAFTING);
     setGroupText(GetGroupNameText(m_pGroupA[m_iGroupIndex]));
 
     // Update the tutorial state

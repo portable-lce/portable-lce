@@ -1,5 +1,6 @@
 
 #include "UIScene_EnchantingMenu.h"
+#include "platform/game/game.h"
 
 #include <assert.h>
 
@@ -55,7 +56,7 @@ UIScene_EnchantingMenu::UIScene_EnchantingMenu(int iPad, void* _initData,
 
     m_slotListIngredient.addSlots(EnchantmentMenu::INGREDIENT_SLOT, 1);
 
-    app.SetRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_ENCHANTING);
+    PlatformGame.SetRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_ENCHANTING);
 
     delete initData;
 }
