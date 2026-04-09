@@ -7,7 +7,6 @@
 #if !defined(__linux__)
 #include <qnet.h>
 #endif
-#include "PlatformNetworkManagerStub.h"
 #include "platform/network/IPlatformNetwork.h"
 #include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
@@ -29,8 +28,6 @@ class INetworkPlayer;
 // implementation of PlatformNetworkManager to provide this functionality.
 
 class CGameNetworkManager : public ::minecraft::network::INetworkService {
-    friend class IPlatformNetworkStub;
-
 public:
     CGameNetworkManager();
     // Misc high level flow

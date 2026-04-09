@@ -13,7 +13,6 @@
 #include "minecraft/network/Socket.h"
 #include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"
-#include "app/common/Network/PlatformNetworkManagerStub.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
@@ -54,6 +53,7 @@
 #include "platform/storage/storage.h"
 #include "strings.h"
 #include "util/StringHelpers.h"
+#include "platform/network/network.h"
 
 class FriendSessionInfo;
 class INVITE_INFO;
@@ -86,7 +86,7 @@ void CGameNetworkManager::Initialise() {
         LevelRenderer::getGlobalChunkCount() /
         (Level::maxBuildHeight /
          16);  // dividing here by number of renderer chunks in one column
-    s_pPlatformNetworkManager = new IPlatformNetworkStub();
+    s_pPlatformNetworkManager = &PlatformNetwork;
     s_pPlatformNetworkManager->Initialise(this, flagIndexSize);
     m_bNetworkThreadRunning = false;
     m_bInitialised = true;

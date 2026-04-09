@@ -51,7 +51,6 @@ common/LocalizationManager.cpp
 common/MenuController.cpp
 common/Network/GameNetworkManager.cpp
 common/Network/NetworkPlayerQNet.cpp
-common/Network/PlatformNetworkManagerStub.cpp
 common/Network/QNetStubs.cpp
 common/NetworkController.cpp
 common/SaveManager.cpp
