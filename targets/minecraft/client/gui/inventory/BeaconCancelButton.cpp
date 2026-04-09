@@ -23,6 +23,6 @@ BeaconCancelButton::BeaconCancelButton(BeaconScreen* screen, int id, int x,
 }
 
 void BeaconCancelButton::renderTooltip(int xm, int ym) {
-    screen->renderTooltip(Language::getInstance()->getElement("gui.cancel"),
-                          xm, ym);
+    screen->renderTooltip(Language::getInstance()->getElement("gui.cancel"), xm,
+                          ym);
 }

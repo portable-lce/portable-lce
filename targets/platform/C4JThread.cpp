@@ -26,8 +26,8 @@
 #include <unistd.h>
 #endif
 
-#include "platform/ShutdownManager.h"
 #include "platform/C4JThread.h"
+#include "platform/ShutdownManager.h"
 
 class Level;
 
@@ -563,4 +563,3 @@ void C4JThread::EventQueue::threadPoll() {
 
     ShutdownManager::HasFinished(ShutdownManager::eEventQueueThreads);
 }
-

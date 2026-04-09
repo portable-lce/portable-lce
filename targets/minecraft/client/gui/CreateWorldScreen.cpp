@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "CreateWorldScreen.h"
 
 #include <stddef.h>
@@ -8,12 +6,14 @@
 #include <string>
 #include <vector>
 
-#include "platform/storage/storage.h"
 #include "Button.h"
 #include "EditBox.h"
 #include "MessageScreen.h"
 #include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/network/INetworkService.h"
+#include "minecraft/util/Log.h"
+#include "platform/storage/storage.h"
 // Needed for the &CGameNetworkManager::RunNetworkGameThreadProc address-of
 // below. Static thread procs can't be virtual; this one consumer keeps the
 // concrete type include.
@@ -21,9 +21,6 @@
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/linux/Linux_UIController.h"
-#include "platform/NetTypes.h"
-#include "platform/stubs.h"
-#include "util/StringHelpers.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/Options.h"
@@ -32,6 +29,9 @@
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/world/level/LevelSettings.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
+#include "platform/NetTypes.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 CreateWorldScreen::CreateWorldScreen(Screen* lastScreen) {
     done = false;  // 4J added
@@ -256,42 +256,44 @@ void CreateWorldScreen::buttonClicked(Button* button) {
         param->settings = 0;
 
         gameServices().setGameHostOption(eGameHostOption_Difficulty,
-                              minecraft->options->difficulty);
-        gameServices().setGameHostOption(eGameHostOption_FriendsOfFriends,
-                              moreOptionsParams->bAllowFriendsOfFriends);
+                                         minecraft->options->difficulty);
+        gameServices().setGameHostOption(
+            eGameHostOption_FriendsOfFriends,
+            moreOptionsParams->bAllowFriendsOfFriends);
         gameServices().setGameHostOption(eGameHostOption_Gamertags, 1);
         gameServices().setGameHostOption(eGameHostOption_BedrockFog, 0);
         gameServices().setGameHostOption(eGameHostOption_GameType,
-                              (gameMode == "survival")
-                                  ? GameType::SURVIVAL->getId()
-                                  : GameType::CREATIVE->getId());
+                                         (gameMode == "survival")
+                                             ? GameType::SURVIVAL->getId()
+                                             : GameType::CREATIVE->getId());
         gameServices().setGameHostOption(eGameHostOption_LevelType,
-                              moreOptionsParams->bFlatWorld);
+                                         moreOptionsParams->bFlatWorld);
         gameServices().setGameHostOption(eGameHostOption_Structures,
-                              moreOptionsParams->bStructures);
+                                         moreOptionsParams->bStructures);
         gameServices().setGameHostOption(eGameHostOption_BonusChest,
-                              moreOptionsParams->bBonusChest);
-        gameServices().setGameHostOption(eGameHostOption_PvP, moreOptionsParams->bPVP);
+                                         moreOptionsParams->bBonusChest);
+        gameServices().setGameHostOption(eGameHostOption_PvP,
+                                         moreOptionsParams->bPVP);
         gameServices().setGameHostOption(eGameHostOption_TrustPlayers,
-                              moreOptionsParams->bTrust);
+                                         moreOptionsParams->bTrust);
         gameServices().setGameHostOption(eGameHostOption_FireSpreads,
-                              moreOptionsParams->bFireSpreads);
-        gameServices().setGameHostOption(eGameHostOption_TNT, moreOptionsParams->bTNT);
+                                         moreOptionsParams->bFireSpreads);
+        gameServices().setGameHostOption(eGameHostOption_TNT,
+                                         moreOptionsParams->bTNT);
         gameServices().setGameHostOption(eGameHostOption_HostCanFly,
-                              moreOptionsParams->bHostPrivileges);
+                                         moreOptionsParams->bHostPrivileges);
         gameServices().setGameHostOption(eGameHostOption_HostCanChangeHunger,
-                              moreOptionsParams->bHostPrivileges);
+                                         moreOptionsParams->bHostPrivileges);
         gameServices().setGameHostOption(eGameHostOption_HostCanBeInvisible,
-                              moreOptionsParams->bHostPrivileges);
+                                         moreOptionsParams->bHostPrivileges);
         gameServices().setGameHostOption(eGameHostOption_CheatsEnabled,
-                              moreOptionsParams->bHostPrivileges);
+                                         moreOptionsParams->bHostPrivileges);
 
         param->settings = gameServices().getGameHostOption(eGameHostOption_All);
         param->xzSize = LEVEL_MAX_WIDTH;
         param->hellScale = HELL_LEVEL_MAX_SCALE;
 
-        NetworkService.HostGame(0, false, false, MINECRAFT_NET_MAX_PLAYERS,
-                                  0);
+        NetworkService.HostGame(0, false, false, MINECRAFT_NET_MAX_PLAYERS, 0);
 
         NetworkService.FakeLocalPlayerJoined();
 
@@ -408,8 +410,7 @@ void CreateWorldScreen::render(int xm, int ym, float a) {
                    width / 2 - 100, 85, 0xa0a0a0);
         drawString(font, language->getElement("selectWorld.mapFeatures.info"),
                    width / 2 - 150, 122, 0xa0a0a0);
-        drawString(font,
-                   language->getElement("selectWorld.allowCommands.info"),
+        drawString(font, language->getElement("selectWorld.allowCommands.info"),
                    width / 2 - 150, 157, 0xa0a0a0);
 
         seedEdit->render();

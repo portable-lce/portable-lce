@@ -1,24 +1,19 @@
-#include "minecraft/IGameServices.h"
 #include "CreativeInventoryScreen.h"
-
-
 
 #include <algorithm>
 #include <string>
 
-#include "platform/input/input.h"
-#include "platform/renderer/renderer.h"
 #include "AbstractContainerScreen.h"
 #include "app/common/UI/All Platforms/IUIScene_CreativeMenu.h"
-#include "platform/stubs.h"
-#include "minecraft/client/Minecraft.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Lighting.h"
+#include "minecraft/client/Minecraft.h"
+#include "minecraft/client/gui/Font.h"
 #include "minecraft/client/gui/Screen.h"
 #include "minecraft/client/gui/inventory/AbstractContainerScreen.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
-#include "minecraft/client/gui/Font.h"
 #include "minecraft/world/SimpleContainer.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/entity/player/Player.h"
@@ -28,6 +23,9 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/input/input.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 // Static member initialization
 int CreativeInventoryScreen::selectedTabIndex =
@@ -257,8 +255,8 @@ void CreativeInventoryScreen::updateEvents() {
                 currentScroll -= step;
                 currentScroll = std::max(0.0f, std::min(1.0f, currentScroll));
                 container->scrollTo(currentScroll);
-            } else if (PlatformInput.ButtonDown(0,
-                                               MINECRAFT_ACTION_RIGHT_SCROLL)) {
+            } else if (PlatformInput.ButtonDown(
+                           0, MINECRAFT_ACTION_RIGHT_SCROLL)) {
                 currentScroll += step;
                 currentScroll = std::max(0.0f, std::min(1.0f, currentScroll));
                 container->scrollTo(currentScroll);
@@ -410,7 +408,8 @@ void CreativeInventoryScreen::renderLabels() {
         IUIScene_CreativeMenu::TabSpec* spec =
             IUIScene_CreativeMenu::specs[selectedTabIndex];
         if (spec) {
-            std::string tabName = gameServices().getString(spec->m_descriptionId);
+            std::string tabName =
+                gameServices().getString(spec->m_descriptionId);
             font->draw(tabName, 8, 6, 0x404040);
         }
     }
@@ -587,9 +586,9 @@ bool CreativeInventoryScreen::renderIconTooltip(int tab, int mouseX,
     if (isMouseOverIcon(tab, x, y)) {
         glDisable(GL_LIGHTING);
         glDisable(GL_DEPTH_TEST);
-        renderTooltip(
-            gameServices().getString(IUIScene_CreativeMenu::specs[tab]->m_descriptionId),
-            mouseX, mouseY);
+        renderTooltip(gameServices().getString(
+                          IUIScene_CreativeMenu::specs[tab]->m_descriptionId),
+                      mouseX, mouseY);
         glEnable(GL_LIGHTING);
         glEnable(GL_DEPTH_TEST);
         return true;

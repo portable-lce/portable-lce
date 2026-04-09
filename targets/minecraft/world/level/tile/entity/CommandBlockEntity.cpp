@@ -34,9 +34,7 @@ int CommandBlockEntity::performCommand(Level* level) {
 
 std::string CommandBlockEntity::getName() { return name; }
 
-void CommandBlockEntity::setName(const std::string& name) {
-    this->name = name;
-}
+void CommandBlockEntity::setName(const std::string& name) { this->name = name; }
 
 void CommandBlockEntity::sendMessage(const std::string& message,
                                      ChatPacket::EChatPacketMessage type,

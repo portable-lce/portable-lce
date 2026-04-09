@@ -9,8 +9,8 @@
 #include <unordered_map>
 #include <utility>
 
-#include "minecraft/GameEnums.h"
 #include "java/Class.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/effect/AbsoptionMobEffect.h"
@@ -274,12 +274,12 @@ void MobEffect::applyEffectTick(std::shared_ptr<LivingEntity> mob,
         }
     } else if (id == wither->id) {
         mob->hurt(DamageSource::wither, 1);
-    } else if ((id == hunger->id) && mob->instanceof(eTYPE_PLAYER)) {
+    } else if ((id == hunger->id) && mob->instanceof (eTYPE_PLAYER)) {
         // every tick, cause the same amount of exhaustion as when removing
         // a block, times amplification
         std::dynamic_pointer_cast<Player>(mob)->causeFoodExhaustion(
             FoodConstants::EXHAUSTION_MINE * (amplification + 1));
-    } else if ((id == saturation->id) && mob->instanceof(eTYPE_PLAYER)) {
+    } else if ((id == saturation->id) && mob->instanceof (eTYPE_PLAYER)) {
         if (!mob->level->isClientSide) {
             std::dynamic_pointer_cast<Player>(mob)->getFoodData()->eat(
                 amplification + 1, FoodConstants::FOOD_SATURATION_MAX);

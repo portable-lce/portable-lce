@@ -1,16 +1,16 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "VillageFeature.h"
 
 #include <list>
 #include <utility>
 #include <vector>
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "VillagePieces.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/biome/BiomeSource.h"
@@ -85,7 +85,8 @@ bool VillageFeature::isFeatureChunk(int x, int z, bool bIsSuperflat) {
     z = zz;
 
     bool forcePlacement = false;
-    LevelGenerationOptions* levelGenOptions = gameServices().getLevelGenerationOptions();
+    LevelGenerationOptions* levelGenOptions =
+        gameServices().getLevelGenerationOptions();
     if (levelGenOptions != nullptr) {
         forcePlacement =
             levelGenOptions->isFeatureChunk(x, z, eFeature_Village);

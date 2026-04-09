@@ -1,14 +1,14 @@
-#include "minecraft/IGameServices.h"
 #include "NetherBridgeFeature.h"
 
 #include <list>
 #include <unordered_map>
 
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "NetherBridgePieces.h"
 #include "java/Class.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/level/ChunkPos.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/dimension/Dimension.h"
@@ -59,7 +59,8 @@ bool NetherBridgeFeature::isFeatureChunk(int x, int z, bool bIsSuperflat) {
     }
 
     bool forcePlacement = false;
-    LevelGenerationOptions* levelGenOptions = gameServices().getLevelGenerationOptions();
+    LevelGenerationOptions* levelGenOptions =
+        gameServices().getLevelGenerationOptions();
     if (levelGenOptions != nullptr) {
         forcePlacement =
             levelGenOptions->isFeatureChunk(x, z, eFeature_NetherBridge);

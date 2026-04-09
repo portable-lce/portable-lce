@@ -7,8 +7,6 @@
 #include <memory>
 #include <utility>
 
-#include "platform/input/input.h"
-#include "platform/profile/profile.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
@@ -17,7 +15,6 @@
 #include "app/common/UI/Controls/UIControl_TextInput.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_AbstractContainerMenu.h"
 #include "app/linux/LinuxGame.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/world/entity/player/Abilities.h"
@@ -25,7 +22,10 @@
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/inventory/AnvilMenu.h"
 #include "minecraft/world/inventory/Slot.h"
+#include "platform/input/input.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 class UILayer;
 
@@ -317,7 +317,8 @@ UIControl* UIScene_AnvilMenu::getSection(ESceneSection eSection) {
 void UIScene_AnvilMenu::handleEditNamePressed() {
     setIgnoreInput(true);
     PlatformInput.RequestKeyboard(
-        app.GetString(IDS_TITLE_RENAME), m_textInputAnvil.getLabel(), m_iPad, 30,
+        app.GetString(IDS_TITLE_RENAME), m_textInputAnvil.getLabel(), m_iPad,
+        30,
         [this](bool bRes) -> int {
             // 4J HEG - No reason to set value if keyboard was cancelled
             setIgnoreInput(false);
@@ -338,8 +339,7 @@ void UIScene_AnvilMenu::setEditNameValue(const std::string& name) {
 
 void UIScene_AnvilMenu::setEditNameEditable(bool enabled) {}
 
-void UIScene_AnvilMenu::setCostLabel(const std::string& label,
-                                     bool canAfford) {
+void UIScene_AnvilMenu::setCostLabel(const std::string& label, bool canAfford) {
     IggyDataValue result;
     IggyDataValue value[2];
 

@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
 
-
-
 class CommandBlockEntity;
 
 class IUIScene_CommandBlockMenu {

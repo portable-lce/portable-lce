@@ -5,13 +5,12 @@
 #include <string>
 #include <vector>
 
-#include "util/Timer.h"
-#include "platform/storage/storage.h"
 #include "minecraft/network/Connection.h"
-
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/PacketListener.h"
 #include "minecraft/world/entity/Entity.h"
+#include "platform/storage/storage.h"
+#include "util/Timer.h"
 
 class Minecraft;
 class MultiPlayerLevel;

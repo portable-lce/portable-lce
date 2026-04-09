@@ -3,13 +3,13 @@
 #include <memory>
 #include <string>
 
-#include "platform/renderer/renderer.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/iggy.h"
+#include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
@@ -115,8 +115,7 @@ private:
     void _SetDescription(UIScene* interactScene, const std::string& desc,
                          const std::string& title, bool allowFade,
                          bool isReminder);
-    std::string _SetIcon(int icon, int iAuxVal, bool isFoil,
-                          const char* desc);
+    std::string _SetIcon(int icon, int iAuxVal, bool isFoil, const char* desc);
     std::string _SetImage(std::string& desc);
     std::string ParseDescription(int iPad, std::string& text);
     void UpdateInteractScenePosition(bool visible);

@@ -2,8 +2,8 @@
 
 #include <cstddef>
 
-#include "app/common/Tutorial/TutorialEnum.h"
 #include "TutorialConstraint.h"
+#include "app/common/Tutorial/TutorialEnum.h"
 #include "minecraft/world/phys/AABB.h"
 
 class AABB;

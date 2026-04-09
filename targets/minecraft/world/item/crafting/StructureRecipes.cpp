@@ -34,8 +34,7 @@ void StructureRecipies::addRecipes(Recipes* r) {
         "#",  //
         "#",  //
 
-        '#',
-        new ItemInstance(Tile::stoneSlabHalf, 1, StoneSlabTile::SAND_SLAB),
+        '#', new ItemInstance(Tile::stoneSlabHalf, 1, StoneSlabTile::SAND_SLAB),
         'S');
 
     r->addShapedRecipy(

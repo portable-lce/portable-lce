@@ -32,7 +32,8 @@ SignTileEntity::SignTileEntity() : TileEntity() {
 SignTileEntity::~SignTileEntity() {
     // TODO ORBIS_STUBBED;
     // 4J-PB - we don't need to verify strings anymore -
-    // PlatformInput.CancelQueuedVerifyStrings([this](STRING_VERIFY_RESPONSE* r) { return handleStringVerify(r); });
+    // PlatformInput.CancelQueuedVerifyStrings([this](STRING_VERIFY_RESPONSE* r)
+    // { return handleStringVerify(r); });
 }
 
 void SignTileEntity::save(CompoundTag* tag) {
@@ -121,7 +122,8 @@ sizeof(char)*(MAX_LINE_LENGTH+1)); if(m_wsmessages[i].length()>0)
             // at this point, we can ask the online string verifier if our sign
 text is ok #if 0 m_bVerified=true; #else
 
-            if(!PlatformInput.VerifyStrings((char**)&wcMessages,MAX_SIGN_LINES,[this](STRING_VERIFY_RESPONSE* r) { return handleStringVerify(r); }))
+            if(!PlatformInput.VerifyStrings((char**)&wcMessages,MAX_SIGN_LINES,[this](STRING_VERIFY_RESPONSE*
+r) { return handleStringVerify(r); }))
             {
                     // Nothing to verify
                     m_bVerified=true;

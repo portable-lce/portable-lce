@@ -4,7 +4,6 @@
 #include <unordered_map>
 
 #include "miniaudio.h"
-
 #include "platform/sound/sound.h"
 
 namespace platform::sound::miniaudio {
@@ -81,8 +80,7 @@ void MiniaudioSound::tick() {
     // game's music system.
     for (auto it = m_state->sounds.begin(); it != m_state->sounds.end();) {
         auto& voice = it->second;
-        if (voice && voice->inUse &&
-            !ma_sound_is_playing(&voice->sound) &&
+        if (voice && voice->inUse && !ma_sound_is_playing(&voice->sound) &&
             !ma_sound_is_looping(&voice->sound)) {
             ma_sound_uninit(&voice->sound);
             voice->inUse = false;
@@ -209,15 +207,13 @@ bool MiniaudioSound::isMusicPlaying(MusicHandle handle) const {
 
 void MiniaudioSound::setMusicVolume(MusicHandle handle, float volume) {
     auto it = m_state->music.find(handle.id);
-    if (it == m_state->music.end() || !it->second || !it->second->inUse)
-        return;
+    if (it == m_state->music.end() || !it->second || !it->second->inUse) return;
     ma_sound_set_volume(&it->second->sound, volume);
 }
 
 void MiniaudioSound::setMusicPitch(MusicHandle handle, float pitch) {
     auto it = m_state->music.find(handle.id);
-    if (it == m_state->music.end() || !it->second || !it->second->inUse)
-        return;
+    if (it == m_state->music.end() || !it->second || !it->second->inUse) return;
     ma_sound_set_pitch(&it->second->sound, pitch);
 }
 
@@ -234,9 +230,8 @@ void MiniaudioSound::releaseMusic(MusicHandle handle) {
 void MiniaudioSound::setListenerPosition(int listenerIndex, float x, float y,
                                          float z) {
     if (!m_state->engineReady) return;
-    ma_engine_listener_set_position(&m_state->engine,
-                                    static_cast<ma_uint32>(listenerIndex), x,
-                                    y, z);
+    ma_engine_listener_set_position(
+        &m_state->engine, static_cast<ma_uint32>(listenerIndex), x, y, z);
 }
 
 void MiniaudioSound::setListenerOrientation(int listenerIndex, float forwardX,
@@ -246,9 +241,8 @@ void MiniaudioSound::setListenerOrientation(int listenerIndex, float forwardX,
     ma_engine_listener_set_direction(&m_state->engine,
                                      static_cast<ma_uint32>(listenerIndex),
                                      forwardX, forwardY, forwardZ);
-    ma_engine_listener_set_world_up(&m_state->engine,
-                                    static_cast<ma_uint32>(listenerIndex),
-                                    upX, upY, upZ);
+    ma_engine_listener_set_world_up(
+        &m_state->engine, static_cast<ma_uint32>(listenerIndex), upX, upY, upZ);
 }
 
 }  // namespace platform::sound::miniaudio

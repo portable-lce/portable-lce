@@ -3,9 +3,9 @@
 #include <cstdint>
 #include <string>
 
-#include "platform/PlatformTypes.h"
 #include "AbstractTexturePack.h"
 #include "minecraft/locale/StringTable.h"
+#include "platform/PlatformTypes.h"
 
 class DLCPack;
 class StringTable;
@@ -27,7 +27,7 @@ public:
     using AbstractTexturePack::getResource;
 
     DLCTexturePack(std::uint32_t id, DLCPack* pack, TexturePack* fallback);
-    ~DLCTexturePack() {};
+    ~DLCTexturePack(){};
 
     virtual std::string getResource(const std::string& name);
     virtual DLCPack* getDLCPack();
@@ -58,9 +58,9 @@ public:
 
     // 4J Added
     virtual std::string getPath(bool bTitleUpdateTexture = false,
-                                 const char* pchBDPatchFilename = nullptr);
+                                const char* pchBDPatchFilename = nullptr);
     virtual std::string getAnimationString(const std::string& textureName,
-                                            const std::string& path);
+                                           const std::string& path);
     virtual BufferedImage* getImageResource(const std::string& File,
                                             bool filenameHasExtension = false,
                                             bool bTitleUpdateTexture = false,
@@ -71,9 +71,9 @@ public:
 
 private:
     static std::string getRootPath(std::uint32_t packId, bool allowOverride,
-                                    bool bAddDataFolder);
+                                   bool bAddDataFolder);
     static std::string getFilePath(std::uint32_t packId, std::string filename,
-                                    bool bAddDataFolder = true);
+                                   bool bAddDataFolder = true);
 
 public:
     int onPackMounted(int iPad, std::uint32_t dwErr,

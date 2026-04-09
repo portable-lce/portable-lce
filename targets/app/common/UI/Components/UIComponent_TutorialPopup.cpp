@@ -4,8 +4,6 @@
 
 #include <vector>
 
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
@@ -13,13 +11,15 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "util/StringHelpers.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 UIComponent_TutorialPopup::UIComponent_TutorialPopup(int iPad, void* initData,
                                                      UILayer* parentLayer)
@@ -248,8 +248,7 @@ void UIComponent_TutorialPopup::_SetDescription(UIScene* interactScene,
 }
 
 std::string UIComponent_TutorialPopup::_SetIcon(int icon, int iAuxVal,
-                                                 bool isFoil,
-                                                 const char* desc) {
+                                                bool isFoil, const char* desc) {
     std::string temp(desc);
 
     bool isFixedIcon = false;
@@ -362,7 +361,7 @@ std::string UIComponent_TutorialPopup::_SetImage(std::string& desc) {
 }
 
 std::string UIComponent_TutorialPopup::ParseDescription(int iPad,
-                                                         std::string& text) {
+                                                        std::string& text) {
     text = replaceAll(text, "{*CraftingTableIcon*}", "");
     text = replaceAll(text, "{*SticksIcon*}", "");
     text = replaceAll(text, "{*PlanksIcon*}", "");
@@ -442,8 +441,8 @@ void UIComponent_TutorialPopup::UpdateInteractScenePosition(bool visible) {
     }
 }
 
-void UIComponent_TutorialPopup::render(S32 width, S32 height,
-                                       IPlatformRenderer::eViewportType viewport) {
+void UIComponent_TutorialPopup::render(
+    S32 width, S32 height, IPlatformRenderer::eViewportType viewport) {
     if (viewport != IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN) {
         S32 xPos = 0;
         S32 yPos = 0;

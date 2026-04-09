@@ -3,14 +3,13 @@
 
 #pragma once
 
+#include <cstdio>
+#include <cstring>
+
 #include "app/linux/Iggy/include/iggy.h"
 
-#include <cstring>
-#include <cstdio>
-
 #define STUBBED \
-    {           \
-    }
+    {}
 
 RADEXPFUNC inline IggyValuePath* RADEXPLINK IggyPlayerRootPath(Iggy* f) {
     STUBBED;

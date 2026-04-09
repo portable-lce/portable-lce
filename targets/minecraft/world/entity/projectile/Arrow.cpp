@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "Arrow.h"
 
 #include <math.h>
@@ -16,6 +15,7 @@
 #include "minecraft/server/network/PlayerConnection.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/entity/Entity.h"
@@ -75,7 +75,7 @@ Arrow::Arrow(Level* level, std::shared_ptr<LivingEntity> mob,
 
     viewScale = 10;
     owner = mob;
-    if (mob->instanceof(eTYPE_PLAYER)) pickup = PICKUP_ALLOWED;
+    if (mob->instanceof (eTYPE_PLAYER)) pickup = PICKUP_ALLOWED;
 
     y = mob->y + mob->getHeadHeight() - 0.1f;
 
@@ -113,7 +113,7 @@ Arrow::Arrow(Level* level, std::shared_ptr<LivingEntity> mob, float power)
 
     viewScale = 10;
     owner = mob;
-    if (mob->instanceof(eTYPE_PLAYER)) pickup = PICKUP_ALLOWED;
+    if (mob->instanceof (eTYPE_PLAYER)) pickup = PICKUP_ALLOWED;
 
     setSize(0.5f, 0.5f);
 
@@ -275,16 +275,17 @@ void Arrow::tick() {
         res = new HitResult(hitEntity);
     }
 
-    if ((res != nullptr) && (res->entity != nullptr) &&
-        res->entity->instanceof(eTYPE_PLAYER)) {
+    if ((res != nullptr) && (res->entity != nullptr) && res->entity->instanceof
+        (eTYPE_PLAYER)) {
         std::shared_ptr<Player> player =
             std::dynamic_pointer_cast<Player>(res->entity);
         // 4J: Check for owner being null
         if (player->abilities.invulnerable ||
             ((owner != nullptr) &&
-             (owner->instanceof(eTYPE_PLAYER) &&
-              !std::dynamic_pointer_cast<Player>(owner)->canHarmPlayer(
-                  player)))) {
+             (owner->instanceof
+              (eTYPE_PLAYER) &&
+                  !std::dynamic_pointer_cast<Player>(owner)->canHarmPlayer(
+                      player)))) {
             res = nullptr;
         }
     }
@@ -318,7 +319,7 @@ void Arrow::tick() {
                     res->entity->setOnFire(5);
                 }
 
-                if (res->entity->instanceof(eTYPE_LIVINGENTITY)) {
+                if (res->entity->instanceof (eTYPE_LIVINGENTITY)) {
                     std::shared_ptr<LivingEntity> mob =
                         std::dynamic_pointer_cast<LivingEntity>(res->entity);
 
@@ -350,11 +351,11 @@ void Arrow::tick() {
 
                 // 4J : WESTY : For award, need to track if creeper was killed
                 // by arrow from the player.
-                if (owner != nullptr &&
-                    owner->instanceof(eTYPE_PLAYER)  // arrow owner is a player
-                    && !res->entity->isAlive()       // target is now dead
-                    && (res->entity->GetType() ==
-                        eTYPE_CREEPER))  // target is a creeper
+                if (owner != nullptr && owner->instanceof
+                    (eTYPE_PLAYER)                  // arrow owner is a player
+                        && !res->entity->isAlive()  // target is now dead
+                        && (res->entity->GetType() ==
+                            eTYPE_CREEPER))  // target is a creeper
 
                 {
                     std::dynamic_pointer_cast<Player>(owner)->awardStat(
@@ -480,8 +481,7 @@ void Arrow::readAdditionalSaveData(CompoundTag* tag) {
     if (tag->contains("pickup")) {
         pickup = tag->getByte("pickup");
     } else if (tag->contains("player")) {
-        pickup =
-            tag->getBoolean("player") ? PICKUP_ALLOWED : PICKUP_DISALLOWED;
+        pickup = tag->getBoolean("player") ? PICKUP_ALLOWED : PICKUP_DISALLOWED;
     }
 }
 

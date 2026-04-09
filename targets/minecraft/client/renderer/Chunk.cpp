@@ -1,6 +1,4 @@
 #include "Chunk.h"
-#include "platform/stubs.h"
-
 
 #include <string.h>
 
@@ -10,9 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include "platform/renderer/renderer.h"
 #include "LevelRenderer.h"
-#include "util/FrameProfiler.h"
 #include "TileRenderer.h"
 #include "minecraft/client/renderer/Tesselator.h"
 #include "minecraft/client/renderer/culling/Culler.h"
@@ -25,6 +21,9 @@
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
 #include "minecraft/world/phys/AABB.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
+#include "util/FrameProfiler.h"
 
 int Chunk::updates = 0;
 

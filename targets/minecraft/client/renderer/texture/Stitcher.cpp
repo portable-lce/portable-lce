@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "Stitcher.h"
 
 #include <algorithm>
@@ -7,6 +6,7 @@
 #include "Texture.h"
 #include "TextureHolder.h"
 #include "TextureManager.h"
+#include "minecraft/util/Log.h"
 
 void Stitcher::_init(const std::string& name, int maxWidth, int maxHeight,
                      bool forcePowerOfTwo, int forcedScale) {

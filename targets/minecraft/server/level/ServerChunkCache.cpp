@@ -1,5 +1,3 @@
-#include "minecraft/util/Log.h"
-#include <atomic>
 #include "ServerChunkCache.h"
 
 #include <assert.h>
@@ -7,11 +5,12 @@
 #include <string.h>
 
 #include <algorithm>
+#include <atomic>
 
-#include "minecraft/IGameServices.h"
 #include "ServerLevel.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/server/MinecraftServer.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/ProgressListener.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/biome/Biome.h"
@@ -21,6 +20,7 @@
 #include "minecraft/world/level/chunk/storage/ChunkStorage.h"
 #include "minecraft/world/level/chunk/storage/OldChunkStorage.h"
 #include "minecraft/world/level/dimension/Dimension.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/level/tile/Tile.h"
 
 ServerChunkCache::ServerChunkCache(ServerLevel* level, ChunkStorage* storage,
@@ -104,9 +104,7 @@ void ServerChunkCache::drop(int x, int z) {
     //}
     //	}
     //	else
-    {
-        canDrop = true;
-    }
+    { canDrop = true; }
     if (canDrop) {
         int ix = x + XZOFFSET;
         int iz = z + XZOFFSET;
@@ -817,7 +815,7 @@ bool ServerChunkCache::shouldSave() { return !level->noSave; }
 
 std::string ServerChunkCache::gatherStats() {
     return "ServerChunkCache: ";  // + toWString<int>(loadedChunks.size()) + "
-                                   // Drop: " + toWString<int>(toDrop.size());
+                                  // Drop: " + toWString<int>(toDrop.size());
 }
 
 std::vector<Biome::MobSpawnerData*>* ServerChunkCache::getMobsAt(
@@ -825,8 +823,9 @@ std::vector<Biome::MobSpawnerData*>* ServerChunkCache::getMobsAt(
     return source->getMobsAt(mobCategory, x, y, z);
 }
 
-TilePos* ServerChunkCache::findNearestMapFeature(
-    Level* level, const std::string& featureName, int x, int y, int z) {
+TilePos* ServerChunkCache::findNearestMapFeature(Level* level,
+                                                 const std::string& featureName,
+                                                 int x, int y, int z) {
     return source->findNearestMapFeature(level, featureName, x, y, z);
 }
 

@@ -1,11 +1,8 @@
 #include "VillagerGolemRenderer.h"
-#include "platform/stubs.h"
 
 #include <cmath>
 #include <memory>
 #include <numbers>
-
-#include "platform/renderer/renderer.h"
 
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/model/VillagerGolemModel.h"
@@ -19,6 +16,8 @@
 #include "minecraft/world/entity/animal/VillagerGolem.h"
 #include "minecraft/world/level/tile/PlantTile.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation VillagerGolemRenderer::GOLEM_LOCATION =
     ResourceLocation(TN_MOB_VILLAGER_GOLEM);

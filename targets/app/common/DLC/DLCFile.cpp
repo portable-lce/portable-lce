@@ -2,8 +2,8 @@
 
 #include <sstream>
 
-#include "minecraft/Minecraft_Macros.h"
 #include "app/common/DLC/DLCManager.h"
+#include "minecraft/Minecraft_Macros.h"
 
 DLCFile::DLCFile(DLCManager::EDLCType type, const std::string& path) {
     m_type = type;

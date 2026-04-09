@@ -1,9 +1,9 @@
-#include "minecraft/IGameServices.h"
 #include "BiomeCache.h"
 
 #include <utility>
 
 #include "BiomeSource.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/level/biome/Biome.h"
 
 BiomeCache::Block::Block(int x, int z, BiomeCache* parent) {

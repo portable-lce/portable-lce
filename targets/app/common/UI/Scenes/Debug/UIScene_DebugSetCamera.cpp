@@ -5,9 +5,6 @@
 
 #include <memory>
 
-#include "platform/input/input.h"
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
@@ -17,13 +14,16 @@
 #include "app/linux/Iggy/include/rrCore.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "platform/input/input.h"
+#include "platform/profile/profile.h"
 
 class UILayer;
 #ifdef _DEBUG_MENUS_ENABLED
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
+#include "util/StringHelpers.h"
 
 UIScene_DebugSetCamera::UIScene_DebugSetCamera(int iPad, void* initData,
                                                UILayer* parentLayer)
@@ -78,9 +78,7 @@ UIScene_DebugSetCamera::UIScene_DebugSetCamera(int iPad, void* initData,
     m_labelYRotElev.init("Y-Rot & Elevation (Degs)");
 }
 
-std::string UIScene_DebugSetCamera::getMoviePath() {
-    return "DebugSetCamera";
-}
+std::string UIScene_DebugSetCamera::getMoviePath() { return "DebugSetCamera"; }
 
 void UIScene_DebugSetCamera::handleInput(int iPad, int key, bool repeat,
                                          bool pressed, bool released,

@@ -1,9 +1,9 @@
-#include "minecraft/IGameServices.h"
 #include "GameRules.h"
 
 #include <assert.h>
 
 #include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 
 // 4J: GameRules isn't in use anymore, just routes any requests to app game host
 // options, kept things commented out for context
@@ -40,21 +40,28 @@ GameRules::~GameRules() {
 bool GameRules::getBoolean(const int rule) {
     switch (rule) {
         case GameRules::RULE_DOFIRETICK:
-            return gameServices().getGameHostOption(eGameHostOption_FireSpreads);
+            return gameServices().getGameHostOption(
+                eGameHostOption_FireSpreads);
         case GameRules::RULE_MOBGRIEFING:
-            return gameServices().getGameHostOption(eGameHostOption_MobGriefing);
+            return gameServices().getGameHostOption(
+                eGameHostOption_MobGriefing);
         case GameRules::RULE_KEEPINVENTORY:
-            return gameServices().getGameHostOption(eGameHostOption_KeepInventory);
+            return gameServices().getGameHostOption(
+                eGameHostOption_KeepInventory);
         case GameRules::RULE_DOMOBSPAWNING:
-            return gameServices().getGameHostOption(eGameHostOption_DoMobSpawning);
+            return gameServices().getGameHostOption(
+                eGameHostOption_DoMobSpawning);
         case GameRules::RULE_DOMOBLOOT:
             return gameServices().getGameHostOption(eGameHostOption_DoMobLoot);
         case GameRules::RULE_DOTILEDROPS:
-            return gameServices().getGameHostOption(eGameHostOption_DoTileDrops);
+            return gameServices().getGameHostOption(
+                eGameHostOption_DoTileDrops);
         case GameRules::RULE_NATURAL_REGENERATION:
-            return gameServices().getGameHostOption(eGameHostOption_NaturalRegeneration);
+            return gameServices().getGameHostOption(
+                eGameHostOption_NaturalRegeneration);
         case GameRules::RULE_DAYLIGHT:
-            return gameServices().getGameHostOption(eGameHostOption_DoDaylightCycle);
+            return gameServices().getGameHostOption(
+                eGameHostOption_DoDaylightCycle);
         default:
             assert(0);
             return false;

@@ -1,8 +1,8 @@
 #include "GuiParticle.h"
 
-#include "platform/stubs.h"
-#include "java/Random.h"
 #include "java/Color.h"
+#include "java/Random.h"
+#include "platform/stubs.h"
 
 Random* GuiParticle::random = new Random();
 

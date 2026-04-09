@@ -13,20 +13,19 @@
 #include <unordered_map>
 #include <utility>
 
-#include "simdutf.h"
-
-#include "platform/profile/profile.h"
-#include "platform/storage/storage.h"
 #include "DLCFile.h"
 #include "DLCPack.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "platform/fs/fs.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "platform/fs/fs.h"
+#include "platform/profile/profile.h"
+#include "platform/storage/storage.h"
+#include "simdutf.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 // 4jcraft, this is the size of wchar_t on disk
 // the DLC was created on windows, with wchar_t beeing 2 bytes and UTF-16
@@ -71,7 +70,8 @@ std::string getMountedDlcReadPath(const std::string& path) {
     std::string readPath = path;
 
 #if defined(_WINDOWS64)
-    const std::string mountedPath = PlatformStorage.GetMountedPath(path.c_str());
+    const std::string mountedPath =
+        PlatformStorage.GetMountedPath(path.c_str());
     if (!mountedPath.empty()) {
         readPath = mountedPath;
     }
@@ -240,7 +240,7 @@ unsigned int DLCManager::getPackIndex(DLCPack* pack, bool& found,
     if (pack == nullptr) {
         app.DebugPrintf(
             "DLCManager: Attempting to find the index for a nullptr pack\n");
-        //assert(0);
+        // assert(0);
         return foundIndex;
     }
     if (type != e_DLCType_All) {
@@ -401,10 +401,12 @@ bool DLCManager::processDLCDataFile(unsigned int& dwFilesProcessed,
 
 // for details, read in the function below
 #define DLC_PARAM_WSTR(buf, off) \
-    DLC_WSTRING((buf) + (off) + offsetof(IPlatformStorage::DLC_FILE_PARAM, wchData))
+    DLC_WSTRING((buf) + (off) +  \
+                offsetof(IPlatformStorage::DLC_FILE_PARAM, wchData))
 
 #define DLC_DETAIL_WSTR(buf, off) \
-    DLC_WSTRING((buf) + (off) + offsetof(IPlatformStorage::DLC_FILE_DETAILS, wchFile))
+    DLC_WSTRING((buf) + (off) +   \
+                offsetof(IPlatformStorage::DLC_FILE_DETAILS, wchFile))
 {
     std::unordered_map<int, DLCManager::EDLCParameterType> parameterMapping;
     unsigned int uiCurrentByte = 0;
@@ -462,7 +464,8 @@ bool DLCManager::processDLCDataFile(unsigned int& dwFilesProcessed,
         uiCurrentByte += DLC_PARAM_ADV(parBuf.dwWchCount);
         DLC_READ_PARAM(&parBuf, pbData, uiCurrentByte);
     }
-    // ulCurrentByte+=ulParameterCount * sizeof(IPlatformStorage::DLC_FILE_PARAM);
+    // ulCurrentByte+=ulParameterCount *
+    // sizeof(IPlatformStorage::DLC_FILE_PARAM);
 
     unsigned int uiFileCount;
     DLC_READ_UINT(&uiFileCount, pbData, uiCurrentByte);
@@ -477,7 +480,9 @@ bool DLCManager::processDLCDataFile(unsigned int& dwFilesProcessed,
         DLC_READ_DETAIL(&fileBuf, pbData, dwTemp);
     }
     std::uint8_t* pbTemp =
-        &pbData[dwTemp];  //+ sizeof(IPlatformStorage::DLC_FILE_DETAILS)*ulFileCount;
+        &pbData
+            [dwTemp];  //+
+                       //sizeof(IPlatformStorage::DLC_FILE_DETAILS)*ulFileCount;
     DLC_READ_DETAIL(&fileBuf, pbData, uiCurrentByte);
 
     for (unsigned int i = 0; i < uiFileCount; i++) {

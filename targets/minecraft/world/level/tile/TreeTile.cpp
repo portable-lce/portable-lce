@@ -19,7 +19,7 @@ const std::string TreeTile::TREE_STRING_NAMES[TreeTile::TREE_NAMES_LENGTH] = {
     "oak", "spruce", "birch", "jungle"};
 
 const std::string TreeTile::TREE_TEXTURES[] = {"tree_side", "tree_spruce",
-                                                "tree_birch", "tree_jungle"};
+                                               "tree_birch", "tree_jungle"};
 
 TreeTile::TreeTile(int id) : RotatedPillarTile(id, Material::wood) {}
 

@@ -1,8 +1,8 @@
 #pragma once
 // using namespace std;
+#include "TutorialTask.h"
 #include "app/common/Tutorial/Tasks/TutorialTask.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "TutorialTask.h"
 
 class Tutorial;
 

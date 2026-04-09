@@ -1,6 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "platform/stubs.h"
-#include "minecraft/util/Log.h"
 #include "TitleScreen.h"
 
 #include <stdint.h>
@@ -11,13 +8,12 @@
 #include <ctime>
 #include <vector>
 
-#include "platform/renderer/renderer.h"
-#include "minecraft/client/BufferedImage.h"
-#include "util/StringHelpers.h"
 #include "java/InputOutputStream/BufferedReader.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/InputStreamReader.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/ClientConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Button.h"
@@ -29,6 +25,10 @@
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/locale/Language.h"
+#include "minecraft/util/Log.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 Random* TitleScreen::random = new Random();
 
@@ -46,7 +46,8 @@ TitleScreen::TitleScreen() {
 
     std::string filename = "splashes.txt";
     if (gameServices().hasArchiveFile(filename)) {
-        std::vector<uint8_t> splashesArray = gameServices().getArchiveFile(filename);
+        std::vector<uint8_t> splashesArray =
+            gameServices().getArchiveFile(filename);
         ByteArrayInputStream bais(splashesArray);
         InputStreamReader isr(&bais);
         BufferedReader br(&isr);
@@ -122,9 +123,9 @@ if (c.get(Calendar.MONTH) + 1 == 11 && c.get(Calendar.DAY_OF_MONTH) == 9) {
 
     buttons.push_back(new Button(1, width / 2 - 100, topPos,
                                  language->getElement("menu.singleplayer")));
-    buttons.push_back(multiplayerButton = new Button(
-                          2, width / 2 - 100, topPos + spacing * 1,
-                          language->getElement("menu.multiplayer")));
+    buttons.push_back(multiplayerButton =
+                          new Button(2, width / 2 - 100, topPos + spacing * 1,
+                                     language->getElement("menu.multiplayer")));
     buttons.push_back(new Button(3, width / 2 - 100, topPos + spacing * 2,
                                  language->getElement("menu.mods")));
 

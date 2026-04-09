@@ -3,7 +3,6 @@
 #include <format>
 #include <string>
 
-#include "platform/storage/storage.h"
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl.h"
@@ -11,20 +10,22 @@
 #include "app/common/UI/Controls/UIControl_PlayerSkinPreview.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/iggy.h"
+#include "platform/storage/storage.h"
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
 #include "app/linux/Iggy/include/rrCore.h"
 #include "minecraft/client/model/SkinBox.h"
-#include "minecraft/world/entity/player/SkinTypes.h"
 #include "minecraft/client/renderer/Textures.h"
+#include "minecraft/world/entity/player/SkinTypes.h"
 
 class DLCPack;
 class UILayer;
 
 class UIScene_SkinSelectMenu : public UIScene {
 private:
-    static const char* wchDefaultNamesA[std::to_underlying(EDefaultSkins::Count)];
+    static const char*
+        wchDefaultNamesA[std::to_underlying(EDefaultSkins::Count)];
 
     // 4J Stu - How many to show on each side of the main control
     static const int sidePreviewControls = 4;

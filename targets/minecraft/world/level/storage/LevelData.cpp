@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "LevelData.h"
 
 #include <assert.h>
@@ -6,9 +5,10 @@
 #include <algorithm>
 #include <cmath>
 
+#include "java/System.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameHostOptions.h"
-#include "java/System.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/level/GameRules.h"
 #include "minecraft/world/level/LevelSettings.h"
 #include "minecraft/world/level/LevelType.h"
@@ -85,11 +85,11 @@ LevelData::LevelData(CompoundTag* tag) {
 
     newSeaLevel = tag->getBoolean(
         "newSeaLevel");  // 4J added - only use new sea level for newly created
-                          // maps. This read defaults to false. (sea level
-                          // changes in 1.8.2)
+                         // maps. This read defaults to false. (sea level
+                         // changes in 1.8.2)
     hasBeenInCreative = tag->getBoolean(
         "hasBeenInCreative");  // 4J added so we can not award achievements to
-                                // levels modified in creative
+                               // levels modified in creative
 
     // 4J added - for stronghold position
     bStronghold = tag->getBoolean("hasStronghold");
@@ -182,7 +182,8 @@ LevelData::LevelData(CompoundTag* tag) {
             assert(0);
             break;
     }
-    gameServices().setGameHostOption(eGameHostOption_WorldSize, hostOptionworldSize);
+    gameServices().setGameHostOption(eGameHostOption_WorldSize,
+                                     hostOptionworldSize);
 #endif
 
     /* 4J - we don't store this anymore

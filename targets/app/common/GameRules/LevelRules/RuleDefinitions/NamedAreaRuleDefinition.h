@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/phys/AABB.h"
 
 class NamedAreaRuleDefinition : public GameRuleDefinition {

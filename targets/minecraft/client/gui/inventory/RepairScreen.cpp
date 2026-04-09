@@ -1,12 +1,8 @@
 #include "RepairScreen.h"
-#include "platform/stubs.h"
-
-
 
 #include <memory>
 #include <string>
 
-#include "platform/renderer/renderer.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/client/Minecraft.h"
@@ -22,6 +18,8 @@
 #include "minecraft/world/inventory/AnvilMenu.h"
 #include "minecraft/world/inventory/Slot.h"
 #include "minecraft/world/item/ItemInstance.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 class Inventory;
 class Level;
@@ -73,8 +71,7 @@ void RepairScreen::render(int xm, int ym, float a) {
 }
 
 void RepairScreen::renderLabels() {
-    std::string title =
-        Language::getInstance()->getElement("container.repair");
+    std::string title = Language::getInstance()->getElement("container.repair");
     font->draw(title, 60, 6, 0x404040);
 
     if (repairMenu->cost > 0) {

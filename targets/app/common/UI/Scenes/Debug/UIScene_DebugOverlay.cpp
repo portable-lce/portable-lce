@@ -5,8 +5,6 @@
 
 #include <memory>
 
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
@@ -14,6 +12,8 @@
 #include "app/common/UI/Controls/UIControl_Slider.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/iggy.h"
+#include "minecraft/GameEnums.h"
+#include "platform/profile/profile.h"
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
@@ -33,13 +33,13 @@
 class Player;
 class UILayer;
 #ifdef _DEBUG_MENUS_ENABLED
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/client/multiplayer/MultiPlayerLevel.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/client/renderer/GameRenderer.h"
 #include "minecraft/server/MinecraftServer.h"
+#include "util/StringHelpers.h"
 
 UIScene_DebugOverlay::UIScene_DebugOverlay(int iPad, void* initData,
                                            UILayer* parentLayer)

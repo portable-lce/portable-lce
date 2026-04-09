@@ -4,11 +4,11 @@
 
 #include "Texture.h"
 #include "TextureManager.h"
-#include "util/StringHelpers.h"
 #include "java/InputOutputStream/BufferedReader.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/renderer/texture/custom/ClockTexture.h"
 #include "minecraft/client/renderer/texture/custom/CompassTexture.h"
+#include "util/StringHelpers.h"
 
 StitchedTexture* StitchedTexture::create(const std::string& name) {
     // TODO: Generalize?

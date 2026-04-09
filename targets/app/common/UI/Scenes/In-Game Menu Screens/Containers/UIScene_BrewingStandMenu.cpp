@@ -2,7 +2,6 @@
 
 #include <assert.h>
 
-#include "platform/profile/profile.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
@@ -17,6 +16,7 @@
 #include "minecraft/world/inventory/BrewingStandMenu.h"
 #include "minecraft/world/item/alchemy/PotionBrewing.h"
 #include "minecraft/world/level/tile/entity/BrewingStandTileEntity.h"
+#include "platform/profile/profile.h"
 
 class UILayer;
 

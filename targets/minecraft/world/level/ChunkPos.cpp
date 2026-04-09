@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 
-#include "util/StringHelpers.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/level/TilePos.h"
+#include "util/StringHelpers.h"
 
 ChunkPos::ChunkPos(int x, int z) : x(x), z(z) {}
 

@@ -6,11 +6,11 @@
 #include <string>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
-#include "platform/C4JThread.h"
 #include "java/File.h"
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
+#include "platform/C4JThread.h"
+#include "platform/PlatformTypes.h"
 #include "platform/stubs.h"
 
 class Timer;

@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "Explosion.h"
 
 #include <math.h>
@@ -11,6 +10,7 @@
 #include "java/Random.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/entity/Entity.h"
@@ -170,7 +170,7 @@ void Explosion::explode() {
             e->yd += ya * kbPower;
             e->zd += za * kbPower;
 
-            if (e->instanceof(eTYPE_PLAYER)) {
+            if (e->instanceof (eTYPE_PLAYER)) {
                 std::shared_ptr<Player> player =
                     std::dynamic_pointer_cast<Player>(e);
                 // Log::info("Adding player knockback (%f,%f,%f)\n", xa *
@@ -300,9 +300,9 @@ Vec3 Explosion::getHitPlayerKnockback(std::shared_ptr<Player> player) {
 
 std::shared_ptr<LivingEntity> Explosion::getSourceMob() {
     if (source == nullptr) return nullptr;
-    if (source->instanceof(eTYPE_PRIMEDTNT))
+    if (source->instanceof (eTYPE_PRIMEDTNT))
         return std::dynamic_pointer_cast<PrimedTnt>(source)->getOwner();
-    if (source->instanceof(eTYPE_LIVINGENTITY))
+    if (source->instanceof (eTYPE_LIVINGENTITY))
         return std::dynamic_pointer_cast<LivingEntity>(source);
     return nullptr;
 }

@@ -4,10 +4,10 @@
 
 #include <memory>
 
-#include "platform/PlatformTypes.h"
 #include "minecraft/commands/Command.h"
 #include "minecraft/commands/CommandsEnum.h"
 #include "minecraft/network/packet/GameCommandPacket.h"
+#include "platform/PlatformTypes.h"
 
 class TeleportCommand : public Command {
 public:

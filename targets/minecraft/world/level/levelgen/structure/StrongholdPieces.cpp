@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "StrongholdPieces.h"
 
 #include <stdio.h>
@@ -7,11 +6,11 @@
 #include <memory>
 #include <string>
 
-#include "minecraft/GameEnums.h"
-#include "util/StringHelpers.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
 #include "minecraft/Facing.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/util/WeighedTreasure.h"
 #include "minecraft/world/item/CoalItem.h"
 #include "minecraft/world/item/EnchantedBookItem.h"
@@ -30,6 +29,7 @@
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/MobSpawnerTileEntity.h"
 #include "nbt/CompoundTag.h"
+#include "util/StringHelpers.h"
 
 int StrongholdPieces::totalWeight = 0;
 std::list<StrongholdPieces::PieceWeight*> StrongholdPieces::currentPieces;
@@ -1970,8 +1970,8 @@ bool StrongholdPieces::PortalRoom::postProcess(Level* level, Random* random,
             // 4J Stu - The mob spawner location is close enough for the map
             // icon display, and this ensures that we only need to set the
             // position once
-            gameServices().addTerrainFeaturePosition(eTerrainFeature_StrongholdEndPortal,
-                                          x, z);
+            gameServices().addTerrainFeaturePosition(
+                eTerrainFeature_StrongholdEndPortal, x, z);
             level->getLevelData()->setXStrongholdEndPortal(x);
             level->getLevelData()->setZStrongholdEndPortal(z);
             level->getLevelData()->setHasStrongholdEndPortal();

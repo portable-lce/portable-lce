@@ -1,9 +1,9 @@
-#include "minecraft/util/Log.h"
 #include "TileEntity.h"
 
 #include <utility>
 
 #include "PistonPieceTileEntity.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/tile/JukeboxTile.h"
 #include "minecraft/world/level/tile/Tile.h"
@@ -137,7 +137,7 @@ std::shared_ptr<TileEntity> TileEntity::loadStatic(CompoundTag* tag) {
     } else {
 #ifdef _DEBUG
         Log::info("Skipping TileEntity with id %s.\n",
-                        tag->getString("id").c_str());
+                  tag->getString("id").c_str());
 #endif
     }
 

@@ -1,7 +1,6 @@
 
 #include "UIScene_CraftingMenu.h"
 
-#include "platform/profile/profile.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
@@ -22,6 +21,7 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/item/crafting/Recipy.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 class UILayer;

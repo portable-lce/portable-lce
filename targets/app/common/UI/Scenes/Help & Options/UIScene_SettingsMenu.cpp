@@ -1,7 +1,6 @@
 
 #include "UIScene_SettingsMenu.h"
 
-#include "platform/profile/profile.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
@@ -9,6 +8,7 @@
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 UIScene_SettingsMenu::UIScene_SettingsMenu(int iPad, void* initData,

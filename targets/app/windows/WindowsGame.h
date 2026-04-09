@@ -36,4 +36,3 @@ public:
 };
 
 extern WindowsGame app;
-

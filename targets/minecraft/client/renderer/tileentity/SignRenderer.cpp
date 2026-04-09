@@ -1,25 +1,24 @@
-#include "minecraft/IGameServices.h"
-#include "platform/stubs.h"
 #include "SignRenderer.h"
 
 #include <cstdint>
 #include <memory>
 #include <string>
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
-#include "platform/XboxStubs.h"
-
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Font.h"
 #include "minecraft/client/model/SignModel.h"
 #include "minecraft/client/model/geom/ModelPart.h"
 #include "minecraft/client/renderer/Textures.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/SignTileEntity.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
+#include "platform/XboxStubs.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 #include "strings.h"
 
 ResourceLocation SignRenderer::SIGN_LOCATION = ResourceLocation(TN_ITEM_SIGN);
@@ -90,7 +89,8 @@ void SignRenderer::render(std::shared_ptr<TileEntity> _sign, double x, double y,
                         msg = "Censored";  // In-game font, so English only
                         break;
                     default:
-                        msg = gameServices().getString(IDS_STRINGVERIFY_CENSORED);
+                        msg =
+                            gameServices().getString(IDS_STRINGVERIFY_CENSORED);
                         break;
                 }
             } else {
@@ -101,11 +101,11 @@ void SignRenderer::render(std::shared_ptr<TileEntity> _sign, double x, double y,
                 case XC_LANGUAGE_KOREAN:
                 case XC_LANGUAGE_JAPANESE:
                 case XC_LANGUAGE_TCHINESE:
-                    msg =
-                        "Awaiting Approval";  // In-game font, so English only
+                    msg = "Awaiting Approval";  // In-game font, so English only
                     break;
                 default:
-                    msg = gameServices().getString(IDS_STRINGVERIFY_AWAITING_APPROVAL);
+                    msg = gameServices().getString(
+                        IDS_STRINGVERIFY_AWAITING_APPROVAL);
                     break;
             }
         }

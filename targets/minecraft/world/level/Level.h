@@ -10,12 +10,10 @@
 #include <unordered_set>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "ChunkPos.h"
 #include "LevelSource.h"
 #include "LightLayer.h"
 #include "TickNextTickData.h"
-#include "platform/C4JThread.h"
 #include "java/Class.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/world/level/ChunkPos.h"
@@ -24,6 +22,8 @@
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/saveddata/SavedData.h"
 #include "minecraft/world/phys/AABB.h"
+#include "platform/C4JThread.h"
+#include "platform/PlatformTypes.h"
 
 class CompoundTag;
 class ItemInstance;
@@ -635,8 +635,8 @@ public:
                                                 int source);
     virtual float getDifficulty(double x, double y, double z);
     virtual float getDifficulty(int x, int y, int z);
-    TilePos* findNearestMapFeature(const std::string& featureName, int x,
-                                   int y, int z);
+    TilePos* findNearestMapFeature(const std::string& featureName, int x, int y,
+                                   int z);
 
     // 4J Added
     int getAuxValueForMap(PlayerUID xuid, int dimension, int centreXC,

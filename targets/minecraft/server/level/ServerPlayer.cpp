@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "ServerPlayer.h"
 
 #include <assert.h>
@@ -10,12 +8,7 @@
 #include <cmath>
 #include <format>
 
-#include "platform/input/input.h"
 #include "EntityTracker.h"
-#include "minecraft/Console_Debug_enum.h"
-#include "minecraft/world/level/GameRules/GameRulesInstance.h"
-#include "minecraft/network/INetworkService.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "ServerLevel.h"
 #include "ServerPlayerGameMode.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
@@ -24,10 +17,13 @@
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/Random.h"
 #include "java/System.h"
+#include "minecraft/Console_Debug_enum.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/Pos.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLevel.h"
 #include "minecraft/client/renderer/LevelRenderer.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/packet/AnimatePacket.h"
 #include "minecraft/network/packet/AwardStatPacket.h"
 #include "minecraft/network/packet/BlockRegionUpdatePacket.h"
@@ -49,11 +45,13 @@
 #include "minecraft/network/packet/SetHealthPacket.h"
 #include "minecraft/network/packet/TileEditorOpenPacket.h"
 #include "minecraft/network/packet/UpdateMobEffectPacket.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/network/PlayerConnection.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/stats/Stat.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/Container.h"
 #include "minecraft/world/damageSource/CombatTracker.h"
 #include "minecraft/world/damageSource/DamageSource.h"
@@ -90,6 +88,7 @@
 #include "minecraft/world/item/trading/MerchantRecipeList.h"
 #include "minecraft/world/level/ChunkPos.h"
 #include "minecraft/world/level/GameRules.h"
+#include "minecraft/world/level/GameRules/GameRulesInstance.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LevelSettings.h"
 #include "minecraft/world/level/biome/Biome.h"
@@ -108,6 +107,7 @@
 #include "minecraft/world/scores/Scoreboard.h"
 #include "minecraft/world/scores/criteria/ObjectiveCriteria.h"
 #include "nbt/CompoundTag.h"
+#include "platform/input/input.h"
 #include "strings.h"
 
 class Objective;
@@ -450,8 +450,8 @@ void ServerPlayer::doChunkSendingTick(bool dontDelayChunks) {
                 if (dontDelayChunks ||
                     (canSendToPlayer &&
                      (connection->countDelayedPackets() < 4) &&
-                     (NetworkService.GetHostPlayer()
-                          ->GetSendQueueSizeMessages(nullptr, true) < 4) &&
+                     (NetworkService.GetHostPlayer()->GetSendQueueSizeMessages(
+                          nullptr, true) < 4) &&
                      //(tickCount - lastBrupSendTickCount) >
                      //(connection->getNetworkPlayer()->GetCurrentRtt()>>4) &&
                      !connection->done)) {
@@ -716,19 +716,20 @@ bool ServerPlayer::hurt(DamageSource* dmgSource, float dmg) {
         // sometimes nullptr.
         std::shared_ptr<Entity> source = dmgSource->getDirectEntity();
 
-        if (source->instanceof(eTYPE_PLAYER) &&
-            !std::dynamic_pointer_cast<Player>(source)->canHarmPlayer(
-                std::dynamic_pointer_cast<Player>(shared_from_this()))) {
+        if (source->instanceof
+            (eTYPE_PLAYER) &&
+                !std::dynamic_pointer_cast<Player>(source)->canHarmPlayer(
+                    std::dynamic_pointer_cast<Player>(shared_from_this()))) {
             return false;
         }
 
-        if ((source != nullptr) && source->instanceof(eTYPE_ARROW)) {
+        if ((source != nullptr) && source->instanceof (eTYPE_ARROW)) {
             std::shared_ptr<Arrow> arrow =
                 std::dynamic_pointer_cast<Arrow>(source);
-            if ((arrow->owner != nullptr) &&
-                arrow->owner->instanceof(eTYPE_PLAYER) &&
-                !canHarmPlayer(
-                    std::dynamic_pointer_cast<Player>(arrow->owner))) {
+            if ((arrow->owner != nullptr) && arrow->owner->instanceof
+                (eTYPE_PLAYER) &&
+                    !canHarmPlayer(
+                        std::dynamic_pointer_cast<Player>(arrow->owner))) {
                 return false;
             }
         }
@@ -780,8 +781,7 @@ void ServerPlayer::changeDimension(int i) {
                 true;  // We only flag this for the player in the portal
             connection->send(std::make_shared<GameEventPacket>(
                 GameEventPacket::WIN_GAME, thisPlayer->GetUserIndex()));
-            Log::info("Sending packet to %d\n",
-                            thisPlayer->GetUserIndex());
+            Log::info("Sending packet to %d\n", thisPlayer->GetUserIndex());
         }
         if (thisPlayer != nullptr) {
             for (auto it = MinecraftServer::getInstance()
@@ -802,7 +802,7 @@ void ServerPlayer::changeDimension(int i) {
                             new GameEventPacket(GameEventPacket::WIN_GAME,
                                                 thisPlayer->GetUserIndex())));
                     Log::info("Sending packet to %d\n",
-                                    thisPlayer->GetUserIndex());
+                              thisPlayer->GetUserIndex());
                 }
             }
         }
@@ -978,8 +978,7 @@ bool ServerPlayer::startRepairing(int x, int y, int z) {
     if (containerMenu == inventoryMenu) {
         nextContainerCounter();
         connection->send(std::make_shared<ContainerOpenPacket>(
-            containerCounter, ContainerOpenPacket::REPAIR_TABLE, "", 9,
-            false));
+            containerCounter, ContainerOpenPacket::REPAIR_TABLE, "", 9, false));
         containerMenu = new AnvilMenu(
             inventory, level, x, y, z,
             std::dynamic_pointer_cast<Player>(shared_from_this()));

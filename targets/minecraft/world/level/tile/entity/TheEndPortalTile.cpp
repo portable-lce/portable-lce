@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include "minecraft/IGameServices.h"
 #include "TheEndPortalTileEntity.h"
 #include "java/Class.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/entity/Entity.h"
@@ -64,7 +64,7 @@ void TheEndPortal::entityInside(Level* level, int x, int y, int z,
 
     if (entity->riding == nullptr && entity->rider.lock() == nullptr) {
         if (!level->isClientSide) {
-            if (entity->instanceof(eTYPE_PLAYER)) {
+            if (entity->instanceof (eTYPE_PLAYER)) {
                 // 4J Stu - Update the level data position so that the
                 // stronghold portal can be shown on the maps
                 int x, z;

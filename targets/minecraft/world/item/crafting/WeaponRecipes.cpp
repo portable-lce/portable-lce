@@ -10,8 +10,8 @@
 
 // 4J-PB - adding "" on the end of these so we can detect it
 std::string WeaponRecipies::shapes[][4] = {
-    {"X",        //
-     "X",        //
+    {"X",       //
+     "X",       //
      "#", ""},  //
 };
 

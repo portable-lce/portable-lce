@@ -1,11 +1,10 @@
-#include "minecraft/IGameServices.h"
 #include "PotionItem.h"
 
 #include <utility>
 
-#include "minecraft/GameEnums.h"
-#include "util/StringHelpers.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/util/HtmlString.h"
@@ -26,6 +25,7 @@
 #include "nbt/CompoundTag.h"
 #include "nbt/ListTag.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 class Icon;
 
@@ -213,8 +213,9 @@ std::string PotionItem::getHoverName(
     if (isThrowable(itemInstance->getAuxValue())) {
         // elementName = I18n.get("potion.prefix.grenade").trim() + " " +
         // elementName;
-        elementName = replaceAll(elementName, "{*splash*}",
-                                 gameServices().getString(IDS_POTION_PREFIX_GRENADE));
+        elementName =
+            replaceAll(elementName, "{*splash*}",
+                       gameServices().getString(IDS_POTION_PREFIX_GRENADE));
     } else {
         elementName = replaceAll(elementName, "{*splash*}", "");
     }
@@ -227,17 +228,19 @@ std::string PotionItem::getHoverName(
         // return elementName + " " + I18n.get(postfixString).trim();
 
         elementName = replaceAll(elementName, "{*prefix*}", "");
-        elementName = replaceAll(
-            elementName, "{*postfix*}",
-            gameServices().getString(effects->at(0)->getPostfixDescriptionId()));
+        elementName =
+            replaceAll(elementName, "{*postfix*}",
+                       gameServices().getString(
+                           effects->at(0)->getPostfixDescriptionId()));
     } else {
         // String appearanceName =
         // PotionBrewing.getAppearanceName(itemInstance.getAuxValue()); return
         // I18n.get(appearanceName).trim() + " " + elementName;
 
-        elementName = replaceAll(elementName, "{*prefix*}",
-                                 gameServices().getString(PotionBrewing::getAppearanceName(
-                                     itemInstance->getAuxValue())));
+        elementName = replaceAll(
+            elementName, "{*prefix*}",
+            gameServices().getString(
+                PotionBrewing::getAppearanceName(itemInstance->getAuxValue())));
         elementName = replaceAll(elementName, "{*postfix*}", "");
     }
     return elementName;
@@ -288,18 +291,22 @@ void PotionItem::appendHoverText(std::shared_ptr<ItemInstance> itemInstance,
                 switch (effect->getAmplifier()) {
                     case 1:
                         potencyString = " ";
-                        potencyString += gameServices().getString(IDS_POTION_POTENCY_1);
+                        potencyString +=
+                            gameServices().getString(IDS_POTION_POTENCY_1);
                         break;
                     case 2:
                         potencyString = " ";
-                        potencyString += gameServices().getString(IDS_POTION_POTENCY_2);
+                        potencyString +=
+                            gameServices().getString(IDS_POTION_POTENCY_2);
                         break;
                     case 3:
                         potencyString = " ";
-                        potencyString += gameServices().getString(IDS_POTION_POTENCY_3);
+                        potencyString +=
+                            gameServices().getString(IDS_POTION_POTENCY_3);
                         break;
                     default:
-                        potencyString = gameServices().getString(IDS_POTION_POTENCY_0);
+                        potencyString =
+                            gameServices().getString(IDS_POTION_POTENCY_0);
                         break;
                 }
                 effectString +=
@@ -307,8 +314,7 @@ void PotionItem::appendHoverText(std::shared_ptr<ItemInstance> itemInstance,
                                     // effect.getAmplifier()).trim();
             }
             if (effect->getDuration() > SharedConstants::TICKS_PER_SECOND) {
-                effectString +=
-                    " (" + MobEffect::formatDuration(effect) + ")";
+                effectString += " (" + MobEffect::formatDuration(effect) + ")";
             }
 
             eMinecraftColour color = eMinecraftColour_NOT_SET;
@@ -331,8 +337,9 @@ void PotionItem::appendHoverText(std::shared_ptr<ItemInstance> itemInstance,
     if (!modifiers.empty()) {
         // Add new line
         lines->push_back(HtmlString(""));
-        lines->push_back(HtmlString(gameServices().getString(IDS_POTION_EFFECTS_WHENDRANK),
-                                    eHTMLColor_5));
+        lines->push_back(
+            HtmlString(gameServices().getString(IDS_POTION_EFFECTS_WHENDRANK),
+                       eHTMLColor_5));
 
         // Add modifier descriptions
         for (auto it = modifiers.begin(); it != modifiers.end(); ++it) {

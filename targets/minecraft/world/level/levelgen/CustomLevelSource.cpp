@@ -1,15 +1,15 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "CustomLevelSource.h"
 
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include "minecraft/IGameServices.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
-#include "platform/fs/fs.h"
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
+#include "platform/fs/fs.h"
 #if defined(__linux__)
 #endif
 #include "java/Random.h"
@@ -61,9 +61,9 @@ CustomLevelSource::CustomLevelSource(Level* level, int64_t seed,
 
     {
         const char* waterHeightPath = "GameRules/waterheight.bin";
-        auto result = PlatformFilesystem.readFile(
-            waterHeightPath, m_waterheightOverride.data(),
-            m_waterheightOverride.size());
+        auto result = PlatformFilesystem.readFile(waterHeightPath,
+                                                  m_waterheightOverride.data(),
+                                                  m_waterheightOverride.size());
         if (result.status == IPlatformFilesystem::ReadStatus::NotFound) {
             memset(m_waterheightOverride.data(), level->seaLevel,
                    m_waterheightOverride.size());
@@ -260,7 +260,8 @@ void CustomLevelSource::buildSurfaces(int xOffs, int zOffs,
             uint8_t top = b->topMaterial;
             uint8_t material = b->material;
 
-            LevelGenerationOptions* lgo = gameServices().getLevelGenerationOptions();
+            LevelGenerationOptions* lgo =
+                gameServices().getLevelGenerationOptions();
             if (lgo != nullptr) {
                 lgo->getBiomeOverride(b->id, material, top);
             }

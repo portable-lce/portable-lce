@@ -8,8 +8,8 @@
 
 #include "app/common/App_structs.h"
 #include "app/common/DLC/DLCManager.h"
-#include "platform/storage/storage.h"
 #include "platform/XboxStubs.h"
+#include "platform/storage/storage.h"
 
 struct SCreditTextItemDef;
 
@@ -36,9 +36,8 @@ public:
                                          int iPad);
 
     // DLC info registration
-    static int32_t registerDLCData(char*, char*, int, uint64_t, uint64_t,
-                                   char*, unsigned int, int,
-                                   char* pDataFile);
+    static int32_t registerDLCData(char*, char*, int, uint64_t, uint64_t, char*,
+                                   unsigned int, int, char* pDataFile);
     bool getDLCFullOfferIDForSkinID(const std::string& FirstSkin,
                                     uint64_t* pullVal);
     bool getDLCFullOfferIDForPackID(const int iPackID, uint64_t* pullVal);

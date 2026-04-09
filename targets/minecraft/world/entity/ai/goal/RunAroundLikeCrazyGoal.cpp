@@ -46,7 +46,7 @@ bool RunAroundLikeCrazyGoal::canContinueToUse() {
 
 void RunAroundLikeCrazyGoal::tick() {
     if (horse->getRandom()->nextInt(50) == 0) {
-        if (horse->rider.lock()->instanceof(eTYPE_PLAYER)) {
+        if (horse->rider.lock()->instanceof (eTYPE_PLAYER)) {
             int temper = horse->getTemper();
             int maxTemper = horse->getMaxTemper();
             if (maxTemper > 0 &&

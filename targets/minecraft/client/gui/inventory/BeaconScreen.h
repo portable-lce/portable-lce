@@ -5,7 +5,6 @@
 #include "AbstractContainerScreen.h"
 #include "minecraft/world/inventory/BeaconMenu.h"
 
-
 class BeaconConfirmButton;
 class BeaconCancelButton;
 class BeaconMenu;

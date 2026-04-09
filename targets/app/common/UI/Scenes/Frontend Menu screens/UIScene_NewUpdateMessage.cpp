@@ -3,14 +3,14 @@
 
 #include <vector>
 
-#include "minecraft/GameTypes.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_DynamicLabel.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "strings.h"
 

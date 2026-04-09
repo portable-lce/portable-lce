@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "ZonedChunkStorage.h"
 
 #include <filesystem>
@@ -7,10 +6,7 @@
 #include "ZoneFile.h"
 #include "java/ByteBuffer.h"
 #include "java/File.h"
-
-
-
-
+#include "minecraft/util/Log.h"
 
 // 4J Stu - There are changes to this class for 1.8.2, but since we never use it
 // anyway lets not worry about it
@@ -63,14 +59,15 @@ ZoneFile* ZonedChunkStorage::getZoneFile(int x, int z, bool create) {
         char zRadix36[64];
         _itow(x, xRadix36, 36);
         _itow(z, zRadix36, 36);
-        File file = File(dir, std::string("zone_") + toString(xRadix36) +
-                                  "_" + toString(zRadix36) + ".dat");
+        File file = File(dir, std::string("zone_") + toString(xRadix36) + "_" +
+                                  toString(zRadix36) + ".dat");
 
         if (!file.exists()) {
             if (!create) return nullptr;
-            void* ch = CreateFile(std::filesystem::path(file.getPath()).string().c_str(),
-                                  GENERIC_READ | GENERIC_WRITE, 0, nullptr,
-                                  OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+            void* ch = CreateFile(
+                std::filesystem::path(file.getPath()).string().c_str(),
+                GENERIC_READ | GENERIC_WRITE, 0, nullptr, OPEN_ALWAYS,
+                FILE_ATTRIBUTE_NORMAL, nullptr);
             CloseHandle(ch);
         }
 

@@ -8,8 +8,6 @@
 
 #include <memory>
 
-#include "platform/profile/profile.h"
-#include "minecraft/Console_Debug_enum.h"
 #include "app/common/Leaderboards/LeaderboardInterface.h"
 #include "app/common/Leaderboards/LeaderboardManager.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
@@ -18,10 +16,12 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 #define PLAYER_ONLINE_TIMER_ID 0
@@ -126,8 +126,8 @@ UIScene_LeaderboardsMenu::UIScene_LeaderboardsMenu(int iPad, void* initData,
     m_labelFilter.init(filterBuffer);
 
     char entriesBuffer[40];
-    snprintf(entriesBuffer, 40, "%s%i",
-             app.GetString(IDS_LEADERBOARD_ENTRIES), 0);
+    snprintf(entriesBuffer, 40, "%s%i", app.GetString(IDS_LEADERBOARD_ENTRIES),
+             0);
     m_labelEntries.init(entriesBuffer);
 
     ReadStats(-1);
@@ -373,7 +373,8 @@ void UIScene_LeaderboardsMenu::ReadStats(int startIndex) {
         } break;
         case IPlatformLeaderboard::eFM_MyScore: {
             PlayerUID uid;
-            PlatformProfile.GetXUID(PlatformProfile.GetPrimaryPad(), &uid, true);
+            PlatformProfile.GetXUID(PlatformProfile.GetPrimaryPad(), &uid,
+                                    true);
             m_interface.ReadStats_MyScore(
                 this, m_currentDifficulty,
                 (IPlatformLeaderboard::EStatsType)m_currentLeaderboard,
@@ -381,7 +382,8 @@ void UIScene_LeaderboardsMenu::ReadStats(int startIndex) {
         } break;
         case IPlatformLeaderboard::eFM_Friends: {
             PlayerUID uid;
-            PlatformProfile.GetXUID(PlatformProfile.GetPrimaryPad(), &uid, true);
+            PlatformProfile.GetXUID(PlatformProfile.GetPrimaryPad(), &uid,
+                                    true);
             m_interface.ReadStats_Friends(
                 this, m_currentDifficulty,
                 (IPlatformLeaderboard::EStatsType)m_currentLeaderboard,
@@ -733,8 +735,7 @@ void UIScene_LeaderboardsMenu::PopulateLeaderboard(
 
                     true,  // 4J-JEV: Has error message to display.
 
-                    app.GetString(idsErrorMessage), "", "", "", "", "",
-                    "");
+                    app.GetString(idsErrorMessage), "", "", "", "", "", "");
             } else {
                 m_listEntries.addDataSet(
                     isLast, m_leaderboard.m_entries[i].m_row,

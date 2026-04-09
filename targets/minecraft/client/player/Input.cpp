@@ -1,14 +1,14 @@
-#include "minecraft/IGameServices.h"
 #include "Input.h"
 
 #include <cmath>
 
-#include "platform/input/input.h"
 #include "LocalPlayer.h"
 #include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/world/entity/player/Abilities.h"
+#include "platform/input/input.h"
 
 Input::Input() {
     xa = 0;
@@ -86,16 +86,18 @@ void Input::tick(LocalPlayer* player) {
         pMinecraft->localgameModes[iPad]->isInputAllowed(
             MINECRAFT_ACTION_LOOK_RIGHT))
         tx = PlatformInput.GetJoypadStick_RX(iPad) *
-             (((float)gameServices().getGameSettings(iPad,
-                                          eGameSetting_Sensitivity_InGame)) /
+             (((float)gameServices().getGameSettings(
+                  iPad,
+                  eGameSetting_Sensitivity_InGame)) /
               100.0f);  // apply sensitivity to look
     if (pMinecraft->localgameModes[iPad]->isInputAllowed(
             MINECRAFT_ACTION_LOOK_UP) ||
         pMinecraft->localgameModes[iPad]->isInputAllowed(
             MINECRAFT_ACTION_LOOK_DOWN))
         ty = PlatformInput.GetJoypadStick_RY(iPad) *
-             (((float)gameServices().getGameSettings(iPad,
-                                          eGameSetting_Sensitivity_InGame)) /
+             (((float)gameServices().getGameSettings(
+                  iPad,
+                  eGameSetting_Sensitivity_InGame)) /
               100.0f);  // apply sensitivity to look
 
 #ifndef _CONTENT_PACKAGE

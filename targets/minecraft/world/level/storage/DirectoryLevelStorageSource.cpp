@@ -47,8 +47,8 @@ LevelData* DirectoryLevelStorageSource::getDataTagFor(
     return nullptr;
 }
 
-void DirectoryLevelStorageSource::renameLevel(
-    const std::string& levelId, const std::string& newLevelName) {
+void DirectoryLevelStorageSource::renameLevel(const std::string& levelId,
+                                              const std::string& newLevelName) {
     ConsoleSaveFileOriginal tempSave(levelId);
 
     // File dataFile = File(dir, "level.dat");

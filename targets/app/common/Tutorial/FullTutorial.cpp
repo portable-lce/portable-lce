@@ -290,8 +290,7 @@ FullTutorial::FullTutorial(int iPad, bool isTrial /*= false*/)
                           IDS_TUTORIAL_TASK_CREATE_TORCH));
 
     if (app.getGameRuleDefinitions() != nullptr) {
-        AABB* area =
-            app.getGameRuleDefinitions()->getNamedArea("tutorialArea");
+        AABB* area = app.getGameRuleDefinitions()->getNamedArea("tutorialArea");
         if (area != nullptr) {
             std::vector<TutorialConstraint*>* areaConstraints =
                 new std::vector<TutorialConstraint*>();
@@ -506,8 +505,7 @@ FullTutorial::FullTutorial(int iPad, bool isTrial /*= false*/)
      *
      */
     if (app.getGameRuleDefinitions() != nullptr) {
-        AABB* area =
-            app.getGameRuleDefinitions()->getNamedArea("minecartArea");
+        AABB* area = app.getGameRuleDefinitions()->getNamedArea("minecartArea");
         if (area != nullptr) {
             addHint(e_Tutorial_State_Gameplay,
                     new AreaHint(e_Tutorial_Hint_Always_On, this,
@@ -680,8 +678,7 @@ FullTutorial::FullTutorial(int iPad, bool isTrial /*= false*/)
      *
      */
     if (app.getGameRuleDefinitions() != nullptr) {
-        AABB* area =
-            app.getGameRuleDefinitions()->getNamedArea("creativeArea");
+        AABB* area = app.getGameRuleDefinitions()->getNamedArea("creativeArea");
         if (area != nullptr) {
             eTutorial_State creativeStates[] = {e_Tutorial_State_Gameplay};
             AddGlobalConstraint(new ChangeStateConstraint(
@@ -1195,8 +1192,7 @@ FullTutorial::FullTutorial(int iPad, bool isTrial /*= false*/)
      *
      */
     if (app.getGameRuleDefinitions() != nullptr) {
-        AABB* area =
-            app.getGameRuleDefinitions()->getNamedArea("breedingArea");
+        AABB* area = app.getGameRuleDefinitions()->getNamedArea("breedingArea");
         if (area != nullptr) {
             eTutorial_State breedingStates[] = {e_Tutorial_State_Gameplay};
             AddGlobalConstraint(new ChangeStateConstraint(

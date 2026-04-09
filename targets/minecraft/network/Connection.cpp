@@ -6,21 +6,21 @@
 #include <thread>
 #include <vector>
 
-#include "platform/ShutdownManager.h"
-#include "minecraft/network/INetworkService.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
-#include "util/StringHelpers.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/InputOutputStream/BufferedOutputStream.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/KeepAlivePacket.h"
 #include "minecraft/network/packet/Packet.h"
 #include "minecraft/network/packet/PacketListener.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
+#include "platform/ShutdownManager.h"
+#include "util/StringHelpers.h"
 
 class SocketAddress;
 

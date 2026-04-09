@@ -21,33 +21,58 @@ public:
 
     static constexpr EDLCType e_DLCType_Skin = ::minecraft::dlc::e_DLCType_Skin;
     static constexpr EDLCType e_DLCType_Cape = ::minecraft::dlc::e_DLCType_Cape;
-    static constexpr EDLCType e_DLCType_Texture = ::minecraft::dlc::e_DLCType_Texture;
-    static constexpr EDLCType e_DLCType_UIData = ::minecraft::dlc::e_DLCType_UIData;
-    static constexpr EDLCType e_DLCType_PackConfig = ::minecraft::dlc::e_DLCType_PackConfig;
-    static constexpr EDLCType e_DLCType_TexturePack = ::minecraft::dlc::e_DLCType_TexturePack;
-    static constexpr EDLCType e_DLCType_LocalisationData = ::minecraft::dlc::e_DLCType_LocalisationData;
-    static constexpr EDLCType e_DLCType_GameRules = ::minecraft::dlc::e_DLCType_GameRules;
-    static constexpr EDLCType e_DLCType_Audio = ::minecraft::dlc::e_DLCType_Audio;
-    static constexpr EDLCType e_DLCType_ColourTable = ::minecraft::dlc::e_DLCType_ColourTable;
-    static constexpr EDLCType e_DLCType_GameRulesHeader = ::minecraft::dlc::e_DLCType_GameRulesHeader;
+    static constexpr EDLCType e_DLCType_Texture =
+        ::minecraft::dlc::e_DLCType_Texture;
+    static constexpr EDLCType e_DLCType_UIData =
+        ::minecraft::dlc::e_DLCType_UIData;
+    static constexpr EDLCType e_DLCType_PackConfig =
+        ::minecraft::dlc::e_DLCType_PackConfig;
+    static constexpr EDLCType e_DLCType_TexturePack =
+        ::minecraft::dlc::e_DLCType_TexturePack;
+    static constexpr EDLCType e_DLCType_LocalisationData =
+        ::minecraft::dlc::e_DLCType_LocalisationData;
+    static constexpr EDLCType e_DLCType_GameRules =
+        ::minecraft::dlc::e_DLCType_GameRules;
+    static constexpr EDLCType e_DLCType_Audio =
+        ::minecraft::dlc::e_DLCType_Audio;
+    static constexpr EDLCType e_DLCType_ColourTable =
+        ::minecraft::dlc::e_DLCType_ColourTable;
+    static constexpr EDLCType e_DLCType_GameRulesHeader =
+        ::minecraft::dlc::e_DLCType_GameRulesHeader;
     static constexpr EDLCType e_DLCType_Max = ::minecraft::dlc::e_DLCType_Max;
     static constexpr EDLCType e_DLCType_All = ::minecraft::dlc::e_DLCType_All;
 
-    static constexpr EDLCParameterType e_DLCParamType_Invalid = ::minecraft::dlc::e_DLCParamType_Invalid;
-    static constexpr EDLCParameterType e_DLCParamType_DisplayName = ::minecraft::dlc::e_DLCParamType_DisplayName;
-    static constexpr EDLCParameterType e_DLCParamType_ThemeName = ::minecraft::dlc::e_DLCParamType_ThemeName;
-    static constexpr EDLCParameterType e_DLCParamType_Free = ::minecraft::dlc::e_DLCParamType_Free;
-    static constexpr EDLCParameterType e_DLCParamType_Credit = ::minecraft::dlc::e_DLCParamType_Credit;
-    static constexpr EDLCParameterType e_DLCParamType_Cape = ::minecraft::dlc::e_DLCParamType_Cape;
-    static constexpr EDLCParameterType e_DLCParamType_Box = ::minecraft::dlc::e_DLCParamType_Box;
-    static constexpr EDLCParameterType e_DLCParamType_Anim = ::minecraft::dlc::e_DLCParamType_Anim;
-    static constexpr EDLCParameterType e_DLCParamType_PackId = ::minecraft::dlc::e_DLCParamType_PackId;
-    static constexpr EDLCParameterType e_DLCParamType_NetherParticleColour = ::minecraft::dlc::e_DLCParamType_NetherParticleColour;
-    static constexpr EDLCParameterType e_DLCParamType_EnchantmentTextColour = ::minecraft::dlc::e_DLCParamType_EnchantmentTextColour;
-    static constexpr EDLCParameterType e_DLCParamType_EnchantmentTextFocusColour = ::minecraft::dlc::e_DLCParamType_EnchantmentTextFocusColour;
-    static constexpr EDLCParameterType e_DLCParamType_DataPath = ::minecraft::dlc::e_DLCParamType_DataPath;
-    static constexpr EDLCParameterType e_DLCParamType_PackVersion = ::minecraft::dlc::e_DLCParamType_PackVersion;
-    static constexpr EDLCParameterType e_DLCParamType_Max = ::minecraft::dlc::e_DLCParamType_Max;
+    static constexpr EDLCParameterType e_DLCParamType_Invalid =
+        ::minecraft::dlc::e_DLCParamType_Invalid;
+    static constexpr EDLCParameterType e_DLCParamType_DisplayName =
+        ::minecraft::dlc::e_DLCParamType_DisplayName;
+    static constexpr EDLCParameterType e_DLCParamType_ThemeName =
+        ::minecraft::dlc::e_DLCParamType_ThemeName;
+    static constexpr EDLCParameterType e_DLCParamType_Free =
+        ::minecraft::dlc::e_DLCParamType_Free;
+    static constexpr EDLCParameterType e_DLCParamType_Credit =
+        ::minecraft::dlc::e_DLCParamType_Credit;
+    static constexpr EDLCParameterType e_DLCParamType_Cape =
+        ::minecraft::dlc::e_DLCParamType_Cape;
+    static constexpr EDLCParameterType e_DLCParamType_Box =
+        ::minecraft::dlc::e_DLCParamType_Box;
+    static constexpr EDLCParameterType e_DLCParamType_Anim =
+        ::minecraft::dlc::e_DLCParamType_Anim;
+    static constexpr EDLCParameterType e_DLCParamType_PackId =
+        ::minecraft::dlc::e_DLCParamType_PackId;
+    static constexpr EDLCParameterType e_DLCParamType_NetherParticleColour =
+        ::minecraft::dlc::e_DLCParamType_NetherParticleColour;
+    static constexpr EDLCParameterType e_DLCParamType_EnchantmentTextColour =
+        ::minecraft::dlc::e_DLCParamType_EnchantmentTextColour;
+    static constexpr EDLCParameterType
+        e_DLCParamType_EnchantmentTextFocusColour =
+            ::minecraft::dlc::e_DLCParamType_EnchantmentTextFocusColour;
+    static constexpr EDLCParameterType e_DLCParamType_DataPath =
+        ::minecraft::dlc::e_DLCParamType_DataPath;
+    static constexpr EDLCParameterType e_DLCParamType_PackVersion =
+        ::minecraft::dlc::e_DLCParamType_PackVersion;
+    static constexpr EDLCParameterType e_DLCParamType_Max =
+        ::minecraft::dlc::e_DLCParamType_Max;
 
     const static char* wchTypeNamesA[e_DLCParamType_Max];
 
@@ -85,7 +110,7 @@ public:
                               EDLCType type = e_DLCType_All);
     DLCSkinFile* getSkinFile(
         const std::string& path);  // Will hunt all packs of type skin to find
-                                    // the right skinfile
+                                   // the right skinfile
 
     DLCPack* getPackContainingSkin(const std::string& path);
     unsigned int getPackIndexContainingSkin(const std::string& path,

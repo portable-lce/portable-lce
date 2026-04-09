@@ -10,7 +10,6 @@
 #include "BiomeSource.h"
 #include "minecraft/world/level/biome/BiomeSource.h"
 
-
 class ChunkPos;
 class Level;
 class Layer;

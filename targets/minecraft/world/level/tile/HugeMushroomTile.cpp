@@ -9,8 +9,7 @@ class Material;
 
 const std::string HugeMushroomTile::TEXTURE_STEM = "skin_stem";
 const std::string HugeMushroomTile::TEXTURE_INSIDE = "inside";
-const std::string HugeMushroomTile::TEXTURE_TYPE[] = {"skin_brown",
-                                                       "skin_red"};
+const std::string HugeMushroomTile::TEXTURE_TYPE[] = {"skin_brown", "skin_red"};
 
 HugeMushroomTile::HugeMushroomTile(int id, Material* material, int type)
     : Tile(id, material) {

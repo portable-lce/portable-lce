@@ -1,15 +1,13 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
-
-
 #include "TileItem.h"
 
 #include <string>
 
-#include "minecraft/Console_Debug_enum.h"
 #include "java/Class.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "minecraft/Facing.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/stats/GenericStats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/Icon.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/entity/player/Player.h"
@@ -156,8 +154,8 @@ bool TileItem::useOn(std::shared_ptr<ItemInstance> instance,
 
                 // Log::info("Place Sound - %s, Step Sound -
                 // %s\n",szPlaceSoundName,szStepSoundName);
-                Log::info("Place Sound - %d, Step Sound - %d\n",
-                                iPlaceSound, iStepSound);
+                Log::info("Place Sound - %d, Step Sound - %d\n", iPlaceSound,
+                          iStepSound);
 #endif
                 level->playSound(x + 0.5f, y + 0.5f, z + 0.5f,
                                  tile->soundType->getPlaceSound(),

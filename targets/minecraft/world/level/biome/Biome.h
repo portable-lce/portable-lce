@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
-#include "minecraft/GameEnums.h"
 #include "java/Class.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/util/WeighedRandom.h"
 #include "minecraft/world/entity/Mob.h"
 #include "minecraft/world/level/LevelSource.h"

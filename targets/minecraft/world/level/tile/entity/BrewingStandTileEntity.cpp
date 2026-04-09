@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "BrewingStandTileEntity.h"
 
 #include <stdint.h>
@@ -7,6 +6,7 @@
 #include <format>
 
 #include "Facing.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/item/Item.h"
@@ -40,7 +40,8 @@ BrewingStandTileEntity::BrewingStandTileEntity() {
 BrewingStandTileEntity::~BrewingStandTileEntity() {}
 
 std::string BrewingStandTileEntity::getName() {
-    return hasCustomName() ? name : gameServices().getString(IDS_TILE_BREWINGSTAND);
+    return hasCustomName() ? name
+                           : gameServices().getString(IDS_TILE_BREWINGSTAND);
 }
 
 std::string BrewingStandTileEntity::getCustomName() {

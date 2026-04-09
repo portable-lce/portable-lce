@@ -1,8 +1,6 @@
 #include "StatsScreen.h"
 
 #include "app/common/Audio/SoundEngine.h"
-#include "platform/stubs.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Button.h"
 #include "minecraft/client/gui/Font.h"
@@ -16,6 +14,8 @@
 #include "minecraft/stats/Stat.h"
 #include "minecraft/stats/Stats.h"
 #include "minecraft/stats/StatsCounter.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 class Tesselator;
 

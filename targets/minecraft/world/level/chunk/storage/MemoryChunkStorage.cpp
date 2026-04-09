@@ -1,8 +1,5 @@
 #include "MemoryChunkStorage.h"
 
-
-
-
 LevelChunk* MemoryChunkStorage::load(Level* level, int x,
                                      int z)  // throws IOException
 {

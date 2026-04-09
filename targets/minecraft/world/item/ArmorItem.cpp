@@ -5,9 +5,9 @@
 #include <format>
 #include <vector>
 
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Class.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/core/BehaviorRegistry.h"
 #include "minecraft/core/BlockSource.h"
 #include "minecraft/core/DefaultDispenseItemBehavior.h"
@@ -29,8 +29,8 @@ class Icon;
 const int ArmorItem::healthPerSlot[] = {11, 16, 15, 13};
 
 const std::string ArmorItem::LEATHER_OVERLAYS[] = {
-    "helmetCloth_overlay", "chestplateCloth_overlay",
-    "leggingsCloth_overlay", "bootsCloth_overlay"};
+    "helmetCloth_overlay", "chestplateCloth_overlay", "leggingsCloth_overlay",
+    "bootsCloth_overlay"};
 
 const std::string ArmorItem::TEXTURE_EMPTY_SLOTS[] = {
     "slot_empty_helmet", "slot_empty_chestplate", "slot_empty_leggings",
@@ -53,12 +53,12 @@ std::shared_ptr<ItemInstance> ArmorItem::ArmorDispenseItemBehavior::execute(
     if (entities->size() > 0) {
         std::shared_ptr<LivingEntity> target =
             std::dynamic_pointer_cast<LivingEntity>(entities->at(0));
-        int offset = target->instanceof(eTYPE_PLAYER) ? 1 : 0;
+        int offset = target->instanceof (eTYPE_PLAYER) ? 1 : 0;
         int slot = Mob::getEquipmentSlotForItem(dispensed);
         std::shared_ptr<ItemInstance> equip = dispensed->copy();
         equip->count = 1;
         target->setEquippedSlot(slot - offset, equip);
-        if (target->instanceof(eTYPE_MOB))
+        if (target->instanceof (eTYPE_MOB))
             std::dynamic_pointer_cast<Mob>(target)->setDropChance(slot, 2);
         dispensed->count--;
 

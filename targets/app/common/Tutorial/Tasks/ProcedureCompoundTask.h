@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "app/common/Tutorial/TutorialEnum.h"
 #include "TutorialTask.h"
+#include "app/common/Tutorial/TutorialEnum.h"
 
 class Tutorial;
 

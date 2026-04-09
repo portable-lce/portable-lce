@@ -140,8 +140,8 @@ int Creeper::getDeathSound() { return eSoundType_MOB_CREEPER_DEATH; }
 void Creeper::die(DamageSource* source) {
     Monster::die(source);
 
-    if (source->getEntity() != nullptr &&
-        source->getEntity()->instanceof(eTYPE_SKELETON)) {
+    if (source->getEntity() != nullptr && source->getEntity()->instanceof
+        (eTYPE_SKELETON)) {
         int recordId =
             Item::record_01_Id +
             random->nextInt(Item::record_12_Id - Item::record_01_Id + 1);
@@ -149,9 +149,10 @@ void Creeper::die(DamageSource* source) {
     }
 
     if (source->getDirectEntity() != nullptr &&
-        source->getDirectEntity()->instanceof(eTYPE_ARROW) &&
-        source->getEntity() != nullptr &&
-        source->getEntity()->instanceof(eTYPE_PLAYER)) {
+            source->getDirectEntity()->instanceof
+        (eTYPE_ARROW) && source->getEntity() != nullptr &&
+            source->getEntity()->instanceof
+        (eTYPE_PLAYER)) {
         std::shared_ptr<Player> player =
             std::dynamic_pointer_cast<Player>(source->getEntity());
         player->awardStat(GenericStats::archer(), GenericStats::param_archer());

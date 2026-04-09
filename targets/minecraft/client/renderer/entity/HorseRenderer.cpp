@@ -1,10 +1,7 @@
 #include "HorseRenderer.h"
-#include "platform/stubs.h"
 
 #include <utility>
 
-
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
 #include "MobRenderer.h"
 #include "minecraft/client/model/geom/Model.h"
@@ -14,6 +11,8 @@
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/animal/EntityHorse.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation HorseRenderer::HORSE_LOCATION =
     ResourceLocation(TN_MOB_HORSE_WHITE);

@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "MultiPlayerLevel.h"
 
 #include <float.h>
@@ -10,21 +9,20 @@
 #include <string>
 #include <utility>
 
-#include "platform/PlatformTypes.h"
-#include "platform/input/input.h"
 #include "ClientConnection.h"
-#include "app/common/Audio/SoundEngine.h"
-#include "minecraft/Console_Debug_enum.h"
-#include "minecraft/network/INetworkService.h"
 #include "MultiPlayerChunkCache.h"
 #include "MultiPlayerLocalPlayer.h"
+#include "app/common/Audio/SoundEngine.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
+#include "minecraft/Console_Debug_enum.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/particle/FireworksParticles.h"
 #include "minecraft/client/particle/ParticleEngine.h"
 #include "minecraft/core/particles/ParticleTypes.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/level/ChunkPos.h"
@@ -38,6 +36,8 @@
 #include "minecraft/world/level/storage/SavedDataStorage.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
+#include "platform/PlatformTypes.h"
+#include "platform/input/input.h"
 
 class LevelSettings;
 class Scoreboard;

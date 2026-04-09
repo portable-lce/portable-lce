@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "GameCommandPacket.h"
 
 #include <limits>
@@ -7,6 +6,7 @@
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/commands/CommandsEnum.h"
+#include "minecraft/util/Log.h"
 
 GameCommandPacket::GameCommandPacket() { length = 0; }
 

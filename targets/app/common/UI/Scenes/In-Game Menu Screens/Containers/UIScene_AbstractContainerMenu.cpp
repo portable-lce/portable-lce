@@ -193,8 +193,8 @@ void UIScene_AbstractContainerMenu::tick() {
     IggyPlayerDispatchEventRS(getMovie(), &mouseEvent, &result);
 }
 
-void UIScene_AbstractContainerMenu::render(S32 width, S32 height,
-                                           IPlatformRenderer::eViewportType viewpBort) {
+void UIScene_AbstractContainerMenu::render(
+    S32 width, S32 height, IPlatformRenderer::eViewportType viewpBort) {
     m_cacheSlotRenders = true;
 
     m_needsCacheRendered = m_needsCacheRendered || m_menu->needsRendered();

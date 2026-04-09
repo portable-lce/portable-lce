@@ -1,14 +1,13 @@
 #include "GuiComponent.h"
-#include "platform/stubs.h"
-
 
 #include <math.h>
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Font.h"
 #include "minecraft/client/gui/Gui.h"
 #include "minecraft/client/renderer/Tesselator.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 void GuiComponent::hLine(int x0, int x1, int y, int col) {
     if (x1 < x0) {
@@ -93,8 +92,8 @@ void GuiComponent::fillGradient(int x0, int y0, int x1, int y1, int col1,
 
 GuiComponent::GuiComponent() { blitOffset = 0; }
 
-void GuiComponent::drawCenteredString(Font* font, const std::string& str,
-                                      int x, int y, int color) {
+void GuiComponent::drawCenteredString(Font* font, const std::string& str, int x,
+                                      int y, int color) {
     font->drawShadow(str, x - (font->width(str)) / 2, y, color);
 }
 

@@ -5,12 +5,12 @@
 #include <vector>
 
 #include "Button.h"
-#include "platform/stubs.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/ChatScreen.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/locale/Language.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 void InBedChatScreen::init() {
     Keyboard::enableRepeatEvents(true);

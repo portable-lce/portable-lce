@@ -21,8 +21,7 @@ public:
                                 bool bCallback = false) = 0;
 
     virtual int LoadLocalTMSFile(char* wchTMSFile) = 0;
-    virtual int LoadLocalTMSFile(char* wchTMSFile,
-                                 eFileExtensionType eExt) = 0;
+    virtual int LoadLocalTMSFile(char* wchTMSFile, eFileExtensionType eExt) = 0;
     virtual void FreeLocalTMSFiles(eTMSFileType eType) = 0;
     virtual int GetLocalTMSFileIndex(char* wchTMSFile,
                                      bool bFilenameIncludesExtension,

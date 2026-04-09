@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "NoteBlockTile.h"
 
 #include <cmath>
@@ -6,6 +5,7 @@
 
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/material/Material.h"
 #include "minecraft/world/level/tile/BaseEntityTile.h"
@@ -21,7 +21,7 @@ void NoteBlockTile::neighborChanged(Level* level, int x, int y, int z,
         std::dynamic_pointer_cast<MusicTileEntity>(
             level->getTileEntity(x, y, z));
     Log::info("-------- Signal is %s, tile is currently %s\n",
-                    signal ? "true" : "false", mte->on ? "ON" : "OFF");
+              signal ? "true" : "false", mte->on ? "ON" : "OFF");
     if (mte != nullptr && mte->on != signal) {
         if (signal) {
             mte->playNote(level, x, y, z);
@@ -85,8 +85,7 @@ bool NoteBlockTile::triggerEvent(Level* level, int x, int y, int z, int i,
             iSound = eSoundType_NOTE_HARP;
             break;
     }
-    Log::info("NoteBlockTile::triggerEvent - playSound - pitch = %f\n",
-                    pitch);
+    Log::info("NoteBlockTile::triggerEvent - playSound - pitch = %f\n", pitch);
     level->playSound(x + 0.5, y + 0.5, z + 0.5, iSound, 3, pitch);
     level->addParticle(eParticleType_note, x + 0.5, y + 1.2, z + 0.5,
                        note / 24.0, 0, 0);

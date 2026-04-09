@@ -29,8 +29,8 @@ void BannedListManager::invalidate(int iPad) {
     }
 }
 
-void BannedListManager::addLevel(int iPad, PlayerUID xuid,
-                                 char* pszLevelName, bool bWriteToTMS) {
+void BannedListManager::addLevel(int iPad, PlayerUID xuid, char* pszLevelName,
+                                 bool bWriteToTMS) {
     // we will have retrieved the banned level list from TMS, so add this one to
     // it and write it back to TMS
 
@@ -64,8 +64,7 @@ void BannedListManager::addLevel(int iPad, PlayerUID xuid,
     // update telemetry too
 }
 
-bool BannedListManager::isInList(int iPad, PlayerUID xuid,
-                                 char* pszLevelName) {
+bool BannedListManager::isInList(int iPad, PlayerUID xuid, char* pszLevelName) {
     for (auto it = m_vBannedListA[iPad]->begin();
          it != m_vBannedListA[iPad]->end(); ++it) {
         PBANNEDLISTDATA pData = *it;
@@ -126,6 +125,4 @@ void BannedListManager::setUniqueMapName(char* pszUniqueMapName) {
     memcpy(m_pszUniqueMapName, pszUniqueMapName, 14);
 }
 
-char* BannedListManager::getUniqueMapName() {
-    return m_pszUniqueMapName;
-}
+char* BannedListManager::getUniqueMapName() { return m_pszUniqueMapName; }

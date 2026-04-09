@@ -9,14 +9,13 @@
 #include <utility>
 #include <vector>
 
-#include "util/Timer.h"
-
+#include "TutorialEnum.h"
+#include "TutorialMessage.h"
 #include "app/common/Tutorial/Constraints/TutorialConstraint.h"
 #include "app/common/Tutorial/Hints/TutorialHint.h"
 #include "app/common/Tutorial/Tasks/TutorialTask.h"
 #include "app/common/Tutorial/TutorialEnum.h"
-#include "TutorialEnum.h"
-#include "TutorialMessage.h"
+#include "util/Timer.h"
 
 class Entity;
 class ItemInstance;

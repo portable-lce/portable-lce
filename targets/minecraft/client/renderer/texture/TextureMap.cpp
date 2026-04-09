@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "TextureMap.h"
 
 #include <wchar.h>
@@ -6,7 +5,6 @@
 #include <format>
 #include <utility>
 
-#include "minecraft/client/BufferedImage.h"
 #include "StitchSlot.h"
 #include "StitchedTexture.h"
 #include "Stitcher.h"
@@ -16,11 +14,13 @@
 #include "java/InputOutputStream/BufferedReader.h"
 #include "java/InputOutputStream/InputStream.h"
 #include "java/InputOutputStream/InputStreamReader.h"
+#include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/LevelRenderer.h"
 #include "minecraft/client/renderer/entity/EntityRenderDispatcher.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/Icon.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/level/tile/Tile.h"
@@ -157,7 +157,7 @@ void TextureMap::stitch() {
                 // premade icon for " + textureName + " doing " + name);
 #ifndef _CONTENT_PACKAGE
                 printf("Couldn't find premade icon for %s doing %s\n",
-                        textureName.c_str(), name.c_str());
+                       textureName.c_str(), name.c_str());
 #endif
             }
         }
@@ -188,7 +188,7 @@ void TextureMap::stitch() {
             // for: " + animationDefinitionFile);
 #ifndef _CONTENT_PACKAGE
             printf("Found animation info for: %s\n",
-                    animationDefinitionFile.c_str());
+                   animationDefinitionFile.c_str());
 #endif
             InputStreamReader isr(fileStream);
             BufferedReader br(&isr);

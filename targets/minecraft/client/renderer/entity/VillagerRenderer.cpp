@@ -1,9 +1,7 @@
 #include "VillagerRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/model/VillagerModel.h"
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/client/renderer/entity/MobRenderer.h"
@@ -11,6 +9,8 @@
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/npc/Villager.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation VillagerRenderer::VILLAGER_LOCATION =
     ResourceLocation(TN_MOB_VILLAGER_VILLAGER);

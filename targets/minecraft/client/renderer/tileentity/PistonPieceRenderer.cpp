@@ -1,9 +1,6 @@
 #include "PistonPieceRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
-
-#include "platform/renderer/renderer.h"
 
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/renderer/Tesselator.h"
@@ -17,6 +14,8 @@
 #include "minecraft/world/level/tile/entity/TileEntity.h"
 #include "minecraft/world/level/tile/piston/PistonBaseTile.h"
 #include "minecraft/world/level/tile/piston/PistonExtensionTile.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation PistonPieceRenderer::SIGN_LOCATION =
     ResourceLocation(TN_ITEM_SIGN);

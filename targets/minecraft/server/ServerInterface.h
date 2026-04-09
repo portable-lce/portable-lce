@@ -3,7 +3,7 @@
 class ServerInterface {
     virtual int getConfigInt(const std::string& name, int defaultValue) = 0;
     virtual std::string getConfigString(const std::string& name,
-                                         const std::string& defaultValue) = 0;
+                                        const std::string& defaultValue) = 0;
     virtual bool getConfigBoolean(const std::string& name,
                                   bool defaultValue) = 0;
     virtual void setProperty(std::string& propertyName, void* value) = 0;

@@ -1,21 +1,22 @@
 #include "app/common/SkinManager.h"
 
+#include <wchar.h>
+
 #include <mutex>
 #include <sstream>
 #include <string>
-#include <wchar.h>
 
 #include "app/common/App_structs.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/DLC/DLCSkinFile.h"
-#include "minecraft/Minecraft_Macros.h"
 #include "app/linux/LinuxGame.h"
+#include "minecraft/Minecraft_Macros.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/model/geom/Model.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
-#include "minecraft/client/renderer/entity/EntityRenderer.h"
 #include "minecraft/client/renderer/entity/EntityRenderDispatcher.h"
+#include "minecraft/client/renderer/entity/EntityRenderer.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "platform/profile/profile.h"
 
@@ -44,7 +45,7 @@ void SkinManager::setPlayerSkin(int iPad, std::uint32_t dwSkinId,
 }
 
 std::string SkinManager::getPlayerSkinName(int iPad,
-                                            GAME_SETTINGS** gameSettingsA) {
+                                           GAME_SETTINGS** gameSettingsA) {
     return getSkinPathFromId(gameSettingsA[iPad]->dwSelectedSkin);
 }
 
@@ -104,7 +105,7 @@ void SkinManager::setPlayerCape(int iPad, std::uint32_t dwCapeId,
 }
 
 std::string SkinManager::getPlayerCapeName(int iPad,
-                                            GAME_SETTINGS** gameSettingsA) {
+                                           GAME_SETTINGS** gameSettingsA) {
     return Player::getCapePathFromId(gameSettingsA[iPad]->dwSelectedCape);
 }
 
@@ -122,8 +123,8 @@ void SkinManager::setPlayerFavoriteSkin(int iPad, int iIndex,
     gameSettingsA[iPad]->bSettingsChanged = true;
 }
 
-unsigned int SkinManager::getPlayerFavoriteSkin(
-    int iPad, int iIndex, GAME_SETTINGS** gameSettingsA) {
+unsigned int SkinManager::getPlayerFavoriteSkin(int iPad, int iIndex,
+                                                GAME_SETTINGS** gameSettingsA) {
     return gameSettingsA[iPad]->uiFavoriteSkinA[iIndex];
 }
 
@@ -151,8 +152,7 @@ unsigned int SkinManager::getPlayerFavoriteSkinsCount(
     return uiCount;
 }
 
-void SkinManager::validateFavoriteSkins(int iPad,
-                                        GAME_SETTINGS** gameSettingsA,
+void SkinManager::validateFavoriteSkins(int iPad, GAME_SETTINGS** gameSettingsA,
                                         DLCManager& dlcManager) {
     unsigned int uiCount = getPlayerFavoriteSkinsCount(iPad, gameSettingsA);
 
@@ -203,7 +203,7 @@ void SkinManager::addMemoryTextureFile(const std::string& wName,
     if (it != m_MEM_Files.end()) {
 #if !defined(_CONTENT_PACKAGE)
         printf("Incrementing the memory texture file count for %s\n",
-                wName.c_str());
+               wName.c_str());
 #endif
         pData = (*it).second;
 
@@ -233,14 +233,14 @@ void SkinManager::removeMemoryTextureFile(const std::string& wName) {
     if (it != m_MEM_Files.end()) {
 #if !defined(_CONTENT_PACKAGE)
         printf("Decrementing the memory texture file count for %s\n",
-                wName.c_str());
+               wName.c_str());
 #endif
         PMEMDATA pData = (*it).second;
         --pData->ucRefCount;
         if (pData->ucRefCount <= 0) {
 #if !defined(_CONTENT_PACKAGE)
             printf("Erasing the memory texture file data for %s\n",
-                    wName.c_str());
+                   wName.c_str());
 #endif
             delete pData;
             m_MEM_Files.erase(wName);

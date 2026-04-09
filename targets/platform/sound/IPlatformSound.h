@@ -24,10 +24,10 @@ struct PlaySoundParams {
     float z = 0.0f;
     float volume = 1.0f;
     float pitch = 1.0f;
-    bool spatial = true;       // 3D sound positioned in the world
+    bool spatial = true;  // 3D sound positioned in the world
     bool looping = false;
-    float minDistance = 1.0f;  // distance below which the sound is full-volume
-    float maxDistance = 16.0f; // distance above which the sound is silent
+    float minDistance = 1.0f;   // distance below which the sound is full-volume
+    float maxDistance = 16.0f;  // distance above which the sound is silent
 };
 
 struct PlayMusicParams {

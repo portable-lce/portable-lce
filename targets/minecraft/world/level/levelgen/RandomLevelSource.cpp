@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "RandomLevelSource.h"
 
 #include <stdlib.h>
@@ -6,11 +5,11 @@
 
 #include <cstdint>
 
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
-#include "util/Timer.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/entity/MobCategory.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/MobSpawner.h"
 #include "minecraft/world/level/biome/Biome.h"
@@ -31,6 +30,7 @@
 #include "minecraft/world/level/tile/HeavyTile.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "util/Timer.h"
 
 const double RandomLevelSource::SNOW_SCALE = 0.3;
 const double RandomLevelSource::SNOW_CUTOFF = 0.5;
@@ -408,7 +408,8 @@ void RandomLevelSource::buildSurfaces(int xOffs, int zOffs,
             uint8_t top = b->topMaterial;
             uint8_t material = b->material;
 
-            LevelGenerationOptions* lgo = gameServices().getLevelGenerationOptions();
+            LevelGenerationOptions* lgo =
+                gameServices().getLevelGenerationOptions();
             if (lgo != nullptr) {
                 lgo->getBiomeOverride(b->id, material, top);
             }

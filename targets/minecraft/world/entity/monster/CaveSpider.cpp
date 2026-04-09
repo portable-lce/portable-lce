@@ -29,7 +29,7 @@ void CaveSpider::registerAttributes() {
 
 bool CaveSpider::doHurtTarget(std::shared_ptr<Entity> target) {
     if (Spider::doHurtTarget(target)) {
-        if (target->instanceof(eTYPE_LIVINGENTITY)) {
+        if (target->instanceof (eTYPE_LIVINGENTITY)) {
             int poisonTime = 0;
             if (level->difficulty <= Difficulty::EASY) {
                 // No poison!

@@ -1,8 +1,6 @@
 
 #include "DemoMode.h"
 
-
-
 DemoMode::DemoMode(Minecraft* minecraft) : SurvivalMode(minecraft) {
     demoHasEnded = false;
     demoEndedReminder = 0;

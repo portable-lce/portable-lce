@@ -15,7 +15,6 @@
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_AbstractContainerMenu.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "util/StringHelpers.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
@@ -24,6 +23,7 @@
 #include "minecraft/world/effect/MobEffectInstance.h"
 #include "minecraft/world/inventory/InventoryMenu.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 class UILayer;
 

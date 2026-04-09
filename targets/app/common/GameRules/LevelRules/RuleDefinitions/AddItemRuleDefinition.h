@@ -4,8 +4,8 @@
 #include <string>
 #include <vector>
 
-#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 
 class Container;
 class AddEnchantmentRuleDefinition;

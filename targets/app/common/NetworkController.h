@@ -3,10 +3,10 @@
 #include <cstdint>
 
 #include "app/common/App_structs.h"
-#include "platform/NetTypes.h"
-#include "platform/storage/storage.h"
-#include "platform/XboxStubs.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
+#include "platform/NetTypes.h"
+#include "platform/XboxStubs.h"
+#include "platform/storage/storage.h"
 
 struct INVITE_INFO;
 
@@ -32,10 +32,10 @@ public:
                                      unsigned int uiSignInData);
     static void clearSignInChangeUsersMask();
     static int signoutExitWorldThreadProc(void* lpParameter);
-    static int primaryPlayerSignedOutReturned(void* pParam, int iPad,
-                                              const IPlatformStorage::EMessageResult);
-    static int ethernetDisconnectReturned(void* pParam, int iPad,
-                                          const IPlatformStorage::EMessageResult);
+    static int primaryPlayerSignedOutReturned(
+        void* pParam, int iPad, const IPlatformStorage::EMessageResult);
+    static int ethernetDisconnectReturned(
+        void* pParam, int iPad, const IPlatformStorage::EMessageResult);
     static void profileReadErrorCallback(void* pParam);
 
     // Notifications

@@ -1,9 +1,9 @@
-#include "minecraft/IGameServices.h"
 #include "MinecartContainer.h"
 
 #include <stdint.h>
 
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/Container.h"
 #include "minecraft/world/entity/item/ItemEntity.h"
 #include "minecraft/world/entity/item/Minecart.h"

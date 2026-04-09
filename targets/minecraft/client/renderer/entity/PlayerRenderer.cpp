@@ -1,18 +1,15 @@
-#include "minecraft/IGameServices.h"
-#include "platform/stubs.h"
 #include "PlayerRenderer.h"
 
 #include <cmath>
 #include <numbers>
 #include <vector>
 
-
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
 #include "HumanoidMobRenderer.h"
-#include "minecraft/GameEnums.h"
 #include "java/Class.h"
 #include "minecraft/Facing.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/model/HumanoidModel.h"
@@ -36,6 +33,8 @@
 #include "minecraft/world/item/UseAnim.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "nbt/CompoundTag.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 const unsigned int PlayerRenderer::s_nametagColors[MINECRAFT_NET_MAX_PLAYERS] =
     {
@@ -196,7 +195,7 @@ void PlayerRenderer::render(std::shared_ptr<Entity> _mob, double x, double y,
         mob->isSneaking();
 
     double yp = y - mob->heightOffset;
-    if (mob->isSneaking() && !mob->instanceof(eTYPE_LOCALPLAYER)) {
+    if (mob->isSneaking() && !mob->instanceof (eTYPE_LOCALPLAYER)) {
         yp -= 2 / 16.0f;
     }
 
@@ -459,8 +458,7 @@ bool b2 = !mob->isCapeHidden();*/
 
 void PlayerRenderer::renderNameTags(std::shared_ptr<LivingEntity> player,
                                     double x, double y, double z,
-                                    std::string msg, float scale,
-                                    double dist) {
+                                    std::string msg, float scale, double dist) {
     LivingEntityRenderer::renderNameTags(player, x, y, z, msg, scale, dist);
 }
 
@@ -524,7 +522,8 @@ void PlayerRenderer::setupRotations(std::shared_ptr<LivingEntity> _mob,
 // 4J Added override to stop rendering shadow if player is invisible
 void PlayerRenderer::renderShadow(std::shared_ptr<Entity> e, double x, double y,
                                   double z, float pow, float a) {
-    if (gameServices().getGameHostOption(eGameHostOption_HostCanBeInvisible) > 0) {
+    if (gameServices().getGameHostOption(eGameHostOption_HostCanBeInvisible) >
+        0) {
         std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(e);
         if (player != nullptr && player->hasInvisiblePrivilege()) return;
     }

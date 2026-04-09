@@ -1,8 +1,8 @@
 #include "ChestModel.h"
-#include "platform/stubs.h"
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/model/geom/ModelPart.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ChestModel::ChestModel() {
     lid = ((new ModelPart(this, 0, 0)))->setTexSize(64, 64);

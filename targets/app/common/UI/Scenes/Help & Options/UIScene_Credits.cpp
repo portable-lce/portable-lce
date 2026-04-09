@@ -8,8 +8,8 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "util/StringHelpers.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 #define CREDIT_ICON -2
 
@@ -27,8 +27,7 @@ SCreditTextItemDef UIScene_Credits::gs_aCreditDefs[MAX_CREDIT_STRINGS] = {
      eSmallText},  // extra blank line
     {"%s", IDS_CREDITS_RESTOFMOJANG, NO_TRANSLATED_STRING, eMediumText},
     {"%s", IDS_CREDITS_LEADPC, NO_TRANSLATED_STRING, eLargeText},
-    {"Jens Bergensten", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
-     eSmallText},
+    {"Jens Bergensten", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
     {"%s", IDS_CREDITS_JON_KAGSTROM, NO_TRANSLATED_STRING, eSmallText},
     {"%s", IDS_CREDITS_CEO, NO_TRANSLATED_STRING, eLargeText},
     {"Carl Manneh", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
@@ -73,8 +72,8 @@ SCreditTextItemDef UIScene_Credits::gs_aCreditDefs[MAX_CREDIT_STRINGS] = {
      eSmallText},  // extra blank line
 
     // Added credit for horses
-    {"Developers of Mo' Creatures:", NO_TRANSLATED_STRING,
-     NO_TRANSLATED_STRING, eExtraLargeText},
+    {"Developers of Mo' Creatures:", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
+     eExtraLargeText},
     {"John Olarte (DrZhark)", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
      eSmallText},
     {"Kent Christian Jensen", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
@@ -83,8 +82,7 @@ SCreditTextItemDef UIScene_Credits::gs_aCreditDefs[MAX_CREDIT_STRINGS] = {
     {"", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
      eSmallText},  // extra blank line
 
-    {"4J Studios", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
-     eExtraLargeText},
+    {"4J Studios", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eExtraLargeText},
     {"%s", IDS_CREDITS_PROGRAMMING, NO_TRANSLATED_STRING, eLargeText},
     {"Paddy Burns", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
     {"Richard Reavy", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
@@ -92,12 +90,10 @@ SCreditTextItemDef UIScene_Credits::gs_aCreditDefs[MAX_CREDIT_STRINGS] = {
     {"James Vaughan", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
     {"Mark Hughes", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
     {"Harry Gordon", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
-    {"Thomas Kronberg", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
-     eSmallText},
+    {"Thomas Kronberg", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
 
     {"%s", IDS_CREDITS_ART, NO_TRANSLATED_STRING, eLargeText},
-    {"David Keningale", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
-     eSmallText},
+    {"David Keningale", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
     {"Alan Redmond", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
     {"Chris Reeves", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
     {"Kate Wright", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING, eSmallText},
@@ -125,14 +121,14 @@ SCreditTextItemDef UIScene_Credits::gs_aCreditDefs[MAX_CREDIT_STRINGS] = {
 
     // Miles & Iggy credits
     {"", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
-     eSmallText},                                      // extra blank line
+     eSmallText},                                     // extra blank line
     {"", CREDIT_ICON, eCreditIcon_Iggy, eSmallText},  // extra blank line
     {"Uses Iggy.", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
      eSmallText},  // extra blank line
     {"Copyright (C) 2009-2014 by RAD Game Tools, Inc.", NO_TRANSLATED_STRING,
      NO_TRANSLATED_STRING, eSmallText},  // extra blank line
     {"", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
-     eSmallText},                                       // extra blank line
+     eSmallText},                                      // extra blank line
     {"", CREDIT_ICON, eCreditIcon_Miles, eSmallText},  // extra blank line
     {"Uses Miles Sound System.", NO_TRANSLATED_STRING, NO_TRANSLATED_STRING,
      eSmallText},  // extra blank line

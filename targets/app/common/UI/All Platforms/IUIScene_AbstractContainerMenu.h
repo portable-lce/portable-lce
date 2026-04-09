@@ -3,9 +3,9 @@
 #include <format>
 #include <memory>
 
+#include "UIStructs.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
-#include "UIStructs.h"
 
 class HtmlString;
 class ItemInstance;

@@ -2,7 +2,6 @@
 #include "minecraft/client/gui/Screen.h"
 #include "minecraft/stats/Achievements.h"
 
-
 class StatsCounter;
 
 class AchievementScreen : public Screen {

@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "PlayerList.h"
 
 #include <string.h>
@@ -10,26 +8,21 @@
 #include <compare>
 #include <cstdint>
 
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
+#include "MinecraftServer.h"
+#include "Settings.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"
-#include "minecraft/world/level/GameRules/GameRulesInstance.h"
-#include "minecraft/network/INetworkService.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/Socket.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
-#include "platform/NetTypes.h"
-#include "MinecraftServer.h"
-#include "Settings.h"
-#include "minecraft/world/entity/player/SkinTypes.h"
 #include "java/Class.h"
 #include "java/JavaMath.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/Pos.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/network/Connection.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/packet/ChatPacket.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/GameEventPacket.h"
@@ -45,6 +38,7 @@
 #include "minecraft/network/packet/TexturePacket.h"
 #include "minecraft/network/packet/UpdateMobEffectPacket.h"
 #include "minecraft/network/packet/XZPacket.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/level/EntityTracker.h"
 #include "minecraft/server/level/PlayerChunkMap.h"
 #include "minecraft/server/level/ServerChunkCache.h"
@@ -54,6 +48,7 @@
 #include "minecraft/server/network/PendingConnection.h"
 #include "minecraft/server/network/PlayerConnection.h"
 #include "minecraft/server/network/ServerConnection.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/ProgressListener.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/EntityIO.h"
@@ -61,10 +56,13 @@
 #include "minecraft/world/entity/SyncedEntityData.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/entity/player/Player.h"
+#include "minecraft/world/entity/player/SkinTypes.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/ChunkPos.h"
 #include "minecraft/world/level/GameRules.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
+#include "minecraft/world/level/GameRules/GameRulesInstance.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LevelSettings.h"
 #include "minecraft/world/level/PortalForcer.h"
@@ -74,6 +72,8 @@
 #include "minecraft/world/level/storage/LevelStorage.h"
 #include "minecraft/world/level/storage/PlayerIO.h"
 #include "nbt/CompoundTag.h"
+#include "platform/NetTypes.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 class MobEffectInstance;
@@ -206,9 +206,11 @@ void PlayerList::placeNewPlayer(Connection* connection,
                                              0)));
         }
     } else if (!player->customTextureUrl.empty() &&
-               gameServices().isFileInMemoryTextures(player->customTextureUrl)) {
+               gameServices().isFileInMemoryTextures(
+                   player->customTextureUrl)) {
         // Update the ref count on the memory texture data
-        gameServices().addMemoryTextureFile(player->customTextureUrl, nullptr, 0);
+        gameServices().addMemoryTextureFile(player->customTextureUrl, nullptr,
+                                            0);
     }
 
     if (!player->customTextureUrl2.empty() &&
@@ -226,9 +228,11 @@ void PlayerList::placeNewPlayer(Connection* connection,
                 new TexturePacket(player->customTextureUrl2, nullptr, 0)));
         }
     } else if (!player->customTextureUrl2.empty() &&
-               gameServices().isFileInMemoryTextures(player->customTextureUrl2)) {
+               gameServices().isFileInMemoryTextures(
+                   player->customTextureUrl2)) {
         // Update the ref count on the memory texture data
-        gameServices().addMemoryTextureFile(player->customTextureUrl2, nullptr, 0);
+        gameServices().addMemoryTextureFile(player->customTextureUrl2, nullptr,
+                                            0);
     }
 
     player->setIsGuest(packet->m_isGuest);
@@ -417,7 +421,7 @@ void PlayerList::validatePlayerSpawnPosition(
     // correct Make sure that the player is on the ground, and in the centre x/z
     // of the current column
     Log::info("Original pos is %f, %f, %f in dimension %d\n", player->x,
-                    player->y, player->z, player->dimension);
+              player->y, player->z, player->dimension);
 
     bool spawnForced = player->isRespawnForced();
 
@@ -437,15 +441,15 @@ void PlayerList::validatePlayerSpawnPosition(
 
     player->setPos(targetX, targetY, targetZ);
 
-    Log::info("New pos is %f, %f, %f in dimension %d\n", player->x,
-                    player->y, player->z, player->dimension);
+    Log::info("New pos is %f, %f, %f in dimension %d\n", player->x, player->y,
+              player->z, player->dimension);
 
     ServerLevel* level = server->getLevel(player->dimension);
     while (level->getCubes(player, &player->bb)->size() != 0) {
         player->setPos(player->x, player->y + 1, player->z);
     }
-    Log::info("Final pos is %f, %f, %f in dimension %d\n", player->x,
-                    player->y, player->z, player->dimension);
+    Log::info("Final pos is %f, %f, %f in dimension %d\n", player->x, player->y,
+              player->z, player->dimension);
 
     // 4J Stu - If we are in the nether and the above while loop has put us
     // above the nether then we have a problem Finding a valid, safe spawn point
@@ -485,8 +489,8 @@ void PlayerList::validatePlayerSpawnPosition(
             player->setPos(player->x, player->y + 1, player->z);
         }
 
-        Log::info("Updated pos is %f, %f, %f in dimension %d\n",
-                        player->x, player->y, player->z, player->dimension);
+        Log::info("Updated pos is %f, %f, %f in dimension %d\n", player->x,
+                  player->y, player->z, player->dimension);
     }
 }
 
@@ -1165,7 +1169,8 @@ bool PlayerList::isWhiteListed(const std::string& name) { return true; }
 bool PlayerList::isOp(const std::string& name) { return false; }
 
 bool PlayerList::isOp(std::shared_ptr<ServerPlayer> player) {
-    bool cheatsEnabled = gameServices().getGameHostOption(eGameHostOption_CheatsEnabled);
+    bool cheatsEnabled =
+        gameServices().getGameHostOption(eGameHostOption_CheatsEnabled);
 #if defined(_DEBUG_MENUS_ENABLED)
     cheatsEnabled = cheatsEnabled || gameServices().getUseDPadForDebug();
 #endif
@@ -1231,8 +1236,7 @@ std::vector<ServerPlayer>* PlayerList::getPlayers(
     Pos* position, int rangeMin, int rangeMax, int count, int mode,
     int levelMin, int levelMax,
     std::unordered_map<std::string, int>* scoreRequirements,
-    const std::string& playerName, const std::string& teamName,
-    Level* level) {
+    const std::string& playerName, const std::string& teamName, Level* level) {
     Log::info("getPlayers NOT IMPLEMENTED!");
     return nullptr;
 
@@ -1523,7 +1527,7 @@ void PlayerList::removePlayerFromReceiving(std::shared_ptr<ServerPlayer> player,
 
 #if !defined(_CONTENT_PACKAGE)
     Log::info("Requesting remove player %s as primary in dimension %d\n",
-                    player->name.c_str(), dimIndex);
+              player->name.c_str(), dimIndex);
 #endif
     bool playerRemoved = false;
 
@@ -1531,9 +1535,8 @@ void PlayerList::removePlayerFromReceiving(std::shared_ptr<ServerPlayer> player,
                    receiveAllPlayers[dimIndex].end(), player);
     if (it != receiveAllPlayers[dimIndex].end()) {
 #if !defined(_CONTENT_PACKAGE)
-        Log::info(
-            "Remove: Removing player %s as primary in dimension %d\n",
-            player->name.c_str(), dimIndex);
+        Log::info("Remove: Removing player %s as primary in dimension %d\n",
+                  player->name.c_str(), dimIndex);
 #endif
         receiveAllPlayers[dimIndex].erase(it);
         playerRemoved = true;
@@ -1615,7 +1618,7 @@ void PlayerList::addPlayerToReceiving(std::shared_ptr<ServerPlayer> player) {
 
 #if !defined(_CONTENT_PACKAGE)
     Log::info("Requesting add player %s as primary in dimension %d\n",
-                    player->name.c_str(), playerDim);
+              player->name.c_str(), playerDim);
 #endif
 
     bool shouldAddPlayer = true;
@@ -1646,7 +1649,7 @@ void PlayerList::addPlayerToReceiving(std::shared_ptr<ServerPlayer> player) {
     if (shouldAddPlayer) {
 #if !defined(_CONTENT_PACKAGE)
         Log::info("Add: Adding player %s as primary in dimension %d\n",
-                        player->name.c_str(), playerDim);
+                  player->name.c_str(), playerDim);
 #endif
         receiveAllPlayers[playerDim].push_back(player);
     }

@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "java/JavaMath.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
@@ -12,6 +11,7 @@
 #include "minecraft/client/renderer/texture/Texture.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/dimension/Dimension.h"
+#include "platform/PlatformTypes.h"
 
 ClockTexture::ClockTexture() : StitchedTexture("clock", "clock") {
     rot = rota = 0.0;

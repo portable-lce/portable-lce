@@ -1,5 +1,3 @@
-#include "minecraft/util/Log.h"
-#include "platform/stubs.h"
 #include "Texture.h"
 
 #include <string.h>
@@ -7,12 +5,14 @@
 #include <cstdint>
 #include <vector>
 
-#include "platform/renderer/renderer.h"
-#include "minecraft/client/BufferedImage.h"
 #include "TextureManager.h"
 #include "java/Buffer.h"
 #include "java/ByteBuffer.h"
+#include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/renderer/Rect2i.h"
+#include "minecraft/util/Log.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 #define MAX_MIP_LEVELS 5
 
@@ -575,24 +575,25 @@ void Texture::updateOnGPU() {
     if (!m_bInitialised) {
         PlatformRenderer.TextureSetTextureLevels(m_iMipLevels);  // 4J added
 
-        PlatformRenderer.TextureData(width, height, data[0]->getBuffer(), 0,
-                                  IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw);
+        PlatformRenderer.TextureData(
+            width, height, data[0]->getBuffer(), 0,
+            IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw);
 
         if (mipmapped) {
             for (int level = 1; level < m_iMipLevels; level++) {
                 int levelWidth = width >> level;
                 int levelHeight = height >> level;
 
-                PlatformRenderer.TextureData(levelWidth, levelHeight,
-                                          data[level]->getBuffer(), level,
-                                          IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw);
+                PlatformRenderer.TextureData(
+                    levelWidth, levelHeight, data[level]->getBuffer(), level,
+                    IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw);
             }
         }
 
         m_bInitialised = true;
     } else {
         PlatformRenderer.TextureDataUpdate(0, 0, width, height,
-                                        data[0]->getBuffer(), 0);
+                                           data[0]->getBuffer(), 0);
 
         if (mipmapped) {
             if (PlatformRenderer.TextureGetTextureLevels() > 1) {

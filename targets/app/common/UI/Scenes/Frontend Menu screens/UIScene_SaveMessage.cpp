@@ -1,18 +1,18 @@
 
 #include "UIScene_SaveMessage.h"
 
-#include "platform/PlatformTypes.h"
-#include "platform/input/input.h"
-#include "platform/profile/profile.h"
-#include "minecraft/GameTypes.h"
-#include "platform/profile/ProfileConstants.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "platform/PlatformTypes.h"
+#include "platform/input/input.h"
+#include "platform/profile/ProfileConstants.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 #define PROFILE_LOADED_TIMER_ID 0
@@ -39,7 +39,8 @@ UIScene_SaveMessage::UIScene_SaveMessage(int iPad, void* initData,
 
     // 4J-PB - If we have a signed in user connected, let's get the DLC now
     for (unsigned int i = 0; i < XUSER_MAX_COUNT; ++i) {
-        if ((PlatformInput.IsPadConnected(i) || PlatformProfile.IsSignedIn(i))) {
+        if ((PlatformInput.IsPadConnected(i) ||
+             PlatformProfile.IsSignedIn(i))) {
             if (!app.DLCInstallProcessCompleted() && !app.DLCInstallPending()) {
                 app.StartInstallDLCProcess(i);
                 break;

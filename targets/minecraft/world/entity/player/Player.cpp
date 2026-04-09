@@ -9,8 +9,6 @@
 // derives from, and not to find the derived class itself (which should own the
 // virtual GetType function)
 
-#include "Player.h"
-
 #include <limits.h>
 #include <wchar.h>
 
@@ -22,14 +20,14 @@
 #include <vector>
 
 #include "Inventory.h"
-#include "minecraft/GameEnums.h"
+#include "Player.h"
 #include "app/common/App_structs.h"
-#include "minecraft/Minecraft_Macros.h"
-#include "minecraft/world/level/dlc/DLCConstants.h"
 #include "app/common/DLC/DLCSkinFile.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/Minecraft_Macros.h"
 #include "minecraft/Pos.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/model/HumanoidModel.h"
@@ -74,6 +72,7 @@
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
 #include "minecraft/world/level/dimension/Dimension.h"
+#include "minecraft/world/level/dlc/DLCConstants.h"
 #include "minecraft/world/level/material/Material.h"
 #include "minecraft/world/level/tile/BedTile.h"
 #include "minecraft/world/level/tile/Tile.h"
@@ -182,8 +181,10 @@ Player::Player(Level* level, const std::string& name) : LivingEntity(level) {
     m_xuid = INVALID_XUID;
     m_OnlineXuid = INVALID_XUID;
     // m_bShownOnMaps = true;
-    setShowOnMaps(
-        gameServices().getGameHostOption(eGameHostOption_Gamertags) != 0 ? true : false);
+    setShowOnMaps(gameServices().getGameHostOption(eGameHostOption_Gamertags) !=
+                          0
+                      ? true
+                      : false);
     m_bIsGuest = false;
 
     // 4J: Set UUID to name on none-XB1 consoles, may change in future but for
@@ -534,7 +535,8 @@ void Player::ride(std::shared_ptr<Entity> e) {
 
 void Player::setPlayerDefaultSkin(EDefaultSkins skin) {
 #if !defined(_CONTENT_PACKAGE)
-    printf("Setting default skin to %d for player %s\n", std::to_underlying(skin), name.c_str());
+    printf("Setting default skin to %d for player %s\n",
+           std::to_underlying(skin), name.c_str());
 #endif
     m_skinIndex = skin;
 }
@@ -542,7 +544,7 @@ void Player::setPlayerDefaultSkin(EDefaultSkins skin) {
 void Player::setCustomSkin(std::uint32_t skinId) {
 #if !defined(_CONTENT_PACKAGE)
     printf("Attempting to set skin to %08X for player %s\n", skinId,
-            name.c_str());
+           name.c_str());
 #endif
     EDefaultSkins playerSkin = EDefaultSkins::ServerSelected;
 
@@ -573,7 +575,8 @@ void Player::setCustomSkin(std::uint32_t skinId) {
     this->customTextureUrl = gameServices().getSkinPathFromId(skinId);
 
     // set the new player additional boxes
-    /*vector<ModelPart *> *pvModelParts=gameServices().getAdditionalModelParts(m_dwSkinId);
+    /*vector<ModelPart *>
+    *pvModelParts=gameServices().getAdditionalModelParts(m_dwSkinId);
 
     if(pvModelParts==nullptr)
     {
@@ -663,7 +666,7 @@ void Player::setXuid(PlayerUID xuid) { m_xuid = xuid; }
 void Player::setCustomCape(std::uint32_t capeId) {
 #if !defined(_CONTENT_PACKAGE)
     printf("Attempting to set cape to %08X for player %s\n", capeId,
-            name.c_str());
+           name.c_str());
 #endif
 
     m_dwCapeId = capeId;
@@ -671,7 +674,8 @@ void Player::setCustomCape(std::uint32_t capeId) {
     if (capeId > 0) {
         this->customTextureUrl2 = Player::getCapePathFromId(capeId);
     } else {
-        MOJANG_DATA* pMojangData = gameServices().getMojangDataForXuid(getOnlineXuid());
+        MOJANG_DATA* pMojangData =
+            gameServices().getMojangDataForXuid(getOnlineXuid());
         if (pMojangData) {
             // Cape
             if (pMojangData->wchCape[0] != 0) {
@@ -761,7 +765,8 @@ void Player::ChangePlayerSkin() {
 }
 
 void Player::prepareCustomTextures() {
-    MOJANG_DATA* pMojangData = gameServices().getMojangDataForXuid(getOnlineXuid());
+    MOJANG_DATA* pMojangData =
+        gameServices().getMojangDataForXuid(getOnlineXuid());
 
     if (pMojangData) {
         // Skin
@@ -1204,7 +1209,7 @@ bool Player::hurt(DamageSource* source, float dmg) {
     if (dmg == 0) return false;
 
     std::shared_ptr<Entity> attacker = source->getEntity();
-    if (attacker != nullptr && attacker->instanceof(eTYPE_ARROW)) {
+    if (attacker != nullptr && attacker->instanceof (eTYPE_ARROW)) {
         std::shared_ptr<Arrow> arrow =
             std::dynamic_pointer_cast<Arrow>(attacker);
         if (arrow->owner != nullptr) {
@@ -1315,7 +1320,7 @@ bool Player::interact(std::shared_ptr<Entity> entity) {
         return true;
     }
 
-    if ((item != nullptr) && entity->instanceof(eTYPE_LIVINGENTITY)) {
+    if ((item != nullptr) && entity->instanceof (eTYPE_LIVINGENTITY)) {
         // 4J - PC Comments
         // Hack to prevent item stacks from decrementing if the player has
         // the ability to instabuild
@@ -1359,7 +1364,7 @@ void Player::attack(std::shared_ptr<Entity> entity) {
     int knockback = 0;
     float magicBoost = 0;
 
-    if (entity->instanceof(eTYPE_LIVINGENTITY)) {
+    if (entity->instanceof (eTYPE_LIVINGENTITY)) {
         std::shared_ptr<Player> thisPlayer =
             std::dynamic_pointer_cast<Player>(shared_from_this());
         std::shared_ptr<LivingEntity> mob =
@@ -1374,8 +1379,8 @@ void Player::attack(std::shared_ptr<Entity> entity) {
     if (dmg > 0 || magicBoost > 0) {
         bool bCrit = fallDistance > 0 && !onGround && !onLadder() &&
                      !isInWater() && !hasEffect(MobEffect::blindness) &&
-                     (riding == nullptr) &&
-                     entity->instanceof(eTYPE_LIVINGENTITY);
+                     (riding == nullptr) && entity->instanceof
+            (eTYPE_LIVINGENTITY);
         if (bCrit && dmg > 0) {
             dmg *= 1.5f;
         }
@@ -1386,8 +1391,8 @@ void Player::attack(std::shared_ptr<Entity> entity) {
         bool setOnFireTemporatily = false;
         int fireAspect = EnchantmentHelper::getFireAspect(
             std::dynamic_pointer_cast<LivingEntity>(shared_from_this()));
-        if (entity->instanceof(eTYPE_MOB) && fireAspect > 0 &&
-            !entity->isOnFire()) {
+        if (entity->instanceof
+            (eTYPE_MOB) && fireAspect > 0 && !entity->isOnFire()) {
             setOnFireTemporatily = true;
             entity->setOnFire(1);
         }
@@ -1419,7 +1424,7 @@ void Player::attack(std::shared_ptr<Entity> entity) {
             }
             setLastHurtMob(entity);
 
-            if (entity->instanceof(eTYPE_LIVINGENTITY)) {
+            if (entity->instanceof (eTYPE_LIVINGENTITY)) {
                 std::shared_ptr<LivingEntity> mob =
                     std::dynamic_pointer_cast<LivingEntity>(entity);
                 ThornsEnchantment::doThornsAfterAttack(shared_from_this(), mob,
@@ -1429,17 +1434,17 @@ void Player::attack(std::shared_ptr<Entity> entity) {
 
         std::shared_ptr<ItemInstance> item = getSelectedItem();
         std::shared_ptr<Entity> hurtTarget = entity;
-        if (entity->instanceof(eTYPE_MULTIENTITY_MOB_PART)) {
+        if (entity->instanceof (eTYPE_MULTIENTITY_MOB_PART)) {
             std::shared_ptr<Entity> multiMob =
                 std::dynamic_pointer_cast<Entity>(
                     (std::dynamic_pointer_cast<MultiEntityMobPart>(entity))
                         ->parentMob.lock());
-            if ((multiMob != nullptr) &&
-                multiMob->instanceof(eTYPE_LIVINGENTITY)) {
+            if ((multiMob != nullptr) && multiMob->instanceof
+                (eTYPE_LIVINGENTITY)) {
                 hurtTarget = std::dynamic_pointer_cast<LivingEntity>(multiMob);
             }
         }
-        if ((item != nullptr) && hurtTarget->instanceof(eTYPE_LIVINGENTITY)) {
+        if ((item != nullptr) && hurtTarget->instanceof (eTYPE_LIVINGENTITY)) {
             item->hurtEnemy(
                 std::dynamic_pointer_cast<LivingEntity>(hurtTarget),
                 std::dynamic_pointer_cast<Player>(shared_from_this()));
@@ -1447,7 +1452,7 @@ void Player::attack(std::shared_ptr<Entity> entity) {
                 removeSelectedItem();
             }
         }
-        if (entity->instanceof(eTYPE_LIVINGENTITY)) {
+        if (entity->instanceof (eTYPE_LIVINGENTITY)) {
             // awardStat(Stats.damageDealt, (int) Math.round(dmg * 10));
 
             if (fireAspect > 0 && wasHurt) {
@@ -1864,7 +1869,7 @@ void Player::checkRidingStatistiscs(double dx, double dy, double dz) {
         int distance =
             (int)Math::round(sqrt(dx * dx + dy * dy + dz * dz) * 100.0f);
         if (distance > 0) {
-            if (riding->instanceof(eTYPE_MINECART)) {
+            if (riding->instanceof (eTYPE_MINECART)) {
                 distanceMinecart += distance;
                 if (distanceMinecart >= 100) {
                     int newDistance =
@@ -1893,7 +1898,7 @@ void Player::checkRidingStatistiscs(double dx, double dy, double dz) {
                     }
                 }
 
-            } else if (riding->instanceof(eTYPE_BOAT)) {
+            } else if (riding->instanceof (eTYPE_BOAT)) {
                 distanceBoat += distance;
                 if (distanceBoat >= 100) {
                     int newDistance = distanceBoat - (distanceBoat % 100);
@@ -1901,7 +1906,7 @@ void Player::checkRidingStatistiscs(double dx, double dy, double dz) {
                     awardStat(GenericStats::boatOneM(),
                               GenericStats::param_boat(newDistance / 100));
                 }
-            } else if (riding->instanceof(eTYPE_PIG)) {
+            } else if (riding->instanceof (eTYPE_PIG)) {
                 distancePig += distance;
                 if (distancePig >= 100) {
                     int newDistance = distancePig - (distancePig % 100);
@@ -1933,9 +1938,10 @@ void Player::killed(std::shared_ptr<LivingEntity> mob) {
     // 4J-PB - added the lavaslime enemy - fix for #64007 - TU7: Code:
     // Achievements: TCR#073: Killing Magma Cubes doesn't unlock "Monster
     // Hunter" Achievement.
-    if (mob->instanceof(eTYPE_ENEMY) || mob->GetType() == eTYPE_GHAST ||
-        mob->GetType() == eTYPE_SLIME || mob->GetType() == eTYPE_LAVASLIME ||
-        mob->GetType() == eTYPE_ENDERDRAGON) {
+    if (mob->instanceof (eTYPE_ENEMY) || mob->GetType() == eTYPE_GHAST ||
+                            mob->GetType() == eTYPE_SLIME ||
+                            mob->GetType() == eTYPE_LAVASLIME ||
+                            mob->GetType() == eTYPE_ENDERDRAGON) {
         awardStat(GenericStats::killEnemy(), GenericStats::param_noArgs());
 
         switch (mob->GetType()) {
@@ -2504,7 +2510,7 @@ bool Player::isAllowedToUse(std::shared_ptr<ItemInstance> item) {
 bool Player::isAllowedToInteract(std::shared_ptr<Entity> target) {
     bool allowed = true;
     if (gameServices().getGameHostOption(eGameHostOption_TrustPlayers) == 0) {
-        if (target->instanceof(eTYPE_MINECART)) {
+        if (target->instanceof (eTYPE_MINECART)) {
             if (getPlayerGamePrivilege(
                     Player::ePlayerGamePrivilege_CanUseContainers) == 0) {
                 std::shared_ptr<Minecart> minecart =
@@ -2543,7 +2549,8 @@ bool Player::isAllowedToMine() {
 bool Player::isAllowedToAttackPlayers() {
     bool allowed = true;
     if (hasInvisiblePrivilege() ||
-        ((gameServices().getGameHostOption(eGameHostOption_TrustPlayers) == 0) &&
+        ((gameServices().getGameHostOption(eGameHostOption_TrustPlayers) ==
+          0) &&
          getPlayerGamePrivilege(
              Player::ePlayerGamePrivilege_CannotAttackPlayers))) {
         allowed = false;
@@ -2596,7 +2603,8 @@ bool Player::isAllowedToFly() {
 
 bool Player::isAllowedToIgnoreExhaustion() {
     bool allowed = false;
-    if ((gameServices().getGameHostOption(eGameHostOption_HostCanChangeHunger) != 0 &&
+    if ((gameServices().getGameHostOption(
+             eGameHostOption_HostCanChangeHunger) != 0 &&
          getPlayerGamePrivilege(Player::ePlayerGamePrivilege_ClassicHunger) !=
              0) ||
         (isAllowedToFly() && abilities.flying)) {
@@ -2616,7 +2624,8 @@ bool Player::isAllowedToTeleport() {
 
 bool Player::hasInvisiblePrivilege() {
     bool enabled = false;
-    if (gameServices().getGameHostOption(eGameHostOption_HostCanBeInvisible) != 0 &&
+    if (gameServices().getGameHostOption(eGameHostOption_HostCanBeInvisible) !=
+            0 &&
         getPlayerGamePrivilege(Player::ePlayerGamePrivilege_Invisible) != 0) {
         enabled = true;
     }
@@ -2625,7 +2634,8 @@ bool Player::hasInvisiblePrivilege() {
 
 bool Player::hasInvulnerablePrivilege() {
     bool enabled = false;
-    if (gameServices().getGameHostOption(eGameHostOption_HostCanBeInvisible) != 0 &&
+    if (gameServices().getGameHostOption(eGameHostOption_HostCanBeInvisible) !=
+            0 &&
         getPlayerGamePrivilege(Player::ePlayerGamePrivilege_Invulnerable) !=
             0) {
         enabled = true;
@@ -2672,7 +2682,8 @@ std::vector<ModelPart*>* Player::GetAdditionalModelParts() {
             customTextureUrl.substr(0, 3).compare("def") == 0;
 
         // see if we can find the parts
-        m_ppAdditionalModelParts = gameServices().getAdditionalModelParts(m_dwSkinId);
+        m_ppAdditionalModelParts =
+            gameServices().getAdditionalModelParts(m_dwSkinId);
 
         // If it's a default texture (which has no parts), we have the parts, or
         // we already have the texture (in which case we should have parts if
@@ -2704,8 +2715,9 @@ std::vector<ModelPart*>* Player::GetAdditionalModelParts() {
                         "m_bCheckedForModelParts Got model parts from DLCskin "
                         "for skin %X\n",
                         m_dwSkinId);
-                    m_ppAdditionalModelParts = gameServices().setAdditionalSkinBoxesFromVec(
-                        m_dwSkinId, pDLCSkinFile->getAdditionalBoxes());
+                    m_ppAdditionalModelParts =
+                        gameServices().setAdditionalSkinBoxesFromVec(
+                            m_dwSkinId, pDLCSkinFile->getAdditionalBoxes());
                 }
 
                 gameServices().setAnimOverrideBitmask(

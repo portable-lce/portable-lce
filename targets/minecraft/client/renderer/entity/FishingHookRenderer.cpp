@@ -1,13 +1,10 @@
 #include "FishingHookRenderer.h"
-#include "platform/stubs.h"
 
 #include <cmath>
 #include <memory>
 #include <numbers>
 
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
-
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/client/renderer/Tesselator.h"
@@ -17,6 +14,8 @@
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/entity/projectile/FishingHook.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation FishingHookRenderer::PARTICLE_LOCATION =
     ResourceLocation(TN_PARTICLES);

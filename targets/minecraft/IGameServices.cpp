@@ -4,9 +4,7 @@
 
 static IGameServices* s_services = nullptr;
 
-void initGameServices(IGameServices* services) {
-    s_services = services;
-}
+void initGameServices(IGameServices* services) { s_services = services; }
 
 IGameServices& gameServices() {
     assert(s_services &&

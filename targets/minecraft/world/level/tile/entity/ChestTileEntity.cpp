@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "ChestTileEntity.h"
 
 #include <stdint.h>
@@ -9,6 +8,7 @@
 #include "SharedConstants.h"
 #include "TileEntity.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/network/packet/ContainerOpenPacket.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/world/CompoundContainer.h"

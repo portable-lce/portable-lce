@@ -4,15 +4,13 @@
 #include <algorithm>
 #include <memory>
 
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/UI/Components/UIComponent_Chat.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "util/StringHelpers.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Gui.h"
@@ -22,7 +20,9 @@
 #include "minecraft/world/inventory/InventoryMenu.h"
 #include "minecraft/world/inventory/Slot.h"
 #include "minecraft/world/item/ItemInstance.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 UIScene_HUD::UIScene_HUD(int iPad, void* initData, UILayer* parentLayer)
     : UIScene(iPad, parentLayer) {
@@ -261,9 +261,10 @@ void UIScene_HUD::handleReload() {
 
     repositionHud();
 
-    SetTooltipsEnabled(((ui.GetMenuDisplayed(PlatformProfile.GetPrimaryPad())) ||
-                        (app.GetGameSettings(PlatformProfile.GetPrimaryPad(),
-                                             eGameSetting_Tooltips) != 0)));
+    SetTooltipsEnabled(
+        ((ui.GetMenuDisplayed(PlatformProfile.GetPrimaryPad())) ||
+         (app.GetGameSettings(PlatformProfile.GetPrimaryPad(),
+                              eGameSetting_Tooltips) != 0)));
 }
 
 int UIScene_HUD::getPad() { return m_iPad; }

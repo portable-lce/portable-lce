@@ -1,19 +1,17 @@
 #include "HugeExplosionParticle.h"
-#include "platform/stubs.h"
 
-
-
-#include "platform/renderer/renderer.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/particle/Particle.h"
 #include "minecraft/client/particle/ParticleEngine.h"
 #include "minecraft/client/renderer/Tesselator.h"
 #include "minecraft/client/renderer/Textures.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/resources/ResourceLocation.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 class Level;
 

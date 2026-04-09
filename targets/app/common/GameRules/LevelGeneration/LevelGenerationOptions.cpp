@@ -6,7 +6,6 @@
 #include <unordered_set>
 #include <utility>
 
-#include "minecraft/GameEnums.h"
 #include "app/common/DLC/DLCGameRulesHeader.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
@@ -16,14 +15,15 @@
 #include "app/common/GameRules/LevelGeneration/ConsoleGenerateStructure.h"
 #include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
 #include "app/common/GameRules/LevelGeneration/StartFeature.h"
-#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
-#include "minecraft/locale/StringTable.h"
 #include "app/linux/LinuxGame.h"
 #include "java/File.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/Pos.h"
+#include "minecraft/locale/StringTable.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"
 #include "minecraft/world/level/dimension/Dimension.h"
@@ -440,8 +440,7 @@ ConsoleSchematicFile* LevelGenerationOptions::loadSchematicFile(
     auto it = m_schematics.find(filename);
     if (it != m_schematics.end()) {
 #if !defined(_CONTENT_PACKAGE)
-        printf("We have already loaded schematic file %s\n",
-                filename.c_str());
+        printf("We have already loaded schematic file %s\n", filename.c_str());
 #endif
         it->second->incrementRefCount();
         return it->second;
@@ -470,8 +469,7 @@ ConsoleSchematicFile* LevelGenerationOptions::getSchematicFile(
     return schematic;
 }
 
-void LevelGenerationOptions::releaseSchematicFile(
-    const std::string& filename) {
+void LevelGenerationOptions::releaseSchematicFile(const std::string& filename) {
     // 4J Stu - We don't want to delete them when done, but probably want to
     // keep a set of active schematics for the current world
     // auto it = m_schematics.find(filename);
@@ -627,7 +625,8 @@ int LevelGenerationOptions::onPackMounted(int iPad, uint32_t dwErr,
                     uint8_t* pbData = (uint8_t*)new uint8_t[dwFileSize];
                     auto readResult = PlatformFilesystem.readFile(
                         save.getPath(), pbData, dwFileSize);
-                    if (readResult.status != IPlatformFilesystem::ReadStatus::Ok) {
+                    if (readResult.status !=
+                        IPlatformFilesystem::ReadStatus::Ok) {
                         app.FatalLoadError();
                     }
 

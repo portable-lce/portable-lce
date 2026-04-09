@@ -2,7 +2,6 @@
 
 #include <string>
 
-#include "platform/input/input.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/IUIScene_AnvilMenu.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
@@ -13,6 +12,7 @@
 #include "app/common/UI/Controls/UIControl_TextInput.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/iggy.h"
+#include "platform/input/input.h"
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif

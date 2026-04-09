@@ -1,5 +1,3 @@
-#include "minecraft/util/Log.h"
-
 #include "minecraft/world/effect/MobEffectInstance.h"
 
 #include <stdint.h>
@@ -7,6 +5,7 @@
 #include <memory>
 #include <string>
 
+#include "minecraft/util/Log.h"
 #include "minecraft/world/effect/MobEffect.h"
 #include "nbt/CompoundTag.h"
 
@@ -49,8 +48,7 @@ MobEffectInstance::MobEffectInstance(MobEffectInstance* copy) {
 
 void MobEffectInstance::update(MobEffectInstance* takeOver) {
     if (id != takeOver->id) {
-        Log::info(
-            "This method should only be called for matching effects!");
+        Log::info("This method should only be called for matching effects!");
     }
     if (takeOver->amplifier > amplifier) {
         amplifier = takeOver->amplifier;

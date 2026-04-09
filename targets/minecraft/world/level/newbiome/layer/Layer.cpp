@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "minecraft/world/level/newbiome/layer/Layer.h"
 
 #include <stdint.h>
@@ -7,8 +6,8 @@
 #include <vector>
 
 #include "BiomeOverrideLayer.h"
-#include "platform/input/input.h"
 #include "minecraft/Console_Debug_enum.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/level/LevelType.h"
 #include "minecraft/world/level/newbiome/layer/AddIslandLayer.h"
 #include "minecraft/world/level/newbiome/layer/AddMushroomIslandLayer.h"
@@ -26,6 +25,7 @@
 #include "minecraft/world/level/newbiome/layer/SwampRiversLayer.h"
 #include "minecraft/world/level/newbiome/layer/VoronoiZoom.h"
 #include "minecraft/world/level/newbiome/layer/ZoomLayer.h"
+#include "platform/input/input.h"
 
 std::vector<std::shared_ptr<Layer>> Layer::getDefaultLayers(
     int64_t seed, LevelType* levelType) {

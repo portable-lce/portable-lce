@@ -1,8 +1,7 @@
-#include "minecraft/util/Log.h"
-
 #include "minecraft/world/level/biome/BiomeDecorator.h"
 
 #include "java/Random.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/biome/WaterlilyFeature.h"

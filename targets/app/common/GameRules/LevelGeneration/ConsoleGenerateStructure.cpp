@@ -4,20 +4,20 @@
 
 #include <algorithm>
 
-#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelGeneration/ConsoleGenerateStructureAction.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionGenerateBox.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceBlock.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceContainer.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceSpawner.h"
-#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "app/linux/LinuxGame.h"
-#include "util/StringHelpers.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/Direction.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/level/levelgen/structure/BoundingBox.h"
+#include "util/StringHelpers.h"
 
 ConsoleGenerateStructure::ConsoleGenerateStructure() : StructurePiece(0) {
     m_x = m_y = m_z = 0;
@@ -77,8 +77,8 @@ void ConsoleGenerateStructure::writeAttributes(DataOutputStream* dos,
     dos->writeUTF(toWString(m_dimension));
 }
 
-void ConsoleGenerateStructure::addAttribute(
-    const std::string& attributeName, const std::string& attributeValue) {
+void ConsoleGenerateStructure::addAttribute(const std::string& attributeName,
+                                            const std::string& attributeValue) {
     if (attributeName.compare("x") == 0) {
         int value = fromWString<int>(attributeValue);
         m_x = value;

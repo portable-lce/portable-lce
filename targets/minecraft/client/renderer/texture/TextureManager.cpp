@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "TextureManager.h"
 
 #include <wchar.h>
@@ -6,13 +5,14 @@
 #include <utility>
 #include <vector>
 
-#include "minecraft/client/BufferedImage.h"
 #include "Stitcher.h"
 #include "Texture.h"
 #include "java/File.h"
+#include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "minecraft/util/Log.h"
 
 TextureManager* TextureManager::instance = nullptr;
 

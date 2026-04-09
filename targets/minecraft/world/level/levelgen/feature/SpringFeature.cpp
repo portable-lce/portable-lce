@@ -1,7 +1,7 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "SpringFeature.h"
 
+#include "minecraft/IGameServices.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/tile/Tile.h"

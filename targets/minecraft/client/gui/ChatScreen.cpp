@@ -2,16 +2,15 @@
 
 #include <memory>
 
-#include "platform/stubs.h"
-#include "util/StringHelpers.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Gui.h"
 #include "minecraft/client/gui/Screen.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
-const std::string ChatScreen::allowedChars =
-    SharedConstants::acceptableLetters;
+const std::string ChatScreen::allowedChars = SharedConstants::acceptableLetters;
 
 ChatScreen::ChatScreen() { frame = 0; }
 

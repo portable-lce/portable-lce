@@ -3,18 +3,18 @@
 
 #include <vector>
 
-#include "platform/PlatformTypes.h"
-#include "platform/input/input.h"
-#include "platform/profile/profile.h"
-#include "minecraft/GameTypes.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_DynamicLabel.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "platform/PlatformTypes.h"
+#include "platform/input/input.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 UIScene_EULA::UIScene_EULA(int iPad, void* initData, UILayer* parentLayer)
@@ -32,8 +32,7 @@ UIScene_EULA::UIScene_EULA(int iPad, void* initData, UILayer* parentLayer)
     std::vector<std::string> paragraphs;
     int lastIndex = 0;
     for (int index = EULA.find("\r\n", lastIndex, 2);
-         index != std::string::npos;
-         index = EULA.find("\r\n", lastIndex, 2)) {
+         index != std::string::npos; index = EULA.find("\r\n", lastIndex, 2)) {
         paragraphs.push_back(EULA.substr(lastIndex, index - lastIndex) + " ");
         lastIndex = index + 2;
     }
@@ -45,7 +44,8 @@ UIScene_EULA::UIScene_EULA(int iPad, void* initData, UILayer* parentLayer)
 
     // 4J-PB - If we have a signed in user connected, let's get the DLC now
     for (unsigned int i = 0; i < XUSER_MAX_COUNT; ++i) {
-        if ((PlatformInput.IsPadConnected(i) || PlatformProfile.IsSignedIn(i))) {
+        if ((PlatformInput.IsPadConnected(i) ||
+             PlatformProfile.IsSignedIn(i))) {
             if (!app.DLCInstallProcessCompleted() && !app.DLCInstallPending()) {
                 app.StartInstallDLCProcess(i);
                 break;

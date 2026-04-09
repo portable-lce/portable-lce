@@ -1,10 +1,10 @@
 #include "SlideButton.h"
-#include "platform/stubs.h"
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/Options.h"
 #include "minecraft/client/gui/Button.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 SlideButton::SlideButton(int id, int x, int y, const Options::Option* option,
                          const std::string& msg, float value)

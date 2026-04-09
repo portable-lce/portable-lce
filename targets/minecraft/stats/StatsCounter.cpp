@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "StatsCounter.h"
 
 #include <assert.h>
@@ -10,7 +9,6 @@
 #include <utility>
 #include <vector>
 
-#include "platform/profile/profile.h"
 #include "app/common/App_structs.h"
 #include "app/common/Leaderboards/LeaderboardManager.h"
 #include "app/linux/LinuxGame.h"
@@ -19,8 +17,10 @@
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/stats/Stat.h"
 #include "minecraft/stats/Stats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/profile/profile.h"
 
 Stat** StatsCounter::LARGE_STATS[] = {&Stats::walkOneM,     &Stats::swimOneM,
                                       &Stats::fallOneM,     &Stats::climbOneM,
@@ -69,7 +69,7 @@ void StatsCounter::award(Stat* stat, unsigned int difficulty,
         statBoards.find(stat);
     if (leaderboardEntry != statBoards.end()) {
         Log::info("[StatsCounter] award(): %X\n",
-                        leaderboardEntry->second << difficulty);
+                  leaderboardEntry->second << difficulty);
         modifiedBoards |= (leaderboardEntry->second << difficulty);
         if (flushCounter == 0) flushCounter = FLUSH_DELAY;
     }
@@ -186,8 +186,7 @@ void StatsCounter::save(int player, bool force) {
         (LARGE_STATS_COUNT * 4 *
          (sizeof(unsigned int) - sizeof(unsigned short)));
     assert(uiTotalStatsSize <=
-           (Game::GAME_DEFINED_PROFILE_DATA_BYTES -
-            sizeof(GAME_SETTINGS)));
+           (Game::GAME_DEFINED_PROFILE_DATA_BYTES - sizeof(GAME_SETTINGS)));
 
     // Retrieve the data pointer from the profile
     std::uint8_t* pbData = reinterpret_cast<std::uint8_t*>(
@@ -199,8 +198,7 @@ void StatsCounter::save(int player, bool force) {
 
     // Reset all the data to 0 (we're going to replace it with the map data)
     memset(statData, 0,
-           Game::GAME_DEFINED_PROFILE_DATA_BYTES -
-               sizeof(GAME_SETTINGS));
+           Game::GAME_DEFINED_PROFILE_DATA_BYTES - sizeof(GAME_SETTINGS));
 
     // For each stat
     StatsMap::iterator val;
@@ -357,8 +355,8 @@ void StatsCounter::dumpStatsToTTY() {
     for (std::vector<Stat*>::iterator statsIter = Stats::all->begin();
          statsIter != statsEnd; ++statsIter) {
         Log::info("%s\t\t%u\t%u\t%u\t%u\n", (*statsIter)->name.c_str(),
-                        getValue(*statsIter, 0), getValue(*statsIter, 1),
-                        getValue(*statsIter, 2), getValue(*statsIter, 3));
+                  getValue(*statsIter, 0), getValue(*statsIter, 1),
+                  getValue(*statsIter, 2), getValue(*statsIter, 3));
     }
 }
 

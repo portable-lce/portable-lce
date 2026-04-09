@@ -64,8 +64,7 @@ private:
     std::string reorderBidi(const std::string& str);
 
     void draw(const std::string& str, bool dropShadow);
-    void draw(const std::string& str, int x, int y, int color,
-              bool dropShadow);
+    void draw(const std::string& str, int x, int y, int color, bool dropShadow);
     int MapCharacter(char c);      // 4J added
     bool CharacterExists(char c);  // 4J added
 

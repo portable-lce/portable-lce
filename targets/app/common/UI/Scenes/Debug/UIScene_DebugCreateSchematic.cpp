@@ -3,9 +3,6 @@
 
 #include <wchar.h>
 
-#include "platform/input/input.h"
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
@@ -15,9 +12,12 @@
 #include "app/linux/Iggy/include/rrCore.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
+#include "platform/input/input.h"
+#include "platform/profile/profile.h"
 
 class UILayer;
 #ifdef _DEBUG_MENUS_ENABLED

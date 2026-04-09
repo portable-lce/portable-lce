@@ -7,11 +7,11 @@
 #include <unordered_map>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "java/JavaIntHash.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/PacketListener.h"
 #include "minecraft/server/ConsoleInputSource.h"
+#include "platform/PlatformTypes.h"
 
 class MinecraftServer;
 class Connection;

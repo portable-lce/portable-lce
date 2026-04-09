@@ -1,14 +1,10 @@
 #include "ItemRenderer.h"
-#include "platform/stubs.h"
 
 #include <math.h>
 
 #include <vector>
 
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
-#include "util/StringHelpers.h"
-
 #include "java/JavaMath.h"
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"
@@ -29,6 +25,9 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 class ResourceLocation;
 

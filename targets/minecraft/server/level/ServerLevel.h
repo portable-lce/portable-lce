@@ -12,14 +12,13 @@
 #include <vector>
 
 #include "SharedConstants.h"
-#include "platform/C4JThread.h"
 #include "java/JavaIntHash.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/TickNextTickData.h"
 #include "minecraft/world/level/TileEventData.h"
 #include "minecraft/world/level/biome/Biome.h"
-
+#include "platform/C4JThread.h"
 
 class ServerChunkCache;
 class MinecraftServer;

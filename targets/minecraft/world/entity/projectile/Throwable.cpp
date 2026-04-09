@@ -249,8 +249,8 @@ void Throwable::addAdditonalSaveData(CompoundTag* tag) {
     tag->putByte("shake", (uint8_t)shakeTime);
     tag->putByte("inGround", (uint8_t)(inGround ? 1 : 0));
 
-    if (ownerName.empty() && (owner != nullptr) &&
-        owner->instanceof(eTYPE_PLAYER)) {
+    if (ownerName.empty() && (owner != nullptr) && owner->instanceof
+        (eTYPE_PLAYER)) {
         ownerName = owner->getAName();
     }
 

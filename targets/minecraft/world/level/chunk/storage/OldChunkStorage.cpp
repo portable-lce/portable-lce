@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "OldChunkStorage.h"
 
 #include <assert.h>
@@ -12,14 +10,14 @@
 #include <unordered_map>
 #include <utility>
 
-#include "platform/input/input.h"
-#include "minecraft/Console_Debug_enum.h"
-#include "util/Definitions.h"
 #include "java/File.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/InputOutputStream/FileInputStream.h"
 #include "java/InputOutputStream/FileOutputStream.h"
+#include "minecraft/Console_Debug_enum.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/EntityIO.h"
 #include "minecraft/world/level/Level.h"
@@ -32,6 +30,8 @@
 #include "nbt/CompoundTag.h"
 #include "nbt/ListTag.h"
 #include "nbt/NbtIo.h"
+#include "platform/input/input.h"
+#include "util/Definitions.h"
 
 thread_local OldChunkStorage::ThreadStorage* OldChunkStorage::m_tlsStorage =
     nullptr;
@@ -469,10 +469,9 @@ LevelChunk* OldChunkStorage::load(Level* level, DataInputStream* dis) {
             for (int i = 0; i < tileTicks->size(); i++) {
                 CompoundTag* teTag = tileTicks->get(i);
 
-                level->forceAddTileTick(
-                    teTag->getInt("x"), teTag->getInt("y"),
-                    teTag->getInt("z"), teTag->getInt("i"),
-                    teTag->getInt("t"), teTag->getInt("p"));
+                level->forceAddTileTick(teTag->getInt("x"), teTag->getInt("y"),
+                                        teTag->getInt("z"), teTag->getInt("i"),
+                                        teTag->getInt("t"), teTag->getInt("p"));
             }
         }
     }
@@ -578,10 +577,9 @@ LevelChunk* OldChunkStorage::load(Level* level, CompoundTag* tag) {
             for (int i = 0; i < tileTicks->size(); i++) {
                 CompoundTag* teTag = tileTicks->get(i);
 
-                level->forceAddTileTick(
-                    teTag->getInt("x"), teTag->getInt("y"),
-                    teTag->getInt("z"), teTag->getInt("i"),
-                    teTag->getInt("t"), teTag->getInt("p"));
+                level->forceAddTileTick(teTag->getInt("x"), teTag->getInt("y"),
+                                        teTag->getInt("z"), teTag->getInt("i"),
+                                        teTag->getInt("t"), teTag->getInt("p"));
             }
         }
     }

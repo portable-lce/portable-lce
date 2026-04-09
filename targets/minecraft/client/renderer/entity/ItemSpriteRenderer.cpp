@@ -1,11 +1,8 @@
 #include "ItemSpriteRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
 
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
-
 #include "minecraft/client/renderer/Tesselator.h"
 #include "minecraft/client/renderer/entity/EntityRenderer.h"
 #include "minecraft/client/renderer/texture/TextureAtlas.h"
@@ -15,6 +12,8 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/PotionItem.h"
 #include "minecraft/world/item/alchemy/PotionBrewing.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ItemSpriteRenderer::ItemSpriteRenderer(Item* sourceItem,
                                        int sourceItemAuxValue /*= 0*/)

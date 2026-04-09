@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "SelectWorldScreen.h"
 
 #include <stdint.h>
@@ -13,13 +12,14 @@
 #include "ConfirmScreen.h"
 #include "CreateWorldScreen.h"
 #include "RenameWorldScreen.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Screen.h"
 #include "minecraft/client/gui/ScrolledSelectionList.h"
 #include "minecraft/locale/Language.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/storage/LevelStorageSource.h"
 #include "minecraft/world/level/storage/LevelSummary.h"
+#include "util/StringHelpers.h"
 
 SelectWorldScreen::SelectWorldScreen(Screen* lastScreen) {
     // 4J - added initialisers
@@ -110,8 +110,7 @@ void SelectWorldScreen::buttonClicked(Button* button) {
             std::string warning =
                 "'" + worldName + "' " +
                 language->getElement("selectWorld.deleteWarning");
-            std::string yes =
-                language->getElement("selectWorld.deleteButton");
+            std::string yes = language->getElement("selectWorld.deleteButton");
             std::string no = language->getElement("gui.cancel");
 
             ConfirmScreen* confirmScreen =

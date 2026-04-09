@@ -152,4 +152,3 @@ public:
     void Close();
     void Shutdown();
 };
-

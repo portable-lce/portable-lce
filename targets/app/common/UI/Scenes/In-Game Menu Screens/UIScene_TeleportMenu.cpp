@@ -3,9 +3,7 @@
 
 #include <memory>
 
-#include "minecraft/Console_Debug_enum.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_PlayerList.h"
@@ -13,9 +11,11 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/network/packet/GameCommandPacket.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/commands/TeleportCommand.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "strings.h"

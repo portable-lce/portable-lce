@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "app/linux/LinuxGame.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/Class.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
@@ -21,6 +20,7 @@
 #include "minecraft/world/level/LightLayer.h"
 #include "minecraft/world/level/TilePos.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
 #include "minecraft/world/phys/AABB.h"
@@ -749,9 +749,9 @@ void ConsoleSchematicFile::generateSchematicFile(
 
         bool mobCanBeSaved = false;
         if (bSaveMobs) {
-            if (e->instanceof(eTYPE_MONSTER) ||
-                e->instanceof(eTYPE_WATERANIMAL) ||
-                e->instanceof(eTYPE_ANIMAL) || (e->GetType() == eTYPE_VILLAGER))
+            if (e->instanceof (eTYPE_MONSTER) || e->instanceof
+                (eTYPE_WATERANIMAL) || e->instanceof
+                (eTYPE_ANIMAL) || (e->GetType() == eTYPE_VILLAGER))
 
             // 4J-JEV: All these are derived from eTYPE_ANIMAL and true
             // implicitly.
@@ -765,8 +765,9 @@ void ConsoleSchematicFile::generateSchematicFile(
         // 4J-JEV: Changed to check for instances of minecarts and
         // hangingEntities instead of just eTYPE_PAINTING, eTYPE_ITEM_FRAME and
         // eTYPE_MINECART
-        if (mobCanBeSaved || e->instanceof(eTYPE_MINECART) ||
-            e->GetType() == eTYPE_BOAT || e->instanceof(eTYPE_HANGING_ENTITY)) {
+        if (mobCanBeSaved || e->instanceof
+            (eTYPE_MINECART) || e->GetType() == eTYPE_BOAT || e->instanceof
+            (eTYPE_HANGING_ENTITY)) {
             CompoundTag* eTag = new CompoundTag();
             if (e->save(eTag)) {
                 ListTag<DoubleTag>* pos =
@@ -776,7 +777,7 @@ void ConsoleSchematicFile::generateSchematicFile(
                 pos->get(1)->data -= yStart;
                 pos->get(2)->data -= zStart;
 
-                if (e->instanceof(eTYPE_HANGING_ENTITY)) {
+                if (e->instanceof (eTYPE_HANGING_ENTITY)) {
                     ((IntTag*)eTag->get("TileX"))->data -= xStart;
                     ((IntTag*)eTag->get("TileY"))->data -= yStart;
                     ((IntTag*)eTag->get("TileZ"))->data -= zStart;

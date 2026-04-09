@@ -1,17 +1,16 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "BiomeSource.h"
 
 #include <assert.h>
 
 #include <algorithm>
 
-#include "platform/input/input.h"
-#include "minecraft/Console_Debug_enum.h"
 #include "java/Random.h"
 #include "java/System.h"
+#include "minecraft/Console_Debug_enum.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/ChunkPos.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/TilePos.h"
@@ -19,6 +18,7 @@
 #include "minecraft/world/level/biome/BiomeCache.h"
 #include "minecraft/world/level/newbiome/layer/Layer.h"
 #include "minecraft/world/level/storage/LevelData.h"
+#include "platform/input/input.h"
 #include "strings.h"
 
 // 4J - removal of separate temperature & downfall layers brought forward
@@ -425,8 +425,8 @@ int64_t BiomeSource::findSeed(LevelType* generator) {
             delete pr;
 
 #if defined(DEBUG_SEEDS)
-            Log::info("%d: %d tries taken, seed used is %lld\n", k,
-                            tryCount, bestSeed);
+            Log::info("%d: %d tries taken, seed used is %lld\n", k, tryCount,
+                      bestSeed);
 
             BiomeSource* biomeSource = new BiomeSource(bestSeed);
             std::vector<Biome*> biomes = biomeSource->getBiomeBlock(

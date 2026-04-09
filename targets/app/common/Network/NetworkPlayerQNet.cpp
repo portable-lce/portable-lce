@@ -2,8 +2,8 @@
 
 #include <limits.h>
 
-#include "platform/NetTypes.h"
 #include "java/System.h"
+#include "platform/NetTypes.h"
 
 NetworkPlayerQNet::NetworkPlayerQNet(IQNetPlayer* qnetPlayer) {
     m_qnetPlayer = qnetPlayer;

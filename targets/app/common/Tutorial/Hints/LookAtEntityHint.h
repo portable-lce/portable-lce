@@ -1,8 +1,8 @@
 #pragma once
 // using namespace std;
 
-#include "app/common/Tutorial/TutorialEnum.h"
 #include "TutorialHint.h"
+#include "app/common/Tutorial/TutorialEnum.h"
 #include "java/Class.h"
 
 class ItemInstance;
@@ -17,7 +17,7 @@ public:
     LookAtEntityHint(eTutorial_Hint id, Tutorial* tutorial, int descriptionId,
                      int titleId, eINSTANCEOF type);
     // TODO: 4jcraft added, this was not implemented
-    ~LookAtEntityHint() {};
+    ~LookAtEntityHint(){};
 
     virtual bool onLookAtEntity(eINSTANCEOF type);
 };

@@ -24,9 +24,9 @@ public:
     virtual ~IPlatformFilesystem() = default;
 
     // Read an entire file into a caller-provided buffer.
-    [[nodiscard]] virtual ReadResult readFile(
-        const std::filesystem::path& path, void* buffer,
-        std::size_t capacity) = 0;
+    [[nodiscard]] virtual ReadResult readFile(const std::filesystem::path& path,
+                                              void* buffer,
+                                              std::size_t capacity) = 0;
 
     // Read a segment of a file.
     [[nodiscard]] virtual ReadResult readFileSegment(

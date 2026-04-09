@@ -45,7 +45,7 @@ bool MeleeAttackGoal::canUse() {
     std::shared_ptr<LivingEntity> target = mob->getTarget();
     if (target == nullptr) return false;
     if (!target->isAlive()) return false;
-    if (attackType != eTYPE_NOTSET && !target->instanceof(attackType))
+    if (attackType != eTYPE_NOTSET && !target->instanceof (attackType))
         return false;
     path.reset(mob->getNavigation()->createPath(target));
     return path != nullptr;

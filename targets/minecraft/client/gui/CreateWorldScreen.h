@@ -44,7 +44,7 @@ private:
 
 public:
     static std::string findAvailableFolderName(LevelStorageSource* levelSource,
-                                                const std::string& folder);
+                                               const std::string& folder);
     virtual void removed() override;
 
 protected:

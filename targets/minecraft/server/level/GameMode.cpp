@@ -4,13 +4,6 @@
 #include "minecraft/client/player/LocalPlayer.h"
 #include "minecraft/client/renderer/LevelRenderer.h"
 
-
-
-
-
-
-
-
 GameMode::GameMode(Minecraft* minecraft) {
     instaBuild = false;  // 4J - added
     this->minecraft = minecraft;

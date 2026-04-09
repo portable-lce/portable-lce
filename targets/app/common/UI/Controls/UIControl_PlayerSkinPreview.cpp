@@ -6,15 +6,14 @@
 #include <numbers>
 #include <vector>
 
-#include "platform/renderer/renderer.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/linux/Iggy/include/iggy.h"
+#include "minecraft/GameEnums.h"
+#include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
 #include "app/linux/LinuxGame.h"
-
 #include "java/Class.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"

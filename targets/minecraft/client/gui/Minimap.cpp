@@ -1,6 +1,4 @@
 #include "Minimap.h"
-#include "platform/stubs.h"
-
 
 #include <math.h>
 #include <string.h>
@@ -8,17 +6,18 @@
 
 #include <string>
 
-#include "platform/renderer/renderer.h"
 #include "Font.h"
 #include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/Tesselator.h"
 #include "minecraft/client/renderer/Textures.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/level/material/MaterialColor.h"
 #include "minecraft/world/level/saveddata/MapItemSavedData.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 int Minimap::LUT[256];        // 4J added
 bool Minimap::genLUT = true;  // 4J added

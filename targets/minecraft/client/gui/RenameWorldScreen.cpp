@@ -4,12 +4,12 @@
 
 #include "Button.h"
 #include "EditBox.h"
-#include "platform/stubs.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Screen.h"
 #include "minecraft/locale/Language.h"
 #include "minecraft/world/level/storage/LevelStorageSource.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 RenameWorldScreen::RenameWorldScreen(Screen* lastScreen,
                                      const std::string& levelId) {

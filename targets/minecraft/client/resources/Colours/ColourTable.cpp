@@ -4,13 +4,12 @@
 #include <utility>
 #include <vector>
 
-#include "minecraft/GameEnums.h"
-#include "util/StringHelpers.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
+#include "minecraft/GameEnums.h"
+#include "util/StringHelpers.h"
 
-std::unordered_map<std::string, eMinecraftColour>
-    ColourTable::s_colourNamesMap;
+std::unordered_map<std::string, eMinecraftColour> ColourTable::s_colourNamesMap;
 
 const char* ColourTable::ColourTableElements[eMinecraftColour_COUNT] = {
     "NOTSET",

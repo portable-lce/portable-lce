@@ -1,16 +1,12 @@
 #include "ParticleEngine.h"
-#include "platform/stubs.h"
-
 
 #include <math.h>
 
 #include <algorithm>
 #include <numbers>
 
-#include "platform/renderer/renderer.h"
 #include "Particle.h"
 #include "TerrainParticle.h"
-#include "util/StringHelpers.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"
@@ -23,6 +19,9 @@
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 ResourceLocation ParticleEngine::PARTICLES_LOCATION =
     ResourceLocation(TN_PARTICLES);
@@ -30,9 +29,7 @@ ResourceLocation ParticleEngine::PARTICLES_LOCATION =
 ParticleEngine::ParticleEngine(Level* level, Textures* textures) {
     //    if (level != nullptr)	// 4J - removed - we want level to be
     //    initialised to *something*
-    {
-        this->level = level;
-    }
+    { this->level = level; }
     this->textures = textures;
 
     this->random = new Random();

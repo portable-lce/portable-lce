@@ -1,17 +1,14 @@
-#include "minecraft/IGameServices.h"
-#include "platform/stubs.h"
 #include "LivingEntityRenderer.h"
 
 #include <cmath>
 #include <numbers>
 #include <vector>
 
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
-#include "minecraft/GameEnums.h"
-
 #include "java/Class.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Font.h"
@@ -27,6 +24,8 @@
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/entity/projectile/Arrow.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation LivingEntityRenderer::ENCHANT_GLINT_LOCATION =
     ResourceLocation(TN__BLUR__MISC_GLINT);
@@ -67,7 +66,7 @@ void LivingEntityRenderer::render(std::shared_ptr<Entity> _mob, double x,
         float bodyRot = rotlerp(mob->yBodyRotO, mob->yBodyRot, a);
         float headRot = rotlerp(mob->yHeadRotO, mob->yHeadRot, a);
 
-        if (mob->isRiding() && mob->riding->instanceof(eTYPE_LIVINGENTITY)) {
+        if (mob->isRiding() && mob->riding->instanceof (eTYPE_LIVINGENTITY)) {
             std::shared_ptr<LivingEntity> riding =
                 std::dynamic_pointer_cast<LivingEntity>(mob->riding);
             bodyRot = rotlerp(riding->yBodyRotO, riding->yBodyRot, a);
@@ -285,8 +284,9 @@ void LivingEntityRenderer::setupRotations(std::shared_ptr<LivingEntity> mob,
     } else {
         std::string name = mob->getAName();
         if (name == "Dinnerbone" || name == "Grumm") {
-            if (!mob->instanceof(eTYPE_PLAYER) ||
-                !std::dynamic_pointer_cast<Player>(mob)->isCapeHidden()) {
+            if (!mob->instanceof
+                (eTYPE_PLAYER) ||
+                    !std::dynamic_pointer_cast<Player>(mob)->isCapeHidden()) {
                 glTranslatef(0, mob->bbHeight + 0.1f, 0);
                 glRotatef(180, 0, 0, 1);
             }
@@ -389,12 +389,14 @@ void LivingEntityRenderer::renderName(std::shared_ptr<LivingEntity> mob,
 
             if (!msg.empty()) {
                 if (mob->isSneaking()) {
-                    if (gameServices().getGameSettings(eGameSetting_DisplayHUD) == 0) {
+                    if (gameServices().getGameSettings(
+                            eGameSetting_DisplayHUD) == 0) {
                         // 4J-PB - turn off gamertag render
                         return;
                     }
 
-                    if (gameServices().getGameHostOption(eGameHostOption_Gamertags) == 0) {
+                    if (gameServices().getGameHostOption(
+                            eGameHostOption_Gamertags) == 0) {
                         // turn off gamertags if the host has set them off
                         return;
                     }
@@ -525,7 +527,7 @@ void LivingEntityRenderer::renderNameTag(std::shared_ptr<LivingEntity> mob,
     std::string playerName;
     char wchName[2];
 
-    if (mob->instanceof(eTYPE_PLAYER)) {
+    if (mob->instanceof (eTYPE_PLAYER)) {
         std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(mob);
 
         if (gameServices().isXuidDeadmau5(player->getXuid())) offs = -10;

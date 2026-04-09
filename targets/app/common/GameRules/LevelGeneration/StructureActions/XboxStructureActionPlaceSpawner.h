@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "XboxStructureActionPlaceBlock.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 
 class StructurePiece;
 class Level;

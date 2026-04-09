@@ -1,34 +1,27 @@
-#include "minecraft/GameHostOptions.h"
 #include "app/common/Game.h"
 
-#include "platform/PlatformTypes.h"
-#include "platform/profile/profile.h"
-#include "platform/renderer/renderer.h"
-#include "platform/storage/storage.h"
-#include "minecraft/GameTypes.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/App_structs.h"
-#include "minecraft/Console_Debug_enum.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCSkinFile.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Scenes/UIScene_FullscreenProgress.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "platform/NetTypes.h"
-#include "minecraft/client/model/SkinBox.h"
-#include "platform/XboxStubs.h"
 #include "java/Class.h"
 #include "java/File.h"
 #include "java/Random.h"
+#include "minecraft/Console_Debug_enum.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/GameHostOptions.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/Options.h"
 #include "minecraft/client/ProgressRenderer.h"
+#include "minecraft/client/model/SkinBox.h"
 #include "minecraft/client/model/geom/Model.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
@@ -39,6 +32,7 @@
 #include "minecraft/client/renderer/entity/EntityRenderer.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "minecraft/world/Container.h"
@@ -47,6 +41,12 @@
 #include "minecraft/world/item/crafting/Recipy.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/HopperTileEntity.h"
+#include "platform/NetTypes.h"
+#include "platform/PlatformTypes.h"
+#include "platform/XboxStubs.h"
+#include "platform/profile/profile.h"
+#include "platform/renderer/renderer.h"
+#include "platform/storage/storage.h"
 #include "strings.h"
 #if defined(_WINDOWS64)
 #include "app/windows/XML/ATGXmlParser.h"
@@ -71,24 +71,24 @@
 #include <utility>
 #include <vector>
 
-#include "platform/input/input.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/DLC/DLCPack.h"
-#include "minecraft/locale/StringTable.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
 #include "minecraft/Minecraft_Macros.h"
-#include "util/Timer.h"
-#include "util/StringHelpers.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/client/User.h"
 #include "minecraft/client/gui/Gui.h"
 #include "minecraft/client/renderer/entity/EntityRenderDispatcher.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/skins/DLCTexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "minecraft/locale/StringTable.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/level/ServerPlayer.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
+#include "platform/input/input.h"
+#include "util/StringHelpers.h"
+#include "util/Timer.h"
 
 class BeaconTileEntity;
 class BrewingStandTileEntity;
@@ -189,30 +189,13 @@ void Game::SetAppPaused(bool val) { m_bIsAppPaused = val; }
 
 // Load*Menu methods moved to MenuController
 
-
 //////////////////////////////////////////////
 // GAME SETTINGS
 //////////////////////////////////////////////
 
-
-
-
-
-
 // Skin/Cape/FavoriteSkin methods moved to SkinManager
 
 // Mash-up pack worlds
-
-
-
-
-
-
-
-
-
-
-
 
 ///////////////////////////
 //
@@ -221,15 +204,9 @@ void Game::SetAppPaused(bool val) { m_bIsAppPaused = val; }
 ////////////////////////////
 #if !defined(_DEBUG_MENUS_ENABLED)
 
-
-
 #else
 
-
-
 #endif
-
-
 
 int Game::BannedLevelDialogReturned(
     void* pParam, int iPad, const IPlatformStorage::EMessageResult result) {
@@ -284,10 +261,7 @@ int Game::GetLocalPlayerCount(void) {
     return iPlayerC;
 }
 
-
-
 // Installed DLC callback
-
 
 // 4J-JEV: For the sake of clarity in DLCMountedCallback.
 #if defined(_WINDOWS64)
@@ -325,7 +299,6 @@ int Game::GetLocalPlayerCount(void) {
 // 		 }
 // 	 }
 //  }
-
 
 //  int Game::DLCReadCallback(void*
 //  pParam,IPlatformStorage::DLC_FILE_DETAILS *pDLCData)
@@ -365,8 +338,9 @@ void Game::UpdateTime() {
 }
 
 bool Game::isXuidDeadmau5(PlayerUID xuid) {
-    auto it = DLCController::MojangData.find(xuid);  // 4J Stu - The .at and [] accessors
-                                      // insert elements if they don't exist
+    auto it = DLCController::MojangData.find(
+        xuid);  // 4J Stu - The .at and [] accessors
+                // insert elements if they don't exist
     if (it != DLCController::MojangData.end()) {
         MOJANG_DATA* pMojangData = DLCController::MojangData[xuid];
         if (pMojangData && pMojangData->eXuid == eXUID_Deadmau5) {
@@ -383,12 +357,6 @@ void Game::ExitGame() {}
 
 // Invites
 
-
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////
 //
 // FatalLoadError
@@ -400,25 +368,15 @@ void Game::ExitGame() {}
 //////////////////////////////////////////////////////////////////////////
 void Game::FatalLoadError() {}
 
-
-
-
-
-
 // Game Host options
 
-void Game::SetGameHostOption(eGameHostOption eVal,
-                                      unsigned int uiVal) {
+void Game::SetGameHostOption(eGameHostOption eVal, unsigned int uiVal) {
     GameHostOptions::set(m_uiGameHostSettings, eVal, uiVal);
 }
-
 
 unsigned int Game::GetGameHostOption(eGameHostOption eVal) {
     return GameHostOptions::get(m_uiGameHostSettings, eVal);
 }
-
-
-
 
 void Game::processSchematics(LevelChunk* levelChunk) {
     m_gameRules.processSchematics(levelChunk);
@@ -428,12 +386,9 @@ void Game::processSchematicsLighting(LevelChunk* levelChunk) {
     m_gameRules.processSchematicsLighting(levelChunk);
 }
 
-void Game::loadDefaultGameRules() {
-    m_gameRules.loadDefaultGameRules();
-}
+void Game::loadDefaultGameRules() { m_gameRules.loadDefaultGameRules(); }
 
-void Game::setLevelGenerationOptions(
-    LevelGenerationOptions* levelGen) {
+void Game::setLevelGenerationOptions(LevelGenerationOptions* levelGen) {
     m_gameRules.setLevelGenerationOptions(levelGen);
 }
 
@@ -441,16 +396,8 @@ const char* Game::GetGameRulesString(const std::string& key) {
     return m_gameRules.GetGameRulesString(key);
 }
 
-
-
-// PNG_TAG_tEXt, FromBigEndian, GetImageTextData, CreateImageTextData moved to MenuController
-
-
-
-
-
-
-
+// PNG_TAG_tEXt, FromBigEndian, GetImageTextData, CreateImageTextData moved to
+// MenuController
 
 std::string Game::getEntityName(eINSTANCEOF type) {
     switch (type) {
@@ -506,12 +453,8 @@ std::string Game::getEntityName(eINSTANCEOF type) {
 
 // m_dwContentTypeA moved to DLCController
 
-
-
-
-
-int32_t Game::RegisterMojangData(char* pXuidName, PlayerUID xuid,
-                                          char* pSkin, char* pCape) {
+int32_t Game::RegisterMojangData(char* pXuidName, PlayerUID xuid, char* pSkin,
+                                 char* pCape) {
     int32_t hr = 0;
     eXUID eTempXuid = eXUID_Undefined;
     MOJANG_DATA* pMojangData = nullptr;
@@ -579,33 +522,12 @@ int32_t Game::RegisterConfigValues(char* pType, int iValue) {
 
 #endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // DLC
-
-
-
 
 // AUTOSAVE
 void Game::SetAutosaveTimerTime(void) {
-    int settingValue = GetGameSettings(PlatformProfile.GetPrimaryPad(), eGameSetting_Autosave);
+    int settingValue =
+        GetGameSettings(PlatformProfile.GetPrimaryPad(), eGameSetting_Autosave);
     m_saveManager.setAutosaveTimerTime(settingValue);
 }
 
@@ -641,7 +563,8 @@ bool Game::IsLocalMultiplayerAvailable() {
     // #else
     //		for(unsigned int i = 0; i < XUSER_MAX_COUNT; ++i)
     //		{
-    //			if( (i!=userIndex) && (PlatformInput.IsPadConnected(i) ||
+    //			if( (i!=userIndex) && (PlatformInput.IsPadConnected(i)
+    //||
     // PlatformProfile.IsSignedIn(i)) )
     //			{
     //				iOtherConnectedControllers++;
@@ -654,10 +577,8 @@ bool Game::IsLocalMultiplayerAvailable() {
 
 // (moved to manager class)
 
-std::string Game::getFilePath(std::uint32_t packId,
-                                        std::string filename,
-                                        bool bAddDataFolder,
-                                        std::string mountPoint) {
+std::string Game::getFilePath(std::uint32_t packId, std::string filename,
+                              bool bAddDataFolder, std::string mountPoint) {
     std::string path =
         getRootPath(packId, true, bAddDataFolder, mountPoint) + filename;
     File f(path);
@@ -689,9 +610,8 @@ std::string titleUpdateTexturePackRoot = "Windows64\\DLC\\";
 std::string titleUpdateTexturePackRoot = "CU\\DLC\\";
 #endif
 
-std::string Game::getRootPath(std::uint32_t packId,
-                                        bool allowOverride, bool bAddDataFolder,
-                                        std::string mountPoint) {
+std::string Game::getRootPath(std::uint32_t packId, bool allowOverride,
+                              bool bAddDataFolder, std::string mountPoint) {
     std::string path = mountPoint;
     if (allowOverride) {
         switch (packId) {

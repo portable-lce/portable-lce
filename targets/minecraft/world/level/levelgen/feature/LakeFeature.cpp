@@ -1,9 +1,9 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "LakeFeature.h"
 
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/util/Log.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LightLayer.h"
 #include "minecraft/world/level/biome/Biome.h"

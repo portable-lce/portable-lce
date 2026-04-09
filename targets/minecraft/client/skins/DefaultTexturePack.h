@@ -22,7 +22,9 @@ public:
     bool hasFile(const std::string& name);
     bool isTerrainUpdateCompatible();
 
-    std::string getDesc1() { return gameServices().getString(IDS_DEFAULT_TEXTUREPACK); }
+    std::string getDesc1() {
+        return gameServices().getString(IDS_DEFAULT_TEXTUREPACK);
+    }
 
 protected:
     //@Override

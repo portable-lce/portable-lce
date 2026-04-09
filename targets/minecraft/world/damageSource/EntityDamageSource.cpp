@@ -35,14 +35,15 @@ std::shared_ptr<Entity> EntityDamageSource::getEntity() { return entity; }
 std::shared_ptr<ChatPacket> EntityDamageSource::getDeathMessagePacket(
     std::shared_ptr<LivingEntity> player) {
     std::shared_ptr<ItemInstance> held =
-        (entity != nullptr) && entity->instanceof(eTYPE_LIVINGENTITY)
+        (entity != nullptr) && entity->instanceof
+        (eTYPE_LIVINGENTITY)
             ? std::dynamic_pointer_cast<LivingEntity>(entity)->getCarriedItem()
             : nullptr;
     std::string additional = "";
 
-    if (entity->instanceof(eTYPE_SERVERPLAYER)) {
+    if (entity->instanceof (eTYPE_SERVERPLAYER)) {
         additional = std::dynamic_pointer_cast<Player>(entity)->name;
-    } else if (entity->instanceof(eTYPE_MOB)) {
+    } else if (entity->instanceof (eTYPE_MOB)) {
         std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(entity);
         if (mob->hasCustomName()) {
             additional = mob->getCustomName();
@@ -60,8 +61,8 @@ std::shared_ptr<ChatPacket> EntityDamageSource::getDeathMessagePacket(
 }
 
 bool EntityDamageSource::scalesWithDifficulty() {
-    return (entity != nullptr) && entity->instanceof(eTYPE_LIVINGENTITY) &&
-           !entity->instanceof(eTYPE_PLAYER);
+    return (entity != nullptr) && entity->instanceof
+        (eTYPE_LIVINGENTITY) && !entity->instanceof (eTYPE_PLAYER);
 }
 
 // 4J: Copy function

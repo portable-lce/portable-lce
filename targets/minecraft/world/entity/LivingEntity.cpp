@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "LivingEntity.h"
 
 #include <stdint.h>
@@ -26,6 +25,7 @@
 #include "minecraft/server/level/ServerLevel.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/CombatTracker.h"
 #include "minecraft/world/damageSource/DamageSource.h"
@@ -244,8 +244,8 @@ void LivingEntity::baseTick() {
         }
 
         clearFire();
-        if (!level->isClientSide && isRiding() &&
-            riding->instanceof(eTYPE_LIVINGENTITY)) {
+        if (!level->isClientSide && isRiding() && riding->instanceof
+            (eTYPE_LIVINGENTITY)) {
             ride(nullptr);
         }
     } else {
@@ -335,10 +335,9 @@ int LivingEntity::decreaseAirSupply(int currentSupply) {
             return currentSupply;
         }
     }
-    if (instanceof(eTYPE_PLAYER)) {
+    if (instanceof (eTYPE_PLAYER)) {
         Log::info("++++++++++ %s: Player decreasing air supply to %d\n",
-                        level->isClientSide ? "CLIENT" : "SERVER",
-                        currentSupply - 1);
+                  level->isClientSide ? "CLIENT" : "SERVER", currentSupply - 1);
     }
     return currentSupply - 1;
 }
@@ -369,7 +368,7 @@ std::shared_ptr<LivingEntity> LivingEntity::getLastHurtMob() {
 int LivingEntity::getLastHurtMobTimestamp() { return lastHurtMobTimestamp; }
 
 void LivingEntity::setLastHurtMob(std::shared_ptr<Entity> target) {
-    if (target->instanceof(eTYPE_LIVINGENTITY)) {
+    if (target->instanceof (eTYPE_LIVINGENTITY)) {
         lastHurtMob = std::dynamic_pointer_cast<LivingEntity>(target);
     } else {
         lastHurtMob = nullptr;
@@ -422,8 +421,7 @@ void LivingEntity::readAdditionalSaveData(CompoundTag* tag) {
     if (tag->contains("Attributes") && level != nullptr &&
         !level->isClientSide) {
         SharedMonsterAttributes::loadAttributes(
-            getAttributes(),
-            (ListTag<CompoundTag>*)tag->getList("Attributes"));
+            getAttributes(), (ListTag<CompoundTag>*)tag->getList("Attributes"));
     }
 
     if (tag->contains("ActiveEffects")) {
@@ -725,9 +723,10 @@ bool LivingEntity::hurt(DamageSource* source, float dmg) {
     if (source->isFire() && hasEffect(MobEffect::fireResistance)) {
         // 4J-JEV, for new achievement Stayin'Frosty, TODO merge with Java
         // version.
-        if (this->instanceof(eTYPE_PLAYER) &&
-            (source ==
-             DamageSource::lava))  // Only award when in lava (not any fire).
+        if (this->instanceof
+            (eTYPE_PLAYER) &&
+                (source == DamageSource::lava))  // Only award when in lava (not
+                                                 // any fire).
         {
             std::shared_ptr<Player> plr =
                 std::dynamic_pointer_cast<Player>(shared_from_this());
@@ -766,15 +765,15 @@ bool LivingEntity::hurt(DamageSource* source, float dmg) {
 
     std::shared_ptr<Entity> sourceEntity = source->getEntity();
     if (sourceEntity != nullptr) {
-        if (sourceEntity->instanceof(eTYPE_LIVINGENTITY)) {
+        if (sourceEntity->instanceof (eTYPE_LIVINGENTITY)) {
             setLastHurtByMob(
                 std::dynamic_pointer_cast<LivingEntity>(sourceEntity));
         }
 
-        if (sourceEntity->instanceof(eTYPE_PLAYER)) {
+        if (sourceEntity->instanceof (eTYPE_PLAYER)) {
             lastHurtByPlayerTime = PLAYER_HURT_EXPERIENCE_TIME;
             lastHurtByPlayer = std::dynamic_pointer_cast<Player>(sourceEntity);
-        } else if (sourceEntity->instanceof(eTYPE_WOLF)) {
+        } else if (sourceEntity->instanceof (eTYPE_WOLF)) {
             std::shared_ptr<Wolf> w =
                 std::dynamic_pointer_cast<Wolf>(sourceEntity);
             if (w->isTame()) {
@@ -853,8 +852,8 @@ void LivingEntity::die(DamageSource* source) {
         int playerBonus = 0;
 
         std::shared_ptr<Player> player = nullptr;
-        if ((sourceEntity != nullptr) &&
-            sourceEntity->instanceof(eTYPE_PLAYER)) {
+        if ((sourceEntity != nullptr) && sourceEntity->instanceof
+            (eTYPE_PLAYER)) {
             player = std::dynamic_pointer_cast<Player>(sourceEntity);
             playerBonus = EnchantmentHelper::getKillingLootBonus(
                 std::dynamic_pointer_cast<LivingEntity>(player));
@@ -1005,7 +1004,7 @@ float LivingEntity::getDamageAfterArmorAbsorb(DamageSource* damageSource,
 float LivingEntity::getDamageAfterMagicAbsorb(DamageSource* damageSource,
                                               float damage) {
     // [EB]: Stupid hack :(
-    if (this->instanceof(eTYPE_ZOMBIE)) {
+    if (this->instanceof (eTYPE_ZOMBIE)) {
         damage = damage;
     }
     if (hasEffect(MobEffect::damageResistance) &&
@@ -1313,8 +1312,8 @@ void LivingEntity::travel(float xa, float ya) {
             if (zd > max) zd = max;
             fallDistance = 0;
             if (yd < -0.15) yd = -0.15;
-            bool playerSneaking =
-                isSneaking() && this->instanceof(eTYPE_PLAYER);
+            bool playerSneaking = isSneaking() && this->instanceof
+                (eTYPE_PLAYER);
             if (playerSneaking && yd < 0) yd = 0;
         }
 
@@ -1644,15 +1643,15 @@ void LivingEntity::setJumping(bool jump) { jumping = jump; }
 void LivingEntity::take(std::shared_ptr<Entity> e, int orgCount) {
     if (!e->removed && !level->isClientSide) {
         EntityTracker* entityTracker = ((ServerLevel*)level)->getTracker();
-        if (e->instanceof(eTYPE_ITEMENTITY)) {
+        if (e->instanceof (eTYPE_ITEMENTITY)) {
             entityTracker->broadcast(
                 e, std::shared_ptr<TakeItemEntityPacket>(
                        new TakeItemEntityPacket(e->entityId, entityId)));
-        } else if (e->instanceof(eTYPE_ARROW)) {
+        } else if (e->instanceof (eTYPE_ARROW)) {
             entityTracker->broadcast(
                 e, std::shared_ptr<TakeItemEntityPacket>(
                        new TakeItemEntityPacket(e->entityId, entityId)));
-        } else if (e->instanceof(eTYPE_EXPERIENCEORB)) {
+        } else if (e->instanceof (eTYPE_EXPERIENCEORB)) {
             entityTracker->broadcast(
                 e, std::shared_ptr<TakeItemEntityPacket>(
                        new TakeItemEntityPacket(e->entityId, entityId)));

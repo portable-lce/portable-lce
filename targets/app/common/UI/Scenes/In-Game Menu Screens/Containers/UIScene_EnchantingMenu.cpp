@@ -5,7 +5,6 @@
 
 #include <memory>
 
-#include "platform/profile/profile.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
@@ -18,6 +17,7 @@
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/world/inventory/EnchantmentMenu.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 class UILayer;

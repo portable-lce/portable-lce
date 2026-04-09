@@ -1,11 +1,11 @@
 #include "MultiPlayerChunkCache.h"
-#include <atomic>
 
 #include <stdint.h>
 #include <string.h>
 
+#include <atomic>
+
 #include "minecraft/network/INetworkService.h"
-#include "util/StringHelpers.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/level/ServerChunkCache.h"
 #include "minecraft/server/level/ServerLevel.h"
@@ -19,6 +19,7 @@
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/level/storage/LevelData.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "util/StringHelpers.h"
 
 MultiPlayerChunkCache::MultiPlayerChunkCache(Level* level) {
     XZSIZE = level->dimension->getXZSize();  // 4J Added
@@ -175,8 +176,8 @@ LevelChunk* MultiPlayerChunkCache::create(int x, int z) {
                 if (MinecraftServer::getInstance()->serverHalted())
                     return nullptr;
 
-                // If we're the host, then don't create the chunk, share data
-                // from the server's copy
+                    // If we're the host, then don't create the chunk, share
+                    // data from the server's copy
 #ifdef _LARGE_WORLDS
                 LevelChunk* serverChunk =
                     MinecraftServer::getInstance()

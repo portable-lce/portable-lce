@@ -6,12 +6,12 @@
 #include <vector>
 
 #include "DiodeTile.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
 #include "minecraft/Facing.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/item/Item.h"

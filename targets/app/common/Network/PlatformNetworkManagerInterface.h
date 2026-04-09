@@ -5,11 +5,11 @@
 #if !defined(__linux__)
 #include <qnet.h>
 #endif
-#include "platform/NetTypes.h"
 #include "minecraft/client/model/SkinBox.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/network/platform/SessionInfo.h"
 #include "platform/C4JThread.h"
+#include "platform/NetTypes.h"
 
 class ClientConnection;
 class Minecraft;
@@ -87,9 +87,8 @@ public:
     virtual void ResetLeavingGame() = 0;
 
     virtual void RegisterPlayerChangedCallback(
-        int iPad,
-        std::function<void(INetworkPlayer* pPlayer, bool leaving)>
-            callback) = 0;
+        int iPad, std::function<void(INetworkPlayer* pPlayer, bool leaving)>
+                      callback) = 0;
     virtual void UnRegisterPlayerChangedCallback(int iPad) = 0;
 
     virtual void HandleSignInChange() = 0;
@@ -128,8 +127,7 @@ public:
                                                             bool partyOnly) = 0;
     virtual bool GetGameSessionInfo(int iPad, SessionID sessionId,
                                     FriendSessionInfo* foundSession) = 0;
-    virtual void SetSessionsUpdatedCallback(
-        std::function<void()> callback) = 0;
+    virtual void SetSessionsUpdatedCallback(std::function<void()> callback) = 0;
     virtual void GetFullFriendSessionInfo(
         FriendSessionInfo* foundSession,
         std::function<void(bool success)> callback) = 0;

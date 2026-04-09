@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFileOriginal.h"
 
 #include <assert.h>
@@ -14,26 +12,27 @@
 #include <format>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/BuildVer.h"
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/File.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"
+#include "minecraft/BuildVer.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/level/ServerLevel.h"
+#include "minecraft/util/Log.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/chunk/storage/RegionFile.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFile.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSavePath.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/level/storage/LevelData.h"
-#include "platform/storage/storage.h"
+#include "platform/PlatformTypes.h"
 #include "platform/fs/fs.h"
-
+#include "platform/storage/storage.h"
 
 ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(
     const std::string& fileName, void* pvSaveData /*= nullptr*/,
@@ -46,7 +45,8 @@ ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(
 
     // Load a save from the game rules
     bool bLevelGenBaseSave = false;
-    LevelGenerationOptions* levelGen = gameServices().getLevelGenerationOptions();
+    LevelGenerationOptions* levelGen =
+        gameServices().getLevelGenerationOptions();
     if (pvSaveData == nullptr && levelGen != nullptr &&
         levelGen->requiresBaseSave()) {
         pvSaveData = levelGen->getBaseSaveData(fileSize);
@@ -68,7 +68,7 @@ ConsoleSaveFileOriginal::ConsoleSaveFileOriginal(
             unsigned int storageLength;
             PlatformStorage.GetSaveData(pvSaveMem, &storageLength);
             Log::info("Filesize - %d, Adjusted size - %d\n", fileSize,
-                            storageLength);
+                      storageLength);
             fileSize = storageLength;
         }
         void* pvSourceData = pvSaveMem;
@@ -548,8 +548,7 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail) {
         memcpy(compData, &saveVer, sizeof(int));
         memcpy(compData + 4, &fileSize, sizeof(int));
 
-        Log::info("Save data compressed from %d to %d\n", fileSize,
-                        compLength);
+        Log::info("Save data compressed from %d to %d\n", fileSize, compLength);
 
         std::uint8_t* pbThumbnailData = nullptr;
         unsigned int dwThumbnailDataSize = 0;
@@ -559,7 +558,7 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail) {
 
 #ifdef _WINDOWS64
         gameServices().getSaveThumbnail(&pbThumbnailData, &dwThumbnailDataSize,
-                             &pbDataSaveImage, &dwDataSizeSaveImage);
+                                        &pbDataSaveImage, &dwDataSizeSaveImage);
 #endif
 
         std::uint8_t bTextMetadata[88] = {};
@@ -785,8 +784,7 @@ void ConsoleSaveFileOriginal::ConvertToLocalPlatform() {
             Log::info("Processing a region file: %s\n", fName.c_str());
             ConvertRegionFile(File(fe->data.filename));
         } else {
-            Log::info("%s is not a region file, ignoring\n",
-                            fName.c_str());
+            Log::info("%s is not a region file, ignoring\n", fName.c_str());
         }
     }
 

@@ -8,8 +8,8 @@
 #endif
 #include "app/linux/Iggy/include/rrCore.h"
 #include "app/linux/LinuxGame.h"
-#include "util/StringHelpers.h"
 #include "platform/fs/fs.h"
+#include "util/StringHelpers.h"
 
 UITTFFont::UITTFFont(const std::string& name, const std::string& path,
                      S32 fallbackCharacter)

@@ -10,8 +10,8 @@
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
-#include "app/linux/Iggy/include/rrCore.h"
 #include "UIControl_Base.h"
+#include "app/linux/Iggy/include/rrCore.h"
 
 class UIControl_HTMLLabel : public UIControl_Label {
 private:

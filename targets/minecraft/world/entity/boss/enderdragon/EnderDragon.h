@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "minecraft/IGameServices.h"
 #include "java/Class.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/stdafx.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/Mob.h"
@@ -207,7 +207,9 @@ public:
                                std::vector<double>& partPos);
     Vec3 getHeadLookVector(float a);
 
-    virtual std::string getAName() { return gameServices().getString(IDS_ENDERDRAGON); };
+    virtual std::string getAName() {
+        return gameServices().getString(IDS_ENDERDRAGON);
+    };
     virtual float getHealth() { return LivingEntity::getHealth(); };
     virtual float getMaxHealth() { return LivingEntity::getMaxHealth(); };
 };

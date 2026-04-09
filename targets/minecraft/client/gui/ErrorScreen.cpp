@@ -2,8 +2,7 @@
 
 #include "minecraft/client/gui/Screen.h"
 
-ErrorScreen::ErrorScreen(const std::string& title,
-                         const std::string& message) {
+ErrorScreen::ErrorScreen(const std::string& title, const std::string& message) {
     this->title = title;
     this->message = message;
 }

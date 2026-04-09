@@ -6,10 +6,10 @@
 #include <mutex>
 #include <vector>
 
-#include "platform/C4JThread.h"
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/util/SmoothFloat.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "platform/C4JThread.h"
 
 class Minecraft;
 class Entity;

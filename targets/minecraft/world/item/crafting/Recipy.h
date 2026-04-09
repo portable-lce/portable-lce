@@ -5,8 +5,8 @@
 
 #pragma once
 
-#include "platform/PlatformTypes.h"
 #include "minecraft/world/inventory/CraftingContainer.h"
+#include "platform/PlatformTypes.h"
 
 #define RECIPE_TYPE_2x2 0
 #define RECIPE_TYPE_3x3 1

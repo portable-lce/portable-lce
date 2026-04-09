@@ -1,11 +1,11 @@
-#include "minecraft/IGameServices.h"
 #include "CanyonFeature.h"
 
 #include <numbers>
 #include <vector>
 
-#include "minecraft/GameEnums.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/biome/Biome.h"
@@ -182,7 +182,7 @@ void CanyonFeature::addFeature(Level* level, int x, int z, int xOffs, int zOffs,
                   thickness, yRot, xRot, 0, 0, 3.0);
 
         // 4J Add to feature list
-        gameServices().addTerrainFeaturePosition(eTerrainFeature_Ravine,
-                                      (int)(xCave / 16.0), (int)(yCave / 16.0));
+        gameServices().addTerrainFeaturePosition(
+            eTerrainFeature_Ravine, (int)(xCave / 16.0), (int)(yCave / 16.0));
     }
 }

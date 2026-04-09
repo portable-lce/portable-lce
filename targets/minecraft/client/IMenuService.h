@@ -44,8 +44,7 @@ public:
                           std::shared_ptr<DispenserTileEntity> trap) = 0;
     virtual bool openFireworks(int iPad, std::shared_ptr<LocalPlayer> player,
                                int x, int y, int z) = 0;
-    virtual bool openSign(int iPad,
-                          std::shared_ptr<SignTileEntity> sign) = 0;
+    virtual bool openSign(int iPad, std::shared_ptr<SignTileEntity> sign) = 0;
     virtual bool openRepairing(int iPad, std::shared_ptr<Inventory> inventory,
                                Level* level, int x, int y, int z) = 0;
     virtual bool openTrading(int iPad, std::shared_ptr<Inventory> inventory,
@@ -55,9 +54,9 @@ public:
         int iPad, std::shared_ptr<CommandBlockEntity> commandBlock) = 0;
     virtual bool openHopper(int iPad, std::shared_ptr<Inventory> inventory,
                             std::shared_ptr<HopperTileEntity> hopper) = 0;
-    virtual bool openHopperMinecart(
-        int iPad, std::shared_ptr<Inventory> inventory,
-        std::shared_ptr<MinecartHopper> hopper) = 0;
+    virtual bool openHopperMinecart(int iPad,
+                                    std::shared_ptr<Inventory> inventory,
+                                    std::shared_ptr<MinecartHopper> hopper) = 0;
     virtual bool openHorse(int iPad, std::shared_ptr<Inventory> inventory,
                            std::shared_ptr<Container> container,
                            std::shared_ptr<EntityHorse> horse) = 0;

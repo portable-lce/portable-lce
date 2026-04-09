@@ -5,7 +5,6 @@
 #include "GlobalEntity.h"
 #include "java/Class.h"
 
-
 class Level;
 
 // class LightningBolt : public GlobalEntity

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "minecraft/GameEnums.h"
 #include "MobEffect.h"
+#include "minecraft/GameEnums.h"
 
 class LivingEntity;
 

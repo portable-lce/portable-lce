@@ -30,7 +30,7 @@ Snowball::Snowball(Level* level, double x, double y, double z)
 void Snowball::onHit(HitResult* res) {
     if (res->entity != nullptr) {
         int damage = 0;
-        if (res->entity->instanceof(eTYPE_BLAZE)) {
+        if (res->entity->instanceof (eTYPE_BLAZE)) {
             damage = 3;
         }
 

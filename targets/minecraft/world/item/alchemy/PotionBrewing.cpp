@@ -2,11 +2,11 @@
 
 #include <utility>
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/JavaMath.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/world/effect/MobEffect.h"
 #include "minecraft/world/effect/MobEffectInstance.h"
 #include "strings.h"
@@ -75,7 +75,7 @@ const std::string PotionBrewing::MOD_GLOWSTONE =
 // with water bottle and gunpowder
 const std::string PotionBrewing::MOD_GUNPOWDER =
     "+14";  //&13-13"; // gunpowder makes them throwable! // gunpowder requires
-             // 13 and sets 14
+            // 13 and sets 14
 #else
 const std::string PotionBrewing::MOD_WATER = "-1-3-5-7-9-11-13";
 const std::string PotionBrewing::MOD_SUGAR = "+0";
@@ -91,7 +91,7 @@ const std::string PotionBrewing::MOD_GLOWSTONE =
     "";  // glowstone increases amplification
 const std::string PotionBrewing::MOD_GUNPOWDER =
     "";  // gunpowder makes them throwable! // gunpowder requires 13 and sets
-          // 14
+         // 14
 #endif
 
 PotionBrewing::intStringMap PotionBrewing::potionEffectDuration;

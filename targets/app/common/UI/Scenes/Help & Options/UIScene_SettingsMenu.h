@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include "platform/storage/storage.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/rrCore.h"
+#include "platform/storage/storage.h"
 
 class UILayer;
 
@@ -51,6 +51,6 @@ public:
 protected:
     void handlePress(F64 controlId, F64 childId);
 
-    static int ResetDefaultsDialogReturned(void* pParam, int iPad,
-                                           IPlatformStorage::EMessageResult result);
+    static int ResetDefaultsDialogReturned(
+        void* pParam, int iPad, IPlatformStorage::EMessageResult result);
 };

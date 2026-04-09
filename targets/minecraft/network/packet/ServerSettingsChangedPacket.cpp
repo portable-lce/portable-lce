@@ -1,9 +1,9 @@
-#include "minecraft/util/Log.h"
 #include "ServerSettingsChangedPacket.h"
 
 #include "PacketListener.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/util/Log.h"
 
 const int ServerSettingsChangedPacket::HOST_DIFFICULTY = 0;
 const int ServerSettingsChangedPacket::HOST_OPTIONS = 1;

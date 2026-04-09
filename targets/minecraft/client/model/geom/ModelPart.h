@@ -2,9 +2,9 @@
 #include <string>
 #include <vector>
 
-#include "minecraft/client/model/SkinBox.h"
 #include "Model.h"
 #include "minecraft/client/model/Polygon.h"
+#include "minecraft/client/model/SkinBox.h"
 #include "minecraft/client/model/Vertex.h"
 
 class Cube;

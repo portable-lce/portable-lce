@@ -5,7 +5,6 @@
 #include "AbstractContainerScreen.h"
 #include "minecraft/world/inventory/MerchantMenu.h"
 
-
 class TradeSwitchButton;
 class Inventory;
 class Level;

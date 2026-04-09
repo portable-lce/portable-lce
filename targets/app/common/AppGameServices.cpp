@@ -8,19 +8,13 @@ AppGameServices::AppGameServices(Game& game, IMenuService& menus)
 
 // -- Strings --
 
-const char* AppGameServices::getString(int id) {
-    return Game::GetString(id);
-}
+const char* AppGameServices::getString(int id) { return Game::GetString(id); }
 
 // -- Debug settings --
 
-bool AppGameServices::debugSettingsOn() {
-    return game_.DebugSettingsOn();
-}
+bool AppGameServices::debugSettingsOn() { return game_.DebugSettingsOn(); }
 
-bool AppGameServices::debugArtToolsOn() {
-    return game_.DebugArtToolsOn();
-}
+bool AppGameServices::debugArtToolsOn() { return game_.DebugArtToolsOn(); }
 
 unsigned int AppGameServices::debugGetMask(int iPad, bool overridePlayer) {
     return game_.GetGameSettingsDebugMask(iPad, overridePlayer);
@@ -34,9 +28,7 @@ bool AppGameServices::debugMobsDontTick() {
     return game_.GetMobsDontTickEnabled();
 }
 
-bool AppGameServices::debugFreezePlayers() {
-    return game_.GetFreezePlayers();
-}
+bool AppGameServices::debugFreezePlayers() { return game_.GetFreezePlayers(); }
 
 // -- Game host options --
 
@@ -93,9 +85,7 @@ unsigned char AppGameServices::getGameSettings(int setting) {
 
 // -- App time --
 
-float AppGameServices::getAppTime() {
-    return game_.getAppTime();
-}
+float AppGameServices::getAppTime() { return game_.getAppTime(); }
 
 // -- Game state --
 
@@ -104,10 +94,14 @@ void AppGameServices::setGameStarted(bool val) { game_.SetGameStarted(val); }
 bool AppGameServices::getTutorialMode() { return game_.GetTutorialMode(); }
 void AppGameServices::setTutorialMode(bool val) { game_.SetTutorialMode(val); }
 bool AppGameServices::isAppPaused() { return game_.IsAppPaused(); }
-int AppGameServices::getLocalPlayerCount() { return game_.GetLocalPlayerCount(); }
+int AppGameServices::getLocalPlayerCount() {
+    return game_.GetLocalPlayerCount();
+}
 bool AppGameServices::autosaveDue() { return game_.AutosaveDue(); }
 void AppGameServices::setAutosaveTimerTime() { game_.SetAutosaveTimerTime(); }
-int64_t AppGameServices::secondsToAutosave() { return game_.SecondsToAutosave(); }
+int64_t AppGameServices::secondsToAutosave() {
+    return game_.SecondsToAutosave();
+}
 
 void AppGameServices::setDisconnectReason(
     DisconnectPacket::eDisconnectReason reason) {
@@ -115,9 +109,13 @@ void AppGameServices::setDisconnectReason(
 }
 
 void AppGameServices::lockSaveNotification() { game_.lockSaveNotification(); }
-void AppGameServices::unlockSaveNotification() { game_.unlockSaveNotification(); }
+void AppGameServices::unlockSaveNotification() {
+    game_.unlockSaveNotification();
+}
 bool AppGameServices::getResetNether() { return game_.GetResetNether(); }
-bool AppGameServices::getUseDPadForDebug() { return game_.GetUseDPadForDebug(); }
+bool AppGameServices::getUseDPadForDebug() {
+    return game_.GetUseDPadForDebug();
+}
 
 bool AppGameServices::getWriteSavesToFolderEnabled() {
     return game_.GetWriteSavesToFolderEnabled();
@@ -127,9 +125,7 @@ bool AppGameServices::isLocalMultiplayerAvailable() {
     return game_.IsLocalMultiplayerAvailable();
 }
 
-bool AppGameServices::dlcInstallPending() {
-    return game_.DLCInstallPending();
-}
+bool AppGameServices::dlcInstallPending() { return game_.DLCInstallPending(); }
 
 bool AppGameServices::dlcInstallProcessCompleted() {
     return game_.DLCInstallProcessCompleted();
@@ -198,9 +194,7 @@ void AppGameServices::setGlobalXuiAction(eXuiAction action) {
     game_.SetGlobalXuiAction(action);
 }
 
-void AppGameServices::handleButtonPresses() {
-    game_.HandleButtonPresses();
-}
+void AppGameServices::handleButtonPresses() { game_.HandleButtonPresses(); }
 
 void AppGameServices::setTMSAction(int iPad, eTMSAction action) {
     game_.SetTMSAction(iPad, action);
@@ -254,8 +248,7 @@ void AppGameServices::setAnimOverrideBitmask(std::uint32_t dwSkinID,
     game_.SetAnimOverrideBitmask(dwSkinID, bitmask);
 }
 
-unsigned int AppGameServices::getAnimOverrideBitmask(
-    std::uint32_t dwSkinID) {
+unsigned int AppGameServices::getAnimOverrideBitmask(std::uint32_t dwSkinID) {
     return game_.GetAnimOverrideBitmask(dwSkinID);
 }
 
@@ -267,9 +260,7 @@ std::string AppGameServices::getSkinPathFromId(std::uint32_t skinId) {
     return Game::getSkinPathFromId(skinId);
 }
 
-bool AppGameServices::defaultCapeExists() {
-    return game_.DefaultCapeExists();
-}
+bool AppGameServices::defaultCapeExists() { return game_.DefaultCapeExists(); }
 
 bool AppGameServices::isXuidNotch(PlayerUID xuid) {
     return game_.isXuidNotch(xuid);
@@ -305,8 +296,7 @@ void AppGameServices::updatePlayerInfo(std::uint8_t networkSmallId,
     game_.UpdatePlayerInfo(networkSmallId, playerColourIndex, playerPrivileges);
 }
 
-unsigned int AppGameServices::getPlayerPrivileges(
-    std::uint8_t networkSmallId) {
+unsigned int AppGameServices::getPlayerPrivileges(std::uint8_t networkSmallId) {
     return game_.GetPlayerPrivileges(networkSmallId);
 }
 
@@ -334,9 +324,7 @@ bool AppGameServices::getTerrainFeaturePosition(_eTerrainFeatureType type,
     return game_.GetTerrainFeaturePosition(type, pX, pZ);
 }
 
-void AppGameServices::loadDefaultGameRules() {
-    game_.loadDefaultGameRules();
-}
+void AppGameServices::loadDefaultGameRules() { game_.loadDefaultGameRules(); }
 
 // -- Archive / resources --
 
@@ -363,24 +351,21 @@ const char* AppGameServices::getGameRulesString(const std::string& key) {
     return game_.GetGameRulesString(key);
 }
 
-unsigned int AppGameServices::createImageTextData(std::uint8_t* textMetadata,
-                                                  int64_t seed, bool hasSeed,
-                                                  unsigned int uiHostOptions,
-                                                  unsigned int uiTexturePackId) {
-    return game_.CreateImageTextData(textMetadata, seed, hasSeed,
-                                     uiHostOptions, uiTexturePackId);
+unsigned int AppGameServices::createImageTextData(
+    std::uint8_t* textMetadata, int64_t seed, bool hasSeed,
+    unsigned int uiHostOptions, unsigned int uiTexturePackId) {
+    return game_.CreateImageTextData(textMetadata, seed, hasSeed, uiHostOptions,
+                                     uiTexturePackId);
 }
 
 std::string AppGameServices::getFilePath(std::uint32_t packId,
-                                          std::string filename,
-                                          bool bAddDataFolder,
-                                          std::string mountPoint) {
+                                         std::string filename,
+                                         bool bAddDataFolder,
+                                         std::string mountPoint) {
     return game_.getFilePath(packId, filename, bAddDataFolder, mountPoint);
 }
 
-char* AppGameServices::getUniqueMapName() {
-    return game_.GetUniqueMapName();
-}
+char* AppGameServices::getUniqueMapName() { return game_.GetUniqueMapName(); }
 
 void AppGameServices::setUniqueMapName(char* name) {
     game_.SetUniqueMapName(name);
@@ -390,9 +375,7 @@ unsigned int AppGameServices::getOpacityTimer(int iPad) {
     return game_.GetOpacityTimer(iPad);
 }
 
-void AppGameServices::setOpacityTimer(int iPad) {
-    game_.SetOpacityTimer(iPad);
-}
+void AppGameServices::setOpacityTimer(int iPad) { game_.SetOpacityTimer(iPad); }
 
 void AppGameServices::tickOpacityTimer(int iPad) {
     game_.TickOpacityTimer(iPad);
@@ -423,8 +406,8 @@ unsigned int AppGameServices::dlcCheckForCorrupt(bool showMessage) {
     return game_.m_dlcManager.checkForCorruptDLCAndAlert(showMessage);
 }
 bool AppGameServices::dlcReadDataFile(unsigned int& filesProcessed,
-                                       const std::string& path,
-                                       DLCPack* pack, bool fromArchive) {
+                                      const std::string& path, DLCPack* pack,
+                                      bool fromArchive) {
     return game_.m_dlcManager.readDLCDataFile(filesProcessed, path, pack,
                                               fromArchive);
 }
@@ -435,7 +418,7 @@ void AppGameServices::dlcRemovePack(DLCPack* pack) {
 // -- Game rules --
 
 LevelGenerationOptions* AppGameServices::loadGameRules(std::uint8_t* data,
-                                                         unsigned int size) {
+                                                       unsigned int size) {
     return game_.m_gameRules.loadGameRules(data, size);
 }
 void AppGameServices::saveGameRules(std::uint8_t** data, unsigned int* size) {
@@ -444,7 +427,8 @@ void AppGameServices::saveGameRules(std::uint8_t** data, unsigned int* size) {
 void AppGameServices::unloadCurrentGameRules() {
     game_.m_gameRules.unloadCurrentGameRules();
 }
-void AppGameServices::setLevelGenerationOptions(LevelGenerationOptions* levelGen) {
+void AppGameServices::setLevelGenerationOptions(
+    LevelGenerationOptions* levelGen) {
     game_.m_gameRules.setLevelGenerationOptions(levelGen);
 }
 

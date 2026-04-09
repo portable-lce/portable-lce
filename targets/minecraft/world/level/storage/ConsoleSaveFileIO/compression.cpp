@@ -2,11 +2,10 @@
 
 #include <assert.h>
 #include <string.h>
+#include <zlib.h>
 
 #include <cstdint>
 #include <mutex>
-
-#include <zlib.h>
 
 thread_local Compression::ThreadStorage* Compression::m_tlsCompression =
     nullptr;
@@ -41,8 +40,7 @@ int32_t Compression::CompressLZXRLE(void* pDestination, unsigned int* pDestSize,
                                     void* pSource, unsigned int SrcSize) {
     std::lock_guard<std::mutex> lock(rleCompressLock);
 
-    if (rleCompressBuf.size() < SrcSize * 2)
-        rleCompressBuf.resize(SrcSize * 2);
+    if (rleCompressBuf.size() < SrcSize * 2) rleCompressBuf.resize(SrcSize * 2);
 
     unsigned char* pucIn = (unsigned char*)pSource;
     unsigned char* pucEnd = pucIn + SrcSize;
@@ -60,8 +58,7 @@ int32_t Compression::CompressLZXRLE(void* pDestination, unsigned int* pDestSize,
                 *pucOut++ = 255;
                 *pucOut++ = count - 1;
             } else {
-                for (unsigned int i = 0; i < count; i++)
-                    *pucOut++ = thisOne;
+                for (unsigned int i = 0; i < count; i++) *pucOut++ = thisOne;
             }
         } else {
             *pucOut++ = 255;
@@ -81,8 +78,7 @@ int32_t Compression::DecompressLZXRLE(void* pDestination,
     std::lock_guard<std::mutex> lock(rleDecompressLock);
 
     unsigned int rleSize = *pDestSize;
-    if (rleDecompressBuf.size() < rleSize)
-        rleDecompressBuf.resize(rleSize);
+    if (rleDecompressBuf.size() < rleSize) rleDecompressBuf.resize(rleSize);
 
     Decompress(rleDecompressBuf.data(), &rleSize, pSource, SrcSize);
 
@@ -96,13 +92,11 @@ int32_t Compression::DecompressLZXRLE(void* pDestination,
             unsigned int count = *pucIn++;
             if (count < 3) {
                 count++;
-                for (unsigned int i = 0; i < count; i++)
-                    *pucOut++ = 255;
+                for (unsigned int i = 0; i < count; i++) *pucOut++ = 255;
             } else {
                 count++;
                 unsigned char data = *pucIn++;
-                for (unsigned int i = 0; i < count; i++)
-                    *pucOut++ = data;
+                for (unsigned int i = 0; i < count; i++) *pucOut++ = data;
             }
         } else {
             *pucOut++ = thisOne;
@@ -172,13 +166,11 @@ int32_t Compression::DecompressRLE(void* pDestination, unsigned int* pDestSize,
             unsigned int count = *pucIn++;
             if (count < 3) {
                 count++;
-                for (unsigned int i = 0; i < count; i++)
-                    *pucOut++ = 255;
+                for (unsigned int i = 0; i < count; i++) *pucOut++ = 255;
             } else {
                 count++;
                 unsigned char data = *pucIn++;
-                for (unsigned int i = 0; i < count; i++)
-                    *pucOut++ = data;
+                for (unsigned int i = 0; i < count; i++) *pucOut++ = data;
             }
         } else {
             *pucOut++ = thisOne;

@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "HellFlatLevelSource.h"
 
 #include <stdlib.h>
@@ -8,6 +7,7 @@
 #include <vector>
 
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
@@ -192,9 +192,7 @@ bool HellFlatLevelSource::tick() { return false; }
 
 bool HellFlatLevelSource::shouldSave() { return true; }
 
-std::string HellFlatLevelSource::gatherStats() {
-    return "HellFlatLevelSource";
-}
+std::string HellFlatLevelSource::gatherStats() { return "HellFlatLevelSource"; }
 
 std::vector<Biome::MobSpawnerData*>* HellFlatLevelSource::getMobsAt(
     MobCategory* mobCategory, int x, int y, int z) {

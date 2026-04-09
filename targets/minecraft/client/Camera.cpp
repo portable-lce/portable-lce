@@ -1,14 +1,12 @@
 #include "Camera.h"
 
-
-#include <glm/glm.hpp>
 #include <math.h>
 #include <string.h>
 
+#include <glm/glm.hpp>
 #include <numbers>
 
 #include "MemoryTracker.h"
-#include "platform/stubs.h"
 #include "java/FloatBuffer.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/player/Player.h"
@@ -18,6 +16,7 @@
 #include "minecraft/world/level/tile/LiquidTile.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "platform/stubs.h"
 
 float Camera::xPlayerOffs = 0.0f;
 float Camera::yPlayerOffs = 0.0f;

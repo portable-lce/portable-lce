@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "GameRenderer.h"
 
 #include <float.h>
@@ -8,29 +6,21 @@
 #include <cmath>
 #include <numbers>
 
-#include "platform/PlatformTypes.h"
-#include "platform/input/input.h"
-#include "platform/renderer/renderer.h"
 #include "BossMobGuiInfo.h"
 #include "Chunk.h"
 #include "ItemInHandRenderer.h"
 #include "LevelRenderer.h"
-#include "minecraft/GameEnums.h"
-#include "platform/ShutdownManager.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
-#include "minecraft/client/BufferedImage.h"
-#include "util/FrameProfiler.h"
-#include "platform/stubs.h"
 #include "Tesselator.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
-
 #include "java/Class.h"
 #include "java/FloatBuffer.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
 #include "java/System.h"
 #include "minecraft/Facing.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/SharedConstants.h"
+#include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/Camera.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/MemoryTracker.h"
@@ -53,10 +43,12 @@
 #include "minecraft/client/renderer/culling/Frustum.h"
 #include "minecraft/client/renderer/culling/FrustumCuller.h"
 #include "minecraft/client/renderer/texture/TextureAtlas.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/SmoothFloat.h"
 #include "minecraft/world/effect/MobEffect.h"
 #include "minecraft/world/effect/MobEffectInstance.h"
@@ -78,10 +70,17 @@
 #include "minecraft/world/level/chunk/SparseLightStorage.h"
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/level/material/Material.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/phys/AABB.h"
 #include "minecraft/world/phys/HitResult.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "platform/PlatformTypes.h"
+#include "platform/ShutdownManager.h"
+#include "platform/input/input.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
+#include "util/FrameProfiler.h"
 
 bool GameRenderer::anaglyph3d = false;
 int GameRenderer::anaglyphPass = 0;
@@ -376,7 +375,7 @@ void GameRenderer::pick(float a) {
         if (nearest < dist || (mc->hitResult == nullptr)) {
             if (mc->hitResult != nullptr) delete mc->hitResult;
             mc->hitResult = new HitResult(hovered);
-            if (hovered->instanceof(eTYPE_LIVINGENTITY)) {
+            if (hovered->instanceof (eTYPE_LIVINGENTITY)) {
                 mc->crosshairPickMob =
                     std::dynamic_pointer_cast<LivingEntity>(hovered);
             }
@@ -449,7 +448,7 @@ void GameRenderer::bobHurt(float a) {
 }
 
 void GameRenderer::bobView(float a) {
-    if (!mc->cameraTargetPlayer->instanceof(eTYPE_LIVINGENTITY)) return;
+    if (!mc->cameraTargetPlayer->instanceof (eTYPE_LIVINGENTITY)) return;
 
     std::shared_ptr<Player> player =
         std::dynamic_pointer_cast<Player>(mc->cameraTargetPlayer);
@@ -608,7 +607,8 @@ void GameRenderer::getFovAndAspect(float& fov, float& aspect, float a,
     aspect = mc->width / (float)mc->height;
     fov = getFov(a, applyEffects);
 
-    if ((mc->player->m_iScreenSection == IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP) ||
+    if ((mc->player->m_iScreenSection ==
+         IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP) ||
         (mc->player->m_iScreenSection ==
          IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM)) {
         aspect *= 2.0f;
@@ -663,7 +663,8 @@ void GameRenderer::setupCamera(float a, int eye) {
     bool bNoBobbingAnim = (mc->player->getAnimOverrideBitmask() &
                            (1 << HumanoidModel::eAnim_NoBobbing)) != 0;
 
-    if (gameServices().getGameSettings(mc->player->GetXboxPad(), eGameSetting_ViewBob) &&
+    if (gameServices().getGameSettings(mc->player->GetXboxPad(),
+                                       eGameSetting_ViewBob) &&
         !mc->player->abilities.flying && !bNoLegAnim && !bNoBobbingAnim)
         bobView(a);
 
@@ -705,7 +706,8 @@ void GameRenderer::renderItemInHand(float a, int eye) {
     // 4J-JEV: I'm fairly confident this method would crash if the cameratarget
     // isnt a local player anyway, but oh well.
     std::shared_ptr<LocalPlayer> localplayer =
-        mc->cameraTargetPlayer->instanceof(eTYPE_LOCALPLAYER)
+        mc->cameraTargetPlayer->instanceof
+        (eTYPE_LOCALPLAYER)
             ? std::dynamic_pointer_cast<LocalPlayer>(mc->cameraTargetPlayer)
             : nullptr;
 
@@ -718,7 +720,7 @@ void GameRenderer::renderItemInHand(float a, int eye) {
             localplayer->inventory->getSelected();
         if (!(item && item->getItem()->id == Item::map_Id) &&
             gameServices().getGameSettings(localplayer->GetXboxPad(),
-                                eGameSetting_DisplayHand) == 0)
+                                           eGameSetting_DisplayHand) == 0)
             renderHand = false;
     }
 
@@ -758,7 +760,8 @@ void GameRenderer::renderItemInHand(float a, int eye) {
     bool bNoLegAnim = (localplayer->getAnimOverrideBitmask() &
                        ((1 << HumanoidModel::eAnim_NoLegAnim) |
                         (1 << HumanoidModel::eAnim_NoBobbing))) != 0;
-    if (gameServices().getGameSettings(localplayer->GetXboxPad(), eGameSetting_ViewBob) &&
+    if (gameServices().getGameSettings(localplayer->GetXboxPad(),
+                                       eGameSetting_ViewBob) &&
         !localplayer->abilities.flying && !bNoLegAnim)
         bobView(a);
 
@@ -790,7 +793,8 @@ void GameRenderer::renderItemInHand(float a, int eye) {
 
     // 4J-PB - changing this to be per player
     // if (mc->options->bobView) bobView(a);
-    if (gameServices().getGameSettings(localplayer->GetXboxPad(), eGameSetting_ViewBob) &&
+    if (gameServices().getGameSettings(localplayer->GetXboxPad(),
+                                       eGameSetting_ViewBob) &&
         !localplayer->abilities.flying && !bNoLegAnim)
         bobView(a);
 }
@@ -833,7 +837,7 @@ void GameRenderer::turnOnLightLayer(
     if (logCount < 16) {
         ++logCount;
         Log::info("[linux-lightmap] turnOnLightLayer tex=%d scale=%d\n",
-                        textureId, scaleLight ? 1 : 0);
+                  textureId, scaleLight ? 1 : 0);
     }
 
     PlatformRenderer.TextureBindVertex(textureId, scaleLight);
@@ -1197,8 +1201,7 @@ void GameRenderer::EnableUpdateThread() {
     // #endif
 #if defined(MULTITHREAD_ENABLE)
     if (updateRunning) return;
-    Log::info(
-        "------------------EnableUpdateThread--------------------\n");
+    Log::info("------------------EnableUpdateThread--------------------\n");
     updateRunning = true;
     m_updateEvents->set(eUpdateCanRun);
     m_updateEvents->set(eUpdateEventIsFinished);
@@ -1211,8 +1214,7 @@ void GameRenderer::DisableUpdateThread() {
     // #endif
 #if defined(MULTITHREAD_ENABLE)
     if (!updateRunning) return;
-    Log::info(
-        "------------------DisableUpdateThread--------------------\n");
+    Log::info("------------------DisableUpdateThread--------------------\n");
     updateRunning = false;
     m_updateEvents->clear(eUpdateCanRun);
     m_updateEvents->waitForSingle(eUpdateEventIsFinished,
@@ -1240,9 +1242,7 @@ void GameRenderer::renderLevel(float a, int64_t until) {
 
     //	if (mc->cameraTargetPlayer == nullptr)	// 4J - removed condition as we
     // want to update this is mc->player changes for different local players
-    {
-        mc->cameraTargetPlayer = mc->player;
-    }
+    { mc->cameraTargetPlayer = mc->player; }
     pick(a);
 
     std::shared_ptr<LivingEntity> cameraEntity = mc->cameraTargetPlayer;
@@ -1380,9 +1380,9 @@ void GameRenderer::renderLevel(float a, int64_t until) {
             turnOffLightLayer(a);  // 4J - brought forward from 1.8.2
 
             if ((mc->hitResult != nullptr) &&
-                cameraEntity->isUnderLiquid(Material::water) &&
-                cameraEntity->instanceof(
-                    eTYPE_PLAYER))  //&& !mc->options.hideGui)
+                    cameraEntity->isUnderLiquid(Material::water) &&
+                    cameraEntity->instanceof
+                (eTYPE_PLAYER))  //&& !mc->options.hideGui)
             {
                 std::shared_ptr<Player> player =
                     std::dynamic_pointer_cast<Player>(cameraEntity);
@@ -1395,7 +1395,8 @@ void GameRenderer::renderLevel(float a, int64_t until) {
 
         glDisable(GL_BLEND);
         glEnable(GL_CULL_FACE);
-        PlatformRenderer.StateSetBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        PlatformRenderer.StateSetBlendFunc(GL_SRC_ALPHA,
+                                           GL_ONE_MINUS_SRC_ALPHA);
         PlatformRenderer.StateSetDepthMask(true);
         setupFog(0, a);
         glEnable(GL_BLEND);
@@ -1417,7 +1418,8 @@ void GameRenderer::renderLevel(float a, int64_t until) {
             int visibleWaterChunks =
                 levelRenderer->render(cameraEntity, 1, a, updateChunks);
 
-            PlatformRenderer.StateSetBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            PlatformRenderer.StateSetBlendFunc(GL_SRC_ALPHA,
+                                               GL_ONE_MINUS_SRC_ALPHA);
 
             if (visibleWaterChunks > 0) {
                 levelRenderer->render(
@@ -1456,8 +1458,8 @@ void GameRenderer::renderLevel(float a, int64_t until) {
         glEnable(GL_CULL_FACE);
         glDisable(GL_BLEND);
 
-        if ((zoom == 1) &&
-            cameraEntity->instanceof(eTYPE_PLAYER))  //&& !mc->options.hideGui)
+        if ((zoom == 1) && cameraEntity->instanceof
+            (eTYPE_PLAYER))  //&& !mc->options.hideGui)
         {
             if (mc->hitResult != nullptr &&
                 !cameraEntity->isUnderLiquid(Material::water)) {
@@ -2016,7 +2018,7 @@ void GameRenderer::setupFog(int i, float alpha) {
 
     // 4J - check for creative mode brought forward from 1.2.3
     bool creative = false;
-    if (player->instanceof(eTYPE_PLAYER)) {
+    if (player->instanceof (eTYPE_PLAYER)) {
         creative =
             (std::dynamic_pointer_cast<Player>(player))->abilities.instabuild;
     }

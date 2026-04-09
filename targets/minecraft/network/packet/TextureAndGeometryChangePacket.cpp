@@ -2,10 +2,10 @@
 
 #include <sstream>
 
-#include "minecraft/Minecraft_Macros.h"
 #include "PacketListener.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/Minecraft_Macros.h"
 #include "minecraft/world/entity/Entity.h"
 
 TextureAndGeometryChangePacket::TextureAndGeometryChangePacket() {

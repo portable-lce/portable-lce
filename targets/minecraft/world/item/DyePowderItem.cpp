@@ -300,7 +300,7 @@ void DyePowderItem::registerIcons(IconRegister* iconRegister) {
     icons = new Icon*[DYE_POWDER_ITEM_TEXTURE_COUNT];
 
     for (int i = 0; i < DYE_POWDER_ITEM_TEXTURE_COUNT; i++) {
-        icons[i] = iconRegister->registerIcon(getIconName() + "_" +
-                                              COLOR_TEXTURES[i]);
+        icons[i] =
+            iconRegister->registerIcon(getIconName() + "_" + COLOR_TEXTURES[i]);
     }
 }

@@ -10,8 +10,8 @@
 #endif
 #include "app/linux/Iggy/include/rrCore.h"
 #include "app/linux/Linux_UIController.h"
-#include "util/StringHelpers.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "util/StringHelpers.h"
 
 UIControl_Slider::UIControl_Slider() {
     m_id = 0;

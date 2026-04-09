@@ -2,10 +2,10 @@
 
 #include <stdint.h>
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"

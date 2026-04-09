@@ -1,13 +1,11 @@
-#include "minecraft/util/Log.h"
 #include "Tesselator.h"
-
-
 
 #include <vector>
 
+#include "minecraft/client/MemoryTracker.h"
+#include "minecraft/util/Log.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
-#include "minecraft/client/MemoryTracker.h"
 
 bool Tesselator::TRIANGLE_MODE = false;
 bool Tesselator::USE_VBO = false;
@@ -132,7 +130,8 @@ void Tesselator::end() {
                     PlatformRenderer.DrawVertices(
                         (IPlatformRenderer::ePrimitiveType)mode, vertexCount,
                         _array->data(),
-                        IPlatformRenderer::VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1_TEXGEN,
+                        IPlatformRenderer::
+                            VERTEX_TYPE_PF3_TF2_CB4_NB4_XW1_TEXGEN,
                         IPlatformRenderer::PIXEL_SHADER_TYPE_PROJECTION);
                 } else {
                     PlatformRenderer.DrawVertices(
@@ -538,8 +537,8 @@ void Tesselator::vertex(float x, float y, float z) {
 #endif
         } else {
             // -512 each for u/v will mean that the renderer will use global
-            // settings (set via PlatformRenderer.StateSetVertexTextureUV) rather
-            // than these local ones
+            // settings (set via PlatformRenderer.StateSetVertexTextureUV)
+            // rather than these local ones
             *(unsigned int*)(&_array->data()[p + 7]) = 0xfe00fe00;
         }
 

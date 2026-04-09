@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../IPlatformFilesystem.h"
-
+#include <cstdint>
 #include <filesystem>
 #include <vector>
-#include <cstdint>
+
+#include "../IPlatformFilesystem.h"
 
 // Standard filesystem implementation for desktop platforms.
 class StdFilesystem : public IPlatformFilesystem {

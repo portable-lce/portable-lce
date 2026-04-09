@@ -3,7 +3,6 @@
 #include "LevelSummary.h"
 #include "MemoryLevelStorage.h"
 
-
 MemoryLevelStorageSource::MemoryLevelStorageSource() {}
 
 std::string MemoryLevelStorageSource::getName() { return "Memory Storage"; }
@@ -19,8 +18,7 @@ std::vector<LevelSummary*>* MemoryLevelStorageSource::getLevelList() {
 
 void MemoryLevelStorageSource::clearAll() {}
 
-LevelData* MemoryLevelStorageSource::getDataTagFor(
-    const std::string& levelId) {
+LevelData* MemoryLevelStorageSource::getDataTagFor(const std::string& levelId) {
     return nullptr;
 }
 

@@ -5,9 +5,7 @@
 
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
-
 #include "minecraft/world/level/levelgen/RandomLevelSource.h"
-
 
 class ServerChunkCache;
 class Level;

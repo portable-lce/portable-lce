@@ -243,8 +243,8 @@ typedef struct GDrawRenderState {
     S32 id;           // Object "identifier" used for high-quality AA mode
     U32 test_id : 1;  // Whether to test zbuffer == id
     U32 set_id : 1;   // Whether to set zbuffer == id
-    U32 use_world_space
-        : 1;  // Whether primitive is defined in object space or world space
+    U32 use_world_space : 1;  // Whether primitive is defined in object space or
+                              // world space
     U32 scissor : 1;          // Whether rendering will be clipped to
                               // $(GDrawRenderState::scissor_rect)
     U32 identical_state : 1;  // Whether state is identical to the one used for

@@ -21,8 +21,8 @@ MinecartRideable::MinecartRideable(Level* level, double x, double y, double z)
 }
 
 bool MinecartRideable::interact(std::shared_ptr<Player> player) {
-    if (rider.lock() != nullptr && rider.lock()->instanceof(eTYPE_PLAYER) &&
-        rider.lock() != player)
+    if (rider.lock() != nullptr && rider.lock()->instanceof
+        (eTYPE_PLAYER) && rider.lock() != player)
         return true;
     if (rider.lock() != nullptr && rider.lock() != player) return false;
     if (!level->isClientSide) {

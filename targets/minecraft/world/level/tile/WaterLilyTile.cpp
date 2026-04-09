@@ -3,10 +3,10 @@
 #include <memory>
 #include <optional>
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Class.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/material/Material.h"
@@ -30,7 +30,7 @@ int WaterlilyTile::getRenderShape() { return Tile::SHAPE_LILYPAD; }
 void WaterlilyTile::addAABBs(Level* level, int x, int y, int z, AABB* box,
                              std::vector<AABB>* boxes,
                              std::shared_ptr<Entity> source) {
-    if (source == nullptr || !source->instanceof(eTYPE_BOAT)) {
+    if (source == nullptr || !source->instanceof (eTYPE_BOAT)) {
         Bush::addAABBs(level, x, y, z, box, boxes, source);
     }
 }

@@ -1,15 +1,14 @@
 #include "Frustum.h"
 
-
 #include <string.h>
 
 #include <cmath>
 #include <vector>
 
-#include "platform/renderer/renderer.h"
-#include "platform/stubs.h"
 #include "java/FloatBuffer.h"
 #include "minecraft/client/MemoryTracker.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 class FrustumData;
 

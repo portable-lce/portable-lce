@@ -1,14 +1,13 @@
 #include "LightningBoltRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
-
-#include "platform/renderer/renderer.h"
 
 #include "java/Random.h"
 #include "minecraft/client/renderer/Tesselator.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/global/LightningBolt.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 void LightningBoltRenderer::render(std::shared_ptr<Entity> _bolt, double x,
                                    double y, double z, float rot, float a) {

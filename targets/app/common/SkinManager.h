@@ -38,13 +38,13 @@ public:
     void setPlayerFavoriteSkin(int iPad, int iIndex, unsigned int uiSkinID,
                                GAME_SETTINGS** gameSettingsA);
     unsigned int getPlayerFavoriteSkin(int iPad, int iIndex,
-                                      GAME_SETTINGS** gameSettingsA);
+                                       GAME_SETTINGS** gameSettingsA);
     unsigned char getPlayerFavoriteSkinsPos(int iPad,
-                                           GAME_SETTINGS** gameSettingsA);
+                                            GAME_SETTINGS** gameSettingsA);
     void setPlayerFavoriteSkinsPos(int iPad, int iPos,
                                    GAME_SETTINGS** gameSettingsA);
     unsigned int getPlayerFavoriteSkinsCount(int iPad,
-                                            GAME_SETTINGS** gameSettingsA);
+                                             GAME_SETTINGS** gameSettingsA);
     void validateFavoriteSkins(int iPad, GAME_SETTINGS** gameSettingsA,
                                DLCManager& dlcManager);
 

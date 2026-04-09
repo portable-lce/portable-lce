@@ -55,8 +55,7 @@ std::string PlayerTeam::formatNameForTeam(PlayerTeam* team) {
     return formatNameForTeam(team, team->getDisplayName());
 }
 
-std::string PlayerTeam::formatNameForTeam(Team* team,
-                                           const std::string& name) {
+std::string PlayerTeam::formatNameForTeam(Team* team, const std::string& name) {
     if (team == nullptr) return name;
     return team->getFormattedName(name);
 }

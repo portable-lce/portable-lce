@@ -1,8 +1,8 @@
 #include "UIComponent_Logo.h"
 
-#include "platform/renderer/renderer.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
+#include "platform/renderer/renderer.h"
 
 UIComponent_Logo::UIComponent_Logo(int iPad, void* initData,
                                    UILayer* parentLayer)

@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "RespawnPacket.h"
 
 #include <string>
@@ -6,6 +5,7 @@
 #include "PacketListener.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/LevelSettings.h"
 #include "minecraft/world/level/LevelType.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"

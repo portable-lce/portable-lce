@@ -8,9 +8,9 @@
 #include <unordered_map>
 #include <vector>
 
+#include "minecraft/locale/StringTable.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"
-#include "minecraft/locale/StringTable.h"
 #include "minecraft/world/level/levelgen/structure/StructureFeature.h"
 
 class ApplySchematicRuleDefinition;
@@ -188,7 +188,8 @@ private:
     bool m_bHaveMinY;
     int m_minY;
     std::unordered_map<std::string, ConsoleSchematicFile*> m_schematics;
-    std::unordered_map<ChunkRuleCacheKey, ChunkRuleCacheEntry, ChunkRuleCacheKeyHash>
+    std::unordered_map<ChunkRuleCacheKey, ChunkRuleCacheEntry,
+                       ChunkRuleCacheKeyHash>
         m_chunkRuleCache;
     std::vector<BiomeOverride*> m_biomeOverrides;
     std::vector<StartFeature*> m_features;

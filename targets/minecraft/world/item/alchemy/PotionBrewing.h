@@ -98,8 +98,8 @@ private:
                                     int countCompare, int valuePart,
                                     int multiplierPart, int brew);
     static int countOnes(int brew);
-    static int parseEffectFormulaValue(const std::string& definition,
-                                       int start, int end, int brew);
+    static int parseEffectFormulaValue(const std::string& definition, int start,
+                                       int end, int brew);
 
 public:
     static std::vector<MobEffectInstance*>* getEffects(

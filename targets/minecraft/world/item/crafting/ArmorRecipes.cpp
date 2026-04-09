@@ -12,18 +12,18 @@
 
 // 4J-PB - adding "" on the end of these so we can detect it
 std::string ArmorRecipes::shapes[][4] = {
-    {"XXX",        //
+    {"XXX",       //
      "X X", ""},  //
 
-    {"X X",        //
-     "XXX",        //
+    {"X X",       //
+     "XXX",       //
      "XXX", ""},  //
 
-    {"XXX",        //
-     "X X",        //
+    {"XXX",       //
+     "X X",       //
      "X X", ""},  //
 
-    {"X X",        //
+    {"X X",       //
      "X X", ""},  //
 };
 

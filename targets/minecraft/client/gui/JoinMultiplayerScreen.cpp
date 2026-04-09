@@ -4,12 +4,12 @@
 
 #include "Button.h"
 #include "EditBox.h"
-#include "platform/stubs.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/Options.h"
 #include "minecraft/client/gui/Screen.h"
 #include "minecraft/locale/Language.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 JoinMultiplayerScreen::JoinMultiplayerScreen(Screen* lastScreen) {
     ipEdit = nullptr;
@@ -103,10 +103,10 @@ void JoinMultiplayerScreen::render(int xm, int ym, float a) {
 
     drawCenteredString(font, language->getElement("multiplayer.title"),
                        width / 2, height / 4 - 60 + 20, 0xffffff);
-    drawString(font, language->getElement("multiplayer.info1"),
-               width / 2 - 140, height / 4 - 60 + 60 + 9 * 0, 0xa0a0a0);
-    drawString(font, language->getElement("multiplayer.info2"),
-               width / 2 - 140, height / 4 - 60 + 60 + 9 * 1, 0xa0a0a0);
+    drawString(font, language->getElement("multiplayer.info1"), width / 2 - 140,
+               height / 4 - 60 + 60 + 9 * 0, 0xa0a0a0);
+    drawString(font, language->getElement("multiplayer.info2"), width / 2 - 140,
+               height / 4 - 60 + 60 + 9 * 1, 0xa0a0a0);
     drawString(font, language->getElement("multiplayer.ipinfo"),
                width / 2 - 140, height / 4 - 60 + 60 + 9 * 4, 0xa0a0a0);
 

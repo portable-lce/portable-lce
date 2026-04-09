@@ -1,6 +1,5 @@
 #include "UIScene_Keyboard.h"
 
-#include "minecraft/GameTypes.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_TextInput.h"
@@ -8,8 +7,9 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "util/StringHelpers.h"
+#include "minecraft/GameTypes.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 #define KEYBOARD_DONE_TIMER_ID 0
 #define KEYBOARD_DONE_TIMER_TIME 100
@@ -30,7 +30,7 @@ UIScene_Keyboard::UIScene_Keyboard(int iPad, void* initData,
     m_ButtonCursorRight.init("Cursor Right", -1);
     m_ButtonCaps.init("Caps", -1);
     m_ButtonDone.init("Done", 0);  // only the done button needs an id, the
-                                    // others will never call back!
+                                   // others will never call back!
     m_ButtonSymbols.init("Symbols", -1);
     m_ButtonBackspace.init("Backspace", -1);
 

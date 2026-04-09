@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+#include <condition_variable>  // 4jcraft: im pretty sure there's a better alternative to this.
 #include <deque>
 #include <format>
 #include <mutex>
@@ -14,7 +15,6 @@
 #include "RegionFileCache.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"
 #include "nbt/NbtIo.h"
-#include <condition_variable> // 4jcraft: im pretty sure there's a better alternative to this.
 
 class ConsoleSaveFile;
 class C4JThread;

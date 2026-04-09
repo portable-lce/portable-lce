@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "Level.h"
 
 #include <stdlib.h>
@@ -15,23 +13,23 @@
 #include <optional>
 
 #include "Explosion.h"
-#include "platform/input/input.h"
 #include "LevelListener.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
-#include "minecraft/Console_Debug_enum.h"
-#include "minecraft/network/INetworkService.h"
-#include "util/FrameProfiler.h"
 #include "java/Random.h"
+#include "minecraft/Console_Debug_enum.h"
 #include "minecraft/Direction.h"
 #include "minecraft/Facing.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/Pos.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/LevelRenderer.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/core/particles/ParticleTypes.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/Difficulty.h"
 #include "minecraft/world/entity/Entity.h"
@@ -71,6 +69,8 @@
 #include "minecraft/world/phys/HitResult.h"
 #include "minecraft/world/phys/Vec3.h"
 #include "minecraft/world/scores/Scoreboard.h"
+#include "platform/input/input.h"
+#include "util/FrameProfiler.h"
 
 class CompoundTag;
 class ItemInstance;
@@ -1574,12 +1574,12 @@ bool Level::addEntity(std::shared_ptr<Entity> e) {
     }
 
     bool forced = e->forcedLoading;
-    if (e->instanceof(eTYPE_PLAYER)) {
+    if (e->instanceof (eTYPE_PLAYER)) {
         forced = true;
     }
 
     if (forced || hasChunk(xc, zc)) {
-        if (e->instanceof(eTYPE_PLAYER)) {
+        if (e->instanceof (eTYPE_PLAYER)) {
             std::shared_ptr<Player> player =
                 std::dynamic_pointer_cast<Player>(e);
 
@@ -1634,7 +1634,7 @@ void Level::removeEntity(std::shared_ptr<Entity> e) {
         e->ride(nullptr);
     }
     e->remove();
-    if (e->instanceof(eTYPE_PLAYER)) {
+    if (e->instanceof (eTYPE_PLAYER)) {
         std::vector<std::shared_ptr<Player> >::iterator it = players.begin();
         std::vector<std::shared_ptr<Player> >::iterator itEnd = players.end();
         while (it != itEnd && *it != std::dynamic_pointer_cast<Player>(e)) it++;
@@ -1653,7 +1653,7 @@ void Level::removeEntity(std::shared_ptr<Entity> e) {
 void Level::removeEntityImmediately(std::shared_ptr<Entity> e) {
     e->remove();
 
-    if (e->instanceof(eTYPE_PLAYER)) {
+    if (e->instanceof (eTYPE_PLAYER)) {
         std::vector<std::shared_ptr<Player> >::iterator it = players.begin();
         std::vector<std::shared_ptr<Player> >::iterator itEnd = players.end();
         while (it != itEnd && *it != std::dynamic_pointer_cast<Player>(e)) it++;
@@ -2112,8 +2112,9 @@ void Level::tickEntities() {
 
             if (!e->removed) {
 #if !defined(_FINAL_BUILD)
-                if (!(gameServices().debugSettingsOn() && gameServices().debugMobsDontTick() &&
-                      e->instanceof(eTYPE_MOB) && !e->instanceof(eTYPE_PLAYER)))
+                if (!(gameServices().debugSettingsOn() &&
+                          gameServices().debugMobsDontTick() && e->instanceof
+                      (eTYPE_MOB) && !e->instanceof (eTYPE_PLAYER)))
 #endif
                 {
                     tick(e);
@@ -3444,7 +3445,7 @@ unsigned int Level::countInstanceOf(
                     count++;
                 }
             } else {
-                if (e->instanceof(clas)) count++;
+                if (e->instanceof (clas)) count++;
             }
         }
     }
@@ -3471,7 +3472,7 @@ unsigned int Level::countInstanceOfInRange(eINSTANCEOF clas, bool singleType,
                     count++;
                 }
             } else {
-                if (e->instanceof(clas)) count++;
+                if (e->instanceof (clas)) count++;
             }
         }
     }
@@ -4223,7 +4224,7 @@ bool Level::canCreateMore(eINSTANCEOF type, ESPAWN_TYPE spawnType) {
                 }
                 // 4J: Use eTYPE_ENEMY instead of monster (slimes and ghasts
                 // aren't monsters)
-                else if (Entity::instanceof(type, eTYPE_ENEMY)) {
+                else if (Entity:: instanceof (type, eTYPE_ENEMY)) {
                     count = countInstanceOf(eTYPE_ENEMY, false);
                     max = MobCategory::MAX_XBOX_MONSTERS_WITH_SPAWN_EGG;
                 } else if ((type & eTYPE_AMBIENT) == eTYPE_AMBIENT) {
@@ -4231,10 +4232,10 @@ bool Level::canCreateMore(eINSTANCEOF type, ESPAWN_TYPE spawnType) {
                     max = MobCategory::MAX_AMBIENT_WITH_SPAWN_EGG;
                 }
                 // 4J: Added minecart and boats
-                else if (Entity::instanceof(type, eTYPE_MINECART)) {
+                else if (Entity:: instanceof (type, eTYPE_MINECART)) {
                     count = countInstanceOf(eTYPE_MINECART, false);
                     max = Level::MAX_CONSOLE_MINECARTS;
-                } else if (Entity::instanceof(type, eTYPE_BOAT)) {
+                } else if (Entity:: instanceof (type, eTYPE_BOAT)) {
                     count = countInstanceOf(eTYPE_BOAT, true);
                     max = Level::MAX_XBOX_BOATS;
                 }

@@ -1,5 +1,4 @@
 #include "Minecraft.h"
-#include "platform/stubs.h"
 
 #include <assert.h>
 #include <stdlib.h>
@@ -18,9 +17,6 @@
 #include "Timer.h"
 #include "User.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "minecraft/world/level/dlc/DLCConstants.h"
-#include "minecraft/network/INetworkService.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
@@ -54,8 +50,10 @@
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/client/title/TitleScreen.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/Packet.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/stats/Stats.h"
 #include "minecraft/stats/StatsCounter.h"
@@ -85,6 +83,7 @@
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/chunk/CompressedTileStorage.h"
 #include "minecraft/world/level/dimension/Dimension.h"
+#include "minecraft/world/level/dlc/DLCConstants.h"
 #include "minecraft/world/level/material/Material.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/level/storage/LevelData.h"
@@ -99,19 +98,19 @@
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #include "platform/storage/storage.h"
+#include "platform/stubs.h"
 #include "strings.h"
 #if defined(ENABLE_JAVA_GUIS)
 #include "minecraft/client/gui/inventory/CreativeInventoryScreen.h"
 #endif
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/ConsoleGameMode.h"
 #include "app/common/DLC/DLCPack.h"
-#include "minecraft/Minecraft_Macros.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
 #include "app/common/UI/All Platforms/IUIScene_CreativeMenu.h"
 #include "app/common/UI/UIFontData.h"
 #include "java/File.h"
 #include "java/System.h"
+#include "minecraft/Minecraft_Macros.h"
 #include "minecraft/StaticConstructors.h"
 #include "minecraft/client/MemoryTracker.h"
 #include "minecraft/client/gui/Font.h"
@@ -123,6 +122,7 @@
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/player/Input.h"
 #include "minecraft/client/renderer/texture/TextureManager.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/skins/DLCTexturePack.h"
 #include "minecraft/world/entity/npc/Villager.h"
 #include "minecraft/world/item/alchemy/PotionMacros.h"
@@ -1443,7 +1443,8 @@ void Minecraft::run_middle() {
                                                     player =
                                                         createExtraLocalPlayer(
                                                             i,
-                                                            PlatformProfile.GetGamertag(i),
+                                                            PlatformProfile
+                                                                .GetGamertag(i),
                                                             i,
                                                             level->dimension
                                                                 ->id);
@@ -1512,8 +1513,7 @@ void Minecraft::run_middle() {
                                         Log::info(
                                             "Bringing up the sign in ui\n");
                                         PlatformProfile.RequestSignInUI(
-                                            false,
-                                            NetworkService.IsLocalGame(),
+                                            false, NetworkService.IsLocalGame(),
                                             true, false, true,
                                             [this](bool b, int p) {
                                                 return InGame_SignInReturned(
@@ -1695,10 +1695,9 @@ void Minecraft::run_middle() {
                     if (unoccupiedQuadrant > -1) {
                         // render a logo
                         PlatformRenderer.StateSetViewport((
-                            IPlatformRenderer::
-                                eViewportType)(IPlatformRenderer::
-                                                   VIEWPORT_TYPE_QUADRANT_TOP_LEFT +
-                                               unoccupiedQuadrant));
+                            IPlatformRenderer::eViewportType)(
+                            IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT +
+                            unoccupiedQuadrant));
                         glClearColor(0, 0, 0, 0);
                         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -2176,8 +2175,8 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures) {
             if (player->isRiding()) {
                 std::shared_ptr<Entity> mount = player->riding;
 
-                if (mount->instanceof(eTYPE_MINECART) ||
-                    mount->instanceof(eTYPE_BOAT)) {
+                if (mount->instanceof (eTYPE_MINECART) || mount->instanceof
+                    (eTYPE_BOAT)) {
                     *piAlt = IDS_TOOLTIPS_EXIT;
                 } else {
                     *piAlt = IDS_TOOLTIPS_DISMOUNT;
@@ -3203,7 +3202,7 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures) {
                                 break;
 
                             default:
-                                if (hitResult->entity->instanceof(eTYPE_MOB)) {
+                                if (hitResult->entity->instanceof (eTYPE_MOB)) {
                                     std::shared_ptr<Mob> mob =
                                         std::dynamic_pointer_cast<Mob>(
                                             hitResult->entity);
@@ -4500,8 +4499,8 @@ int Minecraft::InGame_SignInReturned(void* pParam, bool bContinue, int iPad) {
                         pMinecraftClass->localplayers[iPad];
                     if (player == nullptr) {
                         player = pMinecraftClass->createExtraLocalPlayer(
-                            iPad, PlatformProfile.GetGamertag(iPad),
-                            iPad, pMinecraftClass->level->dimension->id);
+                            iPad, PlatformProfile.GetGamertag(iPad), iPad,
+                            pMinecraftClass->level->dimension->id);
                     }
                 }
             } else if (PlatformProfile.IsSignedInLive(

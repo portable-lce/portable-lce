@@ -40,9 +40,8 @@ public:
         int iPad, std::shared_ptr<CommandBlockEntity> commandBlock) override;
     bool openHopper(int iPad, std::shared_ptr<Inventory> inventory,
                     std::shared_ptr<HopperTileEntity> hopper) override;
-    bool openHopperMinecart(
-        int iPad, std::shared_ptr<Inventory> inventory,
-        std::shared_ptr<MinecartHopper> hopper) override;
+    bool openHopperMinecart(int iPad, std::shared_ptr<Inventory> inventory,
+                            std::shared_ptr<MinecartHopper> hopper) override;
     bool openHorse(int iPad, std::shared_ptr<Inventory> inventory,
                    std::shared_ptr<Container> container,
                    std::shared_ptr<EntityHorse> horse) override;

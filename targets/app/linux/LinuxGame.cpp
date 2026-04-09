@@ -4,18 +4,18 @@
 
 #include <string>
 
-#include "platform/profile/profile.h"
-#include "platform/renderer/renderer.h"
-#include "platform/storage/storage.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
-#include "platform/C4JThread.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/User.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/world/level/LevelSettings.h"
+#include "platform/C4JThread.h"
+#include "platform/profile/profile.h"
+#include "platform/renderer/renderer.h"
+#include "platform/storage/storage.h"
 
 LinuxGame app;
 
@@ -31,19 +31,17 @@ void LinuxGame::ExitGame() {
     PlatformRenderer.Close();
 }
 void LinuxGame::FatalLoadError() {
-    app.DebugPrintf(
-        "LinuxGame::FatalLoadError - asserting 0 and dying...\n");
+    app.DebugPrintf("LinuxGame::FatalLoadError - asserting 0 and dying...\n");
     assert(0);
 }
 
 void LinuxGame::CaptureSaveThumbnail() {}
 void LinuxGame::GetSaveThumbnail(std::uint8_t** thumbnailData,
-                                            unsigned int* thumbnailSize) {}
+                                 unsigned int* thumbnailSize) {}
 void LinuxGame::ReleaseSaveThumbnail() {}
 
-void LinuxGame::GetScreenshot(int iPad,
-                                         std::uint8_t** screenshotData,
-                                         unsigned int* screenshotSize) {}
+void LinuxGame::GetScreenshot(int iPad, std::uint8_t** screenshotData,
+                              unsigned int* screenshotSize) {}
 
 void LinuxGame::TemporaryCreateGameStart() {
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,15 +120,14 @@ void LinuxGame::TemporaryCreateGameStart() {
 }
 
 int LinuxGame::GetLocalTMSFileIndex(char* wchTMSFile,
-                                               bool bFilenameIncludesExtension,
-                                               eFileExtensionType eEXT) {
+                                    bool bFilenameIncludesExtension,
+                                    eFileExtensionType eEXT) {
     return -1;
 }
 
 int LinuxGame::LoadLocalTMSFile(char* wchTMSFile) { return -1; }
 
-int LinuxGame::LoadLocalTMSFile(char* wchTMSFile,
-                                           eFileExtensionType eExt) {
+int LinuxGame::LoadLocalTMSFile(char* wchTMSFile, eFileExtensionType eExt) {
     return -1;
 }
 

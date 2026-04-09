@@ -7,14 +7,12 @@
 #include <string>
 #include <vector>
 
-#include "platform/input/input.h"
-#include "platform/renderer/renderer.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
@@ -32,6 +30,8 @@
 #include "minecraft/world/item/crafting/FurnaceRecipes.h"
 #include "minecraft/world/level/tile/entity/FurnaceTileEntity.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "platform/input/input.h"
+#include "platform/renderer/renderer.h"
 #include "strings.h"
 
 IUIScene_AbstractContainerMenu::IUIScene_AbstractContainerMenu() {
@@ -782,9 +782,7 @@ void IUIScene_AbstractContainerMenu::onMouseTick() {
                     buttonX = eToolTipPickUpHalf;
                 }
 
-                {
-                    buttonRT = eToolTipWhatIsThis;
-                }
+                { buttonRT = eToolTipWhatIsThis; }
             } else {
                 // Nothing in slot and nothing in hand.
             }

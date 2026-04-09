@@ -5,10 +5,6 @@
 
 #include <vector>
 
-#include "platform/profile/profile.h"
-#include "platform/renderer/renderer.h"
-#include "platform/profile/ProfileConstants.h"
-#include "minecraft/Minecraft_Macros.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/DLC/DLCSkinFile.h"
@@ -19,12 +15,15 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "minecraft/client/model/SkinBox.h"
-#include "util/StringHelpers.h"
-
+#include "minecraft/Minecraft_Macros.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/model/SkinBox.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "platform/profile/ProfileConstants.h"
+#include "platform/profile/profile.h"
+#include "platform/renderer/renderer.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 class ModelPart;
 
@@ -528,8 +527,8 @@ void UIScene_SkinSelectMenu::customDraw(IggyCustomDrawCallbackRegion* region) {
         // region->stencil_func_ref, region->stencil_write_mask);
         if (region->stencil_func_ref != 0)
             PlatformRenderer.StateSetStencil(GL_EQUAL, region->stencil_func_ref,
-                                          region->stencil_func_mask,
-                                          region->stencil_write_mask);
+                                             region->stencil_func_mask,
+                                             region->stencil_write_mask);
         m_characters[characterId].render(region);
 
         // Finish GDraw and anything else that needs to be finalised
@@ -589,7 +588,8 @@ void UIScene_SkinSelectMenu::handleSkinIndexChanged() {
             case SKIN_SELECT_PACK_DEFAULT:
                 backupTexture = getTextureId(m_skinIndex);
 
-                if (m_skinIndex == std::to_underlying(EDefaultSkins::ServerSelected)) {
+                if (m_skinIndex ==
+                    std::to_underlying(EDefaultSkins::ServerSelected)) {
                     skinName = app.GetString(IDS_DEFAULT_SKINS);
                 } else {
                     skinName = wchDefaultNamesA[m_skinIndex];

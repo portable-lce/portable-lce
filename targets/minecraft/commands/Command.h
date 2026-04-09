@@ -9,9 +9,9 @@
 #include <string>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "CommandsEnum.h"
 #include "minecraft/network/packet/ChatPacket.h"
+#include "platform/PlatformTypes.h"
 
 class AdminLogCommand;
 class CommandSender;

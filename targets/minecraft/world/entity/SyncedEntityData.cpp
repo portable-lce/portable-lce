@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "SyncedEntityData.h"
 
 #include <assert.h>
@@ -8,6 +7,7 @@
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/network/packet/Packet.h"
+#include "minecraft/util/Log.h"
 
 class ItemInstance;
 

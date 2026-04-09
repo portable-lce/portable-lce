@@ -1,9 +1,9 @@
-#include "minecraft/IGameServices.h"
 #include "StoneMonsterTile.h"
 
 #include <memory>
 
 #include "java/Class.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/entity/monster/Silverfish.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/Level.h"

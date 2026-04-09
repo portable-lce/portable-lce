@@ -30,5 +30,5 @@ public:
 
     // 4J Stu - The java code took a string format, we take a printf format
     // string
-    DecimalFormat(std::string x) : formatString(x) {};
+    DecimalFormat(std::string x) : formatString(x){};
 };

@@ -79,7 +79,7 @@ public:
         iteminstance = i;
     }
 
-    eINSTANCEOF instanceof() { return eType; }
+    eINSTANCEOF instanceof () { return eType; }
     eINSTANCEOF GetType() { return eType; };
 
 private:

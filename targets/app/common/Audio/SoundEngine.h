@@ -7,10 +7,10 @@ class Random;
 #include <memory>
 #include <string>
 
-#include "platform/PlatformTypes.h"
 #include "app/common/Audio/Consoles_SoundEngine.h"
 #include "app/linux/Iggy/include/rrCore.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "platform/PlatformTypes.h"
 
 // Forward-declare the miniaudio backing state. The full struct lives in
 // SoundEngine.cpp where miniaudio.h is actually included. This keeps

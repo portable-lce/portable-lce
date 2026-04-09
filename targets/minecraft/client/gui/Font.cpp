@@ -1,5 +1,4 @@
 #include "Font.h"
-#include "platform/stubs.h"
 
 #include <string.h>
 
@@ -14,6 +13,7 @@
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 #include "util/StringHelpers.h"
 
 Font::Font(Options* options, const std::string& name, Textures* textures,

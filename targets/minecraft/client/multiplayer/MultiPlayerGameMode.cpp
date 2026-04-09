@@ -1,12 +1,12 @@
-#include "minecraft/IGameServices.h"
 #include "MultiPlayerGameMode.h"
 
 #include <vector>
 
 #include "ClientConnection.h"
-#include "app/common/Audio/SoundEngine.h"
 #include "MultiPlayerLevel.h"
+#include "app/common/Audio/SoundEngine.h"
 #include "java/Class.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/network/packet/ContainerButtonClickPacket.h"
@@ -513,7 +513,8 @@ bool MultiPlayerGameMode::hasFarPickRange() {
 // only happens when the player is riding a horse.
 bool MultiPlayerGameMode::isServerControlledInventory() {
     return minecraft->player->isRiding() &&
-           minecraft->player->riding->instanceof(eTYPE_HORSE);
+           minecraft->player->riding->instanceof
+        (eTYPE_HORSE);
 }
 
 bool MultiPlayerGameMode::handleCraftItem(int recipe,

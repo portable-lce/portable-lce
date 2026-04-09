@@ -150,8 +150,8 @@ void Pig::thunderHit(const LightningBolt* lightningBolt) {
 
 void Pig::causeFallDamage(float distance) {
     Animal::causeFallDamage(distance);
-    if ((distance > 5) && rider.lock() != nullptr &&
-        rider.lock()->instanceof(eTYPE_PLAYER)) {
+    if ((distance > 5) && rider.lock() != nullptr && rider.lock()->instanceof
+        (eTYPE_PLAYER)) {
         (std::dynamic_pointer_cast<Player>(rider.lock()))
             ->awardStat(GenericStats::flyPig(), GenericStats::param_flyPig());
     }

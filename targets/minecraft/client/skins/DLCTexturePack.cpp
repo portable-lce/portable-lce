@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "DLCTexturePack.h"
 
 #include <cinttypes>
@@ -8,11 +6,7 @@
 #include <limits>
 #include <vector>
 
-#include "platform/input/input.h"
-#include "platform/storage/storage.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/DLC/DLCAudioFile.h"
 #include "app/common/DLC/DLCColourTableFile.h"
 #include "app/common/DLC/DLCFile.h"
@@ -23,16 +17,22 @@
 #include "app/common/DLC/DLCTextureFile.h"
 #include "app/common/DLC/DLCUIDataFile.h"
 #include "app/common/GameRules/GameRuleManager.h"
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
-#include "minecraft/locale/StringTable.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/linux/Linux_UIController.h"
-#include "minecraft/client/BufferedImage.h"
-#include "platform/fs/fs.h"
 #include "java/File.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/skins/AbstractTexturePack.h"
 #include "minecraft/client/skins/TexturePack.h"
+#include "minecraft/locale/StringTable.h"
+#include "minecraft/util/Log.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
+#include "platform/fs/fs.h"
+#include "platform/input/input.h"
+#include "platform/storage/storage.h"
 
 #if defined(_WINDOWS64)
 #include "app/windows/XML/ATGXmlParser.h"
@@ -176,12 +176,12 @@ bool DLCTexturePack::hasFile(const std::string& name) {
 bool DLCTexturePack::isTerrainUpdateCompatible() { return true; }
 
 std::string DLCTexturePack::getPath(bool bTitleUpdateTexture /*= false*/,
-                                     const char* pchBDPatchFilename) {
+                                    const char* pchBDPatchFilename) {
     return "";
 }
 
 std::string DLCTexturePack::getAnimationString(const std::string& textureName,
-                                                const std::string& path) {
+                                               const std::string& path) {
     std::string result = "";
 
     std::string fullpath = "res/" + path + textureName + ".png";
@@ -248,24 +248,24 @@ void DLCTexturePack::loadData() {
             if (gameServices().getLevelGenerationOptions())
                 gameServices().getLevelGenerationOptions()->setLoadedData();
             Log::info("Failed to mount texture pack DLC %d for pad %d\n",
-                            mountIndex, PlatformInput.GetPrimaryPad());
+                      mountIndex, PlatformInput.GetPrimaryPad());
         } else {
             m_bLoadingData = true;
             Log::info("Attempted to mount DLC data for texture pack %d\n",
-                            mountIndex);
+                      mountIndex);
         }
     } else {
         m_bHasLoadedData = true;
         if (gameServices().getLevelGenerationOptions())
             gameServices().getLevelGenerationOptions()->setLoadedData();
         gameServices().setAction(PlatformInput.GetPrimaryPad(),
-                      eAppAction_ReloadTexturePack);
+                                 eAppAction_ReloadTexturePack);
     }
 }
 
 std::string DLCTexturePack::getFilePath(std::uint32_t packId,
-                                         std::string filename,
-                                         bool bAddDataFolder) {
+                                        std::string filename,
+                                        bool bAddDataFolder) {
     return gameServices().getFilePath(packId, filename, bAddDataFolder);
 }
 
@@ -277,8 +277,7 @@ int DLCTexturePack::onPackMounted(int iPad, std::uint32_t dwErr,
         // corrupt DLC
         Log::info("Failed to mount DLC for pad %d: %u\n", iPad, dwErr);
     } else {
-        Log::info(
-            "Mounted DLC for texture pack, attempting to load data\n");
+        Log::info("Mounted DLC for texture pack, attempting to load data\n");
         texturePack->m_dlcDataPack =
             new DLCPack(texturePack->m_dlcInfoPack->getName(), dwLicenceMask);
         texturePack->setHasAudio(false);
@@ -403,7 +402,8 @@ int DLCTexturePack::onPackMounted(int iPad, std::uint32_t dwErr,
     texturePack->m_bHasLoadedData = true;
     if (gameServices().getLevelGenerationOptions())
         gameServices().getLevelGenerationOptions()->setLoadedData();
-    gameServices().setAction(PlatformInput.GetPrimaryPad(), eAppAction_ReloadTexturePack);
+    gameServices().setAction(PlatformInput.GetPrimaryPad(),
+                             eAppAction_ReloadTexturePack);
 
     return 0;
 }

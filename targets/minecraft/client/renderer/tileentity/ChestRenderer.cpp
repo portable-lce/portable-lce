@@ -1,10 +1,7 @@
 #include "ChestRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
 #include <numbers>
-
-#include "platform/renderer/renderer.h"
 
 #include "minecraft/client/model/ChestModel.h"
 #include "minecraft/client/model/LargeChestModel.h"
@@ -16,6 +13,8 @@
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/ChestTileEntity.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation ChestRenderer::CHEST_LARGE_TRAP_LOCATION =
     ResourceLocation(TN_TILE_LARGE_TRAP_CHEST);

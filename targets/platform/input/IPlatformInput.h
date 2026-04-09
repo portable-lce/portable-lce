@@ -2,8 +2,8 @@
 
 #include <functional>
 
-#include "PlatformTypes.h"
 #include "InputConstants.h"
+#include "PlatformTypes.h"
 
 class IPlatformInput {
 public:
@@ -80,9 +80,8 @@ public:
     [[nodiscard]] virtual int GetScrollDelta() = 0;
 
     // Keyboard
-    virtual EKeyboardResult RequestKeyboard(const char* Title,
-                                            const char* Text, int iPad,
-                                            unsigned int uiMaxChars,
+    virtual EKeyboardResult RequestKeyboard(const char* Title, const char* Text,
+                                            int iPad, unsigned int uiMaxChars,
                                             std::function<int(bool)> callback,
                                             EKeyboardMode eMode) = 0;
     [[nodiscard]] virtual const char* GetText() = 0;

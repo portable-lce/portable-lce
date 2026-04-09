@@ -1,11 +1,10 @@
-#include "minecraft/IGameServices.h"
 #include "AbstractContainerScreen.h"
 
 #include <wchar.h>
 
 #include <vector>
 
-#include "platform/stubs.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/KeyMapping.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
@@ -15,11 +14,12 @@
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
+#include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/inventory/AbstractContainerMenu.h"
 #include "minecraft/world/inventory/Slot.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/item/Rarity.h"
-#include "minecraft/world/entity/player/Inventory.h"
+#include "platform/stubs.h"
 
 ItemRenderer* AbstractContainerScreen::itemRenderer = new ItemRenderer();
 
@@ -248,7 +248,8 @@ void AbstractContainerScreen::renderTooltip(std::shared_ptr<ItemInstance> item,
         }
 
         if (!cleanedLines.empty()) {
-            lineColors[0] = gameServices().getHTMLColour(item->getRarity()->color);
+            lineColors[0] =
+                gameServices().getHTMLColour(item->getRarity()->color);
         }
 
         renderTooltipInternal(cleanedLines, lineColors, xm, ym);

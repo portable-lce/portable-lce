@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "minecraft/world/item/crafting/Recipes.h"
 
 #include <stdarg.h>
@@ -9,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "minecraft/util/Log.h"
 #include "minecraft/world/inventory/CraftingContainer.h"
 #include "minecraft/world/item/CoalItem.h"
 #include "minecraft/world/item/Item.h"
@@ -79,13 +79,12 @@ Recipes::Recipes() {
                     '#', new ItemInstance(Tile::treeTrunk, 1, 0), 'S');
 
     // TU9 - adding coloured wood
-    addShapedRecipy(new ItemInstance(Tile::wood, 4, TreeTile::BIRCH_TRUNK),  //
-                    "sczg",
-                    "#",  //
+    addShapedRecipy(
+        new ItemInstance(Tile::wood, 4, TreeTile::BIRCH_TRUNK),  //
+        "sczg",
+        "#",  //
 
-                    '#',
-                    new ItemInstance(Tile::treeTrunk, 1, TreeTile::BIRCH_TRUNK),
-                    'S');
+        '#', new ItemInstance(Tile::treeTrunk, 1, TreeTile::BIRCH_TRUNK), 'S');
 
     addShapedRecipy(
         new ItemInstance(Tile::wood, 4, TreeTile::DARK_TRUNK),  //
@@ -99,8 +98,7 @@ Recipes::Recipes() {
         "sczg",
         "#",  //
 
-        '#', new ItemInstance(Tile::treeTrunk, 1, TreeTile::JUNGLE_TRUNK),
-        'S');
+        '#', new ItemInstance(Tile::treeTrunk, 1, TreeTile::JUNGLE_TRUNK), 'S');
 
     addShapedRecipy(new ItemInstance(Item::stick, 4),  //
                     "ssctg",
@@ -261,14 +259,14 @@ Recipes::Recipes() {
 
                     '#', Tile::sandStone, 'S');
 
-    addShapedRecipy(
-        new ItemInstance(Tile::woodStairsBirch, 4),  //
-        "sssczg",
-        "#  ",  //
-        "## ",  //
-        "###",  //
+    addShapedRecipy(new ItemInstance(Tile::woodStairsBirch, 4),  //
+                    "sssczg",
+                    "#  ",  //
+                    "## ",  //
+                    "###",  //
 
-        '#', new ItemInstance(Tile::wood, 1, TreeTile::BIRCH_TRUNK), 'S');
+                    '#', new ItemInstance(Tile::wood, 1, TreeTile::BIRCH_TRUNK),
+                    'S');
 
     addShapedRecipy(new ItemInstance(Tile::woodStairsDark, 4),  //
                     "sssczg",
@@ -669,8 +667,8 @@ Recipes::Recipes() {
                     "#X#",  //
                     "III",  //
 
-                    '#', Tile::redstoneTorch_on, 'X', Item::netherQuartz,
-                    'I', Tile::stone, 'M');
+                    '#', Tile::redstoneTorch_on, 'X', Item::netherQuartz, 'I',
+                    Tile::stone, 'M');
 
     addShapedRecipy(new ItemInstance(Tile::daylightDetector), "sssctcictg",
                     "GGG", "QQQ", "WWW",
@@ -767,8 +765,8 @@ Recipes::Recipes() {
                     "###",  //
                     "#X#",  //
                     "#R#",  //
-                    '#', Tile::cobblestone, 'X', Item::bow, 'R',
-                    Item::redStone, 'M');
+                    '#', Tile::cobblestone, 'X', Item::bow, 'R', Item::redStone,
+                    'M');
 
     addShapedRecipy(new ItemInstance(Tile::dropper, 1),  //
                     "sssctcig",

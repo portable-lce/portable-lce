@@ -68,6 +68,5 @@ INetworkService& NetworkService_get();
 
 }  // namespace minecraft::network
 
-#define NetworkService                              \
-    (::minecraft::network::platform_internal::      \
-         NetworkService_get())
+#define NetworkService \
+    (::minecraft::network::platform_internal::NetworkService_get())

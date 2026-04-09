@@ -1,8 +1,8 @@
 
 #include "minecraft/util/WeighedRandom.h"
 
-#include <vector>
 #include <cassert>
+#include <vector>
 
 #include "java/Random.h"
 

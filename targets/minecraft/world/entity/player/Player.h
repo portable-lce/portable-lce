@@ -6,18 +6,18 @@
 #include <string>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "Abilities.h"
-#include "minecraft/world/entity/player/SkinTypes.h"
 #include "java/Class.h"
 #include "minecraft/commands/CommandSender.h"
 #include "minecraft/network/packet/ChatPacket.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/LivingEntity.h"
+#include "minecraft/world/entity/player/SkinTypes.h"
 #include "minecraft/world/food/FoodData.h"
 #include "minecraft/world/inventory/PlayerEnderChestContainer.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/scores/ScoreHolder.h"
+#include "platform/PlatformTypes.h"
 
 class AbstractContainerMenu;
 class Stats;
@@ -238,7 +238,7 @@ public:
                                     std::shared_ptr<Container> container);
     virtual bool startEnchanting(
         int x, int y, int z,
-        const std::string& name);                     // 4J - added bool return
+        const std::string& name);                      // 4J - added bool return
     virtual bool startRepairing(int x, int y, int z);  // 4J - added bool return
     virtual bool startCrafting(int x, int y, int z);   // 4J - added bool return
     virtual bool openFireworks(int x, int y, int z);   // 4J - added
@@ -259,7 +259,7 @@ public:
     virtual bool canHarmPlayer(std::shared_ptr<Player> target);
     virtual bool canHarmPlayer(
         std::string targetName);  // 4J: Added for ServerPlayer when only
-                                   // player name is provided
+                                  // player name is provided
 
 protected:
     virtual void hurtArmor(float damage);

@@ -1,12 +1,12 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "Inventory.h"
 
 #include <stdint.h>
 
 #include <format>
 
+#include "minecraft/IGameServices.h"
 #include "minecraft/stats/GenericStats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/player/Abilities.h"
 #include "minecraft/world/entity/player/Player.h"
@@ -393,15 +393,14 @@ void Inventory::setItem(unsigned int slot, std::shared_ptr<ItemInstance> item) {
     if (item != nullptr) {
         std::string itemstring = item->toString();
         Log::info("Inventory::setItem - slot = %d,\t item = %d ", slot,
-                        item->id);
+                  item->id);
         // OutputDebugStringW(itemstring.c_str());
         Log::info("\n");
     }
 #else
     if (item != nullptr) {
-        Log::info(
-            "Inventory::setItem - slot = %d,\t item = %d, aux = %d\n", slot,
-            item->id, item->getAuxValue());
+        Log::info("Inventory::setItem - slot = %d,\t item = %d, aux = %d\n",
+                  slot, item->id, item->getAuxValue());
     }
 #endif
     // 4J Stu - Changed this a little from Java to be less funn
@@ -489,7 +488,9 @@ std::shared_ptr<ItemInstance> Inventory::getItem(unsigned int slot) {
     */
 }
 
-std::string Inventory::getName() { return gameServices().getString(IDS_INVENTORY); }
+std::string Inventory::getName() {
+    return gameServices().getString(IDS_INVENTORY);
+}
 
 std::string Inventory::getCustomName() { return ""; }
 

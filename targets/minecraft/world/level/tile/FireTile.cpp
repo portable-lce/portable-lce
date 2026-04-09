@@ -1,12 +1,12 @@
-#include "minecraft/IGameServices.h"
 #include "FireTile.h"
 
 #include <string.h>
 
 #include <optional>
 
-#include "minecraft/GameEnums.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"

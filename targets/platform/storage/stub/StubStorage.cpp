@@ -11,7 +11,7 @@ IPlatformStorage& PlatformStorage_get() {
     static StubStorage instance;
     return instance;
 }
-}
+}  // namespace platform_internal
 
 static XMARKETPLACE_CONTENTOFFER_INFO s_dummyOffer = {};
 static XCONTENT_DATA s_dummyContentData = {};
@@ -34,15 +34,15 @@ StubStorage::EMessageResult StubStorage::GetMessageBoxResult() {
 }
 
 bool StubStorage::SetSaveDevice(std::function<int(const bool)> callback,
-                               bool bForceResetOfSaveDevice) {
+                                bool bForceResetOfSaveDevice) {
     return true;
 }
 
 void StubStorage::Init(unsigned int uiSaveVersion,
-                      const char* pwchDefaultSaveName, char* pszSavePackName,
-                      int iMinimumSaveSize,
-                      std::function<int(const ESavingMessage, int)> callback,
-                      const char* szGroupID) {}
+                       const char* pwchDefaultSaveName, char* pszSavePackName,
+                       int iMinimumSaveSize,
+                       std::function<int(const ESavingMessage, int)> callback,
+                       const char* szGroupID) {}
 void StubStorage::ResetSaveData() {}
 void StubStorage::SetDefaultSaveNameForKeyboardDisplay(
     const char* pwchDefaultSaveName) {}
@@ -57,7 +57,7 @@ bool StubStorage::GetSaveUniqueFilename(char* pszName) {
 }
 void StubStorage::SetSaveUniqueFilename(char* szFilename) {}
 void StubStorage::SetState(ESaveGameControlState eControlState,
-                          std::function<int(const bool)> callback) {}
+                           std::function<int(const bool)> callback) {}
 void StubStorage::SetSaveDisabled(bool bDisable) {}
 bool StubStorage::GetSaveDisabled(void) { return false; }
 unsigned int StubStorage::GetSaveSize() { return 0; }
@@ -68,18 +68,18 @@ void* StubStorage::AllocateSaveData(unsigned int uiBytes) {
     return malloc(uiBytes);
 }
 void StubStorage::SetSaveImages(std::uint8_t* pbThumbnail,
-                               unsigned int thumbnailBytes,
-                               std::uint8_t* pbImage, unsigned int imageBytes,
-                               std::uint8_t* pbTextData,
-                               unsigned int textDataBytes) {}
+                                unsigned int thumbnailBytes,
+                                std::uint8_t* pbImage, unsigned int imageBytes,
+                                std::uint8_t* pbTextData,
+                                unsigned int textDataBytes) {}
 StubStorage::ESaveGameState StubStorage::SaveSaveData(
     std::function<int(const bool)> callback) {
     return ESaveGame_Idle;
 }
 void StubStorage::CopySaveDataToNewSave(std::uint8_t* pbThumbnail,
-                                       unsigned int cbThumbnail,
-                                       char* wchNewName,
-                                       std::function<int(bool)> callback) {}
+                                        unsigned int cbThumbnail,
+                                        char* wchNewName,
+                                        std::function<int(bool)> callback) {}
 void StubStorage::SetSaveDeviceSelected(unsigned int uiPad, bool bSelected) {}
 bool StubStorage::GetSaveDeviceSelected(unsigned int iPad) { return true; }
 StubStorage::ESaveGameState StubStorage::DoesSaveExist(bool* pbExists) {
@@ -98,29 +98,26 @@ PSAVE_DETAILS StubStorage::ReturnSavesInfo() { return nullptr; }
 void StubStorage::ClearSavesInfo() {}
 StubStorage::ESaveGameState StubStorage::LoadSaveDataThumbnail(
     PSAVE_INFO pSaveInfo,
-    std::function<int(std::uint8_t* thumbnailData,
-                      unsigned int thumbnailBytes)>
+    std::function<int(std::uint8_t* thumbnailData, unsigned int thumbnailBytes)>
         callback) {
     return ESaveGame_Idle;
 }
 void StubStorage::GetSaveCacheFileInfo(unsigned int fileIndex,
-                                      XCONTENT_DATA& xContentData) {
+                                       XCONTENT_DATA& xContentData) {
     memset(&xContentData, 0, sizeof(xContentData));
 }
 void StubStorage::GetSaveCacheFileInfo(unsigned int fileIndex,
-                                      std::uint8_t** ppbImageData,
-                                      unsigned int* pImageBytes) {
+                                       std::uint8_t** ppbImageData,
+                                       unsigned int* pImageBytes) {
     if (ppbImageData) *ppbImageData = nullptr;
     if (pImageBytes) *pImageBytes = 0;
 }
 StubStorage::ESaveGameState StubStorage::LoadSaveData(
-    PSAVE_INFO pSaveInfo,
-    std::function<int(const bool, const bool)> callback) {
+    PSAVE_INFO pSaveInfo, std::function<int(const bool, const bool)> callback) {
     return ESaveGame_Idle;
 }
 StubStorage::ESaveGameState StubStorage::DeleteSaveData(
-    PSAVE_INFO pSaveInfo,
-    std::function<int(const bool)> callback) {
+    PSAVE_INFO pSaveInfo, std::function<int(const bool)> callback) {
     return ESaveGame_Idle;
 }
 void StubStorage::RegisterMarketplaceCountsCallback(
@@ -137,9 +134,10 @@ XMARKETPLACE_CONTENTOFFER_INFO& StubStorage::GetOffer(unsigned int dw) {
     return s_dummyOffer;
 }
 int StubStorage::GetOfferCount() { return 0; }
-unsigned int StubStorage::InstallOffer(int iOfferIDC, std::uint64_t* ullOfferIDA,
-                                      std::function<int(int, int)> callback,
-                                      bool bTrial) {
+unsigned int StubStorage::InstallOffer(int iOfferIDC,
+                                       std::uint64_t* ullOfferIDA,
+                                       std::function<int(int, int)> callback,
+                                       bool bTrial) {
     return 0;
 }
 unsigned int StubStorage::GetAvailableDLCCount(int iPad) { return 0; }
@@ -163,7 +161,7 @@ unsigned int StubStorage::UnmountInstalledDLC(const char* szMountDrive) {
     return 0;
 }
 void StubStorage::GetMountedDLCFileList(const char* szMountDrive,
-                                       std::vector<std::string>& fileList) {
+                                        std::vector<std::string>& fileList) {
     fileList.clear();
 }
 std::string StubStorage::GetMountedPath(std::string szMount) { return ""; }
@@ -175,12 +173,12 @@ StubStorage::ETMSStatus StubStorage::ReadTMSFile(
     return ETMSStatus_Fail;
 }
 bool StubStorage::WriteTMSFile(int iQuadrant, eGlobalStorage eStorageFacility,
-                              char* pwchFilename, std::uint8_t* pBuffer,
-                              unsigned int bufferSize) {
+                               char* pwchFilename, std::uint8_t* pBuffer,
+                               unsigned int bufferSize) {
     return false;
 }
 bool StubStorage::DeleteTMSFile(int iQuadrant, eGlobalStorage eStorageFacility,
-                               char* pwchFilename) {
+                                char* pwchFilename) {
     return false;
 }
 void StubStorage::StoreTMSPathName(char* pwchName) {}
@@ -208,7 +206,7 @@ int StubStorage::AddSubfile(int regionIndex) {
 }
 unsigned int StubStorage::GetSubfileCount() { return 0; }
 void StubStorage::GetSubfileDetails(unsigned int i, int* regionIndex,
-                                   void** data, unsigned int* size) {
+                                    void** data, unsigned int* size) {
     (void)i;
     if (regionIndex) *regionIndex = 0;
     if (data) *data = 0;
@@ -223,5 +221,7 @@ void StubStorage::UpdateSubfile(int index, void* data, unsigned int size) {
 void StubStorage::SaveSubfiles(std::function<int(const bool)> callback) {
     if (callback) callback(true);
 }
-StubStorage::ESaveGameState StubStorage::GetSaveState() { return ESaveGame_Idle; }
+StubStorage::ESaveGameState StubStorage::GetSaveState() {
+    return ESaveGame_Idle;
+}
 void StubStorage::ContinueIncompleteOperation() {}

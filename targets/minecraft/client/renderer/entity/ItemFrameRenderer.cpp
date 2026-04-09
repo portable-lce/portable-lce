@@ -1,12 +1,11 @@
 
 
 #include <string>
-#include "platform/stubs.h"
 
 #include "EntityRenderDispatcher.h"
 #include "minecraft/client/renderer/TileRenderer.h"
+#include "platform/stubs.h"
 // #include "ItemFrame"
-#include "platform/renderer/renderer.h"
 #include "ItemFrameRenderer.h"
 #include "minecraft/Direction.h"
 #include "minecraft/Facing.h"
@@ -28,6 +27,7 @@
 #include "minecraft/world/item/MapItem.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/TreeTile.h"
+#include "platform/renderer/renderer.h"
 
 class MapItemSavedData;
 

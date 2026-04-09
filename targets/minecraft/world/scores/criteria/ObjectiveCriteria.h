@@ -9,8 +9,7 @@ class Player;
 
 class ObjectiveCriteria {
 public:
-    static std::unordered_map<std::string, ObjectiveCriteria*>
-        CRITERIA_BY_NAME;
+    static std::unordered_map<std::string, ObjectiveCriteria*> CRITERIA_BY_NAME;
 
     static ObjectiveCriteria* DUMMY;
     static ObjectiveCriteria* DEATH_COUNT;

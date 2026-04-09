@@ -6,10 +6,6 @@
 #include "minecraft/client/player/LocalPlayer.h"
 #include "minecraft/client/renderer/LevelRenderer.h"
 
-
-
-
-
 SurvivalMode::SurvivalMode(Minecraft* minecraft) : GameMode(minecraft) {
     // 4J - added initialisers
     xDestroyBlock = -1;

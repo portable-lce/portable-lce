@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "SharedMonsterAttributes.h"
 
 #include <limits>
@@ -6,6 +5,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/ai/attributes/Attribute.h"
 #include "minecraft/world/entity/ai/attributes/AttributeInstance.h"
 #include "minecraft/world/entity/ai/attributes/AttributeModifier.h"
@@ -93,8 +93,7 @@ void SharedMonsterAttributes::loadAttributes(BaseAttributeMap* attributes,
         if (instance != nullptr) {
             loadAttribute(instance, tag);
         } else {
-            Log::info("Ignoring unknown attribute '%d'",
-                            tag->getInt("ID"));
+            Log::info("Ignoring unknown attribute '%d'", tag->getInt("ID"));
         }
     }
 }

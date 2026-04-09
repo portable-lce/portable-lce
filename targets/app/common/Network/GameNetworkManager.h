@@ -7,14 +7,14 @@
 #if !defined(__linux__)
 #include <qnet.h>
 #endif
-#include "platform/PlatformTypes.h"
+#include "PlatformNetworkManagerStub.h"
 #include "app/common/Network/IPlatformNetwork.h"
-#include "platform/NetTypes.h"
 #include "minecraft/network/INetworkService.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
-#include "PlatformNetworkManagerStub.h"
 #include "minecraft/network/platform/SessionInfo.h"
 #include "platform/C4JThread.h"
+#include "platform/NetTypes.h"
+#include "platform/PlatformTypes.h"
 
 class ClientConnection;
 class Minecraft;
@@ -97,9 +97,8 @@ public:
     bool GetGameSessionInfo(int iPad, SessionID sessionId,
                             FriendSessionInfo* foundSession);
     void SetSessionsUpdatedCallback(std::function<void()> callback);
-    void GetFullFriendSessionInfo(
-        FriendSessionInfo* foundSession,
-        std::function<void(bool success)> callback);
+    void GetFullFriendSessionInfo(FriendSessionInfo* foundSession,
+                                  std::function<void(bool success)> callback);
     void ForceFriendsSessionRefresh();
 
     // Session joining and leaving
@@ -167,8 +166,7 @@ public:
 private:
     void StateChange_AnyToHosting();
     void StateChange_AnyToJoining();
-    void StateChange_JoiningToIdle(
-        IPlatformNetwork::eJoinFailedReason reason);
+    void StateChange_JoiningToIdle(IPlatformNetwork::eJoinFailedReason reason);
     void StateChange_AnyToStarting();
     void StateChange_AnyToEnding(bool bStateWasPlaying);
     void StateChange_AnyToIdle();

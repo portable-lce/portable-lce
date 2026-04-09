@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "RegionFile.h"
 
 #include <string.h>
@@ -7,14 +6,15 @@
 #include <cstdint>
 #include <string>
 
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/File.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFile.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 
 std::vector<uint8_t> RegionFile::emptySector(SECTOR_BYTES);
 

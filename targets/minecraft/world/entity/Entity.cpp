@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "Entity.h"
 
 #include <stdarg.h>
@@ -17,10 +15,11 @@
 #include "EntityIO.h"
 #include "EntityPos.h"
 #include "SyncedEntityData.h"
-#include "minecraft/GameEnums.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/Pos.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/model/HumanoidModel.h"
@@ -29,6 +28,7 @@
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/level/ServerLevel.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/entity/item/ItemEntity.h"
@@ -681,8 +681,8 @@ void Entity::move(double xa, double ya, double za,
 
     AABB bbOrg = bb;
 
-    bool isPlayerSneaking =
-        onGround && isSneaking() && instanceof(eTYPE_PLAYER);
+    bool isPlayerSneaking = onGround && isSneaking() && instanceof
+        (eTYPE_PLAYER);
 
     if (isPlayerSneaking) {
         double d = 0.05;
@@ -1784,7 +1784,7 @@ void Entity::changeDimension(int i) {
     // 4J: Restrictions on what can go through
     {
         // 4J: Some things should just be destroyed when they hit a portal
-        if (instanceof(eTYPE_FALLINGTILE)) {
+        if (instanceof (eTYPE_FALLINGTILE)) {
             removed = true;
             return;
         }
@@ -1794,8 +1794,9 @@ void Entity::changeDimension(int i) {
         if (newLevel->atEntityLimit(shared_from_this())) return;
 
         // 4J: Check level limit on living entities, minecarts and boats
-        if (!instanceof(eTYPE_PLAYER) &&
-            !newLevel->canCreateMore(GetType(), Level::eSpawnType_Portal))
+        if (! instanceof
+            (eTYPE_PLAYER) &&
+                !newLevel->canCreateMore(GetType(), Level::eSpawnType_Portal))
             return;
     }
 

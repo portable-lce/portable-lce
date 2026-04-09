@@ -1,15 +1,15 @@
-#include "minecraft/util/Log.h"
-#include "platform/stubs.h"
 #include "HumanoidModel.h"
 
 #include <cmath>
 #include <memory>
 #include <numbers>
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/model/geom/Model.h"
 #include "minecraft/client/model/geom/ModelPart.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/Entity.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 // 4J added
 

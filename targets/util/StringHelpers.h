@@ -7,7 +7,7 @@
 std::string toLower(const std::string& a);
 std::string trimString(const std::string& a);
 std::string replaceAll(const std::string& in, const std::string& replace,
-                        const std::string& with);
+                       const std::string& with);
 
 bool equalsIgnoreCase(const std::string& a, const std::string& b);
 
@@ -41,7 +41,7 @@ std::string wstringtofilename(const std::wstring& name);
 std::wstring filenametowstring(const char* name);
 
 std::vector<std::string>& stringSplit(const std::string& s, char delim,
-                                       std::vector<std::string>& elems);
+                                      std::vector<std::string>& elems);
 std::vector<std::string> stringSplit(const std::string& s, char delim);
 
 void stripWhitespaceForHtml(std::string& string, bool bRemoveNewline = true);

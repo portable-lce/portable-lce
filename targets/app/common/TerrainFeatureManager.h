@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "minecraft/GameEnums.h"
 #include "app/common/App_structs.h"
+#include "minecraft/GameEnums.h"
 
 class TerrainFeatureManager {
 public:

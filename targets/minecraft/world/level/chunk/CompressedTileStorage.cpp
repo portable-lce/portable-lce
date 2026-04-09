@@ -1,18 +1,18 @@
 #include "CompressedTileStorage.h"
 
 #include <assert.h>
-#include <bit>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <bit>
 #include <vector>
 
-#include "platform/NetTypes.h"
-#include "util/Definitions.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"
+#include "platform/NetTypes.h"
+#include "util/Definitions.h"
 
 // Note: See header for an overview of this class
 

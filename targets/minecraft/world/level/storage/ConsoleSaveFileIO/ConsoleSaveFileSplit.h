@@ -5,10 +5,10 @@
 #include <unordered_map>
 #include <vector>
 
-#include "util/Definitions.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFile.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSavePath.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
+#include "util/Definitions.h"
 
 class ProgressRenderer;
 class ProgressListener;

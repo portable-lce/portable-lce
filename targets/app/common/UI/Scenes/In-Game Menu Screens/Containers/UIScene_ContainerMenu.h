@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "UIScene_AbstractContainerMenu.h"
 #include "app/common/UI/All Platforms/IUIScene_ContainerMenu.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
@@ -9,7 +10,6 @@
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_SlotList.h"
 #include "app/common/UI/UIScene.h"
-#include "UIScene_AbstractContainerMenu.h"
 
 class InventoryMenu;
 class UILayer;

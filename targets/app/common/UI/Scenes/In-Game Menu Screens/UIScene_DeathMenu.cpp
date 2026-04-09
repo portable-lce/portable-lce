@@ -3,9 +3,6 @@
 
 #include <memory>
 
-#include "platform/profile/profile.h"
-#include "platform/storage/storage.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
@@ -15,8 +12,11 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
+#include "platform/profile/profile.h"
+#include "platform/storage/storage.h"
 #include "strings.h"
 
 class UILayer;

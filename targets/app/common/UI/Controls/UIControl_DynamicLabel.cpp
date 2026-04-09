@@ -26,8 +26,7 @@ bool UIControl_DynamicLabel::setupControl(UIScene* scene, IggyValuePath* parent,
     return success;
 }
 
-void UIControl_DynamicLabel::addText(const std::string& text,
-                                     bool bLastEntry) {
+void UIControl_DynamicLabel::addText(const std::string& text, bool bLastEntry) {
     IggyDataValue result;
     IggyDataValue value[2];
 

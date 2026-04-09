@@ -1,23 +1,17 @@
-#include "minecraft/IGameServices.h"
-#include "platform/stubs.h"
 #include "Gui.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 
-#include "platform/PlatformTypes.h"
-#include "platform/input/input.h"
-#include "platform/renderer/renderer.h"
 #include "Facing.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/App_structs.h"
 #include "app/linux/Linux_UIController.h"
-#include "platform/XboxStubs.h"
-#include "util/StringHelpers.h"
+#include "java/Color.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
 #include "java/System.h"
-#include "java/Color.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/ClientConstants.h"
 #include "minecraft/client/GuiMessage.h"
 #include "minecraft/client/Lighting.h"
@@ -37,28 +31,30 @@
 #include "minecraft/client/renderer/entity/EntityRenderDispatcher.h"
 #include "minecraft/client/renderer/texture/TextureAtlas.h"
 #include "minecraft/client/resources/ResourceLocation.h"
-
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/Icon.h"
 #include "minecraft/world/effect/MobEffect.h"
 #include "minecraft/world/entity/Entity.h"
+#include "minecraft/world/entity/ai/attributes/AttributeInstance.h"
+#include "minecraft/world/entity/monster/SharedMonsterAttributes.h"
 #include "minecraft/world/entity/player/Abilities.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/entity/player/Player.h"
-#include "minecraft/world/entity/ai/attributes/AttributeInstance.h"
-#include "minecraft/world/entity/monster/SharedMonsterAttributes.h"
 #include "minecraft/world/food/FoodConstants.h"
-
 #include "minecraft/world/item/ItemInstance.h"
-
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/level/storage/LevelData.h"
 #include "minecraft/world/level/tile/PortalTile.h"
 #include "minecraft/world/level/tile/Tile.h"
-
+#include "platform/PlatformTypes.h"
+#include "platform/XboxStubs.h"
+#include "platform/input/input.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 ResourceLocation Gui::PUMPKIN_BLUR_LOCATION =
     ResourceLocation(TN__BLUR__MISC_PUMPKINBLUR);
@@ -113,10 +109,12 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
     // 4J-PB - selected the gui scale based on the slider settings
     if (minecraft->player->m_iScreenSection ==
         IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN) {
-        guiScale = gameServices().getGameSettings(iPad, eGameSetting_UISize) + 2;
-    } else {
         guiScale =
-            gameServices().getGameSettings(iPad, eGameSetting_UISizeSplitscreen) + 2;
+            gameServices().getGameSettings(iPad, eGameSetting_UISize) + 2;
+    } else {
+        guiScale = gameServices().getGameSettings(
+                       iPad, eGameSetting_UISizeSplitscreen) +
+                   2;
     }
 
     ScreenSizeCalculator ssc(minecraft->options, minecraft->width,
@@ -251,7 +249,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                          eAppAction_AutosaveSaveGameCapturedThumbnail);
 
     // if tooltips are off, set the y offset to zero
-    if (gameServices().getGameSettings(iPad, eGameSetting_Tooltips) == 0 && bDisplayGui) {
+    if (gameServices().getGameSettings(iPad, eGameSetting_Tooltips) == 0 &&
+        bDisplayGui) {
         switch (minecraft->player->m_iScreenSection) {
             case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
                 iTooltipsYOffset = screenHeight / 10;
@@ -359,7 +358,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
         }
 
         PlatformRenderer.StateSetBlendFactor(0xffffff |
-                                          (((unsigned int)fVal) << 24));
+                                             (((unsigned int)fVal) << 24));
         currentGuiBlendFactor = fVal / 255.0f;
         //	PlatformRenderer.StateSetBlendFactor(0x40ffffff);
         glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
@@ -411,7 +410,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                 &GUI_ICONS_LOCATION);  // "/gui/icons.png"));
             glEnable(GL_BLEND);
             PlatformRenderer.StateSetBlendFactor(0xffffff |
-                                              (((unsigned int)fVal) << 24));
+                                                 (((unsigned int)fVal) << 24));
             glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
             // glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
             //  4J Stu - We don't want to adjust the cursor by the safezone, we
@@ -729,7 +728,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
         // positions worked out by hand from the xui implementation of the
         // crouch icon
 
-        if (gameServices().getGameSettings(iPad, eGameSetting_AnimatedCharacter)) {
+        if (gameServices().getGameSettings(iPad,
+                                           eGameSetting_AnimatedCharacter)) {
             // int playerIdx = minecraft->player->GetXboxPad();
 
             static int characterDisplayTimer[4] = {0};
@@ -951,9 +951,9 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
     if (minecraft->options->renderDebug) {
         glPushMatrix();
         if (Minecraft::warezTime > 0) glTranslatef(0, 32, 0);
-        font->drawShadow(ClientConstants::VERSION_STRING + " (" +
-                             minecraft->fpsString + ")",
-                         iSafezoneXHalf + 2, 20, 0xffffff);
+        font->drawShadow(
+            ClientConstants::VERSION_STRING + " (" + minecraft->fpsString + ")",
+            iSafezoneXHalf + 2, 20, 0xffffff);
         font->drawShadow(
             "Seed: " +
                 toWString<int64_t>(minecraft->level->getLevelData()->getSeed()),
@@ -978,8 +978,10 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
             wfeature[eTerrainFeature_Village] = "Village: ";
             wfeature[eTerrainFeature_Ravine] = "Ravine: ";
 
-            for (int i = 0; i < gameServices().getTerrainFeatures().size(); i++) {
-                FEATURE_DATA* pFeatureData = gameServices().getTerrainFeatures()[i];
+            for (int i = 0; i < gameServices().getTerrainFeatures().size();
+                 i++) {
+                FEATURE_DATA* pFeatureData =
+                    gameServices().getTerrainFeatures()[i];
 
                 std::string itemInfo =
                     "[" + toWString<int>(pFeatureData->x * 16) + ", " +
@@ -1016,8 +1018,7 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
         double zBlockPos = floor(minecraft->player->z);
         drawString(font,
                    "x: " + toWString<double>(minecraft->player->x) +
-                       "/ Head: " + toWString<double>(xBlockPos) +
-                       "/ Chunk: " +
+                       "/ Head: " + toWString<double>(xBlockPos) + "/ Chunk: " +
                        toWString<double>(minecraft->player->xChunk),
                    iSafezoneXHalf + 2, iYPos + 8 * 0, 0xe0e0e0);
         drawString(font,
@@ -1026,8 +1027,7 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
                    iSafezoneXHalf + 2, iYPos + 8 * 1, 0xe0e0e0);
         drawString(font,
                    "z: " + toWString<double>(minecraft->player->z) +
-                       "/ Head: " + toWString<double>(zBlockPos) +
-                       "/ Chunk: " +
+                       "/ Head: " + toWString<double>(zBlockPos) + "/ Chunk: " +
                        toWString<double>(minecraft->player->zChunk),
                    iSafezoneXHalf + 2, iYPos + 8 * 2, 0xe0e0e0);
         drawString(
@@ -1048,10 +1048,10 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
             LevelChunk* chunkAt = minecraft->level->getChunkAt(px, pz);
             Biome* biome = chunkAt->getBiome(
                 px & 15, pz & 15, minecraft->level->getBiomeSource());
-            drawString(font,
-                       "b: " + biome->m_name + " (" +
-                           toWString<int>(biome->id) + ")",
-                       iSafezoneXHalf + 2, iYPos, 0xe0e0e0);
+            drawString(
+                font,
+                "b: " + biome->m_name + " (" + toWString<int>(biome->id) + ")",
+                iSafezoneXHalf + 2, iYPos, 0xe0e0e0);
         }
 
         glPopMatrix();
@@ -1085,7 +1085,8 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
 
             int col = 0xffffff;
             if (animateOverlayMessageColor) {
-                col = Color::getHSBColor(t / 50.0f, 0.7f, 0.6f).getRGB() & 0xffffff;
+                col = Color::getHSBColor(t / 50.0f, 0.7f, 0.6f).getRGB() &
+                      0xffffff;
             }
             // 4J-PB - this is the string displayed when cds are placed in a
             // jukebox
@@ -1465,8 +1466,8 @@ void Gui::addMessage(const std::string& _string, int iPad,
         // add to all
         for (int i = 0; i < XUSER_MAX_COUNT; i++) {
             if (minecraft->localplayers[i] &&
-                !(bIsDeathMessage &&
-                  gameServices().getGameSettings(i, eGameSetting_DeathMessages) == 0)) {
+                !(bIsDeathMessage && gameServices().getGameSettings(
+                                         i, eGameSetting_DeathMessages) == 0)) {
                 guiMessages[i].insert(guiMessages[i].begin(),
                                       GuiMessage(string));
                 while (guiMessages[i].size() > 50) {
@@ -1475,7 +1476,8 @@ void Gui::addMessage(const std::string& _string, int iPad,
             }
         }
     } else if (!(bIsDeathMessage &&
-                 gameServices().getGameSettings(iPad, eGameSetting_DeathMessages) == 0)) {
+                 gameServices().getGameSettings(
+                     iPad, eGameSetting_DeathMessages) == 0)) {
         guiMessages[iPad].insert(guiMessages[iPad].begin(), GuiMessage(string));
         while (guiMessages[iPad].size() > 50) {
             guiMessages[iPad].pop_back();
@@ -1517,8 +1519,8 @@ void Gui::setNowPlaying(const std::string& string) {
 
 void Gui::displayClientMessage(int messageId, int iPad) {
     // Language *language = Language::getInstance();
-    std::string languageString =
-        gameServices().getString(messageId);  // language->getElement(messageId);
+    std::string languageString = gameServices().getString(
+        messageId);  // language->getElement(messageId);
 
     addMessage(languageString, iPad);
 }

@@ -27,7 +27,6 @@ DebugOptions::DebugOptions() {
 
 #if defined(_DEBUG_MENUS_ENABLED)
 bool DebugOptions::debugArtToolsOn(unsigned int debugMask) {
-    return settingsOn() &&
-           (debugMask & (1L << eDebugSetting_ArtTools)) != 0;
+    return settingsOn() && (debugMask & (1L << eDebugSetting_ArtTools)) != 0;
 }
 #endif

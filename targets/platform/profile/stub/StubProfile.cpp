@@ -12,7 +12,7 @@ IPlatformProfile& PlatformProfile_get() {
     static StubProfile instance;
     return instance;
 }
-}
+}  // namespace platform_internal
 
 namespace {
 constexpr PlayerUID kFakeXuidBase = 0xe000d45248242f2eULL;
@@ -194,9 +194,5 @@ bool StubProfile::CanViewPlayerCreatedContent(int, bool, PlayerUID*,
 // GetPrimaryPad/SetPrimaryPad — delegates to PlatformPlatft.
 // Kept here temporarily for call sites that still use PlatformPlatfore.
 // These forward to the canonical copies in SDL2Input.
-int StubProfile::GetPrimaryPad() {
-    return PlatformInput.GetPrimaryPad();
-}
-void StubProfile::SetPrimaryPad(int iPad) {
-    PlatformInput.SetPrimaryPad(iPad);
-}
+int StubProfile::GetPrimaryPad() { return PlatformInput.GetPrimaryPad(); }
+void StubProfile::SetPrimaryPad(int iPad) { PlatformInput.SetPrimaryPad(iPad); }

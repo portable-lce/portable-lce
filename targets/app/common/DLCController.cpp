@@ -1,20 +1,20 @@
 #include "app/common/DLCController.h"
 
-#include "app/common/Game.h"
-#include "app/common/DLC/DLCPack.h"
+#include <cstring>
+#include <mutex>
+
 #include "app/common/DLC/DLCManager.h"
+#include "app/common/DLC/DLCPack.h"
 #include "app/common/DLC/DLCSkinFile.h"
+#include "app/common/Game.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
-#include "platform/storage/storage.h"
-#include "platform/profile/profile.h"
 #include "platform/XboxStubs.h"
-
-#include <cstring>
-#include <mutex>
+#include "platform/profile/profile.h"
+#include "platform/storage/storage.h"
 
 DLCController::DLCController() {
     m_pDLCFileBuffer = nullptr;
@@ -75,10 +75,9 @@ bool DLCController::startInstallDLCProcess(int iPad) {
             "--- DLCController::startInstallDLCProcess - "
             "PlatformStorage.GetInstalledDLC\n");
 
-        PlatformStorage.GetInstalledDLC(
-            iPad, [this](int iInstalledC, int pad) {
-                return dlcInstalledCallback(iInstalledC, pad);
-            });
+        PlatformStorage.GetInstalledDLC(iPad, [this](int iInstalledC, int pad) {
+            return dlcInstalledCallback(iInstalledC, pad);
+        });
         return true;
     } else {
         app.DebugPrintf(
@@ -193,7 +192,7 @@ void DLCController::handleDLC(DLCPack* pack) {
     PlatformStorage.GetMountedDLCFileList("DLCDrive", dlcFilenames);
     for (int i = 0; i < dlcFilenames.size(); i++) {
         app.m_dlcManager.readDLCDataFile(dwFilesProcessed, dlcFilenames[i],
-                                          pack);
+                                         pack);
     }
     if (dwFilesProcessed == 0) app.m_dlcManager.removePack(pack);
 }
@@ -313,8 +312,7 @@ bool DLCController::getDLCFullOfferIDForPackID(const int iPackID,
     }
 }
 
-DLC_INFO* DLCController::getDLCInfoForTrialOfferID(
-    uint64_t ullOfferID_Trial) {
+DLC_INFO* DLCController::getDLCInfoForTrialOfferID(uint64_t ullOfferID_Trial) {
     if (DLCInfo_Trial.size() > 0) {
         auto it = DLCInfo_Trial.find(ullOfferID_Trial);
         if (it == DLCInfo_Trial.end()) {
@@ -436,12 +434,13 @@ bool DLCController::retrieveNextDLCContent() {
                 app.DebugPrintf("RetrieveNextDLCContent - type = %d\n",
                                 pCurrent->dwType);
 #endif
-                IPlatformStorage::EDLCStatus status = PlatformStorage.GetDLCOffers(
-                    PlatformProfile.GetPrimaryPad(),
-                    [this](int iOfferC, std::uint32_t dwType, int pad) {
-                        return dlcOffersReturned(iOfferC, dwType, pad);
-                    },
-                    pCurrent->dwType);
+                IPlatformStorage::EDLCStatus status =
+                    PlatformStorage.GetDLCOffers(
+                        PlatformProfile.GetPrimaryPad(),
+                        [this](int iOfferC, std::uint32_t dwType, int pad) {
+                            return dlcOffersReturned(iOfferC, dwType, pad);
+                        },
+                        pCurrent->dwType);
                 if (status == IPlatformStorage::EDLC_Pending) {
                     pCurrent->eState = e_DLC_ContentState_Retrieving;
                 } else {
@@ -669,9 +668,9 @@ unsigned int DLCController::addTMSPPFileTypeRequest(eDLCContentType eType,
     return 1;
 }
 
-int DLCController::tmsPPFileReturned(void* pParam, int iPad, int iUserData,
-                                     IPlatformStorage::PTMSPP_FILEDATA pFileData,
-                                     const char* szFilename) {
+int DLCController::tmsPPFileReturned(
+    void* pParam, int iPad, int iUserData,
+    IPlatformStorage::PTMSPP_FILEDATA pFileData, const char* szFilename) {
     DLCController* pClass = (DLCController*)pParam;
 
     {

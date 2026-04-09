@@ -6,29 +6,29 @@
 
 #include <compare>
 
-#include "platform/input/input.h"
-#include "platform/profile/profile.h"
-#include "minecraft/GameTypes.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/DLC/DLCManager.h"
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "minecraft/network/platform/SessionInfo.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_SaveList.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "platform/NetTypes.h"
 #include "java/File.h"
 #include "java/InputOutputStream/FileInputStream.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "minecraft/network/platform/SessionInfo.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/LevelSettings.h"
+#include "platform/NetTypes.h"
+#include "platform/input/input.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 #if defined(SONY_REMOTE_STORAGE_DOWNLOAD)
@@ -295,8 +295,9 @@ void UIScene_LoadOrJoinMenu::handleGainFocus(bool navBack) {
     if (navBack) {
         app.SetLiveLinkRequired(true);
 
-        m_bMultiplayerAllowed = PlatformProfile.IsSignedInLive(m_iPad) &&
-                                PlatformProfile.AllowedToPlayMultiplayer(m_iPad);
+        m_bMultiplayerAllowed =
+            PlatformProfile.IsSignedInLive(m_iPad) &&
+            PlatformProfile.AllowedToPlayMultiplayer(m_iPad);
 
         // re-enable button presses
         m_bIgnoreInput = false;
@@ -350,9 +351,7 @@ void UIScene_LoadOrJoinMenu::handleLoseFocus() {
     killTimer(JOIN_LOAD_ONLINE_TIMER_ID);
 }
 
-std::string UIScene_LoadOrJoinMenu::getMoviePath() {
-    return "LoadOrJoinMenu";
-}
+std::string UIScene_LoadOrJoinMenu::getMoviePath() { return "LoadOrJoinMenu"; }
 
 void UIScene_LoadOrJoinMenu::tick() {
     UIScene::tick();
@@ -427,7 +426,8 @@ void UIScene_LoadOrJoinMenu::tick() {
                             return loadSaveDataThumbnailReturned(data, bytes);
                         });
 
-                if (eLoadStatus != IPlatformStorage::ESaveGame_GetSaveThumbnail) {
+                if (eLoadStatus !=
+                    IPlatformStorage::ESaveGame_GetSaveThumbnail) {
                     // something went wrong
                     m_bRetrievingSaveThumbnails = false;
                     m_bAllLoaded = true;
@@ -449,7 +449,7 @@ void UIScene_LoadOrJoinMenu::tick() {
                     MAX_SAVEFILENAME_LENGTH,  // total length of source UTF-8
                                               // string,
                     // in char's (= bytes), including end-of-string \0
-                    (char*)u16Message,    // destination buffer
+                    (char*)u16Message,       // destination buffer
                     MAX_SAVEFILENAME_LENGTH  // size of destination buffer, in
                                              // char's
                 );
@@ -494,7 +494,8 @@ void UIScene_LoadOrJoinMenu::tick() {
                                 return loadSaveDataThumbnailReturned(data,
                                                                      bytes);
                             });
-                    if (eLoadStatus != IPlatformStorage::ESaveGame_GetSaveThumbnail) {
+                    if (eLoadStatus !=
+                        IPlatformStorage::ESaveGame_GetSaveThumbnail) {
                         // something went wrong
                         m_bRetrievingSaveThumbnails = false;
                         m_bAllLoaded = true;
@@ -599,8 +600,8 @@ void UIScene_LoadOrJoinMenu::GetSaveInfo() {
 
         m_pSaveDetails = PlatformStorage.ReturnSavesInfo();
         if (m_pSaveDetails == nullptr) {
-            IPlatformStorage::ESaveGameState eSGIStatus = PlatformStorage.GetSavesInfo(
-                m_iPad, nullptr, (char*)"save");
+            IPlatformStorage::ESaveGameState eSGIStatus =
+                PlatformStorage.GetSavesInfo(m_iPad, nullptr, (char*)"save");
         }
 
 #if TO_BE_IMPLEMENTED
@@ -1207,8 +1208,7 @@ void UIScene_LoadOrJoinMenu::UpdateGamesList() {
                 std::uint8_t* imageData = tp->getPackIcon(imageBytes);
 
                 if (imageBytes > 0 && imageData) {
-                    snprintf(textureName, 64, "%s",
-                             sessionInfo->displayLabel);
+                    snprintf(textureName, 64, "%s", sessionInfo->displayLabel);
                     registerSubstitutionTexture(textureName, imageData,
                                                 imageBytes);
                 }
@@ -1429,8 +1429,9 @@ int UIScene_LoadOrJoinMenu::DeleteSaveDialogReturned(
                                      pClass->m_iDefaultButtonsC],
                     [cbId](const bool bRes) {
                         ui.lockCallbackScenes();
-                        auto* p = (UIScene_LoadOrJoinMenu*)
-                            ui.GetSceneFromCallbackId(cbId);
+                        auto* p =
+                            (UIScene_LoadOrJoinMenu*)ui.GetSceneFromCallbackId(
+                                cbId);
                         if (p) {
                             p->deleteSaveDataReturned(bRes);
                         }
@@ -1703,7 +1704,7 @@ int UIScene_LoadOrJoinMenu::DownloadSonyCrossSaveThreadProc(void* lpParameter) {
                 const char* pNameUTF8 =
                     app.getRemoteStorage()->getSaveNameUTF8();
                 strncpy(wSaveName, pNameUTF8,
-                         strlen(pNameUTF8) + 1);  // plus null
+                        strlen(pNameUTF8) + 1);  // plus null
                 PlatformStorage.SetSaveTitle(wSaveName);
                 std::uint8_t* pbThumbnailData = nullptr;
                 unsigned int dwThumbnailDataSize = 0;
@@ -1737,10 +1738,9 @@ int UIScene_LoadOrJoinMenu::DownloadSonyCrossSaveThreadProc(void* lpParameter) {
 
                 app.getRemoteStorage()->waitForPlatformStorageIdle();
                 IPlatformStorage::ESaveGameState saveState =
-                    PlatformStorage.SaveSaveData(
-                        [pClass](const bool bRes) {
-                            return pClass->createDummySaveDataCallback(bRes);
-                        });
+                    PlatformStorage.SaveSaveData([pClass](const bool bRes) {
+                        return pClass->createDummySaveDataCallback(bRes);
+                    });
                 if (saveState == IPlatformStorage::ESaveGame_Save) {
                     pClass->m_eSaveTransferState =
                         eSaveTransfer_CreatingDummyFile;
@@ -1955,9 +1955,9 @@ int UIScene_LoadOrJoinMenu::DownloadSonyCrossSaveThreadProc(void* lpParameter) {
 
                 app.getRemoteStorage()
                     ->waitForPlatformStorageIdle();  // we need to wait for the
-                                                    // save system to be idle
-                                                    // here, as Flush doesn't
-                                                    // check for it.
+                                                     // save system to be idle
+                                                     // here, as Flush doesn't
+                                                     // check for it.
                 pSave->Flush(false, false);
             } break;
             case eSaveTransfer_Saving: {
@@ -1982,12 +1982,13 @@ int UIScene_LoadOrJoinMenu::DownloadSonyCrossSaveThreadProc(void* lpParameter) {
                 uiIDA[0] = IDS_CONFIRM_OK;
                 app.getRemoteStorage()
                     ->waitForPlatformStorageIdle();  // wait for everything to
-                                                    // complete before we hand
-                                                    // control back to the
-                                                    // player
+                                                     // complete before we hand
+                                                     // control back to the
+                                                     // player
                 ui.RequestErrorMessage(IDS_TOOLTIPS_SAVETRANSFER_DOWNLOAD,
                                        IDS_SAVE_TRANSFER_DOWNLOADCOMPLETE,
-                                       uiIDA, 1, PlatformProfile.GetPrimaryPad(),
+                                       uiIDA, 1,
+                                       PlatformProfile.GetPrimaryPad(),
                                        CrossSaveFinishedCallback, pClass);
                 pClass->m_eSaveTransferState = eSaveTransfer_Finished;
             } break;
@@ -2041,7 +2042,8 @@ int UIScene_LoadOrJoinMenu::DownloadSonyCrossSaveThreadProc(void* lpParameter) {
                                     return pClass
                                         ->crossSaveDeleteOnErrorReturned(bRes);
                                 });
-                        if (eDeleteStatus == IPlatformStorage::ESaveGame_Delete) {
+                        if (eDeleteStatus ==
+                            IPlatformStorage::ESaveGame_Delete) {
                             pClass->m_eSaveTransferState =
                                 eSaveTransfer_ErrorDeletingSave;
                         } else {
@@ -2061,9 +2063,9 @@ int UIScene_LoadOrJoinMenu::DownloadSonyCrossSaveThreadProc(void* lpParameter) {
             case eSaveTransfer_ErrorMesssage: {
                 app.getRemoteStorage()
                     ->waitForPlatformStorageIdle();  // wait for everything to
-                                                    // complete before we hand
-                                                    // control back to the
-                                                    // player
+                                                     // complete before we hand
+                                                     // control back to the
+                                                     // player
                 if (pClass->m_saveTransferDownloadCancelled) {
                     pClass->m_eSaveTransferState = eSaveTransfer_Idle;
                 } else {

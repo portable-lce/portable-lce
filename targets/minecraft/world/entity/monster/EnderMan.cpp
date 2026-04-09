@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "EnderMan.h"
 
 #include <math.h>
@@ -9,6 +8,7 @@
 #include <vector>
 
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/util/Mth.h"
@@ -239,9 +239,10 @@ void EnderMan::aiStep() {
 
     if (!level->isClientSide && isAlive()) {
         if (attackTarget != nullptr) {
-            if (attackTarget->instanceof(eTYPE_PLAYER) &&
-                isLookingAtMe(
-                    std::dynamic_pointer_cast<Player>(attackTarget))) {
+            if (attackTarget->instanceof
+                (eTYPE_PLAYER) &&
+                    isLookingAtMe(
+                        std::dynamic_pointer_cast<Player>(attackTarget))) {
                 if (attackTarget->distanceToSqr(shared_from_this()) < 4 * 4) {
                     teleport();
                 }
@@ -380,7 +381,8 @@ bool EnderMan::hurt(DamageSource* source, float damage) {
     setCreepy(true);
 
     if (dynamic_cast<EntityDamageSource*>(source) != nullptr &&
-        source->getEntity()->instanceof(eTYPE_PLAYER)) {
+            source->getEntity()->instanceof
+        (eTYPE_PLAYER)) {
         aggroedByPlayer = true;
     }
 

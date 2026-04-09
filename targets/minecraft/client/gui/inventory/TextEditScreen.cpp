@@ -2,8 +2,6 @@
 
 #include <vector>
 
-#include "platform/renderer/renderer.h"
-#include "platform/stubs.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Button.h"
@@ -14,6 +12,8 @@
 #include "minecraft/network/packet/SignUpdatePacket.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/SignTileEntity.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 const std::string TextEditScreen::allowedChars =
     SharedConstants::acceptableLetters;

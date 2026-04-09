@@ -6,10 +6,10 @@
 #include <memory>
 #include <vector>
 
-#include "minecraft/stats/Console_Awards_enum.h"
 #include "Stat.h"
 #include "Stats.h"
 #include "java/Class.h"
+#include "minecraft/stats/Console_Awards_enum.h"
 
 class DamageSource;
 class ItemInstance;

@@ -4,9 +4,8 @@
 #include <functional>
 #include <string>
 
-#include "PlatformTypes.h"
-
 #include "../IPlatformProfile.h"
+#include "PlatformTypes.h"
 
 class StubProfile : public IPlatformProfile {
 public:
@@ -61,7 +60,8 @@ public:
     }
     void SetPrimaryPlayerChanged(bool) {}
     void ShowProfileCard(int, PlayerUID) {}
-    bool GetProfileAvatar(int, std::function<int(std::uint8_t*, unsigned int)>) {
+    bool GetProfileAvatar(int,
+                          std::function<int(std::uint8_t*, unsigned int)>) {
         return false;
     }
     void CancelProfileAvatarRequest() {}

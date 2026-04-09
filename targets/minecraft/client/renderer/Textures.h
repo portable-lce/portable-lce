@@ -6,7 +6,6 @@
 #include <vector>
 
 #include "platform/renderer/renderer.h"
-#include "platform/renderer/renderer.h"
 
 class Icon;
 class Entity;

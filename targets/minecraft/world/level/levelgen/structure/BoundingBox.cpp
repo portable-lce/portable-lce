@@ -5,10 +5,10 @@
 #include <string>
 #include <vector>
 
-#include "util/StringHelpers.h"
 #include "java/JavaMath.h"
 #include "minecraft/Direction.h"
 #include "nbt/IntArrayTag.h"
+#include "util/StringHelpers.h"
 
 BoundingBox::BoundingBox() {
     // 4J added initialisers

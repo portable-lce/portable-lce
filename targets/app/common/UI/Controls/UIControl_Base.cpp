@@ -91,8 +91,7 @@ const char* UIControl_Base::getLabel() {
     return m_label.c_str();
 }
 
-void UIControl_Base::setAllPossibleLabels(int labelCount,
-                                          char labels[][256]) {
+void UIControl_Base::setAllPossibleLabels(int labelCount, char labels[][256]) {
     IggyDataValue result;
     IggyDataValue* value = new IggyDataValue[labelCount];
     IggyStringUTF8* stringVal = new IggyStringUTF8[labelCount];

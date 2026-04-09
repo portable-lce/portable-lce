@@ -5,9 +5,9 @@
 #include <unordered_map>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "DLCManager.h"
 #include "app/common/DLC/DLCSkinFile.h"
+#include "platform/PlatformTypes.h"
 
 class DLCFile;
 class DLCSkinFile;

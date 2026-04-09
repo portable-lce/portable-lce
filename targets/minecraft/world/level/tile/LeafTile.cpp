@@ -2,10 +2,10 @@
 
 #include <memory>
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/world/IconRegister.h"

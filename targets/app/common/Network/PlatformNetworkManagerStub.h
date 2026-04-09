@@ -4,14 +4,14 @@
 #include <string>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
-#include "platform/NetTypes.h"
-#include "minecraft/client/model/SkinBox.h"
-#include "platform/XboxStubs.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Network/IPlatformNetwork.h"
+#include "minecraft/client/model/SkinBox.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/network/platform/SessionInfo.h"
 #include "platform/C4JThread.h"
+#include "platform/NetTypes.h"
+#include "platform/PlatformTypes.h"
+#include "platform/XboxStubs.h"
 
 class C4JThread;
 class CGameNetworkManager;
@@ -67,8 +67,7 @@ public:
 
     virtual void RegisterPlayerChangedCallback(
         int iPad,
-        std::function<void(INetworkPlayer* pPlayer, bool leaving)>
-            callback);
+        std::function<void(INetworkPlayer* pPlayer, bool leaving)> callback);
     virtual void UnRegisterPlayerChangedCallback(int iPad);
 
     virtual void HandleSignInChange();
@@ -184,8 +183,7 @@ public:
                                                             bool partyOnly);
     virtual bool GetGameSessionInfo(int iPad, SessionID sessionId,
                                     FriendSessionInfo* foundSession);
-    virtual void SetSessionsUpdatedCallback(
-        std::function<void()> callback);
+    virtual void SetSessionsUpdatedCallback(std::function<void()> callback);
     virtual void GetFullFriendSessionInfo(
         FriendSessionInfo* foundSession,
         std::function<void(bool success)> callback);

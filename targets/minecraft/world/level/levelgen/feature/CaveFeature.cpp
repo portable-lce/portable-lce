@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "CaveFeature.h"
 
 #include <stdint.h>
@@ -7,9 +5,11 @@
 #include <numbers>
 #include <vector>
 
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/TilePos.h"
 #include "minecraft/world/level/material/Material.h"

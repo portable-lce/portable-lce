@@ -77,7 +77,7 @@ void Animal::aiStep() {
 
 void Animal::checkHurtTarget(std::shared_ptr<Entity> target, float d) {
     // 4J-JEV: Changed from dynamic cast to use eINSTANCEOF
-    if (target->instanceof(eTYPE_PLAYER)) {
+    if (target->instanceof (eTYPE_PLAYER)) {
         if (d < 3) {
             double xd = target->x - x;
             double zd = target->z - z;
@@ -93,7 +93,7 @@ void Animal::checkHurtTarget(std::shared_ptr<Entity> target, float d) {
 
     }
     // 4J-JEV: Changed from dynamic cast to use eINSTANCEOF
-    else if (target->instanceof(eTYPE_ANIMAL)) {
+    else if (target->instanceof (eTYPE_ANIMAL)) {
         std::shared_ptr<Animal> a = std::dynamic_pointer_cast<Animal>(target);
         if (getAge() > 0 && a->getAge() < 0) {
             if (d < 2.5) {
@@ -179,22 +179,22 @@ bool Animal::hurt(DamageSource* dmgSource, float dmg) {
         std::shared_ptr<Entity> source = dmgSource->getDirectEntity();
 
         // 4J-JEV: Changed from dynamic cast to use eINSTANCEOF
-        if (source->instanceof(eTYPE_PLAYER) &&
-            !std::dynamic_pointer_cast<Player>(source)
-                 ->isAllowedToAttackAnimals()) {
+        if (source->instanceof
+            (eTYPE_PLAYER) && !std::dynamic_pointer_cast<Player>(source)
+                                   ->isAllowedToAttackAnimals()) {
             return false;
         }
 
-        if ((source != nullptr) && source->instanceof(eTYPE_ARROW)) {
+        if ((source != nullptr) && source->instanceof (eTYPE_ARROW)) {
             std::shared_ptr<Arrow> arrow =
                 std::dynamic_pointer_cast<Arrow>(source);
 
             // 4J: Check that the arrow's owner can attack animals (dispenser
             // arrows are not owned)
-            if (arrow->owner != nullptr &&
-                arrow->owner->instanceof(eTYPE_PLAYER) &&
-                !std::dynamic_pointer_cast<Player>(arrow->owner)
-                     ->isAllowedToAttackAnimals()) {
+            if (arrow->owner != nullptr && arrow->owner->instanceof
+                (eTYPE_PLAYER) &&
+                    !std::dynamic_pointer_cast<Player>(arrow->owner)
+                         ->isAllowedToAttackAnimals()) {
                 return false;
             }
         }
@@ -352,7 +352,7 @@ bool Animal::mobInteract(std::shared_ptr<Player> player) {
 
                             return false;
                         }
-                    } else if (instanceof(eTYPE_MONSTER)) {
+                    } else if (instanceof (eTYPE_MONSTER)) {
                     }
                     break;
             }

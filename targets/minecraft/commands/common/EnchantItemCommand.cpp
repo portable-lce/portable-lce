@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
@@ -17,6 +16,7 @@
 #include "minecraft/world/item/enchantment/Enchantment.h"
 #include "nbt/CompoundTag.h"
 #include "nbt/ListTag.h"
+#include "platform/PlatformTypes.h"
 
 EGameCommand EnchantItemCommand::getId() { return eGameCommand_EnchantItem; }
 

@@ -14,7 +14,6 @@
 #include <vector>
 
 #include "minecraft/XuiActionPayload.h"
-
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/phys/Vec3.h"
 

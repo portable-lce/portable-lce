@@ -17,15 +17,15 @@
 #include <functional>
 #include <string>
 
-#include "../InputConstants.h"
 #include "../../PlatformTypes.h"
+#include "../InputConstants.h"
 
 namespace platform_internal {
 IPlatformInput& PlatformInput_get() {
     static SDL2Input instance;
     return instance;
 }
-}
+}  // namespace platform_internal
 
 static const int KEY_COUNT = SDL_NUM_SCANCODES;
 static const int BTN_COUNT = SDL_CONTROLLER_BUTTON_MAX;

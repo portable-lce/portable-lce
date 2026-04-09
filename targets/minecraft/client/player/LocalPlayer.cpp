@@ -1,6 +1,3 @@
-#include "minecraft/client/IMenuService.h"
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "LocalPlayer.h"
 
 #include <stdio.h>
@@ -12,6 +9,8 @@
 
 #include "Input.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/client/IMenuService.h"
 #include "minecraft/client/Options.h"
 #include "minecraft/client/User.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
@@ -21,6 +20,7 @@
 #include "minecraft/client/renderer/GameRenderer.h"
 #include "minecraft/client/renderer/ItemInHandRenderer.h"
 #include "minecraft/stats/StatsCounter.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/ai/attributes/AttributeInstance.h"
 #include "minecraft/world/level/storage/LevelData.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
@@ -28,18 +28,14 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/level/tile/Tile.h"
 // 4J Stu - Added for tutorial callbacks
-#include "platform/input/input.h"
-#include "platform/profile/profile.h"
-#include "platform/renderer/renderer.h"
+#include "PlatformTypes.h"
+#include "Pos.h"
 #include "app/common/App_structs.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "minecraft/network/INetworkService.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/linux/Linux_UIController.h"
-#include "PlatformTypes.h"
-#include "Pos.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Gui.h"
@@ -59,6 +55,7 @@
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/commands/CommandsEnum.h"
 #include "minecraft/core/particles/ParticleTypes.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/stats/Achievement.h"
 #include "minecraft/stats/CommonStats.h"
@@ -80,11 +77,14 @@
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/level/tile/entity/CommandBlockEntity.h"
-#include "minecraft/world/level/tile/entity/SignTileEntity.h"
 #include "minecraft/world/level/tile/entity/HopperTileEntity.h"
+#include "minecraft/world/level/tile/entity/SignTileEntity.h"
 #include "minecraft/world/phys/AABB.h"
 #include "minecraft/world/phys/HitResult.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "platform/input/input.h"
+#include "platform/profile/profile.h"
+#include "platform/renderer/renderer.h"
 
 LocalPlayer::LocalPlayer(Minecraft* minecraft, Level* level, User* user,
                          int dimension)
@@ -115,7 +115,8 @@ LocalPlayer::LocalPlayer(Minecraft* minecraft, Level* level, User* user,
         this->name = user->name;
         // printf("Created LocalPlayer with name %s\n", name.c_str() );
         //  check to see if this player's xuid is in the list of special players
-        MOJANG_DATA* pMojangData = gameServices().getMojangDataForXuid(getOnlineXuid());
+        MOJANG_DATA* pMojangData =
+            gameServices().getMojangDataForXuid(getOnlineXuid());
         if (pMojangData) {
             customTextureUrl = pMojangData->wchSkin;
         }
@@ -123,7 +124,8 @@ LocalPlayer::LocalPlayer(Minecraft* minecraft, Level* level, User* user,
     input = nullptr;
     m_iPad = -1;
     m_iScreenSection =
-        IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN;  // assume singleplayer default
+        IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN;  // assume singleplayer
+                                                      // default
     m_bPlayerRespawned = false;
     ullButtonsPressed = 0LL;
     ullDpad_last = ullDpad_this = ullDpad_filtered = 0;
@@ -485,7 +487,7 @@ void LocalPlayer::aiStep() {
     // Check if the player is idle and the rich presence needs updated
     if (!m_bIsIdle && PlatformInput.GetIdleSeconds(m_iPad) > PLAYER_IDLE_TIME) {
         PlatformProfile.SetCurrentGameActivity(m_iPad, CONTEXT_PRESENCE_IDLE,
-                                              false);
+                                               false);
         m_bIsIdle = true;
     } else if (m_bIsIdle &&
                PlatformInput.GetIdleSeconds(m_iPad) < PLAYER_IDLE_TIME) {
@@ -608,7 +610,8 @@ bool LocalPlayer::openContainer(std::shared_ptr<Container> container) {
     minecraft->setScreen(new ContainerScreen(inventory, container));
     bool success = true;
 #else
-    bool success = gameServices().menus().openContainer(GetXboxPad(), inventory, container);
+    bool success = gameServices().menus().openContainer(GetXboxPad(), inventory,
+                                                        container);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     // minecraft->setScreen(new ContainerScreen(inventory, container));
@@ -620,7 +623,8 @@ bool LocalPlayer::openHopper(std::shared_ptr<HopperTileEntity> container) {
     minecraft->setScreen(new HopperScreen(inventory, container));
     bool success = true;
 #else
-    bool success = gameServices().menus().openHopper(GetXboxPad(), inventory, container);
+    bool success =
+        gameServices().menus().openHopper(GetXboxPad(), inventory, container);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -631,7 +635,8 @@ bool LocalPlayer::openHopper(std::shared_ptr<MinecartHopper> container) {
     minecraft->setScreen(new HopperScreen(inventory, container));
     bool success = true;
 #else
-    bool success = gameServices().menus().openHopperMinecart(GetXboxPad(), inventory, container);
+    bool success = gameServices().menus().openHopperMinecart(
+        GetXboxPad(), inventory, container);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -643,7 +648,8 @@ bool LocalPlayer::openHorseInventory(std::shared_ptr<EntityHorse> horse,
     minecraft->setScreen(new HorseInventoryScreen(inventory, container, horse));
     bool success = true;
 #else
-    bool success = gameServices().menus().openHorse(GetXboxPad(), inventory, container, horse);
+    bool success = gameServices().menus().openHorse(GetXboxPad(), inventory,
+                                                    container, horse);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -678,8 +684,8 @@ bool LocalPlayer::startEnchanting(int x, int y, int z,
     minecraft->setScreen(new EnchantmentScreen(inventory, level, x, y, z));
     bool success = true;
 #else
-    bool success =
-        gameServices().menus().openEnchanting(GetXboxPad(), inventory, x, y, z, level, name);
+    bool success = gameServices().menus().openEnchanting(
+        GetXboxPad(), inventory, x, y, z, level, name);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -690,8 +696,8 @@ bool LocalPlayer::startRepairing(int x, int y, int z) {
     minecraft->setScreen(new RepairScreen(inventory, level, x, y, z));
     bool success = true;
 #else
-    bool success =
-        gameServices().menus().openRepairing(GetXboxPad(), inventory, level, x, y, z);
+    bool success = gameServices().menus().openRepairing(GetXboxPad(), inventory,
+                                                        level, x, y, z);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -702,7 +708,8 @@ bool LocalPlayer::openFurnace(std::shared_ptr<FurnaceTileEntity> furnace) {
     minecraft->setScreen(new FurnaceScreen(inventory, furnace));
     bool success = true;
 #else
-    bool success = gameServices().menus().openFurnace(GetXboxPad(), inventory, furnace);
+    bool success =
+        gameServices().menus().openFurnace(GetXboxPad(), inventory, furnace);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -714,8 +721,8 @@ bool LocalPlayer::openBrewingStand(
     minecraft->setScreen(new BrewingStandScreen(inventory, brewingStand));
     bool success = true;
 #else
-    bool success =
-        gameServices().menus().openBrewingStand(GetXboxPad(), inventory, brewingStand);
+    bool success = gameServices().menus().openBrewingStand(
+        GetXboxPad(), inventory, brewingStand);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -726,7 +733,8 @@ bool LocalPlayer::openBeacon(std::shared_ptr<BeaconTileEntity> beacon) {
     minecraft->setScreen(new BeaconScreen(inventory, beacon));
     bool success = true;
 #else
-    bool success = gameServices().menus().openBeacon(GetXboxPad(), inventory, beacon);
+    bool success =
+        gameServices().menus().openBeacon(GetXboxPad(), inventory, beacon);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -737,7 +745,8 @@ bool LocalPlayer::openTrap(std::shared_ptr<DispenserTileEntity> trap) {
     minecraft->setScreen(new TrapScreen(inventory, trap));
     bool success = true;
 #else
-    bool success = gameServices().menus().openTrap(GetXboxPad(), inventory, trap);
+    bool success =
+        gameServices().menus().openTrap(GetXboxPad(), inventory, trap);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -749,8 +758,8 @@ bool LocalPlayer::openTrading(std::shared_ptr<Merchant> traderTarget,
     minecraft->setScreen(new MerchantScreen(inventory, traderTarget, level));
     bool success = true;
 #else
-    bool success =
-        gameServices().menus().openTrading(GetXboxPad(), inventory, traderTarget, level, name);
+    bool success = gameServices().menus().openTrading(
+        GetXboxPad(), inventory, traderTarget, level, name);
     if (success) ui.PlayUISFX(eSFX_Press);
 #endif
     return success;
@@ -1574,23 +1583,30 @@ void LocalPlayer::updateRichPresence() {
         std::shared_ptr<ItemInstance> selectedItem = inventory->getSelected();
         if (selectedItem != nullptr &&
             selectedItem->id == Item::fishingRod_Id) {
-            gameServices().setRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_FISHING);
+            gameServices().setRichPresenceContext(m_iPad,
+                                                  CONTEXT_GAME_STATE_FISHING);
         } else if (selectedItem != nullptr &&
                    selectedItem->id == Item::map_Id) {
-            gameServices().setRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_MAP);
-        } else if ((riding != nullptr) && riding->instanceof(eTYPE_MINECART)) {
             gameServices().setRichPresenceContext(m_iPad,
-                                       CONTEXT_GAME_STATE_RIDING_MINECART);
-        } else if ((riding != nullptr) && riding->instanceof(eTYPE_BOAT)) {
-            gameServices().setRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_BOATING);
-        } else if ((riding != nullptr) && riding->instanceof(eTYPE_PIG)) {
-            gameServices().setRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_RIDING_PIG);
+                                                  CONTEXT_GAME_STATE_MAP);
+        } else if ((riding != nullptr) && riding->instanceof (eTYPE_MINECART)) {
+            gameServices().setRichPresenceContext(
+                m_iPad, CONTEXT_GAME_STATE_RIDING_MINECART);
+        } else if ((riding != nullptr) && riding->instanceof (eTYPE_BOAT)) {
+            gameServices().setRichPresenceContext(m_iPad,
+                                                  CONTEXT_GAME_STATE_BOATING);
+        } else if ((riding != nullptr) && riding->instanceof (eTYPE_PIG)) {
+            gameServices().setRichPresenceContext(
+                m_iPad, CONTEXT_GAME_STATE_RIDING_PIG);
         } else if (this->dimension == -1) {
-            gameServices().setRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_NETHER);
+            gameServices().setRichPresenceContext(m_iPad,
+                                                  CONTEXT_GAME_STATE_NETHER);
         } else if (minecraft->soundEngine->GetIsPlayingStreamingCDMusic()) {
-            gameServices().setRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_CD);
+            gameServices().setRichPresenceContext(m_iPad,
+                                                  CONTEXT_GAME_STATE_CD);
         } else {
-            gameServices().setRichPresenceContext(m_iPad, CONTEXT_GAME_STATE_BLANK);
+            gameServices().setRichPresenceContext(m_iPad,
+                                                  CONTEXT_GAME_STATE_BLANK);
         }
     }
 }

@@ -1,16 +1,15 @@
 #include "FlatGeneratorInfo.h"
 
-#include "util/StringHelpers.h"
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/levelgen/flat/FlatLayerInfo.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "util/StringHelpers.h"
 
 const std::string FlatGeneratorInfo::STRUCTURE_VILLAGE = "village";
 const std::string FlatGeneratorInfo::STRUCTURE_BIOME_SPECIFIC = "biome_1";
 const std::string FlatGeneratorInfo::STRUCTURE_STRONGHOLD = "stronghold";
 const std::string FlatGeneratorInfo::STRUCTURE_MINESHAFT = "mineshaft";
-const std::string FlatGeneratorInfo::STRUCTURE_BIOME_DECORATION =
-    "decoration";
+const std::string FlatGeneratorInfo::STRUCTURE_BIOME_DECORATION = "decoration";
 const std::string FlatGeneratorInfo::STRUCTURE_LAKE = "lake";
 const std::string FlatGeneratorInfo::STRUCTURE_LAVA_LAKE = "lava_lake";
 const std::string FlatGeneratorInfo::STRUCTURE_DUNGEON = "dungeon";
@@ -27,8 +26,7 @@ int FlatGeneratorInfo::getBiome() { return biome; }
 
 void FlatGeneratorInfo::setBiome(int biome) { this->biome = biome; }
 
-std::unordered_map<std::string,
-                   std::unordered_map<std::string, std::string> >*
+std::unordered_map<std::string, std::unordered_map<std::string, std::string> >*
 FlatGeneratorInfo::getStructures() {
     return &structures;
 }

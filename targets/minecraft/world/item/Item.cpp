@@ -1,6 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
-
 #include "Item.h"
 
 #include <math.h>
@@ -11,7 +8,9 @@
 #include "MapItem.h"
 #include "java/Class.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/stats/Stats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/Icon.h"
 #include "minecraft/world/IconRegister.h"

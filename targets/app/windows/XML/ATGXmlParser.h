@@ -50,8 +50,8 @@ class ISAXCallback {
     friend class XMLParser;
 
 public:
-    ISAXCallback() {};
-    virtual ~ISAXCallback() {};
+    ISAXCallback(){};
+    virtual ~ISAXCallback(){};
 
     virtual int32_t StartDocument() = 0;
     virtual int32_t EndDocument() = 0;

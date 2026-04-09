@@ -6,7 +6,6 @@
 
 #include "minecraft/world/level/Level.h"
 
-
 class Dimension;
 class LevelSettings;
 class LevelStorage;

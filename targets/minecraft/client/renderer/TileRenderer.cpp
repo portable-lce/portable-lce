@@ -1,6 +1,4 @@
 #include "TileRenderer.h"
-#include "platform/stubs.h"
-
 
 #include <assert.h>
 #include <stdint.h>
@@ -10,18 +8,16 @@
 #include <cmath>
 #include <numbers>
 
-#include "platform/renderer/renderer.h"
 #include "EntityTileRenderer.h"
 #include "GameRenderer.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
-#include "util/FrameProfiler.h"
 #include "Tesselator.h"
 #include "minecraft/Direction.h"
 #include "minecraft/Facing.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/Textures.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/world/Icon.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LevelSource.h"
@@ -66,6 +62,9 @@
 #include "minecraft/world/level/tile/piston/PistonBaseTile.h"
 #include "minecraft/world/level/tile/piston/PistonExtensionTile.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
+#include "util/FrameProfiler.h"
 
 bool TileRenderer::fancy = true;
 

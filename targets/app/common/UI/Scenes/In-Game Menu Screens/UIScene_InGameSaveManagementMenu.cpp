@@ -202,7 +202,8 @@ void UIScene_InGameSaveManagementMenu::tick() {
                             return loadSaveDataThumbnailReturned(data, bytes);
                         });
 
-                if (eLoadStatus != IPlatformStorage::ESaveGame_GetSaveThumbnail) {
+                if (eLoadStatus !=
+                    IPlatformStorage::ESaveGame_GetSaveThumbnail) {
                     // something went wrong
                     m_bRetrievingSaveThumbnails = false;
                     m_bAllLoaded = true;
@@ -224,7 +225,7 @@ void UIScene_InGameSaveManagementMenu::tick() {
                     MAX_SAVEFILENAME_LENGTH,  // total length of source UTF-8
                                               // string,
                     // in char's (= bytes), including end-of-string \0
-                    (char*)u16Message,    // destination buffer
+                    (char*)u16Message,       // destination buffer
                     MAX_SAVEFILENAME_LENGTH  // size of destination buffer, in
                                              // char's
                 );
@@ -268,7 +269,8 @@ void UIScene_InGameSaveManagementMenu::tick() {
                                 return loadSaveDataThumbnailReturned(data,
                                                                      bytes);
                             });
-                    if (eLoadStatus != IPlatformStorage::ESaveGame_GetSaveThumbnail) {
+                    if (eLoadStatus !=
+                        IPlatformStorage::ESaveGame_GetSaveThumbnail) {
                         // something went wrong
                         m_bRetrievingSaveThumbnails = false;
                         m_bAllLoaded = true;

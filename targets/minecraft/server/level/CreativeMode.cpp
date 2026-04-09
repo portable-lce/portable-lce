@@ -4,11 +4,6 @@
 #include "minecraft/client/User.h"
 #include "minecraft/client/player/LocalPlayer.h"
 
-
-
-
-
-
 CreativeMode::CreativeMode(Minecraft* minecraft) : GameMode(minecraft) {
     destroyDelay = 0;
     instaBuild = true;

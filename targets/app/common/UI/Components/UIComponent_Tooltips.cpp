@@ -1,13 +1,13 @@
 #include "UIComponent_Tooltips.h"
 
-#include "platform/profile/profile.h"
-#include "platform/renderer/renderer.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/common/UI/UIString.h"
 #include "app/linux/Iggy/include/iggy.h"
+#include "minecraft/GameEnums.h"
+#include "platform/profile/profile.h"
+#include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif

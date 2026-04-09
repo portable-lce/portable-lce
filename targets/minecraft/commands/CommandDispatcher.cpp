@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "CommandDispatcher.h"
 
 #include <string>
@@ -7,6 +6,7 @@
 #include "minecraft/commands/Command.h"
 #include "minecraft/commands/CommandSender.h"
 #include "minecraft/commands/CommandsEnum.h"
+#include "minecraft/util/Log.h"
 
 int CommandDispatcher::performCommand(std::shared_ptr<CommandSender> sender,
                                       EGameCommand command,

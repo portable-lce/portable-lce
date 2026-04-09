@@ -20,8 +20,6 @@ struct XuiActionOwnedPayload {
 
 }  // namespace minecraft
 
-using XuiActionPayload = std::variant<
-    std::monostate,
-    bool,
-    std::int64_t,
-    std::unique_ptr<minecraft::XuiActionOwnedPayload>>;
+using XuiActionPayload =
+    std::variant<std::monostate, bool, std::int64_t,
+                 std::unique_ptr<minecraft::XuiActionOwnedPayload>>;

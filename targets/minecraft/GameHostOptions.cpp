@@ -91,31 +91,43 @@ void set(unsigned int& settings, eGameHostOption option, unsigned int value) {
 
     switch (option) {
         case eGameHostOption_FriendsOfFriends:
-            setBit(GAME_HOST_OPTION_BITMASK_FRIENDSOFFRIENDS); break;
+            setBit(GAME_HOST_OPTION_BITMASK_FRIENDSOFFRIENDS);
+            break;
         case eGameHostOption_Difficulty:
             settings &= ~GAME_HOST_OPTION_BITMASK_DIFFICULTY;
-            settings |= (GAME_HOST_OPTION_BITMASK_DIFFICULTY & value); break;
+            settings |= (GAME_HOST_OPTION_BITMASK_DIFFICULTY & value);
+            break;
         case eGameHostOption_Gamertags:
-            setBit(GAME_HOST_OPTION_BITMASK_GAMERTAGS); break;
+            setBit(GAME_HOST_OPTION_BITMASK_GAMERTAGS);
+            break;
         case eGameHostOption_GameType:
             settings &= ~GAME_HOST_OPTION_BITMASK_GAMETYPE;
-            settings |= (GAME_HOST_OPTION_BITMASK_GAMETYPE & (value << 4)); break;
+            settings |= (GAME_HOST_OPTION_BITMASK_GAMETYPE & (value << 4));
+            break;
         case eGameHostOption_LevelType:
-            setBit(GAME_HOST_OPTION_BITMASK_LEVELTYPE); break;
+            setBit(GAME_HOST_OPTION_BITMASK_LEVELTYPE);
+            break;
         case eGameHostOption_Structures:
-            setBit(GAME_HOST_OPTION_BITMASK_STRUCTURES); break;
+            setBit(GAME_HOST_OPTION_BITMASK_STRUCTURES);
+            break;
         case eGameHostOption_BonusChest:
-            setBit(GAME_HOST_OPTION_BITMASK_BONUSCHEST); break;
+            setBit(GAME_HOST_OPTION_BITMASK_BONUSCHEST);
+            break;
         case eGameHostOption_HasBeenInCreative:
-            setBit(GAME_HOST_OPTION_BITMASK_BEENINCREATIVE); break;
+            setBit(GAME_HOST_OPTION_BITMASK_BEENINCREATIVE);
+            break;
         case eGameHostOption_PvP:
-            setBit(GAME_HOST_OPTION_BITMASK_PVP); break;
+            setBit(GAME_HOST_OPTION_BITMASK_PVP);
+            break;
         case eGameHostOption_TrustPlayers:
-            setBit(GAME_HOST_OPTION_BITMASK_TRUSTPLAYERS); break;
+            setBit(GAME_HOST_OPTION_BITMASK_TRUSTPLAYERS);
+            break;
         case eGameHostOption_TNT:
-            setBit(GAME_HOST_OPTION_BITMASK_TNT); break;
+            setBit(GAME_HOST_OPTION_BITMASK_TNT);
+            break;
         case eGameHostOption_FireSpreads:
-            setBit(GAME_HOST_OPTION_BITMASK_FIRESPREADS); break;
+            setBit(GAME_HOST_OPTION_BITMASK_FIRESPREADS);
+            break;
         case eGameHostOption_CheatsEnabled:
             if (value != 0) {
                 settings |= GAME_HOST_OPTION_BITMASK_HOSTFLY;
@@ -125,40 +137,56 @@ void set(unsigned int& settings, eGameHostOption option, unsigned int value) {
                 settings &= ~GAME_HOST_OPTION_BITMASK_HOSTFLY;
                 settings &= ~GAME_HOST_OPTION_BITMASK_HOSTHUNGER;
                 settings &= ~GAME_HOST_OPTION_BITMASK_HOSTINVISIBLE;
-            } break;
+            }
+            break;
         case eGameHostOption_HostCanFly:
-            setBit(GAME_HOST_OPTION_BITMASK_HOSTFLY); break;
+            setBit(GAME_HOST_OPTION_BITMASK_HOSTFLY);
+            break;
         case eGameHostOption_HostCanChangeHunger:
-            setBit(GAME_HOST_OPTION_BITMASK_HOSTHUNGER); break;
+            setBit(GAME_HOST_OPTION_BITMASK_HOSTHUNGER);
+            break;
         case eGameHostOption_HostCanBeInvisible:
-            setBit(GAME_HOST_OPTION_BITMASK_HOSTINVISIBLE); break;
+            setBit(GAME_HOST_OPTION_BITMASK_HOSTINVISIBLE);
+            break;
         case eGameHostOption_BedrockFog:
-            setBit(GAME_HOST_OPTION_BITMASK_BEDROCKFOG); break;
+            setBit(GAME_HOST_OPTION_BITMASK_BEDROCKFOG);
+            break;
         case eGameHostOption_DisableSaving:
-            setBit(GAME_HOST_OPTION_BITMASK_DISABLESAVE); break;
+            setBit(GAME_HOST_OPTION_BITMASK_DISABLESAVE);
+            break;
         case eGameHostOption_WasntSaveOwner:
-            setBit(GAME_HOST_OPTION_BITMASK_NOTOWNER); break;
+            setBit(GAME_HOST_OPTION_BITMASK_NOTOWNER);
+            break;
         case eGameHostOption_MobGriefing:
-            setInvertedBit(GAME_HOST_OPTION_BITMASK_MOBGRIEFING); break;
+            setInvertedBit(GAME_HOST_OPTION_BITMASK_MOBGRIEFING);
+            break;
         case eGameHostOption_KeepInventory:
-            setBit(GAME_HOST_OPTION_BITMASK_KEEPINVENTORY); break;
+            setBit(GAME_HOST_OPTION_BITMASK_KEEPINVENTORY);
+            break;
         case eGameHostOption_DoMobSpawning:
-            setInvertedBit(GAME_HOST_OPTION_BITMASK_DOMOBSPAWNING); break;
+            setInvertedBit(GAME_HOST_OPTION_BITMASK_DOMOBSPAWNING);
+            break;
         case eGameHostOption_DoMobLoot:
-            setInvertedBit(GAME_HOST_OPTION_BITMASK_DOMOBLOOT); break;
+            setInvertedBit(GAME_HOST_OPTION_BITMASK_DOMOBLOOT);
+            break;
         case eGameHostOption_DoTileDrops:
-            setInvertedBit(GAME_HOST_OPTION_BITMASK_DOTILEDROPS); break;
+            setInvertedBit(GAME_HOST_OPTION_BITMASK_DOTILEDROPS);
+            break;
         case eGameHostOption_NaturalRegeneration:
-            setInvertedBit(GAME_HOST_OPTION_BITMASK_NATURALREGEN); break;
+            setInvertedBit(GAME_HOST_OPTION_BITMASK_NATURALREGEN);
+            break;
         case eGameHostOption_DoDaylightCycle:
-            setInvertedBit(GAME_HOST_OPTION_BITMASK_DODAYLIGHTCYCLE); break;
+            setInvertedBit(GAME_HOST_OPTION_BITMASK_DODAYLIGHTCYCLE);
+            break;
         case eGameHostOption_WorldSize:
             settings &= ~GAME_HOST_OPTION_BITMASK_WORLDSIZE;
-            settings |= (GAME_HOST_OPTION_BITMASK_WORLDSIZE &
-                         (value << GAME_HOST_OPTION_BITMASK_WORLDSIZE_BITSHIFT));
+            settings |=
+                (GAME_HOST_OPTION_BITMASK_WORLDSIZE &
+                 (value << GAME_HOST_OPTION_BITMASK_WORLDSIZE_BITSHIFT));
             break;
         case eGameHostOption_All:
-            settings = value; break;
+            settings = value;
+            break;
         default:
             break;
     }

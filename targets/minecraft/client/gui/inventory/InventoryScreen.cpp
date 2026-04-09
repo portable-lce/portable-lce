@@ -1,11 +1,9 @@
 #include "InventoryScreen.h"
-#include "platform/stubs.h"
 
 #include <cmath>
 #include <string>
 #include <vector>
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Button.h"
@@ -19,6 +17,8 @@
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/world/entity/player/Player.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 InventoryScreen::InventoryScreen(std::shared_ptr<Player> player)
     : AbstractContainerScreen(player->inventoryMenu) {

@@ -1,13 +1,9 @@
 #include "HumanoidMobRenderer.h"
-#include "platform/stubs.h"
 
 #include <utility>
 #include <vector>
 
-
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
-#include "util/StringHelpers.h"
 #include "minecraft/Facing.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/model/HumanoidModel.h"
@@ -25,6 +21,9 @@
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "nbt/CompoundTag.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 const std::string HumanoidMobRenderer::MATERIAL_NAMES[5] = {
     "cloth", "chain", "iron", "diamond", "gold"};

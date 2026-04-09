@@ -6,14 +6,14 @@
 
 #include <vector>
 
-#include "minecraft/GameEnums.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "util/StringHelpers.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 class UILayer;
 

@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "BucketItem.h"
 
 #include <memory>
@@ -13,6 +12,7 @@
 #include "minecraft/server/network/PlayerConnection.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/player/Abilities.h"
 #include "minecraft/world/entity/player/Inventory.h"

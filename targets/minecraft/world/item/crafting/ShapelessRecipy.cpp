@@ -12,11 +12,11 @@
 #include <memory>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "Recipes.h"
 #include "minecraft/world/inventory/CraftingContainer.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/item/crafting/Recipy.h"
+#include "platform/PlatformTypes.h"
 
 ShapelessRecipy::ShapelessRecipy(ItemInstance* result,
                                  std::vector<ItemInstance*>* ingredients,

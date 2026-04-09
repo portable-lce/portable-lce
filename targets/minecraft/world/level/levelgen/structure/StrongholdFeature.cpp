@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "StrongholdFeature.h"
 
 #include <assert.h>
@@ -10,13 +8,15 @@
 #include <utility>
 #include <vector>
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "StrongholdPieces.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/level/ChunkPos.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/TilePos.h"
 #include "minecraft/world/level/biome/Biome.h"
@@ -166,8 +166,8 @@ bool StrongholdFeature::isFeatureChunk(int x, int z, bool bIsSuperflat) {
                         "%d)\n",
                         selectedX, selectedZ, position->x, position->z);
                     // 4J added
-                    gameServices().addTerrainFeaturePosition(eTerrainFeature_Stronghold,
-                                                  selectedX, selectedZ);
+                    gameServices().addTerrainFeaturePosition(
+                        eTerrainFeature_Stronghold, selectedX, selectedZ);
 
                     // 4J Added
                     hasFoundValidPos = true;
@@ -197,8 +197,8 @@ bool StrongholdFeature::isFeatureChunk(int x, int z, bool bIsSuperflat) {
             // for #81933 - GAMEPLAY: The Eye of Ender occasionally does not
             // appear when used to try and locate the End Portal.
             gameServices().addTerrainFeaturePosition(eTerrainFeature_Stronghold,
-                                          strongholdPos[0]->x,
-                                          strongholdPos[0]->z);
+                                                     strongholdPos[0]->x,
+                                                     strongholdPos[0]->z);
         }
 
         isSpotSelected = true;

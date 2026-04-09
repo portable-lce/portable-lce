@@ -8,9 +8,9 @@
 #include <system_error>
 #include <vector>
 
-#include "util/StringHelpers.h"  // 4jcraft TODO
-#include "platform/fs/fs.h"
 #include "java/FileFilter.h"
+#include "platform/fs/fs.h"
+#include "util/StringHelpers.h"  // 4jcraft TODO
 
 const char File::pathSeparator = '/';
 
@@ -20,9 +20,7 @@ const std::string File::pathRoot =
 namespace {
 namespace fs = std::filesystem;
 
-fs::path ToFilesystemPath(const std::string& path) {
-    return fs::path(path);
-}
+fs::path ToFilesystemPath(const std::string& path) { return fs::path(path); }
 
 std::string ToFilename(const fs::path& path) {
     const std::string filename = path.filename().string();

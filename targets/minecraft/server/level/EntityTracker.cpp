@@ -7,11 +7,11 @@
 #include <utility>
 #include <vector>
 
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "ServerLevel.h"
 #include "ServerPlayer.h"
 #include "TrackedEntity.h"
 #include "java/Class.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/network/PlayerConnection.h"
@@ -26,7 +26,7 @@ EntityTracker::EntityTracker(ServerLevel* level) {
 }
 
 void EntityTracker::addEntity(std::shared_ptr<Entity> e) {
-    if (e->instanceof(eTYPE_SERVERPLAYER)) {
+    if (e->instanceof (eTYPE_SERVERPLAYER)) {
         addEntity(e, 32 * 16, 2);
         std::shared_ptr<ServerPlayer> player =
             std::dynamic_pointer_cast<ServerPlayer>(e);
@@ -35,57 +35,57 @@ void EntityTracker::addEntity(std::shared_ptr<Entity> e) {
                 (*it)->updatePlayer(this, player);
             }
         }
-    } else if (e->instanceof(eTYPE_FISHINGHOOK))
+    } else if (e->instanceof (eTYPE_FISHINGHOOK))
         addEntity(e, 16 * 4, 5, true);
-    else if (e->instanceof(eTYPE_SMALL_FIREBALL))
+    else if (e->instanceof (eTYPE_SMALL_FIREBALL))
         addEntity(e, 16 * 4, 10, false);
-    else if (e->instanceof(eTYPE_DRAGON_FIREBALL))
+    else if (e->instanceof (eTYPE_DRAGON_FIREBALL))
         addEntity(e, 16 * 4, 10, false);  // 4J Added TU9
-    else if (e->instanceof(eTYPE_ARROW))
+    else if (e->instanceof (eTYPE_ARROW))
         addEntity(e, 16 * 4, 20, false);
-    else if (e->instanceof(eTYPE_FIREBALL))
+    else if (e->instanceof (eTYPE_FIREBALL))
         addEntity(e, 16 * 4, 10, false);
-    else if (e->instanceof(eTYPE_SNOWBALL))
+    else if (e->instanceof (eTYPE_SNOWBALL))
         addEntity(e, 16 * 4, 10, true);
-    else if (e->instanceof(eTYPE_THROWNENDERPEARL))
+    else if (e->instanceof (eTYPE_THROWNENDERPEARL))
         addEntity(e, 16 * 4, 10, true);
-    else if (e->instanceof(eTYPE_EYEOFENDERSIGNAL))
+    else if (e->instanceof (eTYPE_EYEOFENDERSIGNAL))
         addEntity(e, 16 * 4, 4, true);
-    else if (e->instanceof(eTYPE_THROWNEGG))
+    else if (e->instanceof (eTYPE_THROWNEGG))
         addEntity(e, 16 * 4, 10, true);
-    else if (e->instanceof(eTYPE_THROWNPOTION))
+    else if (e->instanceof (eTYPE_THROWNPOTION))
         addEntity(e, 16 * 4, 10, true);
-    else if (e->instanceof(eTYPE_THROWNEXPBOTTLE))
+    else if (e->instanceof (eTYPE_THROWNEXPBOTTLE))
         addEntity(e, 16 * 4, 10, true);
-    else if (e->instanceof(eTYPE_FIREWORKS_ROCKET))
+    else if (e->instanceof (eTYPE_FIREWORKS_ROCKET))
         addEntity(e, 16 * 4, 10, true);
-    else if (e->instanceof(eTYPE_ITEMENTITY))
+    else if (e->instanceof (eTYPE_ITEMENTITY))
         addEntity(e, 16 * 4, 20, true);
-    else if (e->instanceof(eTYPE_MINECART))
+    else if (e->instanceof (eTYPE_MINECART))
         addEntity(e, 16 * 5, 3, true);
-    else if (e->instanceof(eTYPE_BOAT))
+    else if (e->instanceof (eTYPE_BOAT))
         addEntity(e, 16 * 5, 3, true);
-    else if (e->instanceof(eTYPE_SQUID))
+    else if (e->instanceof (eTYPE_SQUID))
         addEntity(e, 16 * 4, 3, true);
-    else if (e->instanceof(eTYPE_WITHERBOSS))
+    else if (e->instanceof (eTYPE_WITHERBOSS))
         addEntity(e, 16 * 5, 3, false);
-    else if (e->instanceof(eTYPE_BAT))
+    else if (e->instanceof (eTYPE_BAT))
         addEntity(e, 16 * 5, 3, false);
     else if (std::dynamic_pointer_cast<Creature>(e) != nullptr)
         addEntity(e, 16 * 5, 3, true);
-    else if (e->instanceof(eTYPE_ENDERDRAGON))
+    else if (e->instanceof (eTYPE_ENDERDRAGON))
         addEntity(e, 16 * 10, 3, true);
-    else if (e->instanceof(eTYPE_PRIMEDTNT))
+    else if (e->instanceof (eTYPE_PRIMEDTNT))
         addEntity(e, 16 * 10, 10, true);
-    else if (e->instanceof(eTYPE_FALLINGTILE))
+    else if (e->instanceof (eTYPE_FALLINGTILE))
         addEntity(e, 16 * 10, 20, true);
-    else if (e->instanceof(eTYPE_HANGING_ENTITY))
+    else if (e->instanceof (eTYPE_HANGING_ENTITY))
         addEntity(e, 16 * 10, INT_MAX, false);
-    else if (e->instanceof(eTYPE_EXPERIENCEORB))
+    else if (e->instanceof (eTYPE_EXPERIENCEORB))
         addEntity(e, 16 * 10, 20, true);
-    else if (e->instanceof(eTYPE_ENDER_CRYSTAL))
+    else if (e->instanceof (eTYPE_ENDER_CRYSTAL))
         addEntity(e, 16 * 16, INT_MAX, false);
-    else if (e->instanceof(eTYPE_ITEM_FRAME))
+    else if (e->instanceof (eTYPE_ITEM_FRAME))
         addEntity(e, 16 * 10, INT_MAX, false);
 }
 

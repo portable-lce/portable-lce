@@ -25,8 +25,7 @@ public:
     static std::string acceptableLetters;
 
     static inline constexpr int ILLEGAL_FILE_CHARACTERS_LENGTH = 15;
-    static const char
-        ILLEGAL_FILE_CHARACTERS[ILLEGAL_FILE_CHARACTERS_LENGTH];
+    static const char ILLEGAL_FILE_CHARACTERS[ILLEGAL_FILE_CHARACTERS_LENGTH];
 
     static const bool
         TEXTURE_LIGHTING;  // 4J - change brought forward from 1.8.2

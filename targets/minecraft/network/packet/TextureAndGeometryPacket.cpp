@@ -3,11 +3,11 @@
 #include <sstream>
 #include <vector>
 
-#include "minecraft/Minecraft_Macros.h"
-#include "app/common/DLC/DLCSkinFile.h"
 #include "PacketListener.h"
+#include "app/common/DLC/DLCSkinFile.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/Minecraft_Macros.h"
 
 TextureAndGeometryPacket::TextureAndGeometryPacket() {
     this->textureName = "";

@@ -1,10 +1,10 @@
-#include "minecraft/IGameServices.h"
 #include "DispenserTileEntity.h"
 
 #include <stdint.h>
 
 #include "TileEntity.h"
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/Container.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/item/ItemInstance.h"
@@ -124,7 +124,8 @@ int DispenserTileEntity::addItem(std::shared_ptr<ItemInstance> item) {
 }
 
 std::string DispenserTileEntity::getName() {
-    return hasCustomName() ? name : gameServices().getString(IDS_TILE_DISPENSER);
+    return hasCustomName() ? name
+                           : gameServices().getString(IDS_TILE_DISPENSER);
 }
 
 std::string DispenserTileEntity::getCustomName() {

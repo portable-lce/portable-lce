@@ -1,11 +1,8 @@
 #include "EntityRenderer.h"
-#include "platform/stubs.h"
 
 #include <cmath>
 
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
-
 #include "java/Class.h"
 #include "minecraft/client/Options.h"
 #include "minecraft/client/renderer/Tesselator.h"
@@ -21,6 +18,8 @@
 #include "minecraft/world/level/tile/FireTile.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/phys/AABB.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation EntityRenderer::SHADOW_LOCATION =
     ResourceLocation(TN__CLAMP__MISC_SHADOW);
@@ -157,11 +156,11 @@ void EntityRenderer::renderShadow(std::shared_ptr<Entity> e, double x, double y,
     float r = shadowRadius;
     float fYLocalPlayerShadowOffset = 0.0f;
 
-    if (e->instanceof(eTYPE_MOB)) {
+    if (e->instanceof (eTYPE_MOB)) {
         std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(e);
         r *= mob->getSizeScale();
 
-        if (mob->instanceof(eTYPE_ANIMAL)) {
+        if (mob->instanceof (eTYPE_ANIMAL)) {
             if (std::dynamic_pointer_cast<Animal>(mob)->isBaby()) {
                 r *= 0.5f;
             }
@@ -174,7 +173,7 @@ void EntityRenderer::renderShadow(std::shared_ptr<Entity> e, double x, double y,
     // 4J-PB - local players seem to have a position at their head, and remote
     // players have a foot position. get the shadow to render by changing the
     // check here depending on the player type
-    if (e->instanceof(eTYPE_LOCALPLAYER)) {
+    if (e->instanceof (eTYPE_LOCALPLAYER)) {
         ey -= 1.62;
         fYLocalPlayerShadowOffset = -1.62f;
     }

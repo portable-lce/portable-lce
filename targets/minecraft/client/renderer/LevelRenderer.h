@@ -1,14 +1,14 @@
 #pragma once
-#include "platform/NetTypes.h"
-#include "minecraft/client/model/SkinBox.h"
 #include "OffsettedRenderList.h"
-#include "platform/C4JThread.h"
-#include "util/Definitions.h"
 #include "java/JavaIntHash.h"
+#include "minecraft/client/model/SkinBox.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LevelListener.h"
 #include "minecraft/world/phys/AABB.h"
+#include "platform/C4JThread.h"
+#include "platform/NetTypes.h"
+#include "util/Definitions.h"
 
 class ClipChunk;
 class HitResult;

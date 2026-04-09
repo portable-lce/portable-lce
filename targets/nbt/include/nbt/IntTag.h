@@ -5,9 +5,7 @@ class IntTag : public Tag {
 public:
     int data;
     IntTag(const std::string& name) : Tag(name) {}
-    IntTag(const std::string& name, int data) : Tag(name) {
-        this->data = data;
-    }
+    IntTag(const std::string& name, int data) : Tag(name) { this->data = data; }
 
     void write(DataOutput* dos) { dos->writeInt(data); }
     void load(DataInput* dis, int tagDepth) { data = dis->readInt(); }

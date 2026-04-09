@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include "util/StringHelpers.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/level/tile/CropTile.h"
+#include "util/StringHelpers.h"
 
 CarrotTile::CarrotTile(int id) : CropTile(id) {}
 

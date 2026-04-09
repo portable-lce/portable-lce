@@ -145,7 +145,7 @@ bool HangingEntity::survives() {
                 auto itEnd = entities->end();
                 for (auto it = entities->begin(); it != itEnd; it++) {
                     std::shared_ptr<Entity> e = (*it);
-                    if (e->instanceof(eTYPE_HANGING_ENTITY)) {
+                    if (e->instanceof (eTYPE_HANGING_ENTITY)) {
                         return false;
                     }
                 }
@@ -172,10 +172,10 @@ bool HangingEntity::hurt(DamageSource* source, float damage) {
         if (dynamic_cast<EntityDamageSource*>(source) != nullptr) {
             std::shared_ptr<Entity> sourceEntity = source->getDirectEntity();
 
-            if ((sourceEntity != nullptr) &&
-                sourceEntity->instanceof(eTYPE_PLAYER) &&
-                !std::dynamic_pointer_cast<Player>(sourceEntity)
-                     ->isAllowedToHurtEntity(shared_from_this())) {
+            if ((sourceEntity != nullptr) && sourceEntity->instanceof
+                (eTYPE_PLAYER) &&
+                    !std::dynamic_pointer_cast<Player>(sourceEntity)
+                         ->isAllowedToHurtEntity(shared_from_this())) {
                 return false;
             }
         }
@@ -185,9 +185,8 @@ bool HangingEntity::hurt(DamageSource* source, float damage) {
 
         std::shared_ptr<Player> player = nullptr;
         std::shared_ptr<Entity> e = source->getEntity();
-        if ((e != nullptr) &&
-            e->instanceof(
-                eTYPE_PLAYER))  // check if it's serverplayer or player
+        if ((e != nullptr) && e->instanceof
+            (eTYPE_PLAYER))  // check if it's serverplayer or player
         {
             player = std::dynamic_pointer_cast<Player>(e);
         }

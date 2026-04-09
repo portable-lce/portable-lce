@@ -21,17 +21,17 @@
 #include "app/windows/Iggy/include/iggy.h"
 #endif
 
-#include "platform/PlatformTypes.h"
-#include "platform/input/input.h"
-#include "platform/renderer/renderer.h"
-#include "platform/storage/storage.h"
+#include "UIGroup.h"
 #include "app/common/UI/All Platforms/IUIController.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/linux/Iggy/include/rrCore.h"
-#include "UIGroup.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "platform/PlatformTypes.h"
+#include "platform/input/input.h"
+#include "platform/renderer/renderer.h"
+#include "platform/storage/storage.h"
 
 class UIAbstractBitmapFont;
 class UIBitmapFont;
@@ -43,7 +43,7 @@ class Tutorial;
 class UIScene;
 
 // 4jcraft, used to be D3D11_RECT.
-// This was the only class that used it, so it's here now. 
+// This was the only class that used it, so it's here now.
 struct RECT {
     long left;
     long top;
@@ -72,7 +72,8 @@ private:
         300;  // How long from press until the first repeat
     static constexpr int UI_REPEAT_KEY_REPEAT_RATE_MS =
         100;  // How long in between repeats
-    time_util::time_point m_actionRepeatTimer[XUSER_MAX_COUNT][ACTION_MAX_MENU + 1];
+    time_util::time_point m_actionRepeatTimer[XUSER_MAX_COUNT]
+                                             [ACTION_MAX_MENU + 1];
 
     float m_fScreenWidth;
     float m_fScreenHeight;
@@ -277,8 +278,8 @@ public:
     }
 
     virtual void render() = 0;
-    void getRenderDimensions(IPlatformRenderer::eViewportType viewport, S32& width,
-                             S32& height);
+    void getRenderDimensions(IPlatformRenderer::eViewportType viewport,
+                             S32& width, S32& height);
     void setupRenderPosition(IPlatformRenderer::eViewportType viewport);
     void setupRenderPosition(S32 xOrigin, S32 yOrigin);
 
@@ -431,12 +432,14 @@ public:
     virtual IPlatformStorage::EMessageResult RequestAlertMessage(
         uint32_t uiTitle, uint32_t uiText, uint32_t* uiOptionA,
         uint32_t uiOptionC, uint32_t dwPad = XUSER_INDEX_ANY,
-        int (*Func)(void*, int, const IPlatformStorage::EMessageResult) = nullptr,
+        int (*Func)(void*, int,
+                    const IPlatformStorage::EMessageResult) = nullptr,
         void* lpParam = nullptr, char* pwchFormatString = nullptr);
     virtual IPlatformStorage::EMessageResult RequestErrorMessage(
         uint32_t uiTitle, uint32_t uiText, uint32_t* uiOptionA,
         uint32_t uiOptionC, uint32_t dwPad = XUSER_INDEX_ANY,
-        int (*Func)(void*, int, const IPlatformStorage::EMessageResult) = nullptr,
+        int (*Func)(void*, int,
+                    const IPlatformStorage::EMessageResult) = nullptr,
         void* lpParam = nullptr, char* pwchFormatString = nullptr);
 
 private:
@@ -450,11 +453,13 @@ private:
 public:
     IPlatformStorage::EMessageResult RequestUGCMessageBox(
         int title = -1, int message = -1, int iPad = -1,
-        int (*Func)(void*, int, const IPlatformStorage::EMessageResult) = nullptr,
+        int (*Func)(void*, int,
+                    const IPlatformStorage::EMessageResult) = nullptr,
         void* lpParam = nullptr);
     IPlatformStorage::EMessageResult RequestContentRestrictedMessageBox(
         int title = -1, int message = -1, int iPad = -1,
-        int (*Func)(void*, int, const IPlatformStorage::EMessageResult) = nullptr,
+        int (*Func)(void*, int,
+                    const IPlatformStorage::EMessageResult) = nullptr,
         void* lpParam = nullptr);
 
     virtual void SetWinUserIndex(unsigned int iPad);

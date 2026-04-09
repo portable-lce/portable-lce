@@ -1,9 +1,9 @@
-#include "minecraft/util/Log.h"
 #include "NotGateTile.h"
 
 #include "java/Random.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LevelSource.h"
 #include "minecraft/world/level/redstone/Redstone.h"
@@ -122,9 +122,8 @@ void NotGateTile::tick(Level* level, int x, int y, int z, Random* random) {
                                   level->getData(x, y, z), Tile::UPDATE_ALL);
 
             if (isToggledTooFrequently(level, x, y, z, true)) {
-                Log::info(
-                    "Torch at (%d,%d,%d) has toggled too many times\n", x, y,
-                    z);
+                Log::info("Torch at (%d,%d,%d) has toggled too many times\n", x,
+                          y, z);
 
                 level->playSound(x + 0.5f, y + 0.5f, z + 0.5f,
                                  eSoundType_RANDOM_FIZZ, 0.5f,
@@ -148,9 +147,8 @@ void NotGateTile::tick(Level* level, int x, int y, int z, Random* random) {
                                       level->getData(x, y, z),
                                       Tile::UPDATE_ALL);
             } else {
-                Log::info(
-                    "Torch at (%d,%d,%d) has toggled too many times\n", x, y,
-                    z);
+                Log::info("Torch at (%d,%d,%d) has toggled too many times\n", x,
+                          y, z);
             }
         }
     }

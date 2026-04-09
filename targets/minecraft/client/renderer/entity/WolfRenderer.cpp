@@ -1,9 +1,7 @@
 #include "WolfRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
@@ -14,6 +12,8 @@
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/animal/Sheep.h"
 #include "minecraft/world/entity/animal/Wolf.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 class Model;
 

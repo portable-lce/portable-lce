@@ -1,9 +1,9 @@
-#include "minecraft/util/Log.h"
 #include "LoginPacket.h"
 
 #include "PacketListener.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/level/LevelType.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"

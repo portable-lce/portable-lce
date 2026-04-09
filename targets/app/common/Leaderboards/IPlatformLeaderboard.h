@@ -166,8 +166,7 @@ public:
                                    unsigned int readCount) = 0;
     virtual bool ReadStats_MyScore(LeaderboardReadListener* callback,
                                    int difficulty, EStatsType type,
-                                   PlayerUID myUID,
-                                   unsigned int readCount) = 0;
+                                   PlayerUID myUID, unsigned int readCount) = 0;
     virtual bool ReadStats_TopRank(LeaderboardReadListener* callback,
                                    int difficulty, EStatsType type,
                                    unsigned int startIndex,

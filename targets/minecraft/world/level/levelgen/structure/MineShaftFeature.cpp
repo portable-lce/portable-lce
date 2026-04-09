@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-
 #include "minecraft/world/level/levelgen/structure/MineShaftFeature.h"
 
 #include <stdlib.h>
@@ -9,10 +7,11 @@
 #include <unordered_map>
 #include <utility>
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/util/Mth.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/levelgen/structure/MineShaftStart.h"
 
 const std::string MineShaftFeature::OPTION_CHANCE = "chance";
@@ -34,7 +33,8 @@ MineShaftFeature::MineShaftFeature(
 
 bool MineShaftFeature::isFeatureChunk(int x, int z, bool bIsSuperflat) {
     bool forcePlacement = false;
-    LevelGenerationOptions* levelGenOptions = gameServices().getLevelGenerationOptions();
+    LevelGenerationOptions* levelGenOptions =
+        gameServices().getLevelGenerationOptions();
     if (levelGenOptions != nullptr) {
         forcePlacement =
             levelGenOptions->isFeatureChunk(x, z, eFeature_Mineshaft);

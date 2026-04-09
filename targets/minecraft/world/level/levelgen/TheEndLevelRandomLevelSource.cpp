@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "TheEndLevelRandomLevelSource.h"
 
 #include <stdlib.h>
@@ -7,6 +6,7 @@
 #include <cmath>
 
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/biome/BiomeSource.h"

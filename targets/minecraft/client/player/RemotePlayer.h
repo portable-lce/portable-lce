@@ -7,7 +7,6 @@
 #include "minecraft/util/SmoothFloat.h"
 #include "minecraft/world/entity/player/Player.h"
 
-
 class Input;
 class Level;
 

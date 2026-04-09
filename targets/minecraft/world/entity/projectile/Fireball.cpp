@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "Fireball.h"
 
 #include <stdint.h>
@@ -13,6 +12,7 @@
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/core/particles/ParticleTypes.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/LivingEntity.h"
@@ -324,7 +324,7 @@ bool Fireball::hurt(DamageSource* source, float damage) {
             zPower = zd * 0.1;
         }
 
-        if (source->getEntity()->instanceof(eTYPE_LIVINGENTITY)) {
+        if (source->getEntity()->instanceof (eTYPE_LIVINGENTITY)) {
             owner =
                 std::dynamic_pointer_cast<LivingEntity>(source->getEntity());
         }

@@ -8,12 +8,11 @@
 #include <string>
 
 #include "app/common/Network/Socket.h"
-#include "platform/C4JThread.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
-
+#include "platform/C4JThread.h"
 
 class DataInputStream;
 class DataOutputStream;

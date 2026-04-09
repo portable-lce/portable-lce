@@ -3,7 +3,6 @@
 
 #include "BaseEntityTile.h"
 
-
 class Player;
 class Mob;
 class ChunkRebuildData;

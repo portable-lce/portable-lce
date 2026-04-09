@@ -10,7 +10,7 @@ void Settings::generateNewProperties() {}
 void Settings::saveProperties() {}
 
 std::string Settings::getString(const std::string& key,
-                                 const std::string& defaultValue) {
+                                const std::string& defaultValue) {
     if (properties.find(key) == properties.end()) {
         properties[key] = defaultValue;
         saveProperties();

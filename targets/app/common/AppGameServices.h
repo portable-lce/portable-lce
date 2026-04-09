@@ -22,8 +22,7 @@ public:
 
     // -- Game host options --
     unsigned int getGameHostOption(eGameHostOption option) override;
-    void setGameHostOption(eGameHostOption option,
-                           unsigned int value) override;
+    void setGameHostOption(eGameHostOption option, unsigned int value) override;
 
     // -- Level generation --
     LevelGenerationOptions* getLevelGenerationOptions() override;
@@ -113,8 +112,7 @@ public:
     void setRichPresenceContext(int iPad, int contextId) override;
     void captureSaveThumbnail() override;
     void getSaveThumbnail(std::uint8_t** data, unsigned int* size) override;
-    void readBannedList(int iPad, eTMSAction action,
-                        bool bCallback) override;
+    void readBannedList(int iPad, eTMSAction action, bool bCallback) override;
     void updatePlayerInfo(std::uint8_t networkSmallId,
                           int16_t playerColourIndex,
                           unsigned int playerPrivileges) override;
@@ -139,13 +137,12 @@ public:
     int getHTMLColour(eMinecraftColour colour) override;
     std::string getEntityName(EntityTypeId type) override;
     const char* getGameRulesString(const std::string& key) override;
-    unsigned int createImageTextData(std::uint8_t* textMetadata,
-                                     int64_t seed, bool hasSeed,
-                                     unsigned int uiHostOptions,
+    unsigned int createImageTextData(std::uint8_t* textMetadata, int64_t seed,
+                                     bool hasSeed, unsigned int uiHostOptions,
                                      unsigned int uiTexturePackId) override;
     std::string getFilePath(std::uint32_t packId, std::string filename,
-                             bool bAddDataFolder,
-                             std::string mountPoint) override;
+                            bool bAddDataFolder,
+                            std::string mountPoint) override;
     char* getUniqueMapName() override;
     void setUniqueMapName(char* name) override;
     unsigned int getOpacityTimer(int iPad) override;
@@ -160,14 +157,13 @@ public:
     DLCSkinFile* getDLCSkinFile(const std::string& name) override;
     bool dlcNeedsCorruptCheck() override;
     unsigned int dlcCheckForCorrupt(bool showMessage) override;
-    bool dlcReadDataFile(unsigned int& filesProcessed,
-                         const std::string& path, DLCPack* pack,
-                         bool fromArchive) override;
+    bool dlcReadDataFile(unsigned int& filesProcessed, const std::string& path,
+                         DLCPack* pack, bool fromArchive) override;
     void dlcRemovePack(DLCPack* pack) override;
 
     // -- Game rules --
     LevelGenerationOptions* loadGameRules(std::uint8_t* data,
-                                           unsigned int size) override;
+                                          unsigned int size) override;
     void saveGameRules(std::uint8_t** data, unsigned int* size) override;
     void unloadCurrentGameRules() override;
     void setLevelGenerationOptions(LevelGenerationOptions* levelGen) override;

@@ -4,9 +4,6 @@
 #include <stdint.h>
 #include <wchar.h>
 
-#include "platform/PlatformTypes.h"
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
@@ -16,10 +13,13 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "platform/C4JThread.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
+#include "platform/C4JThread.h"
+#include "platform/PlatformTypes.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 UIScene_FullscreenProgress::UIScene_FullscreenProgress(int iPad, void* initData,
@@ -231,7 +231,8 @@ void UIScene_FullscreenProgress::tick() {
                             // This just allows it to be shown
                             Minecraft* pMinecraft = Minecraft::GetInstance();
                             if (pMinecraft->localgameModes
-                                    [PlatformProfile.GetPrimaryPad()] != nullptr)
+                                    [PlatformProfile.GetPrimaryPad()] !=
+                                nullptr)
                                 pMinecraft
                                     ->localgameModes[PlatformProfile
                                                          .GetPrimaryPad()]

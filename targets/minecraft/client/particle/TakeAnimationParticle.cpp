@@ -1,17 +1,15 @@
 #include "TakeAnimationParticle.h"
-#include "platform/stubs.h"
-
-
 
 #include <cmath>
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/particle/Particle.h"
 #include "minecraft/client/particle/ParticleEngine.h"
 #include "minecraft/client/renderer/entity/EntityRenderDispatcher.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/level/Level.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 TakeAnimationParticle::TakeAnimationParticle(Level* level,
                                              std::shared_ptr<Entity> item,

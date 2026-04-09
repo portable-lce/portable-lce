@@ -25,8 +25,8 @@ public:
     virtual bool onCollectItem(GameRule* rule,
                                std::shared_ptr<ItemInstance> item);
 
-    static std::string generateDescriptionString(
-        const std::string& description, void* data, int dataLength);
+    static std::string generateDescriptionString(const std::string& description,
+                                                 void* data, int dataLength);
 
 private:
     void updateStatus(GameRule* rule);

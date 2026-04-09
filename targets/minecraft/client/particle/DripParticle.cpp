@@ -2,11 +2,11 @@
 
 #include <cmath>
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/JavaMath.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/particle/Particle.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/material/Material.h"

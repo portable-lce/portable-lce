@@ -1,6 +1,7 @@
 // Linux stub implementations for ShutdownManager
 // The PS3/PSVita versions have full implementations; on Linux these are no-ops.
 #include "platform/ShutdownManager.h"
+
 #include "platform/C4JThread.h"
 
 void ShutdownManager::Initialise() {}

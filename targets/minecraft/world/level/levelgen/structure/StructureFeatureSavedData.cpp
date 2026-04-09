@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "util/StringHelpers.h"
 #include "minecraft/world/level/saveddata/SavedData.h"
 #include "nbt/CompoundTag.h"
+#include "util/StringHelpers.h"
 
 std::string StructureFeatureSavedData::TAG_FEATURES = "Features";
 
@@ -35,7 +35,7 @@ void StructureFeatureSavedData::putFeatureTag(CompoundTag* tag, int chunkX,
 }
 
 std::string StructureFeatureSavedData::createFeatureTagId(int chunkX,
-                                                           int chunkZ) {
+                                                          int chunkZ) {
     return "[" + toWString<int>(chunkX) + "," + toWString<int>(chunkZ) + "]";
 }
 

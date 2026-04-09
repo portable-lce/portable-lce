@@ -7,11 +7,11 @@
 #include <vector>
 
 #include "ConsoleInputSource.h"
-#include "platform/C4JThread.h"
-#include "util/Timer.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
+#include "platform/C4JThread.h"
+#include "util/Timer.h"
 
 class ServerConnection;
 class Settings;
@@ -204,8 +204,7 @@ private:
     void tick();
 
 public:
-    void handleConsoleInput(const std::string& msg,
-                            ConsoleInputSource* source);
+    void handleConsoleInput(const std::string& msg, ConsoleInputSource* source);
     void handleConsoleInputs();
     //    void addTickable(Tickable tickable);	// 4J removed
     static void main(int64_t seed, void* lpParameter);

@@ -1,8 +1,8 @@
 #include "EditBox.h"
 
-#include "platform/stubs.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/gui/Screen.h"
+#include "platform/stubs.h"
 
 EditBox::EditBox(Screen* screen, Font* font, int x, int y, int width,
                  int height, const std::string& value) {

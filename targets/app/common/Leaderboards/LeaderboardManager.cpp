@@ -83,8 +83,7 @@ void LeaderboardManager::printStats(ReadView& view) {
     for (unsigned int i = 0; i < view.m_numQueries; i++) {
         ReadScore score = view.m_queries[i];
 
-        app.DebugPrintf("\tname='%s'\n",
-                        score.m_name.c_str());
+        app.DebugPrintf("\tname='%s'\n", score.m_name.c_str());
         app.DebugPrintf("\trank='%i'\n", score.m_rank);
 
         app.DebugPrintf("\tstatsData=[");

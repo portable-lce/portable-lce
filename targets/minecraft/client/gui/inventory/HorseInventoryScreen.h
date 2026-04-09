@@ -3,7 +3,6 @@
 
 #include "AbstractContainerScreen.h"
 
-
 class Container;
 class EntityHorse;
 class Inventory;

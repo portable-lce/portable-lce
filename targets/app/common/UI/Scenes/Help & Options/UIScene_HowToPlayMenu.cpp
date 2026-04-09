@@ -110,9 +110,7 @@ void UIScene_HowToPlayMenu::updateComponents() {
 void UIScene_HowToPlayMenu::handleReload() {
     for (unsigned int i = 0; i < eHTPButton_Max; ++i) {
         // 4J Stu - Re-add for future platforms
-        {
-            m_buttonListHowTo.addItem(app.GetString(m_uiHTPButtonNameA[i]), i);
-        }
+        { m_buttonListHowTo.addItem(app.GetString(m_uiHTPButtonNameA[i]), i); }
     }
 
     doHorizontalResizeCheck();

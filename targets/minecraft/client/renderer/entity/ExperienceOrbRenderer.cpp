@@ -1,20 +1,19 @@
 #include "ExperienceOrbRenderer.h"
-#include "platform/stubs.h"
 
 #include <math.h>
 
 #include <memory>
 #include <numbers>
 
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
-
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/renderer/Tesselator.h"
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/ExperienceOrb.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation ExperienceOrbRenderer::XP_ORB_LOCATION =
     ResourceLocation(TN_ITEM_EXPERIENCE_ORB);

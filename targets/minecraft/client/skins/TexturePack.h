@@ -38,7 +38,7 @@ public:
 
     virtual std::string getResource(
         const std::string& name)  // 4J - changed to just return a name rather
-                                   // than an input stream
+                                  // than an input stream
     {
         /* 4J - TODO
 return TexturePack.class.getResourceAsStream(name);
@@ -49,13 +49,14 @@ return TexturePack.class.getResourceAsStream(name);
 
     // 4J Added
     virtual std::string getPath(bool bTitleUpdateTexture = false,
-                                 const char* pchBDPatchFilename = nullptr);
+                                const char* pchBDPatchFilename = nullptr);
     virtual std::string getAnimationString(const std::string& textureName,
-                                            const std::string& path,
-                                            bool allowFallback) = 0;
-    virtual BufferedImage* getImageResource(
-        const std::string& File, bool filenameHasExtension = false,
-        bool bTitleUpdateTexture = false, const std::string& drive = "") = 0;
+                                           const std::string& path,
+                                           bool allowFallback) = 0;
+    virtual BufferedImage* getImageResource(const std::string& File,
+                                            bool filenameHasExtension = false,
+                                            bool bTitleUpdateTexture = false,
+                                            const std::string& drive = "") = 0;
     virtual void loadColourTable() = 0;
     virtual void loadUI() = 0;
     virtual void unloadUI() = 0;

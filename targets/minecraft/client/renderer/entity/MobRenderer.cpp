@@ -1,23 +1,22 @@
 #include "MobRenderer.h"
-#include "platform/stubs.h"
 
 #include <math.h>
 
 #include <numbers>
 
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
 #include "LivingEntityRenderer.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
-
 #include "java/Class.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/Tesselator.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/Mob.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 class Model;
 
@@ -55,7 +54,7 @@ void MobRenderer::renderLeash(std::shared_ptr<Mob> entity, double x, double y,
         double rotOffCos = cos(roperYRot);
         double rotOffSin = sin(roperYRot);
         double yOff = sin(roperXRot);
-        if (roper->instanceof(eTYPE_HANGING_ENTITY)) {
+        if (roper->instanceof (eTYPE_HANGING_ENTITY)) {
             rotOffCos = 0;
             rotOffSin = 0;
             yOff = -1;

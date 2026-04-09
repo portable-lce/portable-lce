@@ -179,10 +179,12 @@ bool Zombie::hurt(DamageSource* source, float dmg) {
     if (Monster::hurt(source, dmg)) {
         std::shared_ptr<LivingEntity> target = getTarget();
         if ((target == nullptr) && getAttackTarget() != nullptr &&
-            getAttackTarget()->instanceof(eTYPE_LIVINGENTITY))
+                getAttackTarget()->instanceof
+            (eTYPE_LIVINGENTITY))
             target = std::dynamic_pointer_cast<LivingEntity>(getAttackTarget());
         if ((target == nullptr) && source->getEntity() != nullptr &&
-            source->getEntity()->instanceof(eTYPE_LIVINGENTITY))
+                source->getEntity()->instanceof
+            (eTYPE_LIVINGENTITY))
             target =
                 std::dynamic_pointer_cast<LivingEntity>(source->getEntity());
 
@@ -314,8 +316,7 @@ void Zombie::addAdditonalSaveData(CompoundTag* tag) {
 
     if (isBaby()) tag->putBoolean("IsBaby", true);
     if (isVillager()) tag->putBoolean("IsVillager", true);
-    tag->putInt("ConversionTime",
-                isConverting() ? villagerConversionTime : -1);
+    tag->putInt("ConversionTime", isConverting() ? villagerConversionTime : -1);
 }
 
 void Zombie::readAdditionalSaveData(CompoundTag* tag) {

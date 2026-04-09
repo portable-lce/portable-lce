@@ -2,7 +2,6 @@
 
 #include <string>
 
-#include "platform/renderer/renderer.h"
 #include "app/common/UI/All Platforms/IUIScene_AbstractContainerMenu.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Controls/UIControl_Cursor.h"
@@ -10,6 +9,7 @@
 #include "app/common/UI/Controls/UIControl_SlotList.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/iggy.h"
+#include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif

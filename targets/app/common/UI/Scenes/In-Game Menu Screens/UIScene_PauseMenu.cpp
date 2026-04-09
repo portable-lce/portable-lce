@@ -5,8 +5,6 @@
 
 #include <memory>
 
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/Network/GameNetworkManager.h"
@@ -18,11 +16,13 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/client/skins/DLCTexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 class TexturePack;

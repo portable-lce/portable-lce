@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 
-#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
 #include "minecraft/world/level/GameRules/GameRulesInstance.h"
 
 class Pos;

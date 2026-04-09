@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 
-#include "platform/PlatformTypes.h"
 #include "Packet.h"
 #include "minecraft/network/packet/Packet.h"
+#include "platform/PlatformTypes.h"
 
 class LevelType;
 

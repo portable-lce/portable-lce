@@ -1,9 +1,9 @@
 #pragma once
 
-#include "platform/storage/storage.h"
 #include "UIEnums.h"
 #include "UIStructs.h"
 #include "minecraft/sounds/SoundTypes.h"
+#include "platform/storage/storage.h"
 
 // 4J Stu - An interface class that defines all the public functions that we use
 // within the game code. This allows us to build the Xbox 360 version without

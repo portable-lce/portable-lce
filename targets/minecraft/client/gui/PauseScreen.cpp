@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "PauseScreen.h"
 
 #include <math.h>
@@ -8,17 +7,18 @@
 #include <string>
 #include <vector>
 
-#include "platform/input/input.h"
 #include "Button.h"
 #include "MessageScreen.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/network/INetworkService.h"
 #include "OptionsScreen.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Screen.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/locale/I18n.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/server/MinecraftServer.h"
+#include "platform/input/input.h"
 
 PauseScreen::PauseScreen() {
     saveStep = 0;
@@ -30,10 +30,9 @@ void PauseScreen::init() {
     buttons.clear();
     int yo = -16;
     // 4jcraft: solves the issue of client-side only pausing in the java gui
-    if (NetworkService.IsLocalGame() &&
-        NetworkService.GetPlayerCount() == 1)
+    if (NetworkService.IsLocalGame() && NetworkService.GetPlayerCount() == 1)
         gameServices().setXuiServerAction(PlatformInput.GetPrimaryPad(),
-                               eXuiServerAction_PauseServer, true);
+                                          eXuiServerAction_PauseServer, true);
     buttons.push_back(new Button(1, width / 2 - 100, height / 4 + 24 * 5 + yo,
                                  I18n::get("menu.returnToMenu")));
     if (!NetworkService.IsHost()) {
@@ -70,7 +69,8 @@ void PauseScreen::exitWorld(Minecraft* minecraft, bool save) {
     if (NetworkService.IsHost()) {
         server->setSaveOnExit(save);
     }
-    gameServices().setAction(minecraft->player->GetXboxPad(), eAppAction_ExitWorld);
+    gameServices().setAction(minecraft->player->GetXboxPad(),
+                             eAppAction_ExitWorld);
 }
 
 void PauseScreen::buttonClicked(Button* button) {
@@ -91,7 +91,7 @@ void PauseScreen::buttonClicked(Button* button) {
     }
     if (button->id == 4) {
         gameServices().setXuiServerAction(PlatformInput.GetPrimaryPad(),
-                               eXuiServerAction_PauseServer, false);
+                                          eXuiServerAction_PauseServer, false);
         minecraft->setScreen(nullptr);
         //       minecraft->grabMouse();		// 4J - removed
     }

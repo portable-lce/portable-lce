@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "minecraft/GameEnums.h"
 #include "app/common/App_structs.h"
+#include "minecraft/GameEnums.h"
 #include "platform/XboxStubs.h"
 
 class ArchiveFile;
@@ -22,7 +22,7 @@ public:
     const char* getString(int iID) const;
 
     std::string formatHTMLString(int iPad, const std::string& desc,
-                                  int shadowColour = 0xFFFFFFFF);
+                                 int shadowColour = 0xFFFFFFFF);
     std::string getActionReplacement(int iPad, unsigned char ucAction);
     std::string getVKReplacement(unsigned int uiVKey);
     std::string getIconReplacement(unsigned int uiIcon);

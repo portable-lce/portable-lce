@@ -21,7 +21,7 @@ RideEntityTask::RideEntityTask(const int eType, Tutorial* tutorial,
 bool RideEntityTask::isCompleted() { return bIsCompleted; }
 
 void RideEntityTask::onRideEntity(std::shared_ptr<Entity> entity) {
-    if (entity->instanceof((eINSTANCEOF)m_eType)) {
+    if (entity->instanceof ((eINSTANCEOF)m_eType)) {
         bIsCompleted = true;
     }
 }

@@ -1,5 +1,4 @@
 #include "DragonModel.h"
-#include "platform/stubs.h"
 
 #include <math.h>
 
@@ -8,12 +7,12 @@
 #include <string>
 #include <vector>
 
-
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/model/geom/Model.h"
 #include "minecraft/client/model/geom/ModelPart.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/boss/enderdragon/EnderDragon.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 DragonModel::DragonModel(float g) : Model() {
     // 4J-PB

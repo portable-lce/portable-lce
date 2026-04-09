@@ -6,7 +6,6 @@
 #include <mutex>
 
 #include "app/common/Network/Socket.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/User.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/client/multiplayer/ConnectScreen.h"
@@ -19,20 +18,20 @@
 #include "minecraft/world/item/crafting/Recipes.h"
 #include "minecraft/world/item/crafting/Recipy.h"
 #include "minecraft/world/level/Level.h"
-
 #include "minecraft/world/phys/AABB.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "util/StringHelpers.h"
 // #include "Social/SocialManager.h"
 // #include "app/common/Leaderboards/LeaderboardManager.h"
 // #include "../Common/XUI/XUI_Scene_Container.h"
 // #include "NetworkManager.h"
 #include "../Resource.h"
 #include "Sentient/SentientManager.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/client/Options.h"
 #include "minecraft/client/renderer/Tesselator.h"
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/world/level/chunk/storage/OldChunkStorage.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 
 HINSTANCE hMyInst;
 LRESULT CALLBACK DlgProc(HWND hWndDlg, uint32_t Msg, WPARAM wParam,
@@ -75,17 +74,17 @@ void DefineActions(void) {
     // Split into Menu actions, and in-game actions
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_A,
-                                   _360_JOY_BUTTON_A);
+                                    _360_JOY_BUTTON_A);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_B,
-                                   _360_JOY_BUTTON_B);
+                                    _360_JOY_BUTTON_B);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_X,
-                                   _360_JOY_BUTTON_X);
+                                    _360_JOY_BUTTON_X);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_Y,
-                                   _360_JOY_BUTTON_Y);
+                                    _360_JOY_BUTTON_Y);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_OK,
-                                   _360_JOY_BUTTON_A);
+                                    _360_JOY_BUTTON_A);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_CANCEL,
-                                   _360_JOY_BUTTON_B);
+                                    _360_JOY_BUTTON_B);
     PlatformInput.SetGameJoypadMaps(
         MAP_STYLE_0, ACTION_MENU_UP,
         _360_JOY_BUTTON_DPAD_UP | _360_JOY_BUTTON_LSTICK_UP);
@@ -99,92 +98,92 @@ void DefineActions(void) {
         MAP_STYLE_0, ACTION_MENU_RIGHT,
         _360_JOY_BUTTON_DPAD_RIGHT | _360_JOY_BUTTON_LSTICK_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_PAGEUP,
-                                   _360_JOY_BUTTON_LT);
+                                    _360_JOY_BUTTON_LT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_PAGEDOWN,
-                                   _360_JOY_BUTTON_RT);
+                                    _360_JOY_BUTTON_RT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_RIGHT_SCROLL,
-                                   _360_JOY_BUTTON_RB);
+                                    _360_JOY_BUTTON_RB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_LEFT_SCROLL,
-                                   _360_JOY_BUTTON_LB);
+                                    _360_JOY_BUTTON_LB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_PAUSEMENU,
-                                   _360_JOY_BUTTON_START);
+                                    _360_JOY_BUTTON_START);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_STICK_PRESS,
-                                   _360_JOY_BUTTON_LTHUMB);
+                                    _360_JOY_BUTTON_LTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_OTHER_STICK_PRESS,
-                                   _360_JOY_BUTTON_RTHUMB);
+                                    _360_JOY_BUTTON_RTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_OTHER_STICK_UP,
-                                   _360_JOY_BUTTON_RSTICK_UP);
+                                    _360_JOY_BUTTON_RSTICK_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_OTHER_STICK_DOWN,
-                                   _360_JOY_BUTTON_RSTICK_DOWN);
+                                    _360_JOY_BUTTON_RSTICK_DOWN);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_OTHER_STICK_LEFT,
-                                   _360_JOY_BUTTON_RSTICK_LEFT);
+                                    _360_JOY_BUTTON_RSTICK_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, ACTION_MENU_OTHER_STICK_RIGHT,
-                                   _360_JOY_BUTTON_RSTICK_RIGHT);
+                                    _360_JOY_BUTTON_RSTICK_RIGHT);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_JUMP,
-                                   _360_JOY_BUTTON_A);
+                                    _360_JOY_BUTTON_A);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_FORWARD,
-                                   _360_JOY_BUTTON_LSTICK_UP);
+                                    _360_JOY_BUTTON_LSTICK_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_BACKWARD,
-                                   _360_JOY_BUTTON_LSTICK_DOWN);
+                                    _360_JOY_BUTTON_LSTICK_DOWN);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_LEFT,
-                                   _360_JOY_BUTTON_LSTICK_LEFT);
+                                    _360_JOY_BUTTON_LSTICK_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_RIGHT,
-                                   _360_JOY_BUTTON_LSTICK_RIGHT);
+                                    _360_JOY_BUTTON_LSTICK_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_LOOK_LEFT,
-                                   _360_JOY_BUTTON_RSTICK_LEFT);
+                                    _360_JOY_BUTTON_RSTICK_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_LOOK_RIGHT,
-                                   _360_JOY_BUTTON_RSTICK_RIGHT);
+                                    _360_JOY_BUTTON_RSTICK_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_LOOK_UP,
-                                   _360_JOY_BUTTON_RSTICK_UP);
+                                    _360_JOY_BUTTON_RSTICK_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_LOOK_DOWN,
-                                   _360_JOY_BUTTON_RSTICK_DOWN);
+                                    _360_JOY_BUTTON_RSTICK_DOWN);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_USE,
-                                   _360_JOY_BUTTON_LT);
+                                    _360_JOY_BUTTON_LT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_ACTION,
-                                   _360_JOY_BUTTON_RT);
+                                    _360_JOY_BUTTON_RT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_RIGHT_SCROLL,
-                                   _360_JOY_BUTTON_RB);
+                                    _360_JOY_BUTTON_RB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_LEFT_SCROLL,
-                                   _360_JOY_BUTTON_LB);
+                                    _360_JOY_BUTTON_LB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_INVENTORY,
-                                   _360_JOY_BUTTON_Y);
+                                    _360_JOY_BUTTON_Y);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_PAUSEMENU,
-                                   _360_JOY_BUTTON_START);
+                                    _360_JOY_BUTTON_START);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_DROP,
-                                   _360_JOY_BUTTON_B);
+                                    _360_JOY_BUTTON_B);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_SNEAK_TOGGLE,
-                                   _360_JOY_BUTTON_RTHUMB);
+                                    _360_JOY_BUTTON_RTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_CRAFTING,
-                                   _360_JOY_BUTTON_X);
+                                    _360_JOY_BUTTON_X);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0,
-                                   MINECRAFT_ACTION_RENDER_THIRD_PERSON,
-                                   _360_JOY_BUTTON_LTHUMB);
+                                    MINECRAFT_ACTION_RENDER_THIRD_PERSON,
+                                    _360_JOY_BUTTON_LTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_GAME_INFO,
-                                   _360_JOY_BUTTON_BACK);
+                                    _360_JOY_BUTTON_BACK);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_DPAD_LEFT,
-                                   _360_JOY_BUTTON_DPAD_LEFT);
+                                    _360_JOY_BUTTON_DPAD_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_DPAD_RIGHT,
-                                   _360_JOY_BUTTON_DPAD_RIGHT);
+                                    _360_JOY_BUTTON_DPAD_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_DPAD_UP,
-                                   _360_JOY_BUTTON_DPAD_UP);
+                                    _360_JOY_BUTTON_DPAD_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_0, MINECRAFT_ACTION_DPAD_DOWN,
-                                   _360_JOY_BUTTON_DPAD_DOWN);
+                                    _360_JOY_BUTTON_DPAD_DOWN);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_A,
-                                   _360_JOY_BUTTON_A);
+                                    _360_JOY_BUTTON_A);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_B,
-                                   _360_JOY_BUTTON_B);
+                                    _360_JOY_BUTTON_B);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_X,
-                                   _360_JOY_BUTTON_X);
+                                    _360_JOY_BUTTON_X);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_Y,
-                                   _360_JOY_BUTTON_Y);
+                                    _360_JOY_BUTTON_Y);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_OK,
-                                   _360_JOY_BUTTON_A);
+                                    _360_JOY_BUTTON_A);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_CANCEL,
-                                   _360_JOY_BUTTON_B);
+                                    _360_JOY_BUTTON_B);
     PlatformInput.SetGameJoypadMaps(
         MAP_STYLE_1, ACTION_MENU_UP,
         _360_JOY_BUTTON_DPAD_UP | _360_JOY_BUTTON_LSTICK_UP);
@@ -198,92 +197,92 @@ void DefineActions(void) {
         MAP_STYLE_1, ACTION_MENU_RIGHT,
         _360_JOY_BUTTON_DPAD_RIGHT | _360_JOY_BUTTON_LSTICK_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_PAGEUP,
-                                   _360_JOY_BUTTON_LB);
+                                    _360_JOY_BUTTON_LB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_PAGEDOWN,
-                                   _360_JOY_BUTTON_RT);
+                                    _360_JOY_BUTTON_RT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_RIGHT_SCROLL,
-                                   _360_JOY_BUTTON_RB);
+                                    _360_JOY_BUTTON_RB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_LEFT_SCROLL,
-                                   _360_JOY_BUTTON_LB);
+                                    _360_JOY_BUTTON_LB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_PAUSEMENU,
-                                   _360_JOY_BUTTON_START);
+                                    _360_JOY_BUTTON_START);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_STICK_PRESS,
-                                   _360_JOY_BUTTON_LTHUMB);
+                                    _360_JOY_BUTTON_LTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_OTHER_STICK_PRESS,
-                                   _360_JOY_BUTTON_RTHUMB);
+                                    _360_JOY_BUTTON_RTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_OTHER_STICK_UP,
-                                   _360_JOY_BUTTON_RSTICK_UP);
+                                    _360_JOY_BUTTON_RSTICK_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_OTHER_STICK_DOWN,
-                                   _360_JOY_BUTTON_RSTICK_DOWN);
+                                    _360_JOY_BUTTON_RSTICK_DOWN);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_OTHER_STICK_LEFT,
-                                   _360_JOY_BUTTON_RSTICK_LEFT);
+                                    _360_JOY_BUTTON_RSTICK_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, ACTION_MENU_OTHER_STICK_RIGHT,
-                                   _360_JOY_BUTTON_RSTICK_RIGHT);
+                                    _360_JOY_BUTTON_RSTICK_RIGHT);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_JUMP,
-                                   _360_JOY_BUTTON_RB);
+                                    _360_JOY_BUTTON_RB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_FORWARD,
-                                   _360_JOY_BUTTON_LSTICK_UP);
+                                    _360_JOY_BUTTON_LSTICK_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_BACKWARD,
-                                   _360_JOY_BUTTON_LSTICK_DOWN);
+                                    _360_JOY_BUTTON_LSTICK_DOWN);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_LEFT,
-                                   _360_JOY_BUTTON_LSTICK_LEFT);
+                                    _360_JOY_BUTTON_LSTICK_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_RIGHT,
-                                   _360_JOY_BUTTON_LSTICK_RIGHT);
+                                    _360_JOY_BUTTON_LSTICK_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_LOOK_LEFT,
-                                   _360_JOY_BUTTON_RSTICK_LEFT);
+                                    _360_JOY_BUTTON_RSTICK_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_LOOK_RIGHT,
-                                   _360_JOY_BUTTON_RSTICK_RIGHT);
+                                    _360_JOY_BUTTON_RSTICK_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_LOOK_UP,
-                                   _360_JOY_BUTTON_RSTICK_UP);
+                                    _360_JOY_BUTTON_RSTICK_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_LOOK_DOWN,
-                                   _360_JOY_BUTTON_RSTICK_DOWN);
+                                    _360_JOY_BUTTON_RSTICK_DOWN);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_USE,
-                                   _360_JOY_BUTTON_RT);
+                                    _360_JOY_BUTTON_RT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_ACTION,
-                                   _360_JOY_BUTTON_LT);
+                                    _360_JOY_BUTTON_LT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_RIGHT_SCROLL,
-                                   _360_JOY_BUTTON_DPAD_RIGHT);
+                                    _360_JOY_BUTTON_DPAD_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_LEFT_SCROLL,
-                                   _360_JOY_BUTTON_DPAD_LEFT);
+                                    _360_JOY_BUTTON_DPAD_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_INVENTORY,
-                                   _360_JOY_BUTTON_Y);
+                                    _360_JOY_BUTTON_Y);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_PAUSEMENU,
-                                   _360_JOY_BUTTON_START);
+                                    _360_JOY_BUTTON_START);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_DROP,
-                                   _360_JOY_BUTTON_B);
+                                    _360_JOY_BUTTON_B);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_SNEAK_TOGGLE,
-                                   _360_JOY_BUTTON_LTHUMB);
+                                    _360_JOY_BUTTON_LTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_CRAFTING,
-                                   _360_JOY_BUTTON_X);
+                                    _360_JOY_BUTTON_X);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1,
-                                   MINECRAFT_ACTION_RENDER_THIRD_PERSON,
-                                   _360_JOY_BUTTON_RTHUMB);
+                                    MINECRAFT_ACTION_RENDER_THIRD_PERSON,
+                                    _360_JOY_BUTTON_RTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_GAME_INFO,
-                                   _360_JOY_BUTTON_BACK);
+                                    _360_JOY_BUTTON_BACK);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_DPAD_LEFT,
-                                   _360_JOY_BUTTON_DPAD_LEFT);
+                                    _360_JOY_BUTTON_DPAD_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_DPAD_RIGHT,
-                                   _360_JOY_BUTTON_DPAD_RIGHT);
+                                    _360_JOY_BUTTON_DPAD_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_DPAD_UP,
-                                   _360_JOY_BUTTON_DPAD_UP);
+                                    _360_JOY_BUTTON_DPAD_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_1, MINECRAFT_ACTION_DPAD_DOWN,
-                                   _360_JOY_BUTTON_DPAD_DOWN);
+                                    _360_JOY_BUTTON_DPAD_DOWN);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_A,
-                                   _360_JOY_BUTTON_A);
+                                    _360_JOY_BUTTON_A);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_B,
-                                   _360_JOY_BUTTON_B);
+                                    _360_JOY_BUTTON_B);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_X,
-                                   _360_JOY_BUTTON_X);
+                                    _360_JOY_BUTTON_X);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_Y,
-                                   _360_JOY_BUTTON_Y);
+                                    _360_JOY_BUTTON_Y);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_OK,
-                                   _360_JOY_BUTTON_A);
+                                    _360_JOY_BUTTON_A);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_CANCEL,
-                                   _360_JOY_BUTTON_B);
+                                    _360_JOY_BUTTON_B);
     PlatformInput.SetGameJoypadMaps(
         MAP_STYLE_2, ACTION_MENU_UP,
         _360_JOY_BUTTON_DPAD_UP | _360_JOY_BUTTON_LSTICK_UP);
@@ -300,77 +299,77 @@ void DefineActions(void) {
         MAP_STYLE_2, ACTION_MENU_PAGEUP,
         _360_JOY_BUTTON_DPAD_UP | _360_JOY_BUTTON_LB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_PAGEDOWN,
-                                   _360_JOY_BUTTON_RT);
+                                    _360_JOY_BUTTON_RT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_RIGHT_SCROLL,
-                                   _360_JOY_BUTTON_RB);
+                                    _360_JOY_BUTTON_RB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_LEFT_SCROLL,
-                                   _360_JOY_BUTTON_LB);
+                                    _360_JOY_BUTTON_LB);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_JUMP,
-                                   _360_JOY_BUTTON_LT);
+                                    _360_JOY_BUTTON_LT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_FORWARD,
-                                   _360_JOY_BUTTON_LSTICK_UP);
+                                    _360_JOY_BUTTON_LSTICK_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_BACKWARD,
-                                   _360_JOY_BUTTON_LSTICK_DOWN);
+                                    _360_JOY_BUTTON_LSTICK_DOWN);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_LEFT,
-                                   _360_JOY_BUTTON_LSTICK_LEFT);
+                                    _360_JOY_BUTTON_LSTICK_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_RIGHT,
-                                   _360_JOY_BUTTON_LSTICK_RIGHT);
+                                    _360_JOY_BUTTON_LSTICK_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_LOOK_LEFT,
-                                   _360_JOY_BUTTON_RSTICK_LEFT);
+                                    _360_JOY_BUTTON_RSTICK_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_LOOK_RIGHT,
-                                   _360_JOY_BUTTON_RSTICK_RIGHT);
+                                    _360_JOY_BUTTON_RSTICK_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_LOOK_UP,
-                                   _360_JOY_BUTTON_RSTICK_UP);
+                                    _360_JOY_BUTTON_RSTICK_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_LOOK_DOWN,
-                                   _360_JOY_BUTTON_RSTICK_DOWN);
+                                    _360_JOY_BUTTON_RSTICK_DOWN);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_USE,
-                                   _360_JOY_BUTTON_RT);
+                                    _360_JOY_BUTTON_RT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_ACTION,
-                                   _360_JOY_BUTTON_A);
+                                    _360_JOY_BUTTON_A);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_RIGHT_SCROLL,
-                                   _360_JOY_BUTTON_DPAD_RIGHT);
+                                    _360_JOY_BUTTON_DPAD_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_LEFT_SCROLL,
-                                   _360_JOY_BUTTON_DPAD_LEFT);
+                                    _360_JOY_BUTTON_DPAD_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_INVENTORY,
-                                   _360_JOY_BUTTON_Y);
+                                    _360_JOY_BUTTON_Y);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_PAUSEMENU,
-                                   _360_JOY_BUTTON_START);
+                                    _360_JOY_BUTTON_START);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_DROP,
-                                   _360_JOY_BUTTON_B);
+                                    _360_JOY_BUTTON_B);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_SNEAK_TOGGLE,
-                                   _360_JOY_BUTTON_LB);
+                                    _360_JOY_BUTTON_LB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_CRAFTING,
-                                   _360_JOY_BUTTON_X);
+                                    _360_JOY_BUTTON_X);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2,
-                                   MINECRAFT_ACTION_RENDER_THIRD_PERSON,
-                                   _360_JOY_BUTTON_LTHUMB);
+                                    MINECRAFT_ACTION_RENDER_THIRD_PERSON,
+                                    _360_JOY_BUTTON_LTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_GAME_INFO,
-                                   _360_JOY_BUTTON_BACK);
+                                    _360_JOY_BUTTON_BACK);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_PAUSEMENU,
-                                   _360_JOY_BUTTON_START);
+                                    _360_JOY_BUTTON_START);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_STICK_PRESS,
-                                   _360_JOY_BUTTON_LTHUMB);
+                                    _360_JOY_BUTTON_LTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_OTHER_STICK_PRESS,
-                                   _360_JOY_BUTTON_RTHUMB);
+                                    _360_JOY_BUTTON_RTHUMB);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_OTHER_STICK_UP,
-                                   _360_JOY_BUTTON_RSTICK_UP);
+                                    _360_JOY_BUTTON_RSTICK_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_OTHER_STICK_DOWN,
-                                   _360_JOY_BUTTON_RSTICK_DOWN);
+                                    _360_JOY_BUTTON_RSTICK_DOWN);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_OTHER_STICK_LEFT,
-                                   _360_JOY_BUTTON_RSTICK_LEFT);
+                                    _360_JOY_BUTTON_RSTICK_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, ACTION_MENU_OTHER_STICK_RIGHT,
-                                   _360_JOY_BUTTON_RSTICK_RIGHT);
+                                    _360_JOY_BUTTON_RSTICK_RIGHT);
 
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_DPAD_LEFT,
-                                   _360_JOY_BUTTON_DPAD_LEFT);
+                                    _360_JOY_BUTTON_DPAD_LEFT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_DPAD_RIGHT,
-                                   _360_JOY_BUTTON_DPAD_RIGHT);
+                                    _360_JOY_BUTTON_DPAD_RIGHT);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_DPAD_UP,
-                                   _360_JOY_BUTTON_DPAD_UP);
+                                    _360_JOY_BUTTON_DPAD_UP);
     PlatformInput.SetGameJoypadMaps(MAP_STYLE_2, MINECRAFT_ACTION_DPAD_DOWN,
-                                   _360_JOY_BUTTON_DPAD_DOWN);
+                                    _360_JOY_BUTTON_DPAD_DOWN);
 }
 
 HINSTANCE g_hInst = nullptr;
@@ -736,8 +735,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
     // no profile data for the player
     PlatformProfile.SetDefaultOptionsCallback(
         [](IPlatformProfile::PROFILESETTINGS* pSettings, int iPad) {
-            return Game::DefaultOptionsCallback(&app, pSettings,
-                                                iPad);
+            return Game::DefaultOptionsCallback(&app, pSettings, iPad);
         });
     // QNet needs to be setup after profile manager, as we do not want its
     // Notify listener to handle XN_SYS_SIGNINCHANGED notifications. This does

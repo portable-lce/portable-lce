@@ -2,10 +2,9 @@
 
 #include <cassert>
 #include <cstdint>
+#include <filesystem>
 #include <string>
 #include <vector>
-
-#include <filesystem>
 
 #include "java/File.h"
 
@@ -30,7 +29,8 @@ FileOutputStream::FileOutputStream(const File& file) : m_fileHandle(nullptr) {
 #if defined(_WIN32)
     m_fileHandle = _wfopen(file.getPath().c_str(), "wb");
 #else
-    const std::string nativePath = std::filesystem::path(file.getPath()).string();
+    const std::string nativePath =
+        std::filesystem::path(file.getPath()).string();
     m_fileHandle = std::fopen(nativePath.c_str(), "wb");
 #endif
 

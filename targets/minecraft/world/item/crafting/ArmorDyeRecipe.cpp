@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "minecraft/world/entity/animal/Sheep.h"
 #include "minecraft/world/inventory/CraftingContainer.h"
 #include "minecraft/world/item/ArmorItem.h"
@@ -15,6 +14,7 @@
 #include "minecraft/world/item/crafting/Recipy.h"
 #include "minecraft/world/item/crafting/ShapedRecipy.h"
 #include "minecraft/world/level/tile/ColoredTile.h"
+#include "platform/PlatformTypes.h"
 
 bool ArmorDyeRecipe::matches(std::shared_ptr<CraftingContainer> craftSlots,
                              Level* level) {

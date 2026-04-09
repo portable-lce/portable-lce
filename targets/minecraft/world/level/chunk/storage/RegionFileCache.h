@@ -49,8 +49,7 @@ public:
     }
     static void clear() { s_defaultCache._clear(); }
     static int getSizeDelta(ConsoleSaveFile* saveFile,
-                            const std::string& prefix, int chunkX,
-                            int chunkZ) {
+                            const std::string& prefix, int chunkX, int chunkZ) {
         return s_defaultCache._getSizeDelta(saveFile, prefix, chunkX, chunkZ);
     }
     static DataInputStream* getChunkDataInputStream(ConsoleSaveFile* saveFile,
@@ -59,9 +58,9 @@ public:
         return s_defaultCache._getChunkDataInputStream(saveFile, prefix, chunkX,
                                                        chunkZ);
     }
-    static DataOutputStream* getChunkDataOutputStream(
-        ConsoleSaveFile* saveFile, const std::string& prefix, int chunkX,
-        int chunkZ) {
+    static DataOutputStream* getChunkDataOutputStream(ConsoleSaveFile* saveFile,
+                                                      const std::string& prefix,
+                                                      int chunkX, int chunkZ) {
         return s_defaultCache._getChunkDataOutputStream(saveFile, prefix,
                                                         chunkX, chunkZ);
     }

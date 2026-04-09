@@ -38,7 +38,7 @@ void StringTable::ProcessStringTableData(void) {
 
         langSizeMap.push_back(
             std::vector<std::pair<std::string, int> >::value_type(langId,
-                                                                   langSize));
+                                                                  langSize));
     }
 
     std::vector<std::string> locales;

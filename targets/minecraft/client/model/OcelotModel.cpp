@@ -1,5 +1,4 @@
 #include "OcelotModel.h"
-#include "platform/stubs.h"
 
 #include <math.h>
 
@@ -7,10 +6,11 @@
 #include <numbers>
 #include <string>
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/model/geom/ModelPart.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/animal/Ocelot.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 const float OcelotModel::xo = 0;
 const float OcelotModel::yo = 16;

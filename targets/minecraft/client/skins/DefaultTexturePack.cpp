@@ -1,11 +1,10 @@
-#include "minecraft/IGameServices.h"
-
 #include "DefaultTexturePack.h"
 
 #include <cstdint>
 #include <vector>
 
 #include "java/InputOutputStream/InputStream.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/skins/AbstractTexturePack.h"
 
 DefaultTexturePack::DefaultTexturePack()

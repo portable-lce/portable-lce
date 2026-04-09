@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFileSplit.h"
 
 #include <assert.h>
@@ -15,31 +13,32 @@
 #include <thread>
 #include <utility>
 
-#include "platform/fs/fs.h"
-#include "platform/PlatformTypes.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/BuildVer.h"
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
-#include "util/Timer.h"
-#include "util/StringHelpers.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/File.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"
+#include "minecraft/BuildVer.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/level/ServerLevel.h"
+#include "minecraft/util/Log.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/chunk/storage/RegionFile.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFile.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFileConverter.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSavePath.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/level/storage/LevelData.h"
+#include "platform/PlatformTypes.h"
+#include "platform/fs/fs.h"
 #include "platform/storage/storage.h"
+#include "util/StringHelpers.h"
+#include "util/Timer.h"
 
 class ProgressListener;
-
 
 ConsoleSaveFileSplit::RegionFileReference::RegionFileReference(
     int index, unsigned int regionIndex, unsigned int length /*=0*/,
@@ -363,7 +362,8 @@ ConsoleSaveFileSplit::ConsoleSaveFileSplit(
 
     // Load a save from the game rules
     bool bLevelGenBaseSave = false;
-    LevelGenerationOptions* levelGen = gameServices().getLevelGenerationOptions();
+    LevelGenerationOptions* levelGen =
+        gameServices().getLevelGenerationOptions();
     if (pvSaveData == nullptr && levelGen != nullptr &&
         levelGen->requiresBaseSave()) {
         pvSaveData = levelGen->getBaseSaveData(fileSize);
@@ -450,7 +450,7 @@ void ConsoleSaveFileSplit::_init(const std::string& fileName, void* pvSaveData,
             unsigned int storageLength;
             PlatformStorage.GetSaveData(pvSaveMem, &storageLength);
             Log::info("Filesize - %d, Adjusted size - %d\n", fileSize,
-                            storageLength);
+                      storageLength);
             fileSize = storageLength;
         }
 
@@ -932,9 +932,8 @@ void ConsoleSaveFileSplit::tick() {
 #endif
 
     if (writeRequired) {
-        PlatformStorage.SaveSubfiles([this](bool bRes) {
-            return SaveRegionFilesCallback(this, bRes);
-        });
+        PlatformStorage.SaveSubfiles(
+            [this](bool bRes) { return SaveRegionFilesCallback(this, bRes); });
     }
 
     ReleaseSaveAccess();
@@ -1151,7 +1150,7 @@ std::string ConsoleSaveFileSplit::GetNameFromNumericIdentifier(
     signed char regionX = (idIn >> 8) & 255;
     signed char regionZ = idIn & 255;
     std::string region = (prefix + std::string("r.") + toWString(regionX) +
-                           "." + toWString(regionZ) + ".mcr");
+                          "." + toWString(regionZ) + ".mcr");
 
     return region;
 }
@@ -1236,7 +1235,7 @@ void ConsoleSaveFileSplit::Flush(bool autosave, bool updateThumbnail) {
                                                 fileSize);
 
         Log::info("Check buffer size: Elapsed time %f\n",
-                        static_cast<float>(timer.elapsed_seconds()));
+                  static_cast<float>(timer.elapsed_seconds()));
 
         // We add 4 bytes to the start so that we can signal compressed data
         // And another 4 bytes to store the decompressed data size
@@ -1253,15 +1252,14 @@ void ConsoleSaveFileSplit::Flush(bool autosave, bool updateThumbnail) {
                                                 pvSaveMem, fileSize);
 
         Log::info("Compress: Elapsed time %f\n",
-                        static_cast<float>(timer.elapsed_seconds()));
+                  static_cast<float>(timer.elapsed_seconds()));
 
         memset(compData, 0, 8);
         int saveVer = 0;
         memcpy(compData, &saveVer, sizeof(int));
         memcpy(compData + 4, &fileSize, sizeof(int));
 
-        Log::info("Save data compressed from %d to %d\n", fileSize,
-                        compLength);
+        Log::info("Save data compressed from %d to %d\n", fileSize, compLength);
 
         if (updateThumbnail) {
             std::uint8_t* pbThumbnailData = nullptr;
@@ -1301,9 +1299,8 @@ void ConsoleSaveFileSplit::Flush(bool autosave, bool updateThumbnail) {
             PlatformStorage.GetSaveUniqueNumber(&saveOrCheckpointId);
 
         // save the data
-        PlatformStorage.SaveSaveData([this](bool bRes) {
-            return SaveSaveDataCallback(this, bRes);
-        });
+        PlatformStorage.SaveSaveData(
+            [this](bool bRes) { return SaveSaveDataCallback(this, bRes); });
 #if !defined(_CONTENT_PACKAGE)
         if (gameServices().debugSettingsOn()) {
             if (gameServices().getWriteSavesToFolderEnabled()) {
@@ -1517,8 +1514,7 @@ void ConsoleSaveFileSplit::ConvertToLocalPlatform() {
             Log::info("Processing a region file: %s\n", fName.c_str());
             ConvertRegionFile(File(fe->data.filename));
         } else {
-            Log::info("%s is not a region file, ignoring\n",
-                            fName.c_str());
+            Log::info("%s is not a region file, ignoring\n", fName.c_str());
         }
     }
 

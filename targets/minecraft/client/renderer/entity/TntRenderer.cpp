@@ -1,9 +1,6 @@
 #include "TntRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
-
-#include "platform/renderer/renderer.h"
 
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/renderer/TileRenderer.h"
@@ -11,6 +8,8 @@
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/item/PrimedTnt.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 TntRenderer::TntRenderer() {
     renderer = new TileRenderer();

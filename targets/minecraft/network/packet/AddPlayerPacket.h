@@ -6,10 +6,10 @@
 #include <string>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "Packet.h"
 #include "minecraft/network/packet/Packet.h"
 #include "minecraft/world/entity/SyncedEntityData.h"
+#include "platform/PlatformTypes.h"
 
 class Player;
 

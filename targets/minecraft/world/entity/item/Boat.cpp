@@ -87,9 +87,10 @@ bool Boat::hurt(DamageSource* source, float hurtDamage) {
     if (dynamic_cast<EntityDamageSource*>(source) != nullptr) {
         std::shared_ptr<Entity> attacker = source->getDirectEntity();
 
-        if (attacker->instanceof(eTYPE_PLAYER) &&
-            !std::dynamic_pointer_cast<Player>(attacker)->isAllowedToHurtEntity(
-                shared_from_this())) {
+        if (attacker->instanceof
+            (eTYPE_PLAYER) &&
+                !std::dynamic_pointer_cast<Player>(attacker)
+                     ->isAllowedToHurtEntity(shared_from_this())) {
             return false;
         }
     }
@@ -111,9 +112,9 @@ bool Boat::hurt(DamageSource* source, float hurtDamage) {
     // Minecarts and boat requires more hits than one to be destroyed in
     // creative mode 4J-PB - Fix for XB1 #175735 - [CRASH] [Multi-Plat]: Code:
     // Gameplay: Placing a boat on harmful surfaces causes the game to crash
-    bool creativePlayer = (source->getEntity() != nullptr) &&
-                          source->getEntity()->instanceof(eTYPE_PLAYER) &&
-                          std::dynamic_pointer_cast<Player>(source->getEntity())
+    bool creativePlayer =
+        (source->getEntity() != nullptr) && source->getEntity()->instanceof
+        (eTYPE_PLAYER) && std::dynamic_pointer_cast<Player>(source->getEntity())
                               ->abilities.instabuild;
 
     if (creativePlayer || getDamage() > 20 * 2) {
@@ -253,8 +254,8 @@ void Boat::tick() {
         yd += 0.007f;
     }
 
-    if (rider.lock() != nullptr &&
-        rider.lock()->instanceof(eTYPE_LIVINGENTITY)) {
+    if (rider.lock() != nullptr && rider.lock()->instanceof
+        (eTYPE_LIVINGENTITY)) {
         std::shared_ptr<LivingEntity> livingRider =
             std::dynamic_pointer_cast<LivingEntity>(rider.lock());
         double forward = livingRider->yya;
@@ -379,8 +380,8 @@ float Boat::getShadowHeightOffs() { return 0; }
 std::string Boat::getName() { return "Boat"; }
 
 bool Boat::interact(std::shared_ptr<Player> player) {
-    if ((rider.lock() != nullptr) && rider.lock()->instanceof(eTYPE_PLAYER) &&
-        (rider.lock() != player))
+    if ((rider.lock() != nullptr) && rider.lock()->instanceof
+        (eTYPE_PLAYER) && (rider.lock() != player))
         return true;
     if (!level->isClientSide) {
         // 4J HEG - Fixed issue with player not being able to dismount boat

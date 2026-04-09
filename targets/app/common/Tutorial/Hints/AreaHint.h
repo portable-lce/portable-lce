@@ -1,7 +1,7 @@
 #pragma once
 
-#include "app/common/Tutorial/TutorialEnum.h"
 #include "TutorialHint.h"
+#include "app/common/Tutorial/TutorialEnum.h"
 #include "minecraft/world/phys/AABB.h"
 
 class AABB;

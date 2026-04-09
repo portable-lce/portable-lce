@@ -49,7 +49,7 @@ bool ItemFrame::shouldRenderAtSqrDistance(double distance) {
 void ItemFrame::dropItem(std::shared_ptr<Entity> causedBy) {
     std::shared_ptr<ItemInstance> item = getItem();
 
-    if (causedBy != nullptr && causedBy->instanceof(eTYPE_PLAYER)) {
+    if (causedBy != nullptr && causedBy->instanceof (eTYPE_PLAYER)) {
         if (std::dynamic_pointer_cast<Player>(causedBy)->abilities.instabuild) {
             removeFramedMap(item);
             return;

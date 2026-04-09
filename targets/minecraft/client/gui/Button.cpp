@@ -1,10 +1,10 @@
 #include "Button.h"
-#include "platform/stubs.h"
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/client/resources/ResourceLocation.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 class Minecraft;
 
 #ifdef ENABLE_JAVA_GUIS

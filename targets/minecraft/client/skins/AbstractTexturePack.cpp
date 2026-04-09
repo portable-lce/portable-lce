@@ -1,25 +1,24 @@
-#include "minecraft/util/Log.h"
-#include "platform/stubs.h"
 #include "AbstractTexturePack.h"
 
-
-#include <cinttypes>
 #include <wchar.h>
 
+#include <cinttypes>
 #include <vector>
 
-#include "minecraft/client/resources/Colours/ColourTable.h"
-#include "minecraft/IGameServices.h"
 #include "app/linux/Linux_UIController.h"
-#include "minecraft/client/BufferedImage.h"
-#include "util/StringHelpers.h"
 #include "java/File.h"
 #include "java/InputOutputStream/BufferedReader.h"
 #include "java/InputOutputStream/FileInputStream.h"
 #include "java/InputOutputStream/InputStream.h"
 #include "java/InputOutputStream/InputStreamReader.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/renderer/Textures.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/skins/TexturePack.h"
+#include "minecraft/util/Log.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 AbstractTexturePack::AbstractTexturePack(std::uint32_t id, File* file,
                                          const std::string& name,
@@ -98,8 +97,7 @@ void AbstractTexturePack::load(Textures* textures) {
     }
 }
 
-bool AbstractTexturePack::hasFile(const std::string& name,
-                                  bool allowFallback) {
+bool AbstractTexturePack::hasFile(const std::string& name, bool allowFallback) {
     bool hasFile = this->hasFile(name);
 
     return !hasFile && (allowFallback && fallback != nullptr)
@@ -139,7 +137,7 @@ std::string AbstractTexturePack::getAnimationString(
         // " + animationDefinitionFile);
 #if !defined(_CONTENT_PACKAGE)
         Log::info("Found animation info for: %s\n",
-                        animationDefinitionFile.c_str());
+                  animationDefinitionFile.c_str());
 #endif
         InputStreamReader isr(fileStream);
         BufferedReader br(&isr);
@@ -165,7 +163,7 @@ BufferedImage* AbstractTexturePack::getImageResource(
     std::string pchTexture = File;
     std::string pchDrive = drive;
     Log::info("AbstractTexturePack::getImageResource - %s, drive is %s\n",
-                    pchTexture.c_str(), pchDrive.c_str());
+              pchTexture.c_str(), pchDrive.c_str());
 
     return new BufferedImage(TexturePack::getResource("/" + File),
                              filenameHasExtension, bTitleUpdateTexture, drive);
@@ -216,7 +214,7 @@ void AbstractTexturePack::unloadUI() {
 
 std::string AbstractTexturePack::getXuiRootPath() {
     // const uintptr_t c_ModuleHandle = (uintptr_t)GetModuleHandle(nullptr);
-    const uintptr_t c_ModuleHandle = 0; // 4jcraft changed
+    const uintptr_t c_ModuleHandle = 0;  // 4jcraft changed
 
     // Load new skin
     constexpr int LOCATOR_SIZE =

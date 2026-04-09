@@ -51,8 +51,7 @@ public:
     virtual bool RemoveLocalPlayerByUserIndex(int userIndex) = 0;
     [[nodiscard]] virtual INetworkPlayer* GetLocalPlayerByUserIndex(
         int userIndex) = 0;
-    [[nodiscard]] virtual INetworkPlayer* GetPlayerByIndex(
-        int playerIndex) = 0;
+    [[nodiscard]] virtual INetworkPlayer* GetPlayerByIndex(int playerIndex) = 0;
     [[nodiscard]] virtual INetworkPlayer* GetPlayerByXuid(PlayerUID xuid) = 0;
     [[nodiscard]] virtual INetworkPlayer* GetPlayerBySmallId(
         unsigned char smallId) = 0;
@@ -89,9 +88,8 @@ public:
 
     // Callbacks
     virtual void RegisterPlayerChangedCallback(
-        int iPad,
-        std::function<void(INetworkPlayer* pPlayer, bool leaving)>
-            callback) = 0;
+        int iPad, std::function<void(INetworkPlayer* pPlayer, bool leaving)>
+                      callback) = 0;
     virtual void UnRegisterPlayerChangedCallback(int iPad) = 0;
 
     virtual void HandleSignInChange() = 0;
@@ -112,7 +110,7 @@ public:
     // System flags
     virtual void SystemFlagSet(INetworkPlayer* pNetworkPlayer, int index) = 0;
     [[nodiscard]] virtual bool SystemFlagGet(INetworkPlayer* pNetworkPlayer,
-                                              int index) = 0;
+                                             int index) = 0;
 
     // Stats
     [[nodiscard]] virtual std::string GatherStats() = 0;
@@ -128,8 +126,7 @@ public:
         int iPad, int localPlayers, bool partyOnly) = 0;
     [[nodiscard]] virtual bool GetGameSessionInfo(
         int iPad, SessionID sessionId, FriendSessionInfo* foundSession) = 0;
-    virtual void SetSessionsUpdatedCallback(
-        std::function<void()> callback) = 0;
+    virtual void SetSessionsUpdatedCallback(std::function<void()> callback) = 0;
     virtual void GetFullFriendSessionInfo(
         FriendSessionInfo* foundSession,
         std::function<void(bool success)> callback) = 0;

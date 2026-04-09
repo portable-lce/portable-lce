@@ -21,8 +21,7 @@ private:
     std::string m_name;
 
 public:
-    ClientSideMerchant(std::shared_ptr<Player> source,
-                       const std::string& name);
+    ClientSideMerchant(std::shared_ptr<Player> source, const std::string& name);
     ~ClientSideMerchant();
 
     void createContainer();  // 4J Added

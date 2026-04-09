@@ -91,9 +91,9 @@ protected:
 
 public:
     int loadSaveDataThumbnailReturned(std::uint8_t* pbThumbnail,
-                                     unsigned int thumbnailBytes);
-    static int DeleteSaveDialogReturned(void* pParam, int iPad,
-                                        IPlatformStorage::EMessageResult result);
+                                      unsigned int thumbnailBytes);
+    static int DeleteSaveDialogReturned(
+        void* pParam, int iPad, IPlatformStorage::EMessageResult result);
     int deleteSaveDataReturned(bool bRes);
 
 protected:

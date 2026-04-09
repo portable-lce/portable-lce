@@ -6,11 +6,11 @@
 #include <cstring>
 #include <functional>
 
+#include "UIEnums.h"
 #include "minecraft/GameHostOptions.h"
 #include "minecraft/XuiActionPayload.h"
 #include "platform/C4JThread.h"
 #include "platform/storage/storage.h"
-#include "UIEnums.h"
 
 class Container;
 class Inventory;
@@ -385,7 +385,7 @@ typedef struct _SignInInfo {
 // Credits
 struct SCreditTextItemDef {
     const char* m_Text;  // Should contain string, optionally with %s to add
-                            // in translated string ... e.g. "Andy West - %s"
+                         // in translated string ... e.g. "Andy West - %s"
     int m_iStringID[2];  // May be NO_TRANSLATED_STRING if we do not require to
                          // add any translated string.
     ECreditTextTypes m_eType;

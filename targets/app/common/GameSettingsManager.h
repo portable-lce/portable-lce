@@ -3,8 +3,8 @@
 #include <cstdint>
 
 #include "app/common/App_structs.h"
-#include "platform/profile/profile.h"
 #include "platform/XboxStubs.h"
+#include "platform/profile/profile.h"
 
 class GameSettingsManager {
 public:
@@ -14,9 +14,9 @@ public:
     static int oldProfileVersionCallback(void* pParam, unsigned char* pucData,
                                          const unsigned short usVersion,
                                          const int iPad);
-    static int defaultOptionsCallback(void* pParam,
-                                      IPlatformProfile::PROFILESETTINGS* pSettings,
-                                      const int iPad);
+    static int defaultOptionsCallback(
+        void* pParam, IPlatformProfile::PROFILESETTINGS* pSettings,
+        const int iPad);
     int setDefaultOptions(IPlatformProfile::PROFILESETTINGS* pSettings,
                           const int iPad);
 
@@ -64,7 +64,8 @@ public:
     static void setActionConfirmed(void* param);
 
     // Saving message
-    int displaySavingMessage(const IPlatformStorage::ESavingMessage eMsg, int iPad);
+    int displaySavingMessage(const IPlatformStorage::ESavingMessage eMsg,
+                             int iPad);
 
     // Game settings array - public, referenced by Game via alias
     GAME_SETTINGS* GameSettingsA[XUSER_MAX_COUNT];

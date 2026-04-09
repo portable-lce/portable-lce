@@ -1,16 +1,14 @@
 #include "ModelPart.h"
-#include "platform/stubs.h"
-
-
 
 #include <numbers>
 
-#include "platform/renderer/renderer.h"
 #include "Cube.h"
 #include "TexOffs.h"
 #include "minecraft/client/MemoryTracker.h"
 #include "minecraft/client/model/geom/Model.h"
 #include "minecraft/client/renderer/Tesselator.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 const float ModelPart::RAD = (180.0f / std::numbers::pi);
 

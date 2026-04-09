@@ -7,8 +7,8 @@
 #include <vector>
 // #include <xtms.h>
 
-#include "PlatformTypes.h"
 #include "../IPlatformStorage.h"
+#include "PlatformTypes.h"
 
 class C4JStringTable;
 
@@ -87,8 +87,7 @@ public:
               const char* szGroupID);
     void ResetSaveData();  // Call before a new save to clear out stored save
                            // file name
-    void SetDefaultSaveNameForKeyboardDisplay(
-        const char* pwchDefaultSaveName);
+    void SetDefaultSaveNameForKeyboardDisplay(const char* pwchDefaultSaveName);
     void SetSaveTitle(const char* pwchDefaultSaveName);
     bool GetSaveUniqueNumber(int* piVal);
     bool GetSaveUniqueFilename(char* pszName);
@@ -145,8 +144,7 @@ public:
         PSAVE_INFO pSaveInfo,
         std::function<int(const bool, const bool)> callback);
     StubStorage::ESaveGameState DeleteSaveData(
-        PSAVE_INFO pSaveInfo,
-        std::function<int(const bool)> callback);
+        PSAVE_INFO pSaveInfo, std::function<int(const bool)> callback);
 
     // DLC
     void RegisterMarketplaceCountsCallback(
@@ -194,8 +192,9 @@ public:
 #ifdef _XBOX
     StubStorage::ETMSStatus WriteTMSFile(
         int iPad, StubStorage::eGlobalStorage eStorageFacility,
-        StubStorage::eTMS_FileType eFileType, char* pchFilePath, char* pchBuffer,
-        unsigned int bufferSize, TMSCLIENT_CALLBACK Func, void* lpParam);
+        StubStorage::eTMS_FileType eFileType, char* pchFilePath,
+        char* pchBuffer, unsigned int bufferSize, TMSCLIENT_CALLBACK Func,
+        void* lpParam);
     int GetUserQuotaInfo(int iPad, TMSCLIENT_CALLBACK Func, void* lpParam);
 #endif
 

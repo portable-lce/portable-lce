@@ -4,9 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "minecraft/GameTypes.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "minecraft/network/platform/SessionInfo.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_ButtonList.h"
@@ -16,6 +14,8 @@
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/GameEnums.h"
+#include "minecraft/GameTypes.h"
+#include "minecraft/network/platform/SessionInfo.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/world/Difficulty.h"
 #include "minecraft/world/level/LevelSettings.h"

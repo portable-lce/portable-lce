@@ -4,17 +4,17 @@
 
 #include <memory>
 
-#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceBlock.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/AddItemRuleDefinition.h"
 #include "app/linux/LinuxGame.h"
-#include "util/StringHelpers.h"
 #include "minecraft/world/Container.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/levelgen/structure/BoundingBox.h"
 #include "minecraft/world/level/levelgen/structure/StructurePiece.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
+#include "util/StringHelpers.h"
 
 XboxStructureActionPlaceContainer::XboxStructureActionPlaceContainer() {
     m_tile = Tile::chest_Id;

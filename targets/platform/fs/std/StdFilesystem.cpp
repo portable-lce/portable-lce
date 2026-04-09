@@ -11,10 +11,10 @@ IPlatformFilesystem& PlatformFilesystem_get() {
     static StdFilesystem instance;
     return instance;
 }
-}
+}  // namespace platform_internal
 
-IPlatformFilesystem::ReadResult StdFilesystem::readFile(const std::filesystem::path& path,
-                                   void* buffer, std::size_t capacity) {
+IPlatformFilesystem::ReadResult StdFilesystem::readFile(
+    const std::filesystem::path& path, void* buffer, std::size_t capacity) {
     std::error_code ec;
     auto size = std::filesystem::file_size(path, ec);
     if (ec) return {ReadStatus::NotFound, 0, 0};
@@ -29,9 +29,9 @@ IPlatformFilesystem::ReadResult StdFilesystem::readFile(const std::filesystem::p
             static_cast<std::size_t>(size)};
 }
 
-IPlatformFilesystem::ReadResult StdFilesystem::readFileSegment(const std::filesystem::path& path,
-                                          std::size_t offset, void* buffer,
-                                          std::size_t bytesToRead) {
+IPlatformFilesystem::ReadResult StdFilesystem::readFileSegment(
+    const std::filesystem::path& path, std::size_t offset, void* buffer,
+    std::size_t bytesToRead) {
     std::error_code ec;
     auto size = std::filesystem::file_size(path, ec);
     if (ec) return {ReadStatus::NotFound, 0, 0};

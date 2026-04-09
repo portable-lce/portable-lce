@@ -211,6 +211,6 @@ bool Particle::isAttackable() { return false; }
 //@Override
 std::string Particle::toString() {
     return "A particle";  // getClass()->getSimpleName() + ", Pos (" + x + ","
-                           // + y + "," + z + "), RGBA (" + rCol + "," + gCol +
-                           // "," + bCol + "," + alpha + "), Age " + age;
+                          // + y + "," + z + "), RGBA (" + rCol + "," + gCol +
+                          // "," + bCol + "," + alpha + "), Age " + age;
 }

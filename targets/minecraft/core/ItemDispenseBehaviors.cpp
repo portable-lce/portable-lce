@@ -1,12 +1,12 @@
-#include "minecraft/IGameServices.h"
 #include "ItemDispenseBehaviors.h"
 
 #include <memory>
 #include <string>
 
-#include "minecraft/GameEnums.h"
 #include "java/Class.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/core/AbstractProjectileDispenseBehavior.h"
 #include "minecraft/core/BlockSource.h"
 #include "minecraft/core/DefaultDispenseItemBehavior.h"
@@ -135,7 +135,7 @@ std::shared_ptr<ItemInstance> SpawnEggDispenseBehavior::execute(
         return dispensed;
     }
 
-    if (entity->instanceof(eTYPE_MOB) && dispensed->hasCustomHoverName()) {
+    if (entity->instanceof (eTYPE_MOB) && dispensed->hasCustomHoverName()) {
         std::dynamic_pointer_cast<Mob>(entity)->setCustomName(
             dispensed->getHoverName());
     }

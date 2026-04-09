@@ -1,14 +1,12 @@
 #include "UIControl_MinecraftPlayer.h"
 
-
-
 #include <cmath>
 #include <memory>
 
-#include "platform/renderer/renderer.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_InventoryMenu.h"
 #include "app/linux/Iggy/include/iggy.h"
+#include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif

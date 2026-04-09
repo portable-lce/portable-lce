@@ -1,12 +1,12 @@
-#include "minecraft/IGameServices.h"
 #include "TntTile.h"
 
 #include <string>
 
-#include "minecraft/GameEnums.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "minecraft/Facing.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/entity/Entity.h"
@@ -116,8 +116,8 @@ void TntTile::entityInside(Level* level, int x, int y, int z,
         if (entity->isOnFire()) {
             std::shared_ptr<Arrow> arrow =
                 std::dynamic_pointer_cast<Arrow>(entity);
-            destroy(level, x, y, z, EXPLODE_BIT,
-                    arrow->owner->instanceof(eTYPE_LIVINGENTITY)
+            destroy(level, x, y, z, EXPLODE_BIT, arrow->owner->instanceof
+                    (eTYPE_LIVINGENTITY)
                         ? std::dynamic_pointer_cast<LivingEntity>(arrow->owner)
                         : nullptr);
             level->removeTile(x, y, z);

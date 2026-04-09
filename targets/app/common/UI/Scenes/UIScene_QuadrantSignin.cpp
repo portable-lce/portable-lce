@@ -3,15 +3,15 @@
 
 #include <wchar.h>
 
-#include "platform/PlatformTypes.h"
-#include "platform/input/input.h"
-#include "platform/profile/profile.h"
 #include "app/common/UI/Controls/UIControl_BitmapIcon.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "platform/PlatformTypes.h"
+#include "platform/input/input.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 UIScene_QuadrantSignin::UIScene_QuadrantSignin(int iPad, void* _initData,
@@ -35,9 +35,7 @@ UIScene_QuadrantSignin::~UIScene_QuadrantSignin() {
     m_parentLayer->removeComponent(eUIComponent_MenuBackground);
 }
 
-std::string UIScene_QuadrantSignin::getMoviePath() {
-    return "QuadrantSignin";
-}
+std::string UIScene_QuadrantSignin::getMoviePath() { return "QuadrantSignin"; }
 
 void UIScene_QuadrantSignin::updateTooltips() {
     ui.SetTooltips(m_iPad, IDS_TOOLTIPS_CONTINUE, IDS_TOOLTIPS_CANCEL);
@@ -140,9 +138,7 @@ void UIScene_QuadrantSignin::updateState() {
             // app.DebugPrintf("Index %d is signed in, display name - '%s'\n",
             // i, PlatformProfile.GetDisplayName(i).data());
 
-            {
-                setControllerState(i, eControllerStatus_PlayerDetails);
-            }
+            { setControllerState(i, eControllerStatus_PlayerDetails); }
 
             m_labelDisplayName[i].setLabel(PlatformProfile.GetDisplayName(i));
             // m_buttonControllers[i].setLabel(app.GetString(IDS_TOOLTIPS_CONTINUE),i);
@@ -150,8 +146,7 @@ void UIScene_QuadrantSignin::updateState() {
             if (!m_iconRequested[i]) {
                 app.DebugPrintf(app.USER_SR, "Requesting avatar for %d\n", i);
                 if (PlatformProfile.GetProfileAvatar(
-                        i,
-                        [this](std::uint8_t* data, unsigned int bytes) {
+                        i, [this](std::uint8_t* data, unsigned int bytes) {
                             return AvatarReturned(this, data, bytes);
                         })) {
                     m_iconRequested[i] = true;
@@ -228,9 +223,7 @@ void UIScene_QuadrantSignin::_initQuadrants() {
         if (PlatformProfile.IsSignedIn(i)) {
             app.DebugPrintf("Index %d is signed in\n", i);
 
-            {
-                setControllerState(i, eControllerStatus_PlayerDetails);
-            }
+            { setControllerState(i, eControllerStatus_PlayerDetails); }
 
             m_labelDisplayName[i].init(PlatformProfile.GetDisplayName(i));
         } else if (PlatformInput.IsPadConnected(i)) {

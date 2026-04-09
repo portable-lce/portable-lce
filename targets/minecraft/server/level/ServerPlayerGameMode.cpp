@@ -1,11 +1,10 @@
-#include "minecraft/IGameServices.h"
 #include "ServerPlayerGameMode.h"
 
 #include <vector>
 
-#include "minecraft/world/level/GameRules/GameRulesInstance.h"
 #include "ServerLevel.h"
 #include "ServerPlayer.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLevel.h"
 #include "minecraft/client/renderer/LevelRenderer.h"
@@ -16,6 +15,7 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/item/WeaponItem.h"
+#include "minecraft/world/level/GameRules/GameRulesInstance.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LevelSettings.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"

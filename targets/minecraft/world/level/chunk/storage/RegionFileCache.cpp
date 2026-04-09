@@ -2,11 +2,11 @@
 
 #include <utility>
 
-#include "util/StringHelpers.h"
 #include "java/File.h"
 #include "minecraft/world/level/chunk/storage/RegionFile.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFile.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
+#include "util/StringHelpers.h"
 
 class DataInputStream;
 class DataOutputStream;
@@ -37,11 +37,11 @@ RegionFile* RegionFileCache::_getRegionFile(
     // toWString(chunkZ>>5) + ".mcr" );
     File file;
     if (useSplitSaves(saveFile->getSavePlatform())) {
-        file = File(prefix + std::string("r.") + toWString(chunkX >> 4) +
-                    "." + toWString(chunkZ >> 4) + ".mcr");
+        file = File(prefix + std::string("r.") + toWString(chunkX >> 4) + "." +
+                    toWString(chunkZ >> 4) + ".mcr");
     } else {
-        file = File(prefix + std::string("r.") + toWString(chunkX >> 5) +
-                    "." + toWString(chunkZ >> 5) + ".mcr");
+        file = File(prefix + std::string("r.") + toWString(chunkX >> 5) + "." +
+                    toWString(chunkZ >> 5) + ".mcr");
     }
 
     RegionFile* ref = nullptr;

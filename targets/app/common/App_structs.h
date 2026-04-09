@@ -2,16 +2,15 @@
 
 #include <cstdint>
 
-#include "platform/storage/storage.h"
-#include "minecraft/GameTypes.h"
-#include "platform/profile/ProfileConstants.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/GameTypes.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
-#include "platform/NetTypes.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/client/model/SkinBox.h"
+#include "platform/NetTypes.h"
 #include "platform/XboxStubs.h"
+#include "platform/profile/ProfileConstants.h"
+#include "platform/storage/storage.h"
 
 typedef struct {
     char* wchFilename;

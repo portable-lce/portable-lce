@@ -38,8 +38,8 @@
 
 // We temporarily disable this warning for the shared interface portions
 #pragma warning(push)
-#pragma warning(disable \
-                : 4201)  // nonstandard extension used : nameless struct/union
+#pragma warning( \
+    disable : 4201)  // nonstandard extension used : nameless struct/union
 
 #include <d3d11.h>
 #include <math.h>

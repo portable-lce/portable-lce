@@ -13,8 +13,6 @@
 #include "minecraft/network/packet/ChatPacket.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/inventory/net.minecraft.world.inventory.ContainerListener.h"
-
-
 #include "minecraft/world/level/ChunkPos.h"
 
 class PlayerConnection;
@@ -64,8 +62,8 @@ private:
     int lastBrupSendTickCount;  // 4J Added
 
 public:
-    ServerPlayer(MinecraftServer* server, Level* level,
-                 const std::string& name, ServerPlayerGameMode* gameMode);
+    ServerPlayer(MinecraftServer* server, Level* level, const std::string& name,
+                 ServerPlayerGameMode* gameMode);
     ~ServerPlayer();
     void flagEntitiesToBeRemoved(unsigned int* flags,
                                  bool* removedFound);  // 4J added
@@ -131,7 +129,7 @@ public:
     virtual bool openFireworks(int x, int y, int z);  // 4J added
     virtual bool startEnchanting(
         int x, int y, int z, const std::string& name);  // 4J added bool return
-    virtual bool startRepairing(int x, int y, int z);    // 4J added bool return
+    virtual bool startRepairing(int x, int y, int z);   // 4J added bool return
     virtual bool openContainer(
         std::shared_ptr<Container> container);  // 4J added bool return
     virtual bool openHopper(std::shared_ptr<HopperTileEntity> container);

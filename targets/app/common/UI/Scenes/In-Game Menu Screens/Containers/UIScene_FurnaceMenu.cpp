@@ -3,7 +3,6 @@
 
 #include <assert.h>
 
-#include "platform/profile/profile.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
@@ -15,6 +14,7 @@
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/world/inventory/FurnaceMenu.h"
 #include "minecraft/world/level/tile/entity/FurnaceTileEntity.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 class UILayer;

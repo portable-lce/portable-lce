@@ -6,8 +6,8 @@
 
 #include "app/common/App_structs.h"
 #include "minecraft/XuiActionPayload.h"
-#include "platform/storage/storage.h"
 #include "platform/XboxStubs.h"
+#include "platform/storage/storage.h"
 
 class Player;
 class Inventory;
@@ -49,8 +49,8 @@ public:
     bool loadCrafting2x2Menu(int iPad, std::shared_ptr<LocalPlayer> player);
     bool loadCrafting3x3Menu(int iPad, std::shared_ptr<LocalPlayer> player,
                              int x, int y, int z);
-    bool loadFireworksMenu(int iPad, std::shared_ptr<LocalPlayer> player,
-                           int x, int y, int z);
+    bool loadFireworksMenu(int iPad, std::shared_ptr<LocalPlayer> player, int x,
+                           int y, int z);
     bool loadSignEntryMenu(int iPad, std::shared_ptr<SignTileEntity> sign);
     bool loadRepairingMenu(int iPad, std::shared_ptr<Inventory> inventory,
                            Level* level, int x, int y, int z);
@@ -97,18 +97,18 @@ public:
     eTMSAction getTMSAction(int iPad) { return m_eTMSAction[iPad]; }
 
     // Dialog callbacks
-    static int texturePackDialogReturned(void* pParam, int iPad,
-                                         IPlatformStorage::EMessageResult result);
-    static int fatalErrorDialogReturned(void* pParam, int iPad,
-                                        IPlatformStorage::EMessageResult result);
+    static int texturePackDialogReturned(
+        void* pParam, int iPad, IPlatformStorage::EMessageResult result);
+    static int fatalErrorDialogReturned(
+        void* pParam, int iPad, IPlatformStorage::EMessageResult result);
     static int trialOverReturned(void* pParam, int iPad,
                                  IPlatformStorage::EMessageResult result);
     static int unlockFullExitReturned(void* pParam, int iPad,
                                       IPlatformStorage::EMessageResult result);
     static int unlockFullSaveReturned(void* pParam, int iPad,
                                       IPlatformStorage::EMessageResult result);
-    static int unlockFullInviteReturned(void* pParam, int iPad,
-                                        IPlatformStorage::EMessageResult result);
+    static int unlockFullInviteReturned(
+        void* pParam, int iPad, IPlatformStorage::EMessageResult result);
 
     // Remote save
     static int remoteSaveThreadProc(void* lpParameter);

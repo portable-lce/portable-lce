@@ -110,7 +110,7 @@ int VillagerGolem::decreaseAirSupply(int currentSupply) {
 }
 
 void VillagerGolem::doPush(std::shared_ptr<Entity> e) {
-    if (e->instanceof(eTYPE_ENEMY)) {
+    if (e->instanceof (eTYPE_ENEMY)) {
         if (getRandom()->nextInt(20) == 0) {
             setTarget(std::dynamic_pointer_cast<LivingEntity>(e));
         }
@@ -239,7 +239,7 @@ bool VillagerGolem::hurt(DamageSource* source, float dmg) {
     // 4J: Protect owned golem from untrusted players
     if (isPlayerCreated()) {
         std::shared_ptr<Entity> entity = source->getDirectEntity();
-        if (entity != nullptr && entity->instanceof(eTYPE_PLAYER)) {
+        if (entity != nullptr && entity->instanceof (eTYPE_PLAYER)) {
             std::shared_ptr<Player> player =
                 std::dynamic_pointer_cast<Player>(entity);
             if (!player->isAllowedToAttackPlayers()) return false;

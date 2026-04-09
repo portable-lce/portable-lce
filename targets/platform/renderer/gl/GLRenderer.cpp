@@ -1,16 +1,15 @@
 #include "GLRenderer.h"
 
-#include "renderer/renderer.h"
 #include "PlatformTypes.h"
 #include "SDL.h"
 #include "SDL_error.h"
 #include "SDL_events.h"
 #include "SDL_stdinc.h"
 #include "SDL_video.h"
-
 #include "java/ByteBuffer.h"
 #include "java/FloatBuffer.h"
 #include "java/IntBuffer.h"
+#include "renderer/renderer.h"
 
 // undefine macros from header to avoid argument mismatch
 #undef glGenTextures
@@ -60,7 +59,7 @@ IPlatformRenderer& PlatformRenderer_get() {
     static GLRenderer instance;
     return instance;
 }
-}
+}  // namespace platform_internal
 
 // MARK: Shaders
 
@@ -389,8 +388,8 @@ static void glShadowSetDepthTest(bool e) {
 }
 
 static void glShadowSetBlendFunc(GLint s, GLint d) {
-    if (!(s_gl_shadow_mask & SHADOW_BLEND_FUNC) ||
-        s_gl_state.blendSrc != s || s_gl_state.blendDst != d) {
+    if (!(s_gl_shadow_mask & SHADOW_BLEND_FUNC) || s_gl_state.blendSrc != s ||
+        s_gl_state.blendDst != d) {
         ::glBlendFunc(s, d);
         s_gl_state.blendSrc = s;
         s_gl_state.blendDst = d;
@@ -399,8 +398,7 @@ static void glShadowSetBlendFunc(GLint s, GLint d) {
 }
 
 static void glShadowSetDepthMask(GLboolean e) {
-    if (!(s_gl_shadow_mask & SHADOW_DEPTH_MASK) ||
-        s_gl_state.depthMask != e) {
+    if (!(s_gl_shadow_mask & SHADOW_DEPTH_MASK) || s_gl_state.depthMask != e) {
         ::glDepthMask(e);
         s_gl_state.depthMask = e;
         s_gl_shadow_mask |= SHADOW_DEPTH_MASK;
@@ -511,8 +509,7 @@ static void pushRenderState() {
             glUniform1f(s_shader.uFogStart, s_rs.fogStart);
             glUniform1f(s_shader.uFogEnd, s_rs.fogEnd);
             glUniform1f(s_shader.uFogDensity, s_rs.fogDensity);
-            glUniform4fv(s_shader.uFogColor, 1,
-                         glm::value_ptr(s_rs.fogColor));
+            glUniform4fv(s_shader.uFogColor, 1, glm::value_ptr(s_rs.fogColor));
             glUniform1i(s_shader.uFogEnable, s_rs.fogEnable ? 1 : 0);
         }
         if (s_rs_dirty_mask & DIRTY_TEXTURE) {
@@ -524,11 +521,9 @@ static void pushRenderState() {
         if (s_rs_dirty_mask & DIRTY_GAMMA)
             glUniform1f(s_shader.uInvGamma, 1.0f / s_rs.gamma);
         if (s_rs_dirty_mask & DIRTY_LMT)
-            glUniform4fv(s_shader.uLMTransform, 1,
-                         glm::value_ptr(s_rs.lmt));
+            glUniform4fv(s_shader.uLMTransform, 1, glm::value_ptr(s_rs.lmt));
         if (s_rs_dirty_mask & DIRTY_GLOBAL_LM)
-            glUniform2fv(s_shader.uGlobalLM, 1,
-                         glm::value_ptr(s_rs.globalLM));
+            glUniform2fv(s_shader.uGlobalLM, 1, glm::value_ptr(s_rs.globalLM));
         s_rs_dirty_mask = 0;
     }
     flushMatrices();
@@ -817,7 +812,7 @@ void GLRenderer::Shutdown() {
 }
 
 void GLRenderer::DrawVertices(ePrimitiveType ptype, int count, void* dataIn,
-                             eVertexType vType, ePixelShaderType) {
+                              eVertexType vType, ePixelShaderType) {
     if (count <= 0 || !dataIn) return;
 
     bool wasQuad = isQuadPrim((int)ptype);
@@ -1081,7 +1076,7 @@ void GLRenderer::MatrixPerspective(float fovy, float asp, float zn, float zf) {
     markMatrixDirty();
 }
 void GLRenderer::MatrixOrthogonal(float l, float r, float b, float t, float zn,
-                                 float zf) {
+                                  float zf) {
     s_proj.cur() = glm::ortho(l, r, b, t, zn, zf);
     markMatrixDirty();
 }
@@ -1104,7 +1099,7 @@ void GLRenderer::Set_matrixDirty() {
     s_boundProgram = 0;
     s_rs_dirty_mask = 0xFFFFFFFF;
     s_gl_shadow_mask = 0;
-    s_normalMatDirty = true; // normal matrix dirt after iggy reset
+    s_normalMatDirty = true;  // normal matrix dirt after iggy reset
     s_matDirty = true;
     s_chunkOffsetValid = false;
     if (s_shader.prog) {
@@ -1141,9 +1136,7 @@ void GLRenderer::StateSetDepthMask(bool e) {
     glShadowSetDepthMask(e ? GL_TRUE : GL_FALSE);
 }
 void GLRenderer::StateSetBlendEnable(bool e) { glShadowSetBlend(e); }
-void GLRenderer::StateSetBlendFunc(int s, int d) {
-    glShadowSetBlendFunc(s, d);
-}
+void GLRenderer::StateSetBlendFunc(int s, int d) { glShadowSetBlendFunc(s, d); }
 void GLRenderer::StateSetDepthFunc(int f) { ::glDepthFunc(f); }
 void GLRenderer::StateSetFaceCull(bool e) { glShadowSetCull(e); }
 void GLRenderer::StateSetFaceCullCW(bool e) {
@@ -1190,7 +1183,10 @@ void GLRenderer::StateSetFogEnable(bool e) {
     }
 }
 void GLRenderer::StateSetFogMode(int mode) {
-    int v = (mode == GL_LINEAR) ? 1 : (mode == GL_EXP) ? 2 : (mode == 0x0801) ? 3 : 0;
+    int v = (mode == GL_LINEAR) ? 1
+            : (mode == GL_EXP)  ? 2
+            : (mode == 0x0801)  ? 3
+                                : 0;
     if (s_rs.fogMode != v) {
         s_rs.fogMode = v;
         markDirty(DIRTY_FOG);
@@ -1266,7 +1262,7 @@ void GLRenderer::StateSetVertexTextureUV(float u, float v) {
     }
 }
 void GLRenderer::StateSetStencil(int fn, uint8_t ref, uint8_t fmask,
-                                uint8_t wmask) {
+                                 uint8_t wmask) {
     glShadowSetStencil(fn, ref, fmask, wmask);
 }
 void GLRenderer::StateSetTextureEnable(bool e) {
@@ -1312,9 +1308,9 @@ void GLRenderer::TextureBindVertex(int idx, bool scaleLight) {
         s_rs.useLightmap = true;
         markDirty(DIRTY_TEXTURE);
     }
-    glm::vec4 newLmt =
-        scaleLight ? glm::vec4{1.f, 1.f, 8.f / 256.f, 8.f / 256.f}
-                   : glm::vec4{1.f, 1.f, 0.f, 0.f};
+    glm::vec4 newLmt = scaleLight
+                           ? glm::vec4{1.f, 1.f, 8.f / 256.f, 8.f / 256.f}
+                           : glm::vec4{1.f, 1.f, 0.f, 0.f};
     if (s_rs.lmt != newLmt) {
         s_rs.lmt = newLmt;
         markDirty(DIRTY_LMT);
@@ -1341,7 +1337,7 @@ void GLRenderer::TextureData(int w, int h, void* d, int lvl, eTextureFormat) {
     }
 }
 void GLRenderer::TextureDataUpdate(int xo, int yo, int w, int h, void* d,
-                                  int lvl) {
+                                   int lvl) {
     glTexSubImage2D(GL_TEXTURE_2D, lvl, xo, yo, w, h, GL_RGBA, GL_UNSIGNED_BYTE,
                     d);
 }
@@ -1373,7 +1369,7 @@ int GLRenderer::LoadTextureData(const char* fn, D3DXIMAGE_INFO* i, int** o) {
     return hr;
 }
 int GLRenderer::LoadTextureData(uint8_t* pb, uint32_t nb, D3DXIMAGE_INFO* i,
-                               int** o) {
+                                int** o) {
     int w, h, c;
     unsigned char* d = stbi_load_from_memory(pb, (int)nb, &w, &h, &c, 4);
     if (!d) return -1;  // Failure
@@ -1462,19 +1458,19 @@ void glFogfv(GLenum pname, const GLfloat* params) {
 }
 void glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
     if (pname == 0x1203)
-        PlatformRenderer.StateSetLightDirection(light == 0x4000 ? 0 : 1, params[0],
-                                             params[1], params[2]);
+        PlatformRenderer.StateSetLightDirection(
+            light == 0x4000 ? 0 : 1, params[0], params[1], params[2]);
     else if (pname == 0x1200)
         PlatformRenderer.StateSetLightAmbientColour(params[0], params[1],
-                                                 params[2]);
+                                                    params[2]);
     else if (pname == 0x1201)
         PlatformRenderer.StateSetLightColour(light == 0x4000 ? 0 : 1, params[0],
-                                          params[1], params[2]);
+                                             params[1], params[2]);
 }
 void glLightModelfv(GLenum pname, const GLfloat* params) {
     if (pname == 0x0B53)
         PlatformRenderer.StateSetLightAmbientColour(params[0], params[1],
-                                                 params[2]);
+                                                    params[2]);
 }
 void glShadeModel(GLenum) {}
 void glColorMaterial(GLenum, GLenum) {}
@@ -1528,7 +1524,7 @@ void glTexImage2D_4J(int target, int level, int internalformat, int width,
     (void)format;
     (void)type;
     PlatformRenderer.TextureData(width, height, getBytePtr(pixels), level,
-                              IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw);
+                                 IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw);
 }
 
 void glLight_4J(int light, int pname, FloatBuffer* params) {

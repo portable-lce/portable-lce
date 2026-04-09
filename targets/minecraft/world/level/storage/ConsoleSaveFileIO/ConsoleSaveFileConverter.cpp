@@ -116,7 +116,7 @@ void ConsoleSaveFileConverter::ConvertSave(ConsoleSaveFile* sourceSave,
                 FileEntry* targetFe =
                     targetSave->createFile(targetPlayerDatPath);
                 printf("Processing player dat file %s\n",
-                        playerFiles->at(fileIdx)->data.filename);
+                       playerFiles->at(fileIdx)->data.filename);
                 ProcessSimpleFile(sourceSave, sourceFe, targetSave, targetFe);
 
                 targetFe->data.lastModifiedTime =
@@ -169,8 +169,8 @@ void ConsoleSaveFileConverter::ConvertSave(ConsoleSaveFile* sourceSave,
                 if (dis) {
                     int read = dis->read();
                     DataOutputStream* dos =
-                        targetCache._getChunkDataOutputStream(targetSave, "",
-                                                              x, z);
+                        targetCache._getChunkDataOutputStream(targetSave, "", x,
+                                                              z);
                     BufferedOutputStream bos(dos, 1024 * 1024);
                     while (read != -1) {
                         bos.write(read & 0xff);
@@ -303,7 +303,7 @@ void ConsoleSaveFileConverter::ConvertSave(ConsoleSaveFile* sourceSave,
             } else {
 #if !defined(_CONTENT_PACKAGE)
                 printf("%s is not a region file, ignoring\n",
-                        fe->data.filename);
+                       fe->data.filename);
 #endif
             }
         }

@@ -38,9 +38,7 @@ CompoundTag* DerivedLevelData::getLoadedPlayerTag() {
     return wrapped->getLoadedPlayerTag();
 }
 
-std::string DerivedLevelData::getLevelName() {
-    return wrapped->getLevelName();
-}
+std::string DerivedLevelData::getLevelName() { return wrapped->getLevelName(); }
 
 int DerivedLevelData::getVersion() { return wrapped->getVersion(); }
 

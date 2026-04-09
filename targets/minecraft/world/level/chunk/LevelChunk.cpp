@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "LevelChunk.h"
 
 #include <string.h>
@@ -9,15 +8,16 @@
 #include <string>
 #include <utility>
 
-#include "minecraft/network/INetworkService.h"
 #include "SparseLightStorage.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "java/System.h"
 #include "minecraft/client/renderer/GameRenderer.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/level/ServerChunkCache.h"
 #include "minecraft/server/level/ServerLevel.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/EntityIO.h"
@@ -1332,7 +1332,7 @@ void LevelChunk::removeTileEntity(int x, int y, int z) {
                 if (te != nullptr) {
                     if (level->isClientSide) {
                         Log::info("Removing tile entity of type %d\n",
-                                        te->GetType());
+                                  te->GetType());
                     }
                     te->setRemoved();
                 }
@@ -1578,21 +1578,21 @@ void LevelChunk::getEntitiesOfClass(const std::type_info& ec, AABB* bb,
                 // that our class may be derived from, otherwise do a direct
                 // comparison of type_info
                 if (ec == typeid(Player))
-                    isAssignableFrom = e->instanceof(eTYPE_PLAYER);
+                    isAssignableFrom = e->instanceof (eTYPE_PLAYER);
                 else if (ec == typeid(Entity))
-                    isAssignableFrom = e->instanceof(eTYPE_ENTITY);
+                    isAssignableFrom = e->instanceof (eTYPE_ENTITY);
                 else if (ec == typeid(Mob))
-                    isAssignableFrom = e->instanceof(eTYPE_MOB);
+                    isAssignableFrom = e->instanceof (eTYPE_MOB);
                 else if (ec == typeid(LivingEntity))
-                    isAssignableFrom = e->instanceof(eTYPE_LIVINGENTITY);
+                    isAssignableFrom = e->instanceof (eTYPE_LIVINGENTITY);
                 else if (ec == typeid(ItemEntity))
-                    isAssignableFrom = e->instanceof(eTYPE_ITEMENTITY);
+                    isAssignableFrom = e->instanceof (eTYPE_ITEMENTITY);
                 else if (ec == typeid(Minecart))
-                    isAssignableFrom = e->instanceof(eTYPE_MINECART);
+                    isAssignableFrom = e->instanceof (eTYPE_MINECART);
                 else if (ec == typeid(Monster))
-                    isAssignableFrom = e->instanceof(eTYPE_MONSTER);
+                    isAssignableFrom = e->instanceof (eTYPE_MONSTER);
                 else if (ec == typeid(Zombie))
-                    isAssignableFrom = e->instanceof(eTYPE_ZOMBIE);
+                    isAssignableFrom = e->instanceof (eTYPE_ZOMBIE);
                 else if (Entity* entity = e.get();
                          entity != nullptr && ec == typeid(*entity))
                     isAssignableFrom = true;

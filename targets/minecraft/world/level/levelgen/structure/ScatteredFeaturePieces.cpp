@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "ScatteredFeaturePieces.h"
 
 #include <algorithm>
@@ -6,15 +5,16 @@
 #include <string>
 #include <vector>
 
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
 #include "minecraft/Facing.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/util/WeighedTreasure.h"
 #include "minecraft/world/entity/monster/Witch.h"
 #include "minecraft/world/item/DyePowderItem.h"
 #include "minecraft/world/item/EnchantedBookItem.h"
 #include "minecraft/world/item/Item.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/level/levelgen/structure/BoundingBox.h"
@@ -60,7 +60,8 @@ ScatteredFeaturePieces::ScatteredFeaturePiece::ScatteredFeaturePiece(
 
     orientation = random->nextInt(4);
 
-    LevelGenerationOptions* levelGenOptions = gameServices().getLevelGenerationOptions();
+    LevelGenerationOptions* levelGenOptions =
+        gameServices().getLevelGenerationOptions();
     if (levelGenOptions != nullptr) {
         int tempOrientation = 0;
         if (levelGenOptions->isFeatureChunk(west >> 4, north >> 4,

@@ -1,9 +1,7 @@
 #include "TileEntityRenderDispatcher.h"
-#include "platform/stubs.h"
 
 #include <utility>
 
-#include "platform/renderer/renderer.h"
 #include "BeaconRenderer.h"
 #include "ChestRenderer.h"
 #include "EnchantTableRenderer.h"
@@ -14,11 +12,12 @@
 #include "SkullTileRenderer.h"
 #include "TheEndPortalRenderer.h"
 #include "TileEntityRenderer.h"
-
 #include "minecraft/SharedConstants.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 class Font;
 class Textures;

@@ -1,5 +1,10 @@
 #include "app/common/MenuController.h"
 
+#include <chrono>
+#include <cstring>
+#include <sstream>
+#include <thread>
+
 #include "app/common/Game.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
@@ -8,23 +13,18 @@
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
-#include "minecraft/client/renderer/GameRenderer.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
+#include "minecraft/client/renderer/GameRenderer.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/world/Container.h"
 #include "minecraft/world/entity/item/MinecartHopper.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/item/crafting/Recipy.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/HopperTileEntity.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "platform/profile/profile.h"
 #include "platform/storage/storage.h"
-
-#include <cstring>
-#include <sstream>
-#include <chrono>
-#include <thread>
 
 unsigned char MenuController::m_szPNG[8] = {137, 80, 78, 71, 13, 10, 26, 10};
 
@@ -273,9 +273,9 @@ bool MenuController::loadContainerMenu(int iPad,
     return success;
 }
 
-bool MenuController::loadTrapMenu(
-    int iPad, std::shared_ptr<Container> inventory,
-    std::shared_ptr<DispenserTileEntity> trap) {
+bool MenuController::loadTrapMenu(int iPad,
+                                  std::shared_ptr<Container> inventory,
+                                  std::shared_ptr<DispenserTileEntity> trap) {
     bool success = true;
 
     TrapScreenInput* initData = new TrapScreenInput();
@@ -294,8 +294,8 @@ bool MenuController::loadTrapMenu(
     return success;
 }
 
-bool MenuController::loadSignEntryMenu(
-    int iPad, std::shared_ptr<SignTileEntity> sign) {
+bool MenuController::loadSignEntryMenu(int iPad,
+                                       std::shared_ptr<SignTileEntity> sign) {
     bool success = true;
 
     SignEntryScreenInput* initData = new SignEntryScreenInput();
@@ -352,9 +352,9 @@ bool MenuController::loadTradingMenu(int iPad,
     return success;
 }
 
-bool MenuController::loadHopperMenu(
-    int iPad, std::shared_ptr<Inventory> inventory,
-    std::shared_ptr<HopperTileEntity> hopper) {
+bool MenuController::loadHopperMenu(int iPad,
+                                    std::shared_ptr<Inventory> inventory,
+                                    std::shared_ptr<HopperTileEntity> hopper) {
     bool success = true;
 
     HopperScreenInput* initData = new HopperScreenInput();
@@ -371,9 +371,9 @@ bool MenuController::loadHopperMenu(
     return success;
 }
 
-bool MenuController::loadHopperMenu(
-    int iPad, std::shared_ptr<Inventory> inventory,
-    std::shared_ptr<MinecartHopper> hopper) {
+bool MenuController::loadHopperMenu(int iPad,
+                                    std::shared_ptr<Inventory> inventory,
+                                    std::shared_ptr<MinecartHopper> hopper) {
     bool success = true;
 
     HopperScreenInput* initData = new HopperScreenInput();
@@ -411,9 +411,9 @@ bool MenuController::loadHorseMenu(int iPad,
     return success;
 }
 
-bool MenuController::loadBeaconMenu(
-    int iPad, std::shared_ptr<Inventory> inventory,
-    std::shared_ptr<BeaconTileEntity> beacon) {
+bool MenuController::loadBeaconMenu(int iPad,
+                                    std::shared_ptr<Inventory> inventory,
+                                    std::shared_ptr<BeaconTileEntity> beacon) {
     bool success = true;
 
     BeaconScreenInput* initData = new BeaconScreenInput();
@@ -633,9 +633,10 @@ void MenuController::getImageTextData(std::uint8_t* imageData,
     return;
 }
 
-unsigned int MenuController::createImageTextData(
-    std::uint8_t* textMetadata, int64_t seed, bool hasSeed,
-    unsigned int uiHostOptions, unsigned int uiTexturePackId) {
+unsigned int MenuController::createImageTextData(std::uint8_t* textMetadata,
+                                                 int64_t seed, bool hasSeed,
+                                                 unsigned int uiHostOptions,
+                                                 unsigned int uiTexturePackId) {
     int iTextMetadataBytes = 0;
     if (hasSeed) {
         strcpy((char*)textMetadata, "4J_SEED");

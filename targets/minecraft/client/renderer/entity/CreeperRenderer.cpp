@@ -1,11 +1,8 @@
 #include "CreeperRenderer.h"
-#include "platform/stubs.h"
 
 #include <math.h>
 
 #include <memory>
-
-#include "platform/renderer/renderer.h"
 
 #include "minecraft/client/model/CreeperModel.h"
 #include "minecraft/client/renderer/Textures.h"
@@ -13,6 +10,8 @@
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/monster/Creeper.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation CreeperRenderer::POWER_LOCATION =
     ResourceLocation(TN_POWERED_CREEPER);

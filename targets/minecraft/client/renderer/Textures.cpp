@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "platform/stubs.h"
 #include "Textures.h"
 
 #include <assert.h>
@@ -9,19 +7,16 @@
 #include <string>
 #include <utility>
 
-
-#include "platform/renderer/renderer.h"
 #include "HttpTexture.h"
+#include "java/Buffer.h"
+#include "java/ByteBuffer.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/BufferedImage.h"
+#include "minecraft/client/MemoryTracker.h"
+#include "minecraft/client/Options.h"
 #include "minecraft/client/renderer/MemTexture.h"
 #include "minecraft/client/renderer/MemTextureProcessor.h"
 #include "minecraft/client/renderer/MobSkinMemTextureProcessor.h"
-#include "util/StringHelpers.h"
-
-#include "java/Buffer.h"
-#include "java/ByteBuffer.h"
-#include "minecraft/client/MemoryTracker.h"
-#include "minecraft/client/Options.h"
 #include "minecraft/client/renderer/texture/PreStitchedTextureMap.h"
 #include "minecraft/client/renderer/texture/Texture.h"
 #include "minecraft/client/renderer/texture/TextureAtlas.h"
@@ -32,6 +27,9 @@
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/item/ItemEntity.h"
 #include "minecraft/world/item/ItemInstance.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 // Linux/PC port: disable mipmapping globally so textures are always sampled
 // from the full-resolution level 0 with GL_NEAREST, giving pixel-crisp
@@ -416,9 +414,7 @@ int Textures::loadTexture(int idx) {
 // renderer that map the single 8-bit channel to RGBA differently.
 void Textures::setTextureFormat(const std::string& resourceName) {
     // 4J Stu - These texture formats are not currently in the render header
-    {
-        TEXTURE_FORMAT = IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw;
-    }
+    { TEXTURE_FORMAT = IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw; }
 }
 
 void Textures::bindTexture(const std::string& resourceName) {
@@ -526,8 +522,8 @@ void Textures::bindTextureLayers(ResourceLocation* resource) {
                 mergedWidth, mergedHeight, BufferedImage::TYPE_INT_ARGB);
             memcpy(mergedImage->getData(), mergedPixels.data(),
                    mergedWidth * mergedHeight * sizeof(int));
-            id = getTexture(mergedImage, IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw,
-                            false);
+            id = getTexture(mergedImage,
+                            IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw, false);
         } else {
             id = 0;
         }
@@ -573,8 +569,7 @@ ResourceLocation* Textures::getTextureLocation(int iconType) {
 
 void Textures::clearLastBoundId() { lastBoundId = -1; }
 
-int Textures::loadTexture(TEXTURE_NAME texId,
-                          const std::string& resourceName) {
+int Textures::loadTexture(TEXTURE_NAME texId, const std::string& resourceName) {
     // 	char buf[256];
     // 	strncpy(buf, resourceName.c_str(), 256);
     // 	printf("Textures::loadTexture name - %s\n",buf);
@@ -606,8 +601,7 @@ int Textures::loadTexture(TEXTURE_NAME texId,
         (resourceName == "%clamp%misc/shadow.png") ||
         (resourceName == "%blur%misc/pumpkinblur.png") ||
         (resourceName == "%clamp%misc/shadow.png") ||
-        (resourceName == "gui/icons.png") ||
-        (resourceName == "gui/gui.png") ||
+        (resourceName == "gui/icons.png") || (resourceName == "gui/gui.png") ||
         (resourceName == "misc/footprint.png")) {
         MIPMAP = false;
     }
@@ -654,7 +648,8 @@ return id;
 */
 }
 
-int Textures::getTexture(BufferedImage* img, IPlatformRenderer::eTextureFormat format,
+int Textures::getTexture(BufferedImage* img,
+                         IPlatformRenderer::eTextureFormat format,
                          bool mipmap) {
     int id = MemoryTracker::genTextures();
     TEXTURE_FORMAT = format;
@@ -805,7 +800,7 @@ void Textures::loadTexture(BufferedImage* img, int id, bool blur, bool clamp) {
                 }
             delete[] tempData;
             PlatformRenderer.TextureData(ww, hh, pixels->getBuffer(), level,
-                                      TEXTURE_FORMAT);
+                                         TEXTURE_FORMAT);
         }
     }
 
@@ -905,7 +900,7 @@ void Textures::replaceTextureDirect(const std::vector<int>& rawPixels, int w,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     PlatformRenderer.TextureDataUpdate(0, 0, w, h,
-                                    const_cast<int*>(rawPixels.data()), 0);
+                                       const_cast<int*>(rawPixels.data()), 0);
 }
 
 // 4J - added. This is a more minimal version of replaceTexture that assumes the
@@ -925,7 +920,7 @@ void Textures::replaceTextureDirect(const std::vector<short>& rawPixels, int w,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
     PlatformRenderer.TextureDataUpdate(0, 0, w, h,
-                                    const_cast<short*>(rawPixels.data()), 0);
+                                       const_cast<short*>(rawPixels.data()), 0);
 }
 
 void Textures::releaseTexture(int id) {
@@ -1019,9 +1014,9 @@ int Textures::loadMemTexture(const std::string& url,
             }
 
             if (texture->id < 0) {
-                texture->id =
-                    getTexture(texture->loadedImage,
-                               IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw, MIPMAP);
+                texture->id = getTexture(
+                    texture->loadedImage,
+                    IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw, MIPMAP);
             } else {
                 loadTexture(texture->loadedImage, texture->id);
             }
@@ -1056,9 +1051,9 @@ int Textures::loadMemTexture(const std::string& url, int backup) {
                 MIPMAP = false;
             }
             if (texture->id < 0) {
-                texture->id =
-                    getTexture(texture->loadedImage,
-                               IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw, MIPMAP);
+                texture->id = getTexture(
+                    texture->loadedImage,
+                    IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw, MIPMAP);
             } else {
                 loadTexture(texture->loadedImage, texture->id);
             }
@@ -1230,9 +1225,7 @@ BufferedImage* Textures::readImage(
             name, false, isTu,
             drive);  // new BufferedImage(name,false,isTu,drive);
     } else {
-        {
-            drive = skins->getDefault()->getPath(isTu);
-        }
+        { drive = skins->getDefault()->getPath(isTu); }
 
         if (IsOriginalImage(texId, name) || isTu) {
             img = skins->getDefault()->getImageResource(
@@ -1303,16 +1296,16 @@ TEXTURE_NAME TUImages[] = {
 };
 
 // This is for any TU textures that aren't part of our enum indexed preload set
-const char* const TUImagePaths[] = {
-    "font/Default", "font/Mojangles_7", "font/Mojangles_11",
+const char* const TUImagePaths[] = {"font/Default", "font/Mojangles_7",
+                                    "font/Mojangles_11",
 
-    // TU12
-    "armor/cloth_1.png", "armor/cloth_1_b.png", "armor/cloth_2.png",
-    "armor/cloth_2_b.png",
+                                    // TU12
+                                    "armor/cloth_1.png", "armor/cloth_1_b.png",
+                                    "armor/cloth_2.png", "armor/cloth_2_b.png",
 
-    //
+                                    //
 
-    nullptr};
+                                    nullptr};
 
 bool Textures::IsTUImage(TEXTURE_NAME texId, const std::string& name) {
     int i = 0;
@@ -1344,7 +1337,7 @@ TEXTURE_NAME OriginalImages[] = {TN_MOB_CHAR,   TN_MOB_CHAR1, TN_MOB_CHAR2,
 
 const char* const OriginalImagesPaths[] = {"misc/watercolor.png",
 
-                                              nullptr};
+                                           nullptr};
 
 bool Textures::IsOriginalImage(TEXTURE_NAME texId, const std::string& name) {
     int i = 0;

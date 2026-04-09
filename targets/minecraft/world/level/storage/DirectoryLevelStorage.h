@@ -31,12 +31,12 @@
 #include <unordered_map>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "LevelStorage.h"
 #include "PlayerIO.h"
 #include "java/File.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSavePath.h"
 #include "nbt/CompoundTag.h"
+#include "platform/PlatformTypes.h"
 
 class ConsoleSaveFile;
 class ByteArrayOutputStream;

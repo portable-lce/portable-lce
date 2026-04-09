@@ -122,7 +122,7 @@ bool CauldronTile::use(Level* level, int x, int y, int z,
             }
             // 4J Stu - Brought forward change to update inventory when filling
             // bottles with water
-            else if (player->instanceof(eTYPE_SERVERPLAYER)) {
+            else if (player->instanceof (eTYPE_SERVERPLAYER)) {
                 std::dynamic_pointer_cast<ServerPlayer>(player)
                     ->refreshContainer(player->inventoryMenu);
             }

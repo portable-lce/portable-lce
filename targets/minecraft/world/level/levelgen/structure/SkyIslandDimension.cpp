@@ -1,10 +1,5 @@
 #include "SkyIslandDimension.h"
 
-
-
-
-
-
 void SkyIslandDimension::init() {
     biomeSource = new FixedBiomeSource(Biome::sky, 0.5f, 0);
     id = 1;

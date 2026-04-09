@@ -4,7 +4,6 @@
 
 #include <cstdint>
 
-#include "platform/profile/profile.h"
 #include "app/common/App_structs.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/UI/Controls/UIControl_BitmapIcon.h"
@@ -16,6 +15,7 @@
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "platform/profile/profile.h"
 
 class UILayer;
 

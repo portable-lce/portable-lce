@@ -9,7 +9,7 @@
 // 4J: Simple std::string wrapper that includes basic formatting information
 class HtmlString {
 public:
-    std::string text;       // Text content of std::string
+    std::string text;        // Text content of std::string
     eMinecraftColour color;  // Hex color
     bool italics;            // Show text in italics
     bool indent;             // Indent text

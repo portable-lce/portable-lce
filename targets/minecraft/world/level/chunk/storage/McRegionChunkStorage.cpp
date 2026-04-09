@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "McRegionChunkStorage.h"
 
 #include <stdio.h>
@@ -10,15 +8,14 @@
 #include <thread>
 #include <utility>
 
-#include "platform/input/input.h"
-#include "minecraft/Console_Debug_enum.h"
-#include "platform/C4JThread.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/InputOutputStream/BufferedOutputStream.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/Console_Debug_enum.h"
+#include "minecraft/IGameServices.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"
 #include "minecraft/world/level/chunk/storage/OldChunkStorage.h"
@@ -28,9 +25,12 @@
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFileOutputStream.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSavePath.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "minecraft/world/level/storage/LevelData.h"
 #include "nbt/CompoundTag.h"
 #include "nbt/NbtIo.h"
+#include "platform/C4JThread.h"
+#include "platform/input/input.h"
 
 class DataInput;
 
@@ -206,15 +206,16 @@ void McRegionChunkStorage::save(Level* level, LevelChunk* levelChunk) {
     DataOutputStream* output = RegionFileCache::getChunkDataOutputStream(
         m_saveFile, m_prefix, levelChunk->x, levelChunk->z);
 
-    if (m_saveFile->getOriginalSaveVersion() >= SAVE_FILE_VERSION_COMPRESSED_CHUNK_STORAGE) {
-            OldChunkStorage::save(levelChunk, level, output);
+    if (m_saveFile->getOriginalSaveVersion() >=
+        SAVE_FILE_VERSION_COMPRESSED_CHUNK_STORAGE) {
+        OldChunkStorage::save(levelChunk, level, output);
 
-            {
-                std::lock_guard<std::mutex> lock(cs_memory);
-                s_chunkDataQueue.push_back(output);
-            }
-            // 4jcraft: WAKE UP, WAKE THE FUCK.. UP
-            s_queueCondition.notify_one();
+        {
+            std::lock_guard<std::mutex> lock(cs_memory);
+            s_chunkDataQueue.push_back(output);
+        }
+        // 4jcraft: WAKE UP, WAKE THE FUCK.. UP
+        s_queueCondition.notify_one();
 
     } else {
         CompoundTag* tag;
@@ -349,11 +350,12 @@ int McRegionChunkStorage::runSaveThreadProc(void* lpParam) {
     while (running) {
         {
             std::unique_lock<std::mutex> lock(cs_memory);
-            s_queueCondition.wait(lock, [] { return !s_chunkDataQueue.empty(); });
+            s_queueCondition.wait(lock,
+                                  [] { return !s_chunkDataQueue.empty(); });
             dos = s_chunkDataQueue.front();
             s_chunkDataQueue.pop_front();
             s_runningThreadCount++;
-        } // Unlock so the main thread can keep working
+        }  // Unlock so the main thread can keep working
 
         if (dos) {
             dos->close();
@@ -394,12 +396,10 @@ void McRegionChunkStorage::WaitForSaves() {
     static const int MAX_QUEUE_SIZE = 12;
     static const int DESIRED_QUEUE_SIZE = 6;
 
-
     std::unique_lock<std::mutex> lock(cs_memory);
     if (s_chunkDataQueue.size() > MAX_QUEUE_SIZE) {
         // Pause until the queue drains down to the desired size
-        s_waitCondition.wait(lock, [] {
-            return s_chunkDataQueue.size() <= DESIRED_QUEUE_SIZE;
-        });
+        s_waitCondition.wait(
+            lock, [] { return s_chunkDataQueue.size() <= DESIRED_QUEUE_SIZE; });
     }
 }

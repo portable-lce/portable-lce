@@ -43,7 +43,7 @@ int PressurePlateTile::getSignalStrength(Level* level, int x, int y, int z) {
         entities = level->getEntitiesOfClass(typeid(Player), &at_bb);
     else
         assert(0);  // 4J-JEV: We're going to delete something at a random
-                         // location.
+                    // location.
 
     if (entities != nullptr && !entities->empty()) {
         for (auto it = entities->begin(); it != entities->end(); ++it) {

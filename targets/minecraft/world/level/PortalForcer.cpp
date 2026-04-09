@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "PortalForcer.h"
 
 #include <utility>
@@ -8,6 +7,7 @@
 #include "minecraft/Direction.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/server/level/ServerLevel.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/level/ChunkPos.h"

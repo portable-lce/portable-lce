@@ -1,10 +1,10 @@
-#include "minecraft/IGameServices.h"
 #include "BeaconTileEntity.h"
 
 #include <format>
 #include <vector>
 
 #include "SharedConstants.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/network/packet/TileEntityDataPacket.h"
 #include "minecraft/world/effect/MobEffect.h"
 #include "minecraft/world/effect/MobEffectInstance.h"
@@ -281,7 +281,8 @@ void BeaconTileEntity::setItem(unsigned int slot,
 }
 
 std::string BeaconTileEntity::getName() {
-    return hasCustomName() ? name : gameServices().getString(IDS_CONTAINER_BEACON);
+    return hasCustomName() ? name
+                           : gameServices().getString(IDS_CONTAINER_BEACON);
 }
 
 std::string BeaconTileEntity::getCustomName() {

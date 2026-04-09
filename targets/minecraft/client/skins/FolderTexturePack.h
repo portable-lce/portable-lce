@@ -28,7 +28,7 @@ public:
 
     // 4J Added
     virtual std::string getPath(bool bTitleUpdateTexture = false,
-                                 const char* pchBDPatchFilename = nullptr);
+                                const char* pchBDPatchFilename = nullptr);
     virtual void loadUI();
     virtual void unloadUI();
 };

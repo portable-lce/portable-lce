@@ -15,7 +15,7 @@ const unsigned int WoodTile::WOOD_NAMES[WOOD_NAMES_LENGTH] = {
 };
 
 const std::string WoodTile::TEXTURE_NAMES[] = {"oak", "spruce", "birch",
-                                                "jungle"};
+                                               "jungle"};
 
 // 	public static final String[] WOOD_NAMES = {
 // 		"oak", "spruce", "birch", "jungle"

@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "Packet.h"
 
 #include <assert.h>
@@ -104,6 +103,7 @@
 #include "minecraft/network/packet/UpdateProgressPacket.h"
 #include "minecraft/network/packet/UseItemPacket.h"
 #include "minecraft/network/packet/XZPacket.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "nbt/NbtIo.h"
 
@@ -576,8 +576,8 @@ void Packet::writeUtf(const std::string& value,
 }
 
 std::string Packet::readUtf(DataInputStream* dis,
-                             int maxLength)  // throws IOException TODO 4J JEV,
-                                             // should this declare a throws?
+                            int maxLength)  // throws IOException TODO 4J JEV,
+                                            // should this declare a throws?
 {
     short stringLength = dis->readShort();
     if (stringLength > maxLength) {
@@ -674,9 +674,7 @@ std::shared_ptr<ItemInstance> Packet::readItem(DataInputStream* dis) {
         // 4J Stu - Always read/write the tag
         // if (Item.items[id].canBeDepleted() ||
         // Item.items[id].shouldOverrideMultiplayerNBT())
-        {
-            item->tag = readNbt(dis);
-        }
+        { item->tag = readNbt(dis); }
     }
 
     return item;
@@ -693,9 +691,7 @@ void Packet::writeItem(std::shared_ptr<ItemInstance> item,
         // 4J Stu - Always read/write the tag
         // if (item.getItem().canBeDepleted() ||
         // item.getItem().shouldOverrideMultiplayerNBT())
-        {
-            writeNbt(item->tag, dos);
-        }
+        { writeNbt(item->tag, dos); }
     }
 }
 

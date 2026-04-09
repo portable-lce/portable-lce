@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "Enchantment.h"
 
 #include <assert.h>
@@ -6,6 +5,7 @@
 
 #include "minecraft/IGameServices.h"
 #include "minecraft/util/HtmlString.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/item/enchantment/ArrowDamageEnchantment.h"
 #include "minecraft/world/item/enchantment/ArrowFireEnchantment.h"
@@ -162,7 +162,8 @@ int Enchantment::getDescriptionId() { return descriptionId; }
 // 4jcraft: re-added old TU18 overload for java gui
 std::string Enchantment::getFullname(int level, std::string& unformatted) {
     char formatted[256];
-    snprintf(formatted, 256, "%s %s", gameServices().getString(getDescriptionId()),
+    snprintf(formatted, 256, "%s %s",
+             gameServices().getString(getDescriptionId()),
              getLevelString(level).c_str());
     unformatted = formatted;
     snprintf(formatted, 256, "<font color=\"#%08x\">%s</font>",
@@ -172,7 +173,8 @@ std::string Enchantment::getFullname(int level, std::string& unformatted) {
 
 HtmlString Enchantment::getFullname(int level) {
     char formatted[256];
-    snprintf(formatted, 256, "%s %s", gameServices().getString(getDescriptionId()),
+    snprintf(formatted, 256, "%s %s",
+             gameServices().getString(getDescriptionId()),
              getLevelString(level).c_str());
 
     return HtmlString(formatted, eHTMLColor_f);
@@ -214,5 +216,6 @@ std::string Enchantment::getLevelString(int level) {
             stringId = IDS_ENCHANTMENT_LEVEL_10;
             break;
     };
-    return gameServices().getString(stringId);  // I18n.get("enchantment.level." + level);
+    return gameServices().getString(
+        stringId);  // I18n.get("enchantment.level." + level);
 }

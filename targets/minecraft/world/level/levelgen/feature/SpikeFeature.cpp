@@ -1,9 +1,9 @@
-#include "minecraft/util/Log.h"
 #include "SpikeFeature.h"
 
 #include <memory>
 
 #include "java/Random.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/boss/enderdragon/EnderCrystal.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/tile/Tile.h"

@@ -5,24 +5,23 @@
 #include <memory>
 #include <sstream>
 
-#include "platform/renderer/renderer.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_EnchantingMenu.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/iggy.h"
+#include "minecraft/GameEnums.h"
+#include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
 #include "app/linux/LinuxGame.h"
-#include "util/StringHelpers.h"
-
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Font.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/world/entity/player/Abilities.h"
 #include "minecraft/world/inventory/EnchantmentMenu.h"
+#include "util/StringHelpers.h"
 
 UIControl_EnchantmentButton::UIControl_EnchantmentButton() {
     m_index = 0;
@@ -210,11 +209,10 @@ UIControl_EnchantmentButton::EnchantmentNames::EnchantmentNames() {
         "physical grow shrink demon elemental spirit animal creature beast "
         "humanoid undead fresh stale ";
     std::istringstream iss(allWords);
-    std::copy(std::istream_iterator<std::string, char,
-                                    std::char_traits<char> >(iss),
-              std::istream_iterator<std::string, char,
-                                    std::char_traits<char> >(),
-              std::back_inserter(words));
+    std::copy(
+        std::istream_iterator<std::string, char, std::char_traits<char> >(iss),
+        std::istream_iterator<std::string, char, std::char_traits<char> >(),
+        std::back_inserter(words));
 }
 
 std::string UIControl_EnchantmentButton::EnchantmentNames::getRandomName() {

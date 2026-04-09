@@ -1,7 +1,7 @@
 #pragma once
 // using namespace std;
-#include "app/common/Tutorial/Tutorial.h"
 #include "TutorialTask.h"
+#include "app/common/Tutorial/Tutorial.h"
 
 class StateChangeTask : public TutorialTask {
 private:

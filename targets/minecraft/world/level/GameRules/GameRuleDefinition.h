@@ -6,9 +6,9 @@
 #include <unordered_map>
 #include <vector>
 
+#include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/GameRules/GameRulesInstance.h"
-#include "minecraft/world/item/ItemInstance.h"
 
 class GameRule;
 class LevelRuleset;
@@ -81,7 +81,6 @@ public:
         GameRulesInstance::EGameRulesInstanceType type, LevelRuleset* rules,
         Connection* connection);
     static std::string generateDescriptionString(
-        ConsoleGameRules::EGameRuleType defType,
-        const std::string& description, void* data = nullptr,
-        int dataLength = 0);
+        ConsoleGameRules::EGameRuleType defType, const std::string& description,
+        void* data = nullptr, int dataLength = 0);
 };

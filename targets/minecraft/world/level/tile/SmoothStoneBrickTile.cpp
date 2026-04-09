@@ -7,8 +7,8 @@
 
 class Icon;
 
-const std::string SmoothStoneBrickTile::TEXTURE_NAMES[] = {
-    "", "mossy", "cracked", "carved"};
+const std::string SmoothStoneBrickTile::TEXTURE_NAMES[] = {"", "mossy",
+                                                           "cracked", "carved"};
 
 const unsigned int SmoothStoneBrickTile::SMOOTH_STONE_BRICK_NAMES
     [SMOOTH_STONE_BRICK_NAMES_LENGTH] = {IDS_TILE_STONE_BRICK_SMOOTH,

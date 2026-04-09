@@ -8,14 +8,14 @@
 #include <utility>
 #include <vector>
 
-#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/CompleteAllRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"
+#include "app/linux/LinuxGame.h"
+#include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/GameRules/GameRule.h"
 #include "minecraft/world/level/GameRules/GameRulesInstance.h"
-#include "app/linux/LinuxGame.h"
 #include "util/StringHelpers.h"
-#include "java/InputOutputStream/DataOutputStream.h"
 
 class Connection;
 
@@ -66,7 +66,7 @@ GameRuleDefinition* GameRuleDefinition::addChild(
     ConsoleGameRules::EGameRuleType ruleType) {
 #ifndef _CONTENT_PACKAGE
     printf("GameRuleDefinition: Attempted to add invalid child rule - %d\n",
-            ruleType);
+           ruleType);
 #endif
     return nullptr;
 }
@@ -77,13 +77,13 @@ void GameRuleDefinition::addAttribute(const std::string& attributeName,
         m_descriptionId = attributeValue;
 #ifndef _CONTENT_PACKAGE
         printf("GameRuleDefinition: Adding parameter descriptionId=%s\n",
-                m_descriptionId.c_str());
+               m_descriptionId.c_str());
 #endif
     } else if (attributeName.compare("promptName") == 0) {
         m_promptId = attributeValue;
 #ifndef _CONTENT_PACKAGE
         printf("GameRuleDefinition: Adding parameter m_promptId=%s\n",
-                m_promptId.c_str());
+               m_promptId.c_str());
 #endif
     } else if (attributeName.compare("dataTag") == 0) {
         m_4JDataValue = fromWString<int>(attributeValue);
@@ -92,9 +92,8 @@ void GameRuleDefinition::addAttribute(const std::string& attributeName,
             m_4JDataValue);
     } else {
 #ifndef _CONTENT_PACKAGE
-        printf(
-            "GameRuleDefinition: Attempted to add invalid attribute: %s\n",
-            attributeName.c_str());
+        printf("GameRuleDefinition: Attempted to add invalid attribute: %s\n",
+               attributeName.c_str());
 #endif
     }
 }

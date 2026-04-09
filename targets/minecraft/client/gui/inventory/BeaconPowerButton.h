@@ -1,7 +1,6 @@
 #pragma once
 #include "AbstractBeaconButton.h"
 
-
 class BeaconScreen;
 
 class BeaconPowerButton : public AbstractBeaconButton {

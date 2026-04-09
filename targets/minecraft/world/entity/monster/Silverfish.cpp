@@ -1,10 +1,10 @@
-#include "minecraft/IGameServices.h"
 #include "Silverfish.h"
 
 #include <memory>
 
 #include "java/Random.h"
 #include "minecraft/Facing.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"

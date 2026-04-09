@@ -5,7 +5,6 @@
 #include "AbstractContainerScreen.h"
 #include "minecraft/world/inventory/BrewingStandMenu.h"
 
-
 class BrewingStandMenu;
 class BrewingStandTileEntity;
 class Inventory;

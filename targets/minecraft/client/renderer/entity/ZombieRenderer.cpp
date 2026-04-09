@@ -68,7 +68,7 @@ ResourceLocation* ZombieRenderer::getTextureLocation(
     std::shared_ptr<Zombie> mob = std::dynamic_pointer_cast<Zombie>(entity);
 
     // TODO Extract this clusterfck into 3 renderers
-    if (entity->instanceof(eTYPE_PIGZOMBIE)) {
+    if (entity->instanceof (eTYPE_PIGZOMBIE)) {
         return &ZOMBIE_PIGMAN_LOCATION;
     }
 

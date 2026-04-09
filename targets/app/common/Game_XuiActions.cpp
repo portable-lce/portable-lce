@@ -1,9 +1,8 @@
-#include "minecraft/GameTypes.h"
+#include "app/common/Audio/SoundEngine.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
@@ -11,6 +10,7 @@
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/GameEnums.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/Options.h"
 #include "minecraft/client/ProgressRenderer.h"
@@ -25,13 +25,13 @@
 #include "minecraft/client/skins/DLCTexturePack.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "platform/PlatformTypes.h"
 #include "platform/profile/profile.h"
 #include "platform/storage/storage.h"
 #include "util/StringHelpers.h"
-#include "app/common/Audio/SoundEngine.h"
 
 void Game::HandleXuiActions(void) {
     eXuiAction eAction;
@@ -215,8 +215,8 @@ void Game::HandleXuiActions(void) {
 
                     // app.CloseAllPlayersXuiScenes();
                     //  Hide the other players scenes
-                    ui.ShowOtherPlayersBaseScene(PlatformProfile.GetPrimaryPad(),
-                                                 false);
+                    ui.ShowOtherPlayersBaseScene(
+                        PlatformProfile.GetPrimaryPad(), false);
 
                     // This just allows it to be shown
                     if (pMinecraft
@@ -1148,7 +1148,8 @@ void Game::HandleXuiActions(void) {
                 } break;
                 case eAppAction_SetDefaultOptions:
                     SetAction(i, eAppAction_Idle);
-                    SetDefaultOptions((IPlatformProfile::PROFILESETTINGS*)param, i);
+                    SetDefaultOptions((IPlatformProfile::PROFILESETTINGS*)param,
+                                      i);
 
                     // if the profile data has been changed, then force a
                     // profile write It seems we're allowed to break the 5
@@ -1211,10 +1212,11 @@ void Game::HandleXuiActions(void) {
                 case eAppAction_FailedToJoinNoPrivileges: {
                     unsigned int uiIDA[1];
                     uiIDA[0] = IDS_CONFIRM_OK;
-                    IPlatformStorage::EMessageResult result = ui.RequestErrorMessage(
-                        IDS_NO_MULTIPLAYER_PRIVILEGE_TITLE,
-                        IDS_NO_MULTIPLAYER_PRIVILEGE_JOIN_TEXT, uiIDA, 1,
-                        PlatformProfile.GetPrimaryPad());
+                    IPlatformStorage::EMessageResult result =
+                        ui.RequestErrorMessage(
+                            IDS_NO_MULTIPLAYER_PRIVILEGE_TITLE,
+                            IDS_NO_MULTIPLAYER_PRIVILEGE_JOIN_TEXT, uiIDA, 1,
+                            PlatformProfile.GetPrimaryPad());
                     if (result != IPlatformStorage::EMessage_Busy)
                         SetAction(i, eAppAction_Idle);
                 } break;
@@ -1282,9 +1284,7 @@ void Game::HandleXuiActions(void) {
                 } break;
                 case eAppAction_DebugText:
                     // launch the xui for text entry
-                    {
-                        SetAction(i, eAppAction_Idle);
-                    }
+                    { SetAction(i, eAppAction_Idle); }
                     break;
 
                 case eAppAction_ReloadTexturePack: {

@@ -4,9 +4,9 @@
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
+#include "UIFontData.h"
 #include "app/linux/Iggy/include/rrCore.h"
 #include "minecraft/client/BufferedImage.h"
-#include "UIFontData.h"
 
 /////////////////////////////
 // UI Abstract Bitmap Font //
@@ -282,7 +282,7 @@ rrbool UIBitmapFont::GetGlyphBitmap(S32 glyph, F32 pixel_scale,
     while ((0.5f + glyphScale) * truePixelScale < targetPixelScale)
         glyphScale++;
 
-    // 4J-JEV: Debug code to check which font sizes are being used.
+        // 4J-JEV: Debug code to check which font sizes are being used.
 #if (!defined _CONTENT_PACKAGE) && (VERBOSE_FONT_OUTPUT > 0)
 
     struct DebugData {

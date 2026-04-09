@@ -7,8 +7,8 @@
 
 #include <string>
 
-#include "util/StringHelpers.h"
 #include "minecraft/util/Mth.h"
+#include "util/StringHelpers.h"
 
 void Node::_init() {
     heapIdx = -1;

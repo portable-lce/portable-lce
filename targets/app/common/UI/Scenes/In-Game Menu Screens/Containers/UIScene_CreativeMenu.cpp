@@ -19,11 +19,11 @@
 #include "app/linux/Iggy/include/rrCore.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "platform/XboxStubs.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/player/LocalPlayer.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/world/SimpleContainer.h"
+#include "platform/XboxStubs.h"
 
 class UILayer;
 

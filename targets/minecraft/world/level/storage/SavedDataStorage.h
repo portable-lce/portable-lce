@@ -6,8 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "minecraft/world/level/saveddata/SavedData.h"
+#include "platform/PlatformTypes.h"
 
 class ConsoleSaveFile;
 class LevelStorage;

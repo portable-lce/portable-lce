@@ -6,11 +6,11 @@
 #include <string>
 #include <vector>
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Class.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/world/entity/MobCategory.h"
 #include "minecraft/world/level/biome/BeachBiome.h"
 #include "minecraft/world/level/biome/BiomeDecorator.h"

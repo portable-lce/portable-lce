@@ -29,8 +29,8 @@ int EnchantmentHelper::getEnchantmentLevel(
         return 0;
     }
     for (int i = 0; i < enchantmentTags->size(); i++) {
-        int type = enchantmentTags->get(i)->getShort(
-            (char*)ItemInstance::TAG_ENCH_ID);
+        int type =
+            enchantmentTags->get(i)->getShort((char*)ItemInstance::TAG_ENCH_ID);
         int level = enchantmentTags->get(i)->getShort(
             (char*)ItemInstance::TAG_ENCH_LEVEL);
 
@@ -51,8 +51,7 @@ std::unordered_map<int, int>* EnchantmentHelper::getEnchantments(
 
     if (list != nullptr) {
         for (int i = 0; i < list->size(); i++) {
-            int type =
-                list->get(i)->getShort((char*)ItemInstance::TAG_ENCH_ID);
+            int type = list->get(i)->getShort((char*)ItemInstance::TAG_ENCH_ID);
             int level =
                 list->get(i)->getShort((char*)ItemInstance::TAG_ENCH_LEVEL);
 
@@ -119,8 +118,8 @@ void EnchantmentHelper::runIterationOnItem(
         return;
     }
     for (int i = 0; i < enchantmentTags->size(); i++) {
-        int type = enchantmentTags->get(i)->getShort(
-            (char*)ItemInstance::TAG_ENCH_ID);
+        int type =
+            enchantmentTags->get(i)->getShort((char*)ItemInstance::TAG_ENCH_ID);
         int level = enchantmentTags->get(i)->getShort(
             (char*)ItemInstance::TAG_ENCH_LEVEL);
 

@@ -23,7 +23,9 @@ struct ImageFileBuffer {
     ImageFileBuffer& operator=(const ImageFileBuffer&) = delete;
 
     [[nodiscard]] EImageType GetType() const { return m_type; }
-    [[nodiscard]] std::byte* GetBufferPointer() const { return m_pBuffer.get(); }
+    [[nodiscard]] std::byte* GetBufferPointer() const {
+        return m_pBuffer.get();
+    }
     [[nodiscard]] std::size_t GetBufferSize() const { return m_bufferSize; }
     [[nodiscard]] bool Allocated() const { return m_pBuffer != nullptr; }
     void Release() {
@@ -125,11 +127,15 @@ struct XMARKETPLACE_CONTENTOFFER_INFO {
 using PXMARKETPLACE_CONTENTOFFER_INFO = XMARKETPLACE_CONTENTOFFER_INFO*;
 
 inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_CONTENT = 0x00000002;
-inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_GAME_DEMO = 0x00000020;
-inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_GAME_TRAILER = 0x00000040;
+inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_GAME_DEMO =
+    0x00000020;
+inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_GAME_TRAILER =
+    0x00000040;
 inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_THEME = 0x00000080;
 inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_TILE = 0x00000800;
 inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_ARCADE = 0x00002000;
 inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_VIDEO = 0x00004000;
-inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_CONSUMABLE = 0x00010000;
-inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_AVATARITEM = 0x00100000;
+inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_CONSUMABLE =
+    0x00010000;
+inline constexpr std::uint32_t XMARKETPLACE_OFFERING_TYPE_AVATARITEM =
+    0x00100000;

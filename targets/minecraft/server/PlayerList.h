@@ -8,8 +8,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "nbt/CompoundTag.h"
+#include "platform/PlatformTypes.h"
 
 class ServerPlayer;
 class PlayerChunkMap;

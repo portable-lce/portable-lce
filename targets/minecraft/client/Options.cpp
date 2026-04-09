@@ -1,9 +1,7 @@
-#include "minecraft/util/Log.h"
 #include "Options.h"
 
 #include "KeyMapping.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "util/StringHelpers.h"
 #include "java/File.h"
 #include "java/InputOutputStream/BufferedReader.h"
 #include "java/InputOutputStream/DataOutputStream.h"
@@ -15,7 +13,9 @@
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/locale/I18n.h"
 #include "minecraft/locale/Language.h"
+#include "minecraft/util/Log.h"
 #include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 // 4J - the Option sub-class used to be an java enumerated type, trying to
 // emulate that functionality here
@@ -103,8 +103,8 @@ const std::string Options::FRAMERATE_LIMITS[] = {
 #endif
 
 const std::string Options::PARTICLES[] = {"options.particles.all",
-                                           "options.particles.decreased",
-                                           "options.particles.minimal"};
+                                          "options.particles.decreased",
+                                          "options.particles.minimal"};
 
 // 4J added
 void Options::init() {
@@ -374,7 +374,7 @@ void Options::load() {
     std::string line = "";
     while ((line = br->readLine()) !=
            "")  // 4J - was check against nullptr - do we need to distinguish
-                 // between empty lines and a fail here?
+                // between empty lines and a fail here?
     {
         // 4J - removed try/catch
         //            try {
@@ -394,8 +394,7 @@ void Options::load() {
         if (cmds[0] == "fov") fov = readFloat(cmds[1]);
         if (cmds[0] == "gamma") gamma = readFloat(cmds[1]);
         if (cmds[0] == "invertYMouse") invertYMouse = cmds[1] == "true";
-        if (cmds[0] == "viewDistance")
-            viewDistance = fromWString<int>(cmds[1]);
+        if (cmds[0] == "viewDistance") viewDistance = fromWString<int>(cmds[1]);
         if (cmds[0] == "guiScale") guiScale = fromWString<int>(cmds[1]);
         if (cmds[0] == "particles") particles = fromWString<int>(cmds[1]);
         if (cmds[0] == "bobView") bobView = cmds[1] == "true";
@@ -444,8 +443,8 @@ void Options::save() {
 
     dos.writeChars("music:" + toWString<float>(music) + "\n");
     dos.writeChars("sound:" + toWString<float>(sound) + "\n");
-    dos.writeChars("invertYMouse:" +
-                   std::string(invertYMouse ? "true" : "false") + "\n");
+    dos.writeChars(
+        "invertYMouse:" + std::string(invertYMouse ? "true" : "false") + "\n");
     dos.writeChars("mouseSensitivity:" + toWString<float>(sensitivity));
     dos.writeChars("fov:" + toWString<float>(fov));
     dos.writeChars("gamma:" + toWString<float>(gamma));
@@ -453,16 +452,14 @@ void Options::save() {
     dos.writeChars("guiScale:" + toWString<int>(guiScale));
     dos.writeChars("particles:" + toWString<int>(particles));
     dos.writeChars("bobView:" + std::string(bobView ? "true" : "false"));
-    dos.writeChars("anaglyph3d:" +
-                   std::string(anaglyph3d ? "true" : "false"));
+    dos.writeChars("anaglyph3d:" + std::string(anaglyph3d ? "true" : "false"));
     dos.writeChars("advancedOpengl:" +
                    std::string(advancedOpengl ? "true" : "false"));
     dos.writeChars("fpsLimit:" + toWString<int>(framerateLimit));
     dos.writeChars("difficulty:" + toWString<int>(difficulty));
     dos.writeChars("fancyGraphics:" +
                    std::string(fancyGraphics ? "true" : "false"));
-    dos.writeChars("ao:" +
-                   std::string(ambientOcclusion ? "true" : "false"));
+    dos.writeChars("ao:" + std::string(ambientOcclusion ? "true" : "false"));
     dos.writeChars("clouds:" + toWString<bool>(renderClouds));
     dos.writeChars("skin:" + skin);
     dos.writeChars("lastServer:" + lastMpIp);

@@ -5,12 +5,12 @@
 #include <utility>
 
 #include "app/common/GameRules/LevelRules/RuleDefinitions/CompoundGameRuleDefinition.h"
-#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
-#include "minecraft/world/level/GameRules/GameRule.h"
 #include "app/linux/LinuxGame.h"
-#include "util/StringHelpers.h"
 #include "minecraft/network/Connection.h"
 #include "minecraft/network/packet/UpdateGameRuleProgressPacket.h"
+#include "minecraft/world/level/GameRules/GameRule.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
+#include "util/StringHelpers.h"
 
 void CompleteAllRuleDefinition::getChildren(
     std::vector<GameRuleDefinition*>* children) {

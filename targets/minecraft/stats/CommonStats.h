@@ -6,8 +6,8 @@
 #include <vector>
 
 #include "GenericStats.h"
-#include "minecraft/stats/Console_Awards_enum.h"
 #include "java/Class.h"
+#include "minecraft/stats/Console_Awards_enum.h"
 
 class CommonStats : public GenericStats {
 protected:

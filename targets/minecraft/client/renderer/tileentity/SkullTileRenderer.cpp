@@ -1,9 +1,6 @@
 #include "SkullTileRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
-
-#include "platform/renderer/renderer.h"
 
 #include "minecraft/Facing.h"
 #include "minecraft/client/model/SkeletonHeadModel.h"
@@ -15,6 +12,8 @@
 #include "minecraft/world/level/tile/SkullTile.h"
 #include "minecraft/world/level/tile/entity/SkullTileEntity.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 SkullTileRenderer* SkullTileRenderer::instance = nullptr;
 
@@ -83,9 +82,7 @@ void SkullTileRenderer::renderSkull(float x, float y, float z, int face,
             //	bindTexture(url, "/mob/char.png");
             //}
             // else
-            {
-                bindTexture(&PlayerRenderer::DEFAULT_LOCATION);
-            }
+            { bindTexture(&PlayerRenderer::DEFAULT_LOCATION); }
             break;
         case SkullTileEntity::TYPE_CREEPER:
             bindTexture(&CREEPER_LOCATION);

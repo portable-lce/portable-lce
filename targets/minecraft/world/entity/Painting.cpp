@@ -1,10 +1,10 @@
-#include "minecraft/IGameServices.h"
 #include "Painting.h"
 
 #include <memory>
 #include <vector>
 
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/HangingEntity.h"
 #include "minecraft/world/entity/player/Abilities.h"
@@ -138,7 +138,7 @@ int Painting::getWidth() { return motive->w; }
 int Painting::getHeight() { return motive->h; }
 
 void Painting::dropItem(std::shared_ptr<Entity> causedBy) {
-    if ((causedBy != nullptr) && causedBy->instanceof(eTYPE_PLAYER)) {
+    if ((causedBy != nullptr) && causedBy->instanceof (eTYPE_PLAYER)) {
         std::shared_ptr<Player> player =
             std::dynamic_pointer_cast<Player>(causedBy);
         if (player->abilities.instabuild) {

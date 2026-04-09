@@ -8,9 +8,9 @@
 #include <unordered_map>
 
 #include "app/common/DLC/DLCGameRulesHeader.h"
-#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelGeneration/LevelGenerators.h"
 #include "app/common/GameRules/LevelRules/LevelRules.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 
 class LevelGenerationOptions;
 class RootGameRulesDefinition;

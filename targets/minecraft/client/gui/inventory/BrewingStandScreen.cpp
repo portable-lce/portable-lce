@@ -1,17 +1,16 @@
 #include "BrewingStandScreen.h"
-#include "platform/stubs.h"
 
 #include <memory>
 
-
+#include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Font.h"
 #include "minecraft/client/gui/inventory/AbstractContainerScreen.h"
+#include "minecraft/client/renderer/Textures.h"
+#include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/inventory/BrewingStandMenu.h"
 #include "minecraft/world/level/tile/entity/BrewingStandTileEntity.h"
-#include "minecraft/client/renderer/Textures.h"
-#include "minecraft/client/resources/ResourceLocation.h"
-#include "minecraft/client/Minecraft.h"
+#include "platform/stubs.h"
 
 // 4jcraft: referenced from MCP 8.11 (JE 1.6.4) and the existing
 // container classes

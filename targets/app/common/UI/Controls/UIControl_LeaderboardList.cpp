@@ -108,9 +108,8 @@ void UIControl_LeaderboardList::setColumnIcon(int iColumn, int iType) {
 void UIControl_LeaderboardList::addDataSet(
     bool bLast, int iId, int iRank, const std::string& gamertag,
     bool bDisplayMessage, const std::string& col0, const std::string& col1,
-    const std::string& col2, const std::string& col3,
-    const std::string& col4, const std::string& col5,
-    const std::string& col6) {
+    const std::string& col2, const std::string& col3, const std::string& col4,
+    const std::string& col5, const std::string& col6) {
     IggyDataValue result;
     IggyDataValue value[12];
 

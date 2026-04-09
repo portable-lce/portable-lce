@@ -1,11 +1,11 @@
 #pragma once
 
-#include "platform/renderer/renderer.h"
-#include "platform/stubs.h"
-
 #include <format>
 #include <string>
 #include <vector>
+
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 class Rect2i;
 class ByteBuffer;
@@ -69,8 +69,8 @@ public:
     ~Texture();
 
 private:
-    Texture(const std::string& name, int mode, int width, int height,
-            int depth, int wrapMode, int format, int minFilter, int magFilter,
+    Texture(const std::string& name, int mode, int width, int height, int depth,
+            int wrapMode, int format, int minFilter, int magFilter,
             bool mipMap = true);
 
     void _init(const std::string& name, int mode, int width, int height,
@@ -84,8 +84,8 @@ public:
     Texture(const std::string& name, int mode, int width, int height,
             int wrapMode, int format, int minFilter, int magFilter,
             BufferedImage* image, bool mipMap = true);
-    Texture(const std::string& name, int mode, int width, int height,
-            int depth, int wrapMode, int format, int minFilter, int magFilter,
+    Texture(const std::string& name, int mode, int width, int height, int depth,
+            int wrapMode, int format, int minFilter, int magFilter,
             BufferedImage* image, bool mipMap = true);
 
     const Rect2i* getRect();

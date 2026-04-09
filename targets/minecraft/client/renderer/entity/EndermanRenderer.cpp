@@ -1,10 +1,6 @@
 #include "EndermanRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
-
-
-#include "platform/renderer/renderer.h"
 
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/model/EndermanModel.h"
@@ -17,6 +13,8 @@
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/entity/monster/EnderMan.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation EndermanRenderer::ENDERMAN_EYES_LOCATION =
     ResourceLocation(TN_MOB_ENDERMAN_EYES);

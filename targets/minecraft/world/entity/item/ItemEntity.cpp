@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "ItemEntity.h"
 
 #include <stdint.h>
@@ -12,6 +11,7 @@
 #include "java/Random.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/entity/Entity.h"

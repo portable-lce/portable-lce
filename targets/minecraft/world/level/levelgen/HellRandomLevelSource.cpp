@@ -1,4 +1,3 @@
-#include "minecraft/IGameServices.h"
 #include "HellRandomLevelSource.h"
 
 #include <stdlib.h>
@@ -9,6 +8,7 @@
 #include <numbers>
 
 #include "java/Random.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/world/entity/MobCategory.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/biome/Biome.h"

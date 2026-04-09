@@ -6,13 +6,13 @@
 #include <utility>
 #include <vector>
 
-#include "platform/input/input.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Tutorial/Constraints/InputConstraint.h"
 #include "app/common/Tutorial/Tasks/TutorialTask.h"
 #include "app/linux/LinuxGame.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
+#include "platform/input/input.h"
 
 class Tutorial;
 
@@ -82,7 +82,7 @@ bool ControllerTask::isCompleted() {
              it != southpawCompletedMappings.end(); ++it) {
             if (!it->second) {
                 if (PlatformInput.GetValue(pMinecraft->player->GetXboxPad(),
-                                          it->first) > 0) {
+                                           it->first) > 0) {
                     it->second = true;
                     m_uiCompletionMask |= 1 << iCurrent;
                 } else {
@@ -96,7 +96,7 @@ bool ControllerTask::isCompleted() {
              ++it) {
             if (!it->second) {
                 if (PlatformInput.GetValue(pMinecraft->player->GetXboxPad(),
-                                          it->first) > 0) {
+                                           it->first) > 0) {
                     it->second = true;
                     m_uiCompletionMask |= 1 << iCurrent;
                 } else {

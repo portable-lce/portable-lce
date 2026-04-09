@@ -10,13 +10,9 @@
 #include <memory>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
-#include "platform/PlatformTypes.h"
 #include "app/common/Audio/Consoles_SoundEngine.h"
 #include "app/linux/Iggy/include/rrCore.h"
 #include "app/linux/LinuxGame.h"
-#include "platform/C4JThread.h"
-#include "platform/fs/fs.h"
 #include "java/Random.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
@@ -24,6 +20,9 @@
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/entity/Mob.h"
 #include "minecraft/world/level/storage/LevelData.h"
+#include "platform/C4JThread.h"
+#include "platform/PlatformTypes.h"
+#include "platform/fs/fs.h"
 
 #if defined(__linux__)
 #define STB_VORBIS_HEADER_ONLY
@@ -132,7 +131,8 @@ struct MiniAudioSound {
     bool active;
 };
 
-SoundEngine::SoundEngine() : m_audio(std::make_unique<SoundEngineMiniAudio>()) {}
+SoundEngine::SoundEngine()
+    : m_audio(std::make_unique<SoundEngineMiniAudio>()) {}
 SoundEngine::~SoundEngine() = default;
 std::vector<MiniAudioSound*> m_activeSounds;
 void SoundEngine::init(Options* pOptions) {
@@ -167,7 +167,8 @@ void SoundEngine::init(Options* pOptions) {
     m_audio->engineConfig = ma_engine_config_init();
     m_audio->engineConfig.listenerCount = MAX_LOCAL_PLAYERS;
 
-    if (ma_engine_init(&m_audio->engineConfig, &m_audio->engine) != MA_SUCCESS) {
+    if (ma_engine_init(&m_audio->engineConfig, &m_audio->engine) !=
+        MA_SUCCESS) {
         app.DebugPrintf("Failed to initialize miniaudio engine\n");
         return;
     }
@@ -192,9 +193,8 @@ void SoundEngine::play(int iSound, float x, float y, float z, float volume,
         if (szId[i] == '.') szId[i] = '/';
 
     std::string base = PlatformFilesystem.getBasePath().string() + "/";
-    const char* roots[] = {
-        "Sound/Minecraft/", "app/common/Sound/Minecraft/",
-        "app/common/res/TitleUpdate/res/Sound/Minecraft/"};
+    const char* roots[] = {"Sound/Minecraft/", "app/common/Sound/Minecraft/",
+                           "app/common/res/TitleUpdate/res/Sound/Minecraft/"};
     char finalPath[512] = {0};
     bool found = false;
 
@@ -237,8 +237,9 @@ void SoundEngine::play(int iSound, float x, float y, float z, float volume,
     s->info.pitch = pitch;
     s->info.bIs3D = true;
 
-    if (ma_sound_init_from_file(&m_audio->engine, finalPath, MA_SOUND_FLAG_ASYNC,
-                                nullptr, nullptr, &s->sound) == MA_SUCCESS) {
+    if (ma_sound_init_from_file(&m_audio->engine, finalPath,
+                                MA_SOUND_FLAG_ASYNC, nullptr, nullptr,
+                                &s->sound) == MA_SUCCESS) {
         ma_sound_set_spatialization_enabled(&s->sound, MA_TRUE);
         ma_sound_set_min_distance(&s->sound, 2.0f);
         ma_sound_set_max_distance(&s->sound, 48.0f);
@@ -289,8 +290,9 @@ void SoundEngine::playUI(int iSound, float volume, float pitch) {
     s->info.pitch = pitch;
     s->info.bIs3D = false;
 
-    if (ma_sound_init_from_file(&m_audio->engine, finalPath, MA_SOUND_FLAG_ASYNC,
-                                nullptr, nullptr, &s->sound) == MA_SUCCESS) {
+    if (ma_sound_init_from_file(&m_audio->engine, finalPath,
+                                MA_SOUND_FLAG_ASYNC, nullptr, nullptr,
+                                &s->sound) == MA_SUCCESS) {
         ma_sound_set_spatialization_enabled(&s->sound, MA_FALSE);
         ma_sound_set_volume(&s->sound, volume * m_MasterEffectsVolume);
         ma_sound_set_pitch(&s->sound, pitch);
@@ -432,7 +434,8 @@ int SoundEngine::OpenStreamThreadProc(void* lpParameter) {
 
     ma_result result = ma_sound_init_from_file(
         &soundEngine->m_audio->engine, soundEngine->m_szStreamName,
-        MA_SOUND_FLAG_STREAM, nullptr, nullptr, &soundEngine->m_audio->musicStream);
+        MA_SOUND_FLAG_STREAM, nullptr, nullptr,
+        &soundEngine->m_audio->musicStream);
 
     if (result != MA_SUCCESS) {
         app.DebugPrintf(
@@ -442,7 +445,8 @@ int SoundEngine::OpenStreamThreadProc(void* lpParameter) {
         return 0;
     }
 
-    ma_sound_set_spatialization_enabled(&soundEngine->m_audio->musicStream, MA_FALSE);
+    ma_sound_set_spatialization_enabled(&soundEngine->m_audio->musicStream,
+                                        MA_FALSE);
     ma_sound_set_looping(&soundEngine->m_audio->musicStream, MA_FALSE);
 
     soundEngine->m_musicStreamActive = true;
@@ -460,27 +464,29 @@ void SoundEngine::playMusicTick() {
                 return;
             }
             if (m_musicID != -1) {
-                std::string base = PlatformFilesystem.getBasePath().string() + "/";
+                std::string base =
+                    PlatformFilesystem.getBasePath().string() + "/";
                 bool isCD = (m_musicID >= m_iStream_CD_1);
                 const char* folder = isCD ? "cds/" : "music/";
                 const char* track = m_szStreamFileA[m_musicID];
                 bool found = false;
                 m_szStreamName[0] = '\0';
 
-                const char* roots[] = {"app/common/music/",
-                                       "music/", "./"};
+                const char* roots[] = {"app/common/music/", "music/", "./"};
 
                 for (const char* r : roots) {
                     for (const char* e : {".ogg", ".mp3", ".wav"}) {
                         // try with folder prefix (music/ or cds/)
-                        snprintf(m_szStreamName, sizeof(m_szStreamName), "%s%s%s%s%s", base.c_str(), r, folder,
-                                 track, e);
+                        snprintf(m_szStreamName, sizeof(m_szStreamName),
+                                 "%s%s%s%s%s", base.c_str(), r, folder, track,
+                                 e);
                         if (PlatformFilesystem.exists(m_szStreamName)) {
                             found = true;
                             break;
                         }
                         // try without folder prefix
-                        snprintf(m_szStreamName, sizeof(m_szStreamName), "%s%s%s%s", base.c_str(), r, track, e);
+                        snprintf(m_szStreamName, sizeof(m_szStreamName),
+                                 "%s%s%s%s", base.c_str(), r, track, e);
                         if (PlatformFilesystem.exists(m_szStreamName)) {
                             found = true;
                             break;
@@ -526,7 +532,8 @@ void SoundEngine::playMusicTick() {
                         m_StreamingAudioInfo.y, m_StreamingAudioInfo.z);
                 }
 
-                ma_sound_set_pitch(&m_audio->musicStream, m_StreamingAudioInfo.pitch);
+                ma_sound_set_pitch(&m_audio->musicStream,
+                                   m_StreamingAudioInfo.pitch);
                 ma_sound_set_volume(
                     &m_audio->musicStream,
                     m_StreamingAudioInfo.volume * getMasterMusicVolume());
@@ -683,7 +690,8 @@ void SoundEngine::updateMiniAudio() {
                                                  m_ListenerA[i].vOrientFront.y,
                                                  m_ListenerA[i].vOrientFront.z);
 
-                ma_engine_listener_set_world_up(&m_audio->engine, 0, 0.0f, 1.0f, 0.0f);
+                ma_engine_listener_set_world_up(&m_audio->engine, 0, 0.0f, 1.0f,
+                                                0.0f);
 
                 break;
             }

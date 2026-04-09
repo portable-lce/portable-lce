@@ -13,7 +13,8 @@ std::FILE* OpenBinaryFileForReadWrite(const File& file) {
         stream = _wfopen(file.getPath().c_str(), "w+b");
     }
 #else
-    const std::string nativePath = std::filesystem::path(file.getPath()).string();
+    const std::string nativePath =
+        std::filesystem::path(file.getPath()).string();
     std::FILE* stream = std::fopen(nativePath.c_str(), "r+b");
     if (stream == nullptr) {
         stream = std::fopen(nativePath.c_str(), "w+b");

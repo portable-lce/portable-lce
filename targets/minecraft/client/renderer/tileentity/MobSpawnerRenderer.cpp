@@ -1,12 +1,12 @@
 #include "MobSpawnerRenderer.h"
-#include "platform/stubs.h"
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/renderer/entity/EntityRenderDispatcher.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/level/BaseMobSpawner.h"
 #include "minecraft/world/level/tile/entity/MobSpawnerTileEntity.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 void MobSpawnerRenderer::render(std::shared_ptr<TileEntity> _spawner, double x,
                                 double y, double z, float a, bool setColor,

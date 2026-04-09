@@ -4,16 +4,16 @@
 #include <cmath>
 
 #include "ConsoleSchematicFile.h"
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
+#include "app/linux/LinuxGame.h"
+#include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"
-#include "app/linux/LinuxGame.h"
-#include "util/StringHelpers.h"
-#include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/phys/AABB.h"
+#include "util/StringHelpers.h"
 
 ApplySchematicRuleDefinition::ApplySchematicRuleDefinition(
     LevelGenerationOptions* levelGenOptions) {

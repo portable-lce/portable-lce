@@ -1,17 +1,15 @@
 #include "AchievementPopup.h"
-#include "platform/stubs.h"
 
-
-
-#include "platform/renderer/renderer.h"
 #include "java/System.h"
+#include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Font.h"
 #include "minecraft/client/gui/ScreenSizeCalculator.h"
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
 #include "minecraft/locale/I18n.h"
 #include "minecraft/stats/Achievement.h"
-#include "minecraft/client/Lighting.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 AchievementPopup::AchievementPopup(Minecraft* mc) {
     // 4J - added initialisers
@@ -78,7 +76,7 @@ void AchievementPopup::render() {
         prepareWindow();
 
         std::string title = "Minecraft " + SharedConstants::VERSION_STRING +
-                             "   Unlicensed Copy :(";
+                            "   Unlicensed Copy :(";
         std::string msg1 = "(Or logged in from another location)";
         std::string msg2 = "Purchase at minecraft.net";
 

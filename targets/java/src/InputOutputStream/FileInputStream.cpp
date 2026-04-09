@@ -7,10 +7,9 @@
 #include <algorithm>
 #include <cstdint>
 #include <cstdio>
+#include <filesystem>
 #include <string>
 #include <vector>
-
-#include <filesystem>
 
 #include "java/File.h"
 
@@ -53,7 +52,8 @@ FileInputStream::FileInputStream(const File& file) : m_fileHandle(nullptr) {
 #if defined(_WIN32)
     m_fileHandle = _wfopen(file.getPath().c_str(), "rb");
 #else
-    const std::string nativePath = std::filesystem::path(file.getPath()).string();
+    const std::string nativePath =
+        std::filesystem::path(file.getPath()).string();
     m_fileHandle = std::fopen(nativePath.c_str(), "rb");
 #endif
 

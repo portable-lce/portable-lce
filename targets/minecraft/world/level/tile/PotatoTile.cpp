@@ -3,13 +3,13 @@
 #include <memory>
 #include <string>
 
-#include "util/StringHelpers.h"
 #include "java/Random.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/tile/CropTile.h"
+#include "util/StringHelpers.h"
 
 PotatoTile::PotatoTile(int id) : CropTile(id) {}
 

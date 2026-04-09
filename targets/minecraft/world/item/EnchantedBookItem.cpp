@@ -58,8 +58,7 @@ void EnchantedBookItem::appendHoverText(
     if (list != nullptr) {
         std::string unformatted = "";
         for (int i = 0; i < list->size(); i++) {
-            int type =
-                list->get(i)->getShort((char*)ItemInstance::TAG_ENCH_ID);
+            int type = list->get(i)->getShort((char*)ItemInstance::TAG_ENCH_ID);
             int level =
                 list->get(i)->getShort((char*)ItemInstance::TAG_ENCH_LEVEL);
 
@@ -104,8 +103,7 @@ void EnchantedBookItem::addEnchantment(std::shared_ptr<ItemInstance> item,
     }
 
     if (!item->hasTag()) item->setTag(new CompoundTag());
-    item->getTag()->put((char*)TAG_STORED_ENCHANTMENTS.c_str(),
-                        enchantments);
+    item->getTag()->put((char*)TAG_STORED_ENCHANTMENTS.c_str(), enchantments);
 }
 
 std::shared_ptr<ItemInstance> EnchantedBookItem::createForEnchantment(

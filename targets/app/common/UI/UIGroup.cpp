@@ -1,7 +1,5 @@
 #include "UIGroup.h"
 
-#include "platform/profile/profile.h"
-#include "platform/renderer/renderer.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
@@ -11,6 +9,8 @@
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/client/MemoryTracker.h"
 #include "minecraft/client/Minecraft.h"
+#include "platform/profile/profile.h"
+#include "platform/renderer/renderer.h"
 
 class UIScene;
 
@@ -251,7 +251,9 @@ void UIGroup::SetViewportType(IPlatformRenderer::eViewportType type) {
     }
 }
 
-IPlatformRenderer::eViewportType UIGroup::GetViewportType() { return m_viewportType; }
+IPlatformRenderer::eViewportType UIGroup::GetViewportType() {
+    return m_viewportType;
+}
 
 void UIGroup::HandleDLCMountingComplete() {
     // Ignore this group if the player isn't signed in

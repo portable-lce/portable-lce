@@ -1,8 +1,8 @@
-#include "minecraft/IGameServices.h"
 #include "FireworksChargeItem.h"
 
 #include <stdint.h>
 
+#include "minecraft/IGameServices.h"
 #include "minecraft/util/HtmlString.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/item/DyePowderItem.h"
@@ -98,10 +98,11 @@ void FireworksChargeItem::appendHoverText(CompoundTag* expTag,
     // shape
     uint8_t type = expTag->getByte(FireworksItem::TAG_E_TYPE);
     if (type >= FireworksItem::TYPE_MIN && type <= FireworksItem::TYPE_MAX) {
-        lines->push_back(
-            HtmlString(gameServices().getString(FIREWORKS_CHARGE_TYPE_NAME[type])));
+        lines->push_back(HtmlString(
+            gameServices().getString(FIREWORKS_CHARGE_TYPE_NAME[type])));
     } else {
-        lines->push_back(HtmlString(gameServices().getString(IDS_FIREWORKS_CHARGE_TYPE)));
+        lines->push_back(
+            HtmlString(gameServices().getString(IDS_FIREWORKS_CHARGE_TYPE)));
     }
 
     // colors
@@ -115,7 +116,7 @@ void FireworksChargeItem::appendHoverText(CompoundTag* expTag,
             if (!first) {
                 output +=
                     ",\n";  // 4J-PB  - without the newline, they tend to go
-                             // offscreen in split-screen or localised languages
+                            // offscreen in split-screen or localised languages
             }
             first = false;
 
@@ -124,7 +125,8 @@ void FireworksChargeItem::appendHoverText(CompoundTag* expTag,
             for (int dc = 0; dc < 16; dc++) {
                 if (c == DyePowderItem::COLOR_RGB[dc]) {
                     found = true;
-                    output += gameServices().getString(FIREWORKS_CHARGE_COLOUR_NAME[dc]);
+                    output += gameServices().getString(
+                        FIREWORKS_CHARGE_COLOUR_NAME[dc]);
                     break;
                 }
             }
@@ -140,14 +142,15 @@ void FireworksChargeItem::appendHoverText(CompoundTag* expTag,
         expTag->getIntArray(FireworksItem::TAG_E_FADECOLORS);
     if (fadeList.size() > 0) {
         bool first = true;
-        std::string output =
-            std::string(gameServices().getString(IDS_FIREWORKS_CHARGE_FADE_TO)) + " ";
+        std::string output = std::string(gameServices().getString(
+                                 IDS_FIREWORKS_CHARGE_FADE_TO)) +
+                             " ";
         for (unsigned int i = 0; i < fadeList.size(); ++i) {
             int c = fadeList[i];
             if (!first) {
                 output +=
                     ",\n";  // 4J-PB  - without the newline, they tend to go
-                             // offscreen in split-screen or localised languages
+                            // offscreen in split-screen or localised languages
             }
             first = false;
 
@@ -156,7 +159,8 @@ void FireworksChargeItem::appendHoverText(CompoundTag* expTag,
             for (int dc = 0; dc < 16; dc++) {
                 if (c == DyePowderItem::COLOR_RGB[dc]) {
                     found = true;
-                    output += gameServices().getString(FIREWORKS_CHARGE_COLOUR_NAME[dc]);
+                    output += gameServices().getString(
+                        FIREWORKS_CHARGE_COLOUR_NAME[dc]);
                     break;
                 }
             }
@@ -170,7 +174,8 @@ void FireworksChargeItem::appendHoverText(CompoundTag* expTag,
     // has trail
     bool trail = expTag->getBoolean(FireworksItem::TAG_E_TRAIL);
     if (trail) {
-        lines->push_back(HtmlString(gameServices().getString(IDS_FIREWORKS_CHARGE_TRAIL)));
+        lines->push_back(
+            HtmlString(gameServices().getString(IDS_FIREWORKS_CHARGE_TRAIL)));
     }
 
     // has flicker

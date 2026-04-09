@@ -9,8 +9,8 @@
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
-#include "platform/fs/fs.h"
 #include "platform/PlatformTypes.h"
+#include "platform/fs/fs.h"
 
 ArchiveManager::ArchiveManager()
     : m_mediaArchive(nullptr), m_dwRequiredTexturePackID(0) {}

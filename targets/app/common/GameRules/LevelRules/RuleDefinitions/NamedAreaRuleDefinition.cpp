@@ -2,11 +2,11 @@
 
 #include <wchar.h>
 
+#include "app/linux/LinuxGame.h"
+#include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"
-#include "app/linux/LinuxGame.h"
 #include "util/StringHelpers.h"
-#include "java/InputOutputStream/DataOutputStream.h"
 
 NamedAreaRuleDefinition::NamedAreaRuleDefinition() {
     m_name = "";
@@ -41,7 +41,7 @@ void NamedAreaRuleDefinition::addAttribute(const std::string& attributeName,
         m_name = attributeValue;
 #ifndef _CONTENT_PACKAGE
         printf("NamedAreaRuleDefinition: Adding parameter name=%s\n",
-                m_name.c_str());
+               m_name.c_str());
 #endif
     } else if (attributeName.compare("x0") == 0) {
         m_area.x0 = fromWString<int>(attributeValue);

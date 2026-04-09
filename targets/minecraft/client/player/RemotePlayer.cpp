@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "RemotePlayer.h"
 
 #include <cmath>
@@ -6,6 +5,7 @@
 #include <vector>
 
 #include "Pos.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/item/Item.h"

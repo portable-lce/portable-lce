@@ -1,16 +1,16 @@
-#include "minecraft/util/Log.h"
 #include "BlockRegionUpdatePacket.h"
 
 #include <assert.h>
 #include <string.h>
 
 #include "PacketListener.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"
 #include "minecraft/world/level/dimension/Dimension.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 
 #define BLOCK_REGION_UPDATE_FULLCHUNK 0x01
 #define BLOCK_REGION_UPDATE_ZEROHEIGHT \
@@ -118,8 +118,7 @@ void BlockRegionUpdatePacket::read(DataInputStream* dis)  // throws IOException
             Compression::getCompression()->DecompressLZXRLE(
                 buffer.data(), &outputSize, compressedBuffer.data(), size);
         } else {
-            Log::info(
-                "Not decompressing packet that wasn't fully read\n");
+            Log::info("Not decompressing packet that wasn't fully read\n");
         }
 
         //	printf("Block (%d %d %d), (%d %d %d) coming in decomp from %d to

@@ -1,12 +1,11 @@
 #pragma once
 
+#include <bit>
 #include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <string>
 #include <vector>
-
-#include <bit>
 
 #define MAKE_FOURCC(ch0, ch1, ch2, ch3)                                   \
     (static_cast<std::uint32_t>(static_cast<std::uint8_t>(ch0)) |         \
@@ -81,8 +80,8 @@ enum ESavePlatform {
 
 struct FileEntrySaveDataV1 {
 public:
-    char filename[64];  // 64 * 2B
-    unsigned int length;   // In bytes	// 4B
+    char filename[64];    // 64 * 2B
+    unsigned int length;  // In bytes	// 4B
 
     // This is only valid once the save file has been written/loaded at least
     // once
@@ -93,8 +92,8 @@ public:
 // updating 4J Stu - As of writing the tutorial level uses a V1 save file
 struct FileEntrySaveDataV2 {
 public:
-    char filename[64];  // 64 * 2B
-    unsigned int length;   // In bytes	// 4B
+    char filename[64];    // 64 * 2B
+    unsigned int length;  // In bytes	// 4B
 
     union {
         // This is only valid once the save file has been written/loaded at

@@ -1,5 +1,6 @@
-#include "platform/PlatformTypes.h"
 #include "platform/XboxStubs.h"
+
+#include "platform/PlatformTypes.h"
 
 bool IsEqualXUID(PlayerUID a, PlayerUID b) { return a == b; }
 

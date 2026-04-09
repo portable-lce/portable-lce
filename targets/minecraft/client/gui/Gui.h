@@ -6,10 +6,10 @@
 #include <string>
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "GuiComponent.h"
 #include "minecraft/client/GuiMessage.h"
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
+#include "platform/PlatformTypes.h"
 
 class Random;
 class Minecraft;

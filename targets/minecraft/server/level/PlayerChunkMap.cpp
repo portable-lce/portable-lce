@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "PlayerChunkMap.h"
 
 #include <assert.h>
@@ -10,20 +9,21 @@
 #include <unordered_set>
 #include <utility>
 
-#include "minecraft/network/INetworkService.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "ServerChunkCache.h"
 #include "ServerLevel.h"
 #include "ServerPlayer.h"
+#include "minecraft/network/INetworkService.h"
 #include "minecraft/network/packet/BlockRegionUpdatePacket.h"
 #include "minecraft/network/packet/ChunkTilesUpdatePacket.h"
 #include "minecraft/network/packet/ChunkVisibilityAreaPacket.h"
 #include "minecraft/network/packet/ChunkVisibilityPacket.h"
 #include "minecraft/network/packet/Packet.h"
 #include "minecraft/network/packet/TileUpdatePacket.h"
+#include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/network/PlayerConnection.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/ChunkPos.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"

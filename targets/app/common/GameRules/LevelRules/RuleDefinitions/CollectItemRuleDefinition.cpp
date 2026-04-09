@@ -1,15 +1,15 @@
 #include "CollectItemRuleDefinition.h"
 
-#include "minecraft/world/level/ConsoleGameRulesConstants.h"
-#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
-#include "minecraft/world/level/GameRules/GameRule.h"
-#include "minecraft/world/level/GameRules/GameRulesInstance.h"
 #include "app/linux/LinuxGame.h"
-#include "util/StringHelpers.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/network/Connection.h"
 #include "minecraft/network/packet/UpdateGameRuleProgressPacket.h"
 #include "minecraft/world/item/ItemInstance.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
+#include "minecraft/world/level/GameRules/GameRule.h"
+#include "minecraft/world/level/GameRules/GameRuleDefinition.h"
+#include "minecraft/world/level/GameRules/GameRulesInstance.h"
+#include "util/StringHelpers.h"
 
 CollectItemRuleDefinition::CollectItemRuleDefinition() {
     m_itemId = 0;
@@ -111,8 +111,7 @@ std::string CollectItemRuleDefinition::generateXml(
               "\" quantity=\"SET\" descriptionName=\"OPTIONAL\" "
               "promptName=\"OPTIONAL\"";
         if (item->getAuxValue() != 0)
-            xml +=
-                " auxValue=\"" + toWString<int>(item->getAuxValue()) + "\"";
+            xml += " auxValue=\"" + toWString<int>(item->getAuxValue()) + "\"";
         if (item->get4JData() != 0)
             xml += " dataTag=\"" + toWString<int>(item->get4JData()) + "\"";
         xml += "/>\n";

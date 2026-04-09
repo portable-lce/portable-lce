@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "Tile.h"
 
 #include <string.h>
@@ -6,12 +5,12 @@
 #include <optional>
 
 #include "Facing.h"
-#include "util/StringHelpers.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/stats/Stats.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/entity/ExperienceOrb.h"
 #include "minecraft/world/entity/item/ItemEntity.h"
@@ -152,6 +151,7 @@
 #include "minecraft/world/phys/HitResult.h"
 #include "minecraft/world/phys/Vec3.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 std::string Tile::TILE_DESCRIPTION_PREFIX = "Tile.";
 
@@ -2623,8 +2623,8 @@ Tile* Tile::setIconName(const std::string& iconName) {
 }
 
 std::string Tile::getIconName() {
-    return iconName.empty() ? "MISSING_ICON_TILE_" + toWString<int>(id) +
-                                  "_" + toWString<int>(descriptionId)
+    return iconName.empty() ? "MISSING_ICON_TILE_" + toWString<int>(id) + "_" +
+                                  toWString<int>(descriptionId)
                             : iconName;
 }
 

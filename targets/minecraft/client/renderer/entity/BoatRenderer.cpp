@@ -1,11 +1,9 @@
 #include "BoatRenderer.h"
-#include "platform/stubs.h"
 
 #include <math.h>
 
 #include <memory>
 
-#include "platform/renderer/renderer.h"
 #include "minecraft/client/model/BoatModel.h"
 #include "minecraft/client/model/geom/Model.h"
 #include "minecraft/client/renderer/Textures.h"
@@ -13,6 +11,8 @@
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/item/Boat.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation BoatRenderer::BOAT_LOCATION = ResourceLocation(TN_ITEM_BOAT);
 

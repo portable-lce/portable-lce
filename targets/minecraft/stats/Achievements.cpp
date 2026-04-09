@@ -220,8 +220,8 @@ void Achievements::staticCtor() {
                          Tile::treeTrunk, (Achievement*)buildSword))
             ->postConstruct();
     Achievements::socialPost =
-        (new Achievement(eAward_socialPost, "socialPost", 0, 0,
-                         Tile::treeTrunk, (Achievement*)buildSword))
+        (new Achievement(eAward_socialPost, "socialPost", 0, 0, Tile::treeTrunk,
+                         (Achievement*)buildSword))
             ->postConstruct();
 
     // WARNING: NO NEW ACHIEVMENTS CAN BE ADDED HERE
@@ -235,8 +235,8 @@ void Achievements::staticCtor() {
     // 4J Stu - This achievment added in 1.8.2, but does not map to any Xbox
     // achievements
     Achievements::snipeSkeleton =
-        (new Achievement(eAward_snipeSkeleton, "snipeSkeleton", 7, 0,
-                         Item::bow, (Achievement*)killEnemy))
+        (new Achievement(eAward_snipeSkeleton, "snipeSkeleton", 7, 0, Item::bow,
+                         (Achievement*)killEnemy))
             ->setGolden()
             ->postConstruct();
 
@@ -317,13 +317,13 @@ void Achievements::staticCtor() {
     // 0,0,	Tile::bookshelf,		(Achievement*) nullptr)
     // )->postConstruct();
     Achievements::theHaggler =
-        (new Achievement(eAward_theHaggler, "theHaggler", 0, 0,
-                         Tile::bookshelf, (Achievement*)nullptr))
+        (new Achievement(eAward_theHaggler, "theHaggler", 0, 0, Tile::bookshelf,
+                         (Achievement*)nullptr))
             ->setAwardLocallyOnly()
             ->postConstruct();
     Achievements::potPlanter =
-        (new Achievement(eAward_potPlanter, "potPlanter", 0, 0,
-                         Tile::bookshelf, (Achievement*)nullptr))
+        (new Achievement(eAward_potPlanter, "potPlanter", 0, 0, Tile::bookshelf,
+                         (Achievement*)nullptr))
             ->setAwardLocallyOnly()
             ->postConstruct();
     Achievements::itsASign =

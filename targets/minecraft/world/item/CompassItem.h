@@ -4,8 +4,8 @@
 
 #include <string>
 
-#include "platform/PlatformTypes.h"
 #include "Item.h"
+#include "platform/PlatformTypes.h"
 
 class Icon;
 

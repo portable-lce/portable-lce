@@ -1,10 +1,10 @@
-#include "minecraft/util/Log.h"
 #include "StructureFeatureIO.h"
 
 #include <string>
 #include <unordered_map>
 #include <utility>
 
+#include "minecraft/util/Log.h"
 #include "minecraft/world/level/levelgen/structure/MineShaftPieces.h"
 #include "minecraft/world/level/levelgen/structure/MineShaftStart.h"
 #include "minecraft/world/level/levelgen/structure/NetherBridgeFeature.h"
@@ -96,7 +96,7 @@ StructureStart* StructureFeatureIO::loadStaticStart(CompoundTag* tag,
         start->load(level, tag);
     } else {
         Log::info("Skipping Structure with id %s",
-                        tag->getString("id").c_str());
+                  tag->getString("id").c_str());
     }
     return start;
 }
@@ -113,8 +113,7 @@ StructurePiece* StructureFeatureIO::loadStaticPiece(CompoundTag* tag,
     if (piece != nullptr) {
         piece->load(level, tag);
     } else {
-        Log::info("Skipping Piece with id %s",
-                        tag->getString("id").c_str());
+        Log::info("Skipping Piece with id %s", tag->getString("id").c_str());
     }
     return piece;
 }

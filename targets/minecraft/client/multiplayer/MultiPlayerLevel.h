@@ -9,9 +9,7 @@
 
 #include "java/JavaIntHash.h"
 #include "minecraft/world/entity/Entity.h"
-
 #include "minecraft/world/level/Level.h"
-
 
 class ClientConnection;
 class MultiPlayerChunkCache;

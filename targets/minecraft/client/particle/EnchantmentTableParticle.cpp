@@ -1,11 +1,11 @@
 #include "EnchantmentTableParticle.h"
 
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/particle/Particle.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 
 EchantmentTableParticle::EchantmentTableParticle(Level* level, double x,
                                                  double y, double z, double xd,

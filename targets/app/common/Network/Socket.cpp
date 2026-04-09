@@ -7,11 +7,11 @@
 #include <vector>
 
 // 4jcraft TODO
-#include "platform/ShutdownManager.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
-#include "platform/NetTypes.h"
 #include "minecraft/server/network/ServerConnection.h"
+#include "platform/NetTypes.h"
+#include "platform/ShutdownManager.h"
 
 class SocketAddress {};
 

@@ -135,8 +135,7 @@ MerchantRecipeList* MerchantRecipeList::createFromStream(
 }
 
 void MerchantRecipeList::load(CompoundTag* tag) {
-    ListTag<CompoundTag>* list =
-        (ListTag<CompoundTag>*)tag->getList("Recipes");
+    ListTag<CompoundTag>* list = (ListTag<CompoundTag>*)tag->getList("Recipes");
 
     for (int i = 0; i < list->size(); i++) {
         CompoundTag* recipeTag = list->get(i);

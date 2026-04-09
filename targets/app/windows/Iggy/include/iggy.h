@@ -488,15 +488,16 @@ IDOCN typedef struct {
     rrbool(RADLINK* connection_valid)(
         Iggy* swf, HIGGYEXP iggyexp);  // Iggy queries this to check if Iggy
                                        // Explorer is still connected
-    S32(RADLINK* poll_command)(
-        Iggy* swf, HIGGYEXP iggyexp,
-        U8** buffer);  // stores command in *buffer, returns number of bytes
+    S32(RADLINK* poll_command)
+    (Iggy* swf, HIGGYEXP iggyexp,
+     U8** buffer);  // stores command in *buffer, returns number of bytes
     void(RADLINK* send_command)(
         Iggy* swf, HIGGYEXP iggyexp, U8 command, void* buffer,
         S32 len);  // writes a command with a payload of buffer:len
-    S32(RADLINK* get_storage)(Iggy* swf, HIGGYEXP iggyexp,
-                              U8** buffer);  // returns temporary storage Iggy
-                                             // can use for assembling commands
+    S32(RADLINK* get_storage)
+    (Iggy* swf, HIGGYEXP iggyexp,
+     U8** buffer);  // returns temporary storage Iggy
+                    // can use for assembling commands
     rrbool(RADLINK* attach)(
         Iggy* swf, HIGGYEXP iggyexp, iggyexp_detach_callback* cb, void* cbdata,
         IggyForPerfmonFunctions*

@@ -5,10 +5,10 @@
 #include <unordered_map>
 
 #include "Entity.h"
-#include "minecraft/GameEnums.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "java/Class.h"
 #include "java/JavaIntHash.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 
 class Level;
 class CompoundTag;
@@ -51,9 +51,8 @@ private:
     static void setId(entityCreateFn createFn, eINSTANCEOF clas,
                       const std::string& id, int idNum);
     static void setId(entityCreateFn createFn, eINSTANCEOF clas,
-                      const std::string& id, int idNum,
-                      eMinecraftColour color1, eMinecraftColour color2,
-                      int nameId);
+                      const std::string& id, int idNum, eMinecraftColour color1,
+                      eMinecraftColour color2, int nameId);
 
 public:
     static void staticCtor();

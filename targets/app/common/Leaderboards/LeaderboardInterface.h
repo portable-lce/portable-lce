@@ -1,7 +1,7 @@
 #pragma once
 
-#include "platform/PlatformTypes.h"
 #include "LeaderboardManager.h"
+#include "platform/PlatformTypes.h"
 
 // 4J-JEV: Simple interface for handling ReadStat failures.
 class LeaderboardInterface {
@@ -23,11 +23,12 @@ public:
     ~LeaderboardInterface();
 
     void ReadStats_Friends(LeaderboardReadListener* callback, int difficulty,
-                           IPlatformLeaderboard::EStatsType type, PlayerUID myUID,
-                           unsigned int startIndex, unsigned int readCount);
-    void ReadStats_MyScore(LeaderboardReadListener* callback, int difficulty,
-                           IPlatformLeaderboard::EStatsType type, PlayerUID myUID,
+                           IPlatformLeaderboard::EStatsType type,
+                           PlayerUID myUID, unsigned int startIndex,
                            unsigned int readCount);
+    void ReadStats_MyScore(LeaderboardReadListener* callback, int difficulty,
+                           IPlatformLeaderboard::EStatsType type,
+                           PlayerUID myUID, unsigned int readCount);
     void ReadStats_TopRank(LeaderboardReadListener* callback, int difficulty,
                            IPlatformLeaderboard::EStatsType type,
                            unsigned int startIndex, unsigned int readCount);

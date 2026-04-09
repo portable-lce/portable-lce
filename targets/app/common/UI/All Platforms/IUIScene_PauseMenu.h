@@ -1,8 +1,8 @@
 #pragma once
 
+#include "app/common/DLC/DLCPack.h"
 #include "platform/profile/profile.h"
 #include "platform/storage/storage.h"
-#include "app/common/DLC/DLCPack.h"
 
 class DLCPack;
 
@@ -13,20 +13,20 @@ protected:
 public:
     static int ExitGameDialogReturned(void* pParam, int iPad,
                                       IPlatformStorage::EMessageResult result);
-    static int ExitGameSaveDialogReturned(void* pParam, int iPad,
-                                          IPlatformStorage::EMessageResult result);
+    static int ExitGameSaveDialogReturned(
+        void* pParam, int iPad, IPlatformStorage::EMessageResult result);
     static int ExitGameAndSaveReturned(void* pParam, int iPad,
                                        IPlatformStorage::EMessageResult result);
-    static int ExitGameDeclineSaveReturned(void* pParam, int iPad,
-                                           IPlatformStorage::EMessageResult result);
+    static int ExitGameDeclineSaveReturned(
+        void* pParam, int iPad, IPlatformStorage::EMessageResult result);
     static int WarningTrialTexturePackReturned(
         void* pParam, int iPad, IPlatformStorage::EMessageResult result);
     static int SaveGameDialogReturned(void* pParam, int iPad,
                                       IPlatformStorage::EMessageResult result);
-    static int EnableAutosaveDialogReturned(void* pParam, int iPad,
-                                            IPlatformStorage::EMessageResult result);
-    static int DisableAutosaveDialogReturned(void* pParam, int iPad,
-                                             IPlatformStorage::EMessageResult result);
+    static int EnableAutosaveDialogReturned(
+        void* pParam, int iPad, IPlatformStorage::EMessageResult result);
+    static int DisableAutosaveDialogReturned(
+        void* pParam, int iPad, IPlatformStorage::EMessageResult result);
 
     static int SaveWorldThreadProc(void* lpParameter);
     static int ExitWorldThreadProc(void* lpParameter);

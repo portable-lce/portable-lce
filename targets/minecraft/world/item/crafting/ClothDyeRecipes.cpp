@@ -104,7 +104,6 @@ void ClothDyeRecipes::addRecipes(Recipes* r) {
 
     for (int i = 0; i < 16; i++) {
         r->addShapedRecipy(new ItemInstance(Tile::woolCarpet, 3, i), "sczg",
-                           "##", '#', new ItemInstance(Tile::wool, 1, i),
-                           'D');
+                           "##", '#', new ItemInstance(Tile::wool, 1, i), 'D');
     }
 }

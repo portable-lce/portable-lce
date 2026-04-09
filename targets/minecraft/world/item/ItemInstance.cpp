@@ -11,7 +11,6 @@
 #include <vector>
 
 #include "Item.h"
-#include "util/StringHelpers.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/HtmlString.h"
 #include "minecraft/world/entity/LivingEntity.h"
@@ -31,6 +30,7 @@
 #include "nbt/CompoundTag.h"
 #include "nbt/IntTag.h"
 #include "nbt/ListTag.h"
+#include "util/StringHelpers.h"
 
 class Tag;
 
@@ -370,8 +370,8 @@ std::string ItemInstance::toString() {
     std::ostringstream oss;
     // 4J-PB - TODO - temp fix until ore recipe issue is fixed
     if (Item::items[id] == nullptr) {
-        oss << std::dec << count << "x" << " Item::items[id] is nullptr "
-            << "@" << auxValue;
+        oss << std::dec << count << "x" << " Item::items[id] is nullptr " << "@"
+            << auxValue;
     } else {
         oss << std::dec << count << "x"
             << Item::items[id]->getDescription(shared_from_this()) << "@"

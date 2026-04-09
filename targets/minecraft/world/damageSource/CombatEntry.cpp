@@ -36,8 +36,8 @@ float CombatEntry::getHealthBeforeDamage() { return health; }
 float CombatEntry::getHealthAfterDamage() { return health - damage; }
 
 bool CombatEntry::isCombatRelated() {
-    return source->getEntity() &&
-           source->getEntity()->instanceof(eTYPE_LIVINGENTITY);
+    return source->getEntity() && source->getEntity()->instanceof
+        (eTYPE_LIVINGENTITY);
 }
 
 CombatTracker::eLOCATION CombatEntry::getLocation() { return location; }

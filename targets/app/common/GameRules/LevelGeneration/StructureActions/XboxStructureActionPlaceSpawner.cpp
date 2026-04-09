@@ -4,9 +4,9 @@
 
 #include <memory>
 
-#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceBlock.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/levelgen/structure/BoundingBox.h"
 #include "minecraft/world/level/levelgen/structure/StructurePiece.h"
@@ -33,9 +33,8 @@ void XboxStructureActionPlaceSpawner::addAttribute(
     if (attributeName.compare("entity") == 0) {
         m_entityId = attributeValue;
 #ifndef _CONTENT_PACKAGE
-        printf(
-            "XboxStructureActionPlaceSpawner: Adding parameter entity=%s\n",
-            m_entityId.c_str());
+        printf("XboxStructureActionPlaceSpawner: Adding parameter entity=%s\n",
+               m_entityId.c_str());
 #endif
     } else {
         XboxStructureActionPlaceBlock::addAttribute(attributeName,

@@ -1,8 +1,6 @@
 
 #include "UIScene_MessageBox.h"
 
-#include "platform/PlatformTypes.h"
-#include "platform/profile/profile.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
@@ -10,6 +8,8 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "platform/PlatformTypes.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 UIScene_MessageBox::UIScene_MessageBox(int iPad, void* initData,
@@ -114,7 +114,8 @@ void UIScene_MessageBox::handleInput(int iPad, int key, bool repeat,
             if (pressed) {
                 navigateBack();
                 if (m_Func)
-                    m_Func(m_lpParam, iPad, IPlatformStorage::EMessage_Cancelled);
+                    m_Func(m_lpParam, iPad,
+                           IPlatformStorage::EMessage_Cancelled);
             }
             break;
         case ACTION_MENU_OK:
@@ -129,7 +130,8 @@ void UIScene_MessageBox::handleInput(int iPad, int key, bool repeat,
 }
 
 void UIScene_MessageBox::handlePress(F64 controlId, F64 childId) {
-    IPlatformStorage::EMessageResult result = IPlatformStorage::EMessage_Cancelled;
+    IPlatformStorage::EMessageResult result =
+        IPlatformStorage::EMessage_Cancelled;
     switch ((int)controlId) {
         case 0:
             result = IPlatformStorage::EMessage_ResultAccept;

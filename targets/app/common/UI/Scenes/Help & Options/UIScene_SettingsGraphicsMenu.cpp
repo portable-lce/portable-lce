@@ -2,8 +2,6 @@
 
 #include <wchar.h>
 
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
 #include "app/common/UI/Controls/UIControl_Slider.h"
@@ -11,7 +9,9 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 UIScene_SettingsGraphicsMenu::UIScene_SettingsGraphicsMenu(int iPad,

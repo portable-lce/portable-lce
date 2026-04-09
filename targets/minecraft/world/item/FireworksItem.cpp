@@ -1,10 +1,9 @@
-#include "minecraft/IGameServices.h"
 #include "FireworksItem.h"
 
 #include <memory>
 #include <vector>
 
-#include "util/StringHelpers.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/util/HtmlString.h"
 #include "minecraft/world/entity/player/Abilities.h"
 #include "minecraft/world/entity/player/Player.h"
@@ -16,6 +15,7 @@
 #include "nbt/CompoundTag.h"
 #include "nbt/ListTag.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 const std::string FireworksItem::TAG_FIREWORKS = "Fireworks";
 const std::string FireworksItem::TAG_EXPLOSION = "Explosion";
@@ -65,8 +65,8 @@ void FireworksItem::appendHoverText(std::shared_ptr<ItemInstance> itemInstance,
     }
     if (fireTag->contains(TAG_FLIGHT)) {
         lines->push_back(
-            std::string(gameServices().getString(IDS_ITEM_FIREWORKS_FLIGHT)) + " " +
-            toWString<int>((fireTag->getByte(TAG_FLIGHT))));
+            std::string(gameServices().getString(IDS_ITEM_FIREWORKS_FLIGHT)) +
+            " " + toWString<int>((fireTag->getByte(TAG_FLIGHT))));
     }
 
     ListTag<CompoundTag>* explosions =

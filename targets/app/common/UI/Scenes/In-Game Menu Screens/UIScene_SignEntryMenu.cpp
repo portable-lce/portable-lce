@@ -1,7 +1,6 @@
 
 #include "UIScene_SignEntryMenu.h"
 
-#include "platform/input/input.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
@@ -10,7 +9,6 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/client/multiplayer/MultiPlayerLevel.h"
@@ -18,7 +16,9 @@
 #include "minecraft/network/packet/SignUpdatePacket.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/world/level/tile/entity/SignTileEntity.h"
+#include "platform/input/input.h"
 #include "strings.h"
+#include "util/StringHelpers.h"
 
 UIScene_SignEntryMenu::UIScene_SignEntryMenu(int iPad, void* _initData,
                                              UILayer* parentLayer)
@@ -52,7 +52,8 @@ UIScene_SignEntryMenu::UIScene_SignEntryMenu(int iPad, void* _initData,
                     IPlatformInput::EKeyboardMode_Alphabet);
                 break;
             default:
-                m_signRows[i].SetKeyboardType(IPlatformInput::EKeyboardMode_Full);
+                m_signRows[i].SetKeyboardType(
+                    IPlatformInput::EKeyboardMode_Full);
                 break;
         }
 
@@ -164,8 +165,7 @@ void UIScene_SignEntryMenu::handlePress(F64 controlId, F64 childId) {
                     // 4J HEG - No reason to set value if keyboard was cancelled
                     m_bIgnoreInput = false;
                     if (bRes && m_iEditingLine >= 0 && m_iEditingLine < 4) {
-                        std::string str =
-                            PlatformInput.GetText();
+                        std::string str = PlatformInput.GetText();
                         if (str.size() > 15) str.resize(15);
                         m_textInputLines[m_iEditingLine].setLabel(str);
                     }

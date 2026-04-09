@@ -1,4 +1,3 @@
-#include "minecraft/util/Log.h"
 #include "EntityIO.h"
 
 #include <utility>
@@ -7,6 +6,7 @@
 #include "Painting.h"
 #include "java/Class.h"
 #include "java/JavaIntHash.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/entity/ExperienceOrb.h"
 #include "minecraft/world/entity/ItemFrame.h"
 #include "minecraft/world/entity/LeashFenceKnotEntity.h"
@@ -90,7 +90,7 @@ void EntityIO::setId(entityCreateFn createFn, eINSTANCEOF clas,
                      const std::string& id, int idNum) {
     idCreateMap->insert(
         std::unordered_map<std::string, entityCreateFn>::value_type(id,
-                                                                     createFn));
+                                                                    createFn));
     classIdMap->insert(
         std::unordered_map<eINSTANCEOF, std::string, eINSTANCEOFKeyHash,
                            eINSTANCEOFKeyEq>::value_type(clas, id));
@@ -142,8 +142,8 @@ void EntityIO::staticCtor() {
           "FireworksRocketEntity", 22);
 
     setId(Boat::create, eTYPE_BOAT, "Boat", 41);
-    setId(MinecartRideable::create, eTYPE_MINECART_RIDEABLE,
-          "MinecartRideable", 42);
+    setId(MinecartRideable::create, eTYPE_MINECART_RIDEABLE, "MinecartRideable",
+          42);
     setId(MinecartChest::create, eTYPE_MINECART_CHEST, "MinecartChest", 43);
     setId(MinecartFurnace::create, eTYPE_MINECART_FURNACE, "MinecartFurnace",
           44);
@@ -330,8 +330,7 @@ std::shared_ptr<Entity> EntityIO::loadStatic(CompoundTag* tag, Level* level) {
         entity->load(tag);
     } else {
 #ifdef _DEBUG
-        Log::info("Skipping Entity with id %s\n",
-                        tag->getString("id").c_str());
+        Log::info("Skipping Entity with id %s\n", tag->getString("id").c_str());
 #endif
     }
     return entity;

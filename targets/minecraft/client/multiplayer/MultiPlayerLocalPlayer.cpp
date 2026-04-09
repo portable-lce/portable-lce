@@ -1,5 +1,3 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "MultiPlayerLocalPlayer.h"
 
 #include <wchar.h>
@@ -10,6 +8,7 @@
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/player/Input.h"
@@ -26,6 +25,7 @@
 #include "minecraft/network/packet/TextureAndGeometryChangePacket.h"
 #include "minecraft/network/packet/TextureChangePacket.h"
 #include "minecraft/stats/Stat.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/effect/MobEffect.h"
 #include "minecraft/world/effect/MobEffectInstance.h"
 #include "minecraft/world/entity/player/Abilities.h"
@@ -73,13 +73,14 @@ void MultiplayerLocalPlayer::tick() {
     // bool bIsisPrimaryHost=NetworkService.IsHost() &&
     // (PlatformInput.GetPrimaryPad()==m_iPad);
 
-    /*if((gameServices().getGameSettings(m_iPad,eGameSetting_PlayerVisibleInMap)!=0) !=
-    m_bShownOnMaps)
+    /*if((gameServices().getGameSettings(m_iPad,eGameSetting_PlayerVisibleInMap)!=0)
+    != m_bShownOnMaps)
     {
             m_bShownOnMaps =
-    (gameServices().getGameSettings(m_iPad,eGameSetting_PlayerVisibleInMap)!=0); if
-    (m_bShownOnMaps) connection->send( std::shared_ptr<PlayerCommandPacket>( new
-    PlayerCommandPacket(shared_from_this(), PlayerCommandPacket::SHOW_ON_MAPS) )
+    (gameServices().getGameSettings(m_iPad,eGameSetting_PlayerVisibleInMap)!=0);
+    if (m_bShownOnMaps) connection->send( std::shared_ptr<PlayerCommandPacket>(
+    new PlayerCommandPacket(shared_from_this(),
+    PlayerCommandPacket::SHOW_ON_MAPS) )
     ); else connection->send( std::shared_ptr<PlayerCommandPacket>( new
     PlayerCommandPacket(shared_from_this(), PlayerCommandPacket::HIDE_ON_MAPS) )
     );
@@ -372,14 +373,14 @@ void MultiplayerLocalPlayer::setAndBroadcastCustomSkin(std::uint32_t skinId) {
     std::uint32_t oldSkinIndex = getCustomSkin();
     LocalPlayer::setCustomSkin(skinId);
 #if !defined(_CONTENT_PACKAGE)
-    printf("Skin for local player %s has changed to %s (%d)\n",
-            name.c_str(), customTextureUrl.c_str(),
-            static_cast<int>(getPlayerDefaultSkin()));
+    printf("Skin for local player %s has changed to %s (%d)\n", name.c_str(),
+           customTextureUrl.c_str(), static_cast<int>(getPlayerDefaultSkin()));
 #endif
     if (getCustomSkin() != oldSkinIndex)
         connection->send(std::shared_ptr<TextureAndGeometryChangePacket>(
             new TextureAndGeometryChangePacket(
-                shared_from_this(), gameServices().getPlayerSkinName(GetXboxPad()))));
+                shared_from_this(),
+                gameServices().getPlayerSkinName(GetXboxPad()))));
 }
 
 void MultiplayerLocalPlayer::setAndBroadcastCustomCape(std::uint32_t capeId) {
@@ -387,7 +388,7 @@ void MultiplayerLocalPlayer::setAndBroadcastCustomCape(std::uint32_t capeId) {
     LocalPlayer::setCustomCape(capeId);
 #if !defined(_CONTENT_PACKAGE)
     printf("Cape for local player %s has changed to %s\n", name.c_str(),
-            customTextureUrl2.c_str());
+           customTextureUrl2.c_str());
 #endif
     if (getCustomCape() != oldCapeIndex)
         connection->send(std::make_shared<TextureChangePacket>(

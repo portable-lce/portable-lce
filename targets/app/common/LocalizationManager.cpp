@@ -6,24 +6,23 @@
 
 #include <string>
 
-#include "minecraft/GameEnums.h"
 #include "app/common/App_structs.h"
-#include "minecraft/locale/StringTable.h"
-#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/linux/LinuxGame.h"
 #include "java/Random.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
+#include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "minecraft/locale/StringTable.h"
+#include "platform/XboxStubs.h"
 #include "platform/input/input.h"
 #include "platform/renderer/renderer.h"
-#include "platform/XboxStubs.h"
 #include "strings.h"
 #include "util/StringHelpers.h"
 
-int LocalizationManager::s_iHTMLFontSizesA[eHTMLSize_COUNT] = {
-    20, 13, 20, 26};
+int LocalizationManager::s_iHTMLFontSizesA[eHTMLSize_COUNT] = {20, 13, 20, 26};
 
 TIPSTRUCT LocalizationManager::m_GameTipA[MAX_TIPS_GAMETIP] = {
     {0, IDS_TIPS_GAMETIP_1},  {0, IDS_TIPS_GAMETIP_2},
@@ -77,8 +76,7 @@ void LocalizationManager::loadStringTable(ArchiveFile* mediaArchive) {
     }
     std::string localisationFile = "languages.loc";
     if (mediaArchive->hasFile(localisationFile)) {
-        std::vector<uint8_t> locFile =
-            mediaArchive->getFile(localisationFile);
+        std::vector<uint8_t> locFile = mediaArchive->getFile(localisationFile);
         m_stringTable = new StringTable(locFile.data(), locFile.size());
     } else {
         m_stringTable = nullptr;
@@ -345,8 +343,8 @@ std::string LocalizationManager::formatHTMLString(
     return text;
 }
 
-std::string LocalizationManager::getActionReplacement(
-    int iPad, unsigned char ucAction) {
+std::string LocalizationManager::getActionReplacement(int iPad,
+                                                      unsigned char ucAction) {
     unsigned int input = PlatformInput.GetGameJoypadMaps(
         PlatformInput.GetJoypadMapVal(iPad), ucAction);
 
@@ -505,8 +503,7 @@ std::string LocalizationManager::getIconReplacement(unsigned int uiIcon) {
     return result;
 }
 
-void LocalizationManager::getLocale(
-    std::vector<std::string>& vecWstrLocales) {
+void LocalizationManager::getLocale(std::vector<std::string>& vecWstrLocales) {
     std::vector<eMCLang> locales;
 
     const unsigned int systemLanguage = XGetLanguage();

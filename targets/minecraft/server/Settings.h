@@ -18,7 +18,7 @@ public:
     void generateNewProperties();
     void saveProperties();
     std::string getString(const std::string& key,
-                           const std::string& defaultValue);
+                          const std::string& defaultValue);
     int getInt(const std::string& key, int defaultValue);
     bool getBoolean(const std::string& key, bool defaultValue);
     void setBooleanAndSave(const std::string& key, bool value);

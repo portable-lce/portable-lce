@@ -2,7 +2,6 @@
 
 #include <vector>
 
-#include "platform/PlatformTypes.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
@@ -15,6 +14,7 @@
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
+#include "platform/PlatformTypes.h"
 
 EGameCommand GiveItemCommand::getId() { return eGameCommand_Give; }
 

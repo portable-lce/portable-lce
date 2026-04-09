@@ -3,7 +3,6 @@
 #include <memory>
 #include <string>
 
-#include "util/StringHelpers.h"
 #include "java/Random.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/item/Item.h"
@@ -11,6 +10,7 @@
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/tile/PlantTile.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "util/StringHelpers.h"
 
 class Icon;
 

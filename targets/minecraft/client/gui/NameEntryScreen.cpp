@@ -3,17 +3,17 @@
 #include <vector>
 
 #include "Button.h"
-#include "platform/stubs.h"
-#include "util/StringHelpers.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Screen.h"
+#include "platform/stubs.h"
+#include "util/StringHelpers.h"
 
 const std::string NameEntryScreen::allowedChars =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "
     ",.:-_'*!\"#%/()=+?[]{}<>";
 
-NameEntryScreen::NameEntryScreen(Screen* lastScreen,
-                                 const std::string& oldName, int slot) {
+NameEntryScreen::NameEntryScreen(Screen* lastScreen, const std::string& oldName,
+                                 int slot) {
     frame = 0;  // 4J added
 
     this->lastScreen = lastScreen;

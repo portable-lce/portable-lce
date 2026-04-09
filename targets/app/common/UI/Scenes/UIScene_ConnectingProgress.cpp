@@ -1,8 +1,6 @@
 
 #include "UIScene_ConnectingProgress.h"
 
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
@@ -13,8 +11,10 @@
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/System.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 UIScene_ConnectingProgress::UIScene_ConnectingProgress(int iPad,

@@ -1,10 +1,8 @@
 #include "WitchRenderer.h"
-#include "platform/stubs.h"
 
 #include <memory>
 #include <vector>
 
-#include "platform/renderer/renderer.h"
 #include "EntityRenderDispatcher.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/model/WitchModel.h"
@@ -22,6 +20,8 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/renderer/renderer.h"
+#include "platform/stubs.h"
 
 ResourceLocation WitchRenderer::WITCH_LOCATION = ResourceLocation(TN_MOB_WITCH);
 

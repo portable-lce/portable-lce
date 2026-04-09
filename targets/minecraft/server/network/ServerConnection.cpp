@@ -1,18 +1,18 @@
-#include "minecraft/IGameServices.h"
-#include "minecraft/util/Log.h"
 #include "ServerConnection.h"
 
 #include <algorithm>
 
 #include "PendingConnection.h"
 #include "PlayerConnection.h"
-#include "util/StringHelpers.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLevel.h"
 #include "minecraft/network/Connection.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/ServerSettingsChangedPacket.h"
 #include "minecraft/server/level/ServerPlayer.h"
+#include "minecraft/util/Log.h"
+#include "util/StringHelpers.h"
 
 ServerConnection::ServerConnection(MinecraftServer* server) {
     // 4J - added initialiser

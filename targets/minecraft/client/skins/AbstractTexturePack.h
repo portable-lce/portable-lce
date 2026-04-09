@@ -75,12 +75,12 @@ public:
     virtual std::string getWorldName();
 
     virtual std::string getAnimationString(const std::string& textureName,
-                                            const std::string& path,
-                                            bool allowFallback);
+                                           const std::string& path,
+                                           bool allowFallback);
 
 protected:
     virtual std::string getAnimationString(const std::string& textureName,
-                                            const std::string& path);
+                                           const std::string& path);
     void loadDefaultUI();
     void loadDefaultColourTable();
     void loadDefaultHTMLColourTable();

@@ -53,10 +53,10 @@ public:
     // 4J-PB - added to replace (e instanceof Type), avoiding dynamic casts
     virtual eINSTANCEOF GetType() = 0;
 
-    inline bool instanceof(eINSTANCEOF super) {
+    inline bool instanceof (eINSTANCEOF super) {
         return eTYPE_DERIVED_FROM(super, GetType());
     }
-    inline static bool instanceof(eINSTANCEOF type, eINSTANCEOF super) {
+    inline static bool instanceof (eINSTANCEOF type, eINSTANCEOF super) {
         return eTYPE_DERIVED_FROM(super, type);
     }
 

@@ -23,8 +23,8 @@ protected:
     };
 
 public:
-    DefaultDispenseItemBehavior() {};
-    virtual ~DefaultDispenseItemBehavior() {};
+    DefaultDispenseItemBehavior(){};
+    virtual ~DefaultDispenseItemBehavior(){};
     virtual std::shared_ptr<ItemInstance> dispense(
         BlockSource* source, std::shared_ptr<ItemInstance> dispensed);
 

@@ -1,19 +1,19 @@
-#include "minecraft/IGameServices.h"
 #include "Screen.h"
 
-#include "platform/input/input.h"
-#include "platform/profile/profile.h"
 #include "Button.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "minecraft/network/INetworkService.h"
-#include "platform/stubs.h"
+#include "minecraft/GameEnums.h"
+#include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Screen.h"
-#include "minecraft/client/gui/particle/GuiParticles.h"
-#include "minecraft/sounds/SoundTypes.h"
 #include "minecraft/client/gui/ScreenSizeCalculator.h"
+#include "minecraft/client/gui/particle/GuiParticles.h"
 #include "minecraft/client/renderer/Tesselator.h"
+#include "minecraft/network/INetworkService.h"
+#include "minecraft/sounds/SoundTypes.h"
+#include "platform/input/input.h"
+#include "platform/profile/profile.h"
+#include "platform/stubs.h"
 
 Screen::Screen()  // 4J added
 {
@@ -43,7 +43,8 @@ void Screen::keyPressed(char eventCharacter, int eventKey) {
         if (NetworkService.IsLocalGame() &&
             NetworkService.GetPlayerCount() == 1)
             gameServices().setXuiServerAction(PlatformInput.GetPrimaryPad(),
-                                   eXuiServerAction_PauseServer, false);
+                                              eXuiServerAction_PauseServer,
+                                              false);
     }
 }
 

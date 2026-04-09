@@ -69,7 +69,7 @@ void FarmTile::fallOn(Level* level, int x, int y, int z,
     // the client based on random values!
     if (!level->isClientSide &&
         level->random->nextFloat() < (fallDistance - .5f)) {
-        if (entity->instanceof(eTYPE_PLAYER)) {
+        if (entity->instanceof (eTYPE_PLAYER)) {
             std::shared_ptr<Player> player =
                 std::dynamic_pointer_cast<Player>(entity);
             if (!player->isAllowedToMine()) {

@@ -1,15 +1,15 @@
 #include "SparseDataStorage.h"
-#include <atomic>
 
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <atomic>
 #include <vector>
 
-#include "platform/NetTypes.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "platform/NetTypes.h"
 
 // Note: See header for an overview of this class
 
@@ -90,9 +90,7 @@ SparseDataStorage::~SparseDataStorage() {
     // Determine correct means to free this data - could have been allocated
     // either with XPhysicalAlloc or malloc
 
-    {
-        free(indicesAndData);
-    }
+    { free(indicesAndData); }
     //	printf("Free (in dtor) 0x%x\n", indicesAndData);
 }
 
@@ -474,9 +472,7 @@ void SparseDataStorage::tick() {
         //		if( toFree ) printf("Deleting 0x%x\n", toFree);
         // Determine correct means to free this data - could have been allocated
         // either with XPhysicalAlloc or malloc
-        {
-            free(toFree);
-        }
+        { free(toFree); }
     } while (toFree);
 
     deleteQueueIndex = (deleteQueueIndex + 1) % 3;

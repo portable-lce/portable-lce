@@ -14,13 +14,13 @@ class ModelPart;
 class DLCSkinFile;
 class DLCPack;
 
-#include "minecraft/client/model/SkinBox.h"
-#include "minecraft/GameTypes.h"
 #include "minecraft/GameEnums.h"
+#include "minecraft/GameTypes.h"
 #include "minecraft/XuiActionPayload.h"
-#include "platform/PlatformTypes.h"
-#include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/client/IMenuService.h"
+#include "minecraft/client/model/SkinBox.h"
+#include "minecraft/network/packet/DisconnectPacket.h"
+#include "platform/PlatformTypes.h"
 
 // eINSTANCEOF lives in java/Class.h which is heavyweight.
 using EntityTypeId = int;
@@ -37,21 +37,23 @@ public:
 
     [[nodiscard]] virtual bool debugSettingsOn() = 0;
     [[nodiscard]] virtual bool debugArtToolsOn() = 0;
-    [[nodiscard]] virtual unsigned int debugGetMask(int iPad = -1,
-                                      bool overridePlayer = false) = 0;
+    [[nodiscard]] virtual unsigned int debugGetMask(
+        int iPad = -1, bool overridePlayer = false) = 0;
     [[nodiscard]] virtual bool debugMobsDontAttack() = 0;
     [[nodiscard]] virtual bool debugMobsDontTick() = 0;
     [[nodiscard]] virtual bool debugFreezePlayers() = 0;
 
     // -- Game host options (global settings via stored pointer) --
 
-    [[nodiscard]] virtual unsigned int getGameHostOption(eGameHostOption option) = 0;
+    [[nodiscard]] virtual unsigned int getGameHostOption(
+        eGameHostOption option) = 0;
     virtual void setGameHostOption(eGameHostOption option,
                                    unsigned int value) = 0;
 
     // -- Level generation --
 
-    [[nodiscard]] virtual LevelGenerationOptions* getLevelGenerationOptions() = 0;
+    [[nodiscard]] virtual LevelGenerationOptions*
+    getLevelGenerationOptions() = 0;
     [[nodiscard]] virtual LevelRuleset* getGameRuleDefinitions() = 0;
 
     // -- Texture cache --
@@ -60,14 +62,15 @@ public:
                                       std::uint8_t* data,
                                       unsigned int size) = 0;
     virtual void removeMemoryTextureFile(const std::string& name) = 0;
-    virtual void getMemFileDetails(const std::string& name,
-                                   std::uint8_t** data,
+    virtual void getMemFileDetails(const std::string& name, std::uint8_t** data,
                                    unsigned int* size) = 0;
-    [[nodiscard]] virtual bool isFileInMemoryTextures(const std::string& name) = 0;
+    [[nodiscard]] virtual bool isFileInMemoryTextures(
+        const std::string& name) = 0;
 
     // -- Player settings --
 
-    [[nodiscard]] virtual unsigned char getGameSettings(int iPad, int setting) = 0;
+    [[nodiscard]] virtual unsigned char getGameSettings(int iPad,
+                                                        int setting) = 0;
     [[nodiscard]] virtual unsigned char getGameSettings(int setting) = 0;
 
     // -- App time --
@@ -125,9 +128,9 @@ public:
     [[nodiscard]] virtual std::uint32_t getPlayerSkinId(int iPad) = 0;
     [[nodiscard]] virtual std::string getPlayerCapeName(int iPad) = 0;
     [[nodiscard]] virtual std::uint32_t getPlayerCapeId(int iPad) = 0;
-    [[nodiscard]] virtual std::uint32_t getAdditionalModelPartsForPad(int iPad) = 0;
-    virtual void setAdditionalSkinBoxes(std::uint32_t dwSkinID,
-                                        SKIN_BOX* boxA,
+    [[nodiscard]] virtual std::uint32_t getAdditionalModelPartsForPad(
+        int iPad) = 0;
+    virtual void setAdditionalSkinBoxes(std::uint32_t dwSkinID, SKIN_BOX* boxA,
                                         unsigned int boxC) = 0;
     [[nodiscard]] virtual std::vector<SKIN_BOX*>* getAdditionalSkinBoxes(
         std::uint32_t dwSkinID) = 0;
@@ -139,8 +142,10 @@ public:
                                         unsigned int bitmask) = 0;
     [[nodiscard]] virtual unsigned int getAnimOverrideBitmask(
         std::uint32_t dwSkinID) = 0;
-    [[nodiscard]] virtual std::uint32_t getSkinIdFromPath(const std::string& skin) = 0;
-    [[nodiscard]] virtual std::string getSkinPathFromId(std::uint32_t skinId) = 0;
+    [[nodiscard]] virtual std::uint32_t getSkinIdFromPath(
+        const std::string& skin) = 0;
+    [[nodiscard]] virtual std::string getSkinPathFromId(
+        std::uint32_t skinId) = 0;
     [[nodiscard]] virtual bool defaultCapeExists() = 0;
     [[nodiscard]] virtual bool isXuidNotch(PlayerUID xuid) = 0;
     [[nodiscard]] virtual bool isXuidDeadmau5(PlayerUID xuid) = 0;
@@ -150,8 +155,7 @@ public:
     virtual void fatalLoadError() = 0;
     virtual void setRichPresenceContext(int iPad, int contextId) = 0;
     virtual void captureSaveThumbnail() = 0;
-    virtual void getSaveThumbnail(std::uint8_t** data,
-                                  unsigned int* size) = 0;
+    virtual void getSaveThumbnail(std::uint8_t** data, unsigned int* size) = 0;
     virtual void readBannedList(int iPad, eTMSAction action = (eTMSAction)0,
                                 bool bCallback = false) = 0;
     virtual void updatePlayerInfo(std::uint8_t networkSmallId,
@@ -159,17 +163,16 @@ public:
                                   unsigned int playerPrivileges) = 0;
     [[nodiscard]] virtual unsigned int getPlayerPrivileges(
         std::uint8_t networkSmallId) = 0;
-    virtual void setGameSettingsDebugMask(int iPad,
-                                          unsigned int uiVal) = 0;
+    virtual void setGameSettingsDebugMask(int iPad, unsigned int uiVal) = 0;
 
     // -- Schematics / terrain --
 
     virtual void processSchematics(LevelChunk* chunk) = 0;
     virtual void processSchematicsLighting(LevelChunk* chunk) = 0;
-    virtual void addTerrainFeaturePosition(_eTerrainFeatureType type,
-                                           int x, int z) = 0;
-    [[nodiscard]] virtual bool getTerrainFeaturePosition(_eTerrainFeatureType type,
-                                           int* pX, int* pZ) = 0;
+    virtual void addTerrainFeaturePosition(_eTerrainFeatureType type, int x,
+                                           int z) = 0;
+    [[nodiscard]] virtual bool getTerrainFeaturePosition(
+        _eTerrainFeatureType type, int* pX, int* pZ) = 0;
     virtual void loadDefaultGameRules() = 0;
 
     // -- Archive / resources --
@@ -187,17 +190,16 @@ public:
     [[nodiscard]] virtual unsigned int createImageTextData(
         std::uint8_t* textMetadata, int64_t seed, bool hasSeed,
         unsigned int uiHostOptions, unsigned int uiTexturePackId) = 0;
-    [[nodiscard]] virtual std::string getFilePath(std::uint32_t packId,
-                                     std::string filename,
-                                     bool bAddDataFolder,
-                                     std::string mountPoint = "TPACK:") = 0;
+    [[nodiscard]] virtual std::string getFilePath(
+        std::uint32_t packId, std::string filename, bool bAddDataFolder,
+        std::string mountPoint = "TPACK:") = 0;
     [[nodiscard]] virtual char* getUniqueMapName() = 0;
     virtual void setUniqueMapName(char* name) = 0;
     [[nodiscard]] virtual unsigned int getOpacityTimer(int iPad) = 0;
     virtual void setOpacityTimer(int iPad) = 0;
     virtual void tickOpacityTimer(int iPad) = 0;
     [[nodiscard]] virtual bool isInBannedLevelList(int iPad, PlayerUID xuid,
-                                     char* levelName) = 0;
+                                                   char* levelName) = 0;
     [[nodiscard]] virtual MOJANG_DATA* getMojangDataForXuid(PlayerUID xuid) = 0;
     virtual void debugPrintf(const char* msg) = 0;
 
@@ -208,16 +210,16 @@ public:
     [[nodiscard]] virtual bool dlcNeedsCorruptCheck() = 0;
     virtual unsigned int dlcCheckForCorrupt(bool showMessage = true) = 0;
     [[nodiscard]] virtual bool dlcReadDataFile(unsigned int& filesProcessed,
-                                 const std::string& path, DLCPack* pack,
-                                 bool fromArchive = false) = 0;
+                                               const std::string& path,
+                                               DLCPack* pack,
+                                               bool fromArchive = false) = 0;
     virtual void dlcRemovePack(DLCPack* pack) = 0;
 
     // -- Game rules --
 
     virtual LevelGenerationOptions* loadGameRules(std::uint8_t* data,
-                                                   unsigned int size) = 0;
-    virtual void saveGameRules(std::uint8_t** data,
-                               unsigned int* size) = 0;
+                                                  unsigned int size) = 0;
+    virtual void saveGameRules(std::uint8_t** data, unsigned int* size) = 0;
     virtual void unloadCurrentGameRules() = 0;
     virtual void setLevelGenerationOptions(
         LevelGenerationOptions* levelGen) = 0;

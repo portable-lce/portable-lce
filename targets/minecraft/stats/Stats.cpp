@@ -6,7 +6,6 @@
 #include "Achievements.h"
 #include "GeneralStat.h"
 #include "ItemStat.h"
-#include "util/StringHelpers.h"
 #include "minecraft/stats/Stat.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "minecraft/world/item/FishingRodItem.h"
@@ -14,6 +13,7 @@
 #include "minecraft/world/item/MapItem.h"
 #include "minecraft/world/level/tile/GrassTile.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "util/StringHelpers.h"
 
 class StatFormatter;
 
@@ -171,8 +171,8 @@ bool Stats::blockStatsLoaded = false;
 void Stats::buildBlockStats() {
     blocksMined = std::vector<Stat*>(32000);
 
-    ItemStat* newStat = new ItemStat(BLOCKS_MINED_OFFSET + 0, "mineBlock.dirt",
-                                     Tile::dirt->id);
+    ItemStat* newStat =
+        new ItemStat(BLOCKS_MINED_OFFSET + 0, "mineBlock.dirt", Tile::dirt->id);
     blocksMinedStats->push_back(newStat);
     blocksMined[Tile::dirt->id] = newStat;
     blocksMined[Tile::grass->id] = newStat;
@@ -185,8 +185,8 @@ void Stats::buildBlockStats() {
     blocksMined[Tile::cobblestone->id] = newStat;
     newStat->postConstruct();
 
-    newStat = new ItemStat(BLOCKS_MINED_OFFSET + 2, "mineBlock.sand",
-                           Tile::sand->id);
+    newStat =
+        new ItemStat(BLOCKS_MINED_OFFSET + 2, "mineBlock.sand", Tile::sand->id);
     blocksMinedStats->push_back(newStat);
     blocksMined[Tile::sand->id] = newStat;
     newStat->postConstruct();
@@ -203,8 +203,8 @@ void Stats::buildBlockStats() {
     blocksMined[Tile::gravel->id] = newStat;
     newStat->postConstruct();
 
-    newStat = new ItemStat(BLOCKS_MINED_OFFSET + 5, "mineBlock.clay",
-                           Tile::clay->id);
+    newStat =
+        new ItemStat(BLOCKS_MINED_OFFSET + 5, "mineBlock.clay", Tile::clay->id);
     blocksMinedStats->push_back(newStat);
     blocksMined[Tile::clay->id] = newStat;
     newStat->postConstruct();
@@ -390,9 +390,8 @@ void Stats::buildCraftableStats() {
     itemsCrafted[Item::pickAxe_iron->id] = newStat;
     newStat->postConstruct();
 
-    newStat =
-        new ItemStat(ITEMS_CRAFTED_OFFSET + 7, "craftItem.diamondPickAxe",
-                     Item::pickAxe_diamond->id);
+    newStat = new ItemStat(ITEMS_CRAFTED_OFFSET + 7, "craftItem.diamondPickAxe",
+                           Item::pickAxe_diamond->id);
     itemsCraftedStats->push_back(newStat);
     itemsCrafted[Item::pickAxe_diamond->id] = newStat;
     newStat->postConstruct();
@@ -415,9 +414,8 @@ void Stats::buildCraftableStats() {
     itemsCrafted[Item::shovel_iron->id] = newStat;
     newStat->postConstruct();
 
-    newStat =
-        new ItemStat(ITEMS_CRAFTED_OFFSET + 11, "craftItem.diamondShovel",
-                     Item::shovel_diamond->id);
+    newStat = new ItemStat(ITEMS_CRAFTED_OFFSET + 11, "craftItem.diamondShovel",
+                           Item::shovel_diamond->id);
     itemsCraftedStats->push_back(newStat);
     itemsCrafted[Item::shovel_diamond->id] = newStat;
     newStat->postConstruct();
@@ -512,8 +510,8 @@ void Stats::buildCraftableStats() {
     itemsCrafted[Item::bucket_empty->id] = newStat;
     newStat->postConstruct();
 
-    newStat = new ItemStat(ITEMS_CRAFTED_OFFSET + 27,
-                           "craftItem.flintAndSteel", Item::flintAndSteel->id);
+    newStat = new ItemStat(ITEMS_CRAFTED_OFFSET + 27, "craftItem.flintAndSteel",
+                           Item::flintAndSteel->id);
     itemsCraftedStats->push_back(newStat);
     itemsCrafted[Item::flintAndSteel->id] = newStat;
     newStat->postConstruct();
@@ -536,8 +534,8 @@ void Stats::buildCraftableStats() {
     itemsCrafted[Item::compass->id] = newStat;
     newStat->postConstruct();
 
-    newStat = new ItemStat(ITEMS_CRAFTED_OFFSET + 31, "craftItem.map",
-                           Item::map->id);
+    newStat =
+        new ItemStat(ITEMS_CRAFTED_OFFSET + 31, "craftItem.map", Item::map->id);
     itemsCraftedStats->push_back(newStat);
     itemsCrafted[Item::map->id] = newStat;
     newStat->postConstruct();
@@ -602,8 +600,8 @@ void Stats::buildAdditionalStats() {
         // we don't need those record items (and we only need 2).
         blocksPlaced = std::vector<Stat*>(1000);
 
-        itemStat = new ItemStat(offset++, "blockPlaced.flowerPot",
-                                Tile::flowerPot_Id);
+        itemStat =
+            new ItemStat(offset++, "blockPlaced.flowerPot", Tile::flowerPot_Id);
         blocksPlacedStats->push_back(itemStat);
         blocksPlaced[itemStat->getItemId()] = itemStat;
         itemStat->postConstruct();

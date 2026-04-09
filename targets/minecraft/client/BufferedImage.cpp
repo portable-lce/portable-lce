@@ -6,14 +6,14 @@
 #include <string>
 #include <vector>
 
-#include "platform/renderer/renderer.h"
+#include "PlatformTypes.h"
 #include "app/common/DLC/DLCFile.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "minecraft/IGameServices.h"
-#include "PlatformTypes.h"
-#include "util/StringHelpers.h"
 #include "platform/fs/fs.h"
+#include "platform/renderer/renderer.h"
+#include "util/StringHelpers.h"
 
 BufferedImage::BufferedImage(int width, int height, int type) {
     data[0] = new int[width * height];
@@ -36,8 +36,7 @@ void BufferedImage::ByteFlip4(unsigned int& data) {
 // with a valid alpha channel.
 
 // 4jcraft: mostly rewrote this function
-BufferedImage::BufferedImage(const std::string& File,
-                             bool filenameHasExtension,
+BufferedImage::BufferedImage(const std::string& File, bool filenameHasExtension,
                              bool bTitleUpdateTexture,
                              const std::string& drive) {
     int32_t hr = -1;
@@ -94,13 +93,14 @@ BufferedImage::BufferedImage(const std::string& File,
         if (foundOnDisk) {
             std::string nativePath = std::filesystem::path(finalPath).string();
             hr = PlatformRenderer.LoadTextureData(nativePath.c_str(),
-                                               &ImageInfo, &data[l]);
+                                                  &ImageInfo, &data[l]);
         } else {
             std::string archiveKey = "res/" + fileName;
             if (gameServices().hasArchiveFile(archiveKey)) {
-                std::vector<uint8_t> ba = gameServices().getArchiveFile(archiveKey);
+                std::vector<uint8_t> ba =
+                    gameServices().getArchiveFile(archiveKey);
                 hr = PlatformRenderer.LoadTextureData(ba.data(), ba.size(),
-                                                   &ImageInfo, &data[l]);
+                                                      &ImageInfo, &data[l]);
             }
         }
 
@@ -134,9 +134,9 @@ BufferedImage::BufferedImage(DLCPack* dlcPack, const std::string& File,
         std::string mipMapPath =
             (l != 0) ? "MipMapLevel" + toWString<int>(l + 1) : "";
         name = "res" + (filenameHasExtension
-                             ? filePath
-                             : filePath.substr(0, filePath.length() - 4) +
-                                   mipMapPath + ".png");
+                            ? filePath
+                            : filePath.substr(0, filePath.length() - 4) +
+                                  mipMapPath + ".png");
 
         if (!dlcPack->doesPackContainFile(DLCManager::e_DLCType_All, name)) {
             if (l == 0) gameServices().fatalLoadError();
@@ -152,7 +152,7 @@ BufferedImage::BufferedImage(DLCPack* dlcPack, const std::string& File,
 
         D3DXIMAGE_INFO ImageInfo;
         hr = PlatformRenderer.LoadTextureData(pbData, dataBytes, &ImageInfo,
-                                           &data[l]);
+                                              &data[l]);
         if (hr == 0 && l == 0) {
             width = ImageInfo.Width;
             height = ImageInfo.Height;
@@ -167,8 +167,8 @@ BufferedImage::BufferedImage(std::uint8_t* pbData, std::uint32_t dataBytes) {
 
     D3DXIMAGE_INFO ImageInfo;
     memset(&ImageInfo, 0, sizeof(D3DXIMAGE_INFO));
-    int32_t hr =
-        PlatformRenderer.LoadTextureData(pbData, dataBytes, &ImageInfo, &data[0]);
+    int32_t hr = PlatformRenderer.LoadTextureData(pbData, dataBytes, &ImageInfo,
+                                                  &data[0]);
 
     if (hr == 0) {
         width = ImageInfo.Width;

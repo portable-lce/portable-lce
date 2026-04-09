@@ -1,13 +1,13 @@
 
 #include "UIScene_DLCMainMenu.h"
 
-#include "minecraft/GameEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_ButtonList.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
+#include "minecraft/GameEnums.h"
 #include "strings.h"
 
 class UILayer;
@@ -93,8 +93,8 @@ void UIScene_DLCMainMenu::handlePress(F64 controlId, F64 childId) {
 
 void UIScene_DLCMainMenu::handleTimerComplete(int id) {}
 
-int UIScene_DLCMainMenu::ExitDLCMainMenu(void* pParam, int iPad,
-                                         IPlatformStorage::EMessageResult result) {
+int UIScene_DLCMainMenu::ExitDLCMainMenu(
+    void* pParam, int iPad, IPlatformStorage::EMessageResult result) {
     UIScene_DLCMainMenu* pClass = (UIScene_DLCMainMenu*)pParam;
 
     pClass->navigateBack();

@@ -1,14 +1,13 @@
-#include "minecraft/util/Log.h"
 #include "PreStitchedTextureMap.h"
 
 #include <format>
 #include <utility>
 
-#include "minecraft/client/BufferedImage.h"
 #include "SimpleIcon.h"
 #include "StitchedTexture.h"
 #include "Texture.h"
 #include "TextureManager.h"
+#include "minecraft/client/BufferedImage.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/LevelRenderer.h"
 #include "minecraft/client/renderer/entity/EntityRenderDispatcher.h"
@@ -16,6 +15,7 @@
 #include "minecraft/client/renderer/texture/custom/CompassTexture.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "minecraft/util/Log.h"
 #include "minecraft/world/Icon.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/level/tile/Tile.h"
@@ -173,9 +173,8 @@ void PreStitchedTextureMap::makeTextureAnimated(TexturePack* texturePack,
         if (first->getWidth() != tex->getWidth() ||
             first->getHeight() != tex->getHeight()) {
             Log::info("%s - first w - %d, h - %d, tex w - %d, h - %d\n",
-                            textureFileName.c_str(), first->getWidth(),
-                            tex->getWidth(), first->getHeight(),
-                            tex->getHeight());
+                      textureFileName.c_str(), first->getWidth(),
+                      tex->getWidth(), first->getHeight(), tex->getHeight());
             assert(0);
         }
 #endif

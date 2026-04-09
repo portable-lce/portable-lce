@@ -44,7 +44,7 @@ bool FolderTexturePack::hasFile(const std::string& name) {
 bool FolderTexturePack::isTerrainUpdateCompatible() { return true; }
 
 std::string FolderTexturePack::getPath(bool bTitleUpdateTexture /*= false*/,
-                                        const char* pchBDPatchFilename) {
+                                       const char* pchBDPatchFilename) {
     std::string wDrive;
     wDrive = "Common\\" + file->getPath() + "\\";
     return wDrive;

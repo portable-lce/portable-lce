@@ -15,8 +15,8 @@
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/phys/AABB.h"
 
-const std::string DoorTile::TEXTURES[] = {
-    "doorWood_lower", "doorWood_upper", "doorIron_lower", "doorIron_upper"};
+const std::string DoorTile::TEXTURES[] = {"doorWood_lower", "doorWood_upper",
+                                          "doorIron_lower", "doorIron_upper"};
 
 DoorTile::DoorTile(int id, Material* material) : Tile(id, material, false) {
     if (material == Material::metal) {

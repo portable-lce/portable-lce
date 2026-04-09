@@ -35,11 +35,11 @@ public:
     [[nodiscard]] virtual bool IsSignedIn(int iQuadrant) = 0;
     [[nodiscard]] virtual bool IsSignedInLive(int iProf) = 0;
     [[nodiscard]] virtual bool IsGuest(int iQuadrant) = 0;
-    virtual unsigned int RequestSignInUI(
-        bool bFromInvite, bool bLocalGame, bool bNoGuestsAllowed,
-        bool bMultiplayerSignIn, bool bAddUser,
-        std::function<int(bool, int)> callback,
-        int iQuadrant = XUSER_INDEX_ANY) = 0;
+    virtual unsigned int RequestSignInUI(bool bFromInvite, bool bLocalGame,
+                                         bool bNoGuestsAllowed,
+                                         bool bMultiplayerSignIn, bool bAddUser,
+                                         std::function<int(bool, int)> callback,
+                                         int iQuadrant = XUSER_INDEX_ANY) = 0;
     virtual unsigned int DisplayOfflineProfile(
         std::function<int(bool, int)> callback,
         int iQuadrant = XUSER_INDEX_ANY) = 0;
@@ -96,8 +96,7 @@ public:
         unsigned int xuidCount) = 0;
     virtual void ShowProfileCard(int iPad, PlayerUID targetUid) = 0;
     [[nodiscard]] virtual bool GetProfileAvatar(
-        int iPad,
-        std::function<int(std::uint8_t*, unsigned int)> callback) = 0;
+        int iPad, std::function<int(std::uint8_t*, unsigned int)> callback) = 0;
     virtual void CancelProfileAvatarRequest() = 0;
 
     // Achievements
