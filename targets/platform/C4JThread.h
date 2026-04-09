@@ -51,6 +51,7 @@ public:
         bool m_signaled;
     };
 
+    // Lock-free bitmask of up to 32 events; waiters block via std::atomic::wait.
     class EventArray {
     public:
         enum class Mode { AutoClear, ManualClear };
@@ -68,9 +69,7 @@ public:
     private:
         int m_size;
         Mode m_mode;
-        std::mutex m_mutex;
-        std::condition_variable m_condition;
-        std::uint32_t m_signaledMask;
+        std::atomic<std::uint32_t> m_signaledMask;
     };
 
     class EventQueue {
