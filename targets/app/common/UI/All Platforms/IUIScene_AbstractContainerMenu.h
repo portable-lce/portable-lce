@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "UIStructs.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 
 class HtmlString;

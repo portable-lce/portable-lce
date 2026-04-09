@@ -2,7 +2,7 @@
 
 #include "app/common/Tutorial/Hints/TutorialHint.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 LookAtEntityHint::LookAtEntityHint(eTutorial_Hint id, Tutorial* tutorial,
                                    int descriptionId, int titleId,

@@ -12,7 +12,7 @@ class Entity;
 class Level;
 class Minecraft;
 class Player;
-class Tutorial;
+class ITutorial;
 
 class MultiPlayerGameMode {
 private:
@@ -91,5 +91,5 @@ public:
     // 4J Stu - Added for tutorial checks
     virtual bool isInputAllowed(int mapping) { return true; }
     virtual bool isTutorial() { return false; }
-    virtual Tutorial* getTutorial() { return nullptr; }
+    virtual ITutorial* getTutorial() { return nullptr; }
 };

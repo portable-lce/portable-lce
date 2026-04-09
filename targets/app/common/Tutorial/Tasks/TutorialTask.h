@@ -4,7 +4,7 @@
 #include <vector>
 
 // using namespace std;
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 class Level;
 class Tutorial;

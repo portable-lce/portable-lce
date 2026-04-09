@@ -4,7 +4,7 @@
 
 #include "app/common/Tutorial/Hints/TutorialHint.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/world/phys/AABB.h"

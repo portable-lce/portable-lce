@@ -5,7 +5,7 @@
 #include "app/common/Tutorial/Constraints/TutorialConstraint.h"
 #include "app/common/Tutorial/Tasks/TutorialTask.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 AreaTask::AreaTask(eTutorial_State state, Tutorial* tutorial,
                    std::vector<TutorialConstraint*>* inConstraints,

@@ -234,8 +234,8 @@ void IUIScene_AbstractContainerMenu::UpdateTooltips() {
 void IUIScene_AbstractContainerMenu::onMouseTick() {
     Minecraft* pMinecraft = Minecraft::GetInstance();
     if (pMinecraft->localgameModes[getPad()] != nullptr) {
-        Tutorial* tutorial =
-            pMinecraft->localgameModes[getPad()]->getTutorial();
+        Tutorial* tutorial = static_cast<Tutorial*>(
+            pMinecraft->localgameModes[getPad()]->getTutorial());
         if (tutorial != nullptr) {
             if (ui.IsTutorialVisible(getPad()) &&
                 !tutorial->isInputAllowed(ACTION_MENU_UP)) {
@@ -1096,8 +1096,8 @@ bool IUIScene_AbstractContainerMenu::handleKeyDown(int iPad, int iAction,
 
     Minecraft* pMinecraft = Minecraft::GetInstance();
     if (pMinecraft->localgameModes[getPad()] != nullptr) {
-        Tutorial* tutorial =
-            pMinecraft->localgameModes[getPad()]->getTutorial();
+        Tutorial* tutorial = static_cast<Tutorial*>(
+            pMinecraft->localgameModes[getPad()]->getTutorial());
         if (tutorial != nullptr) {
             tutorial->handleUIInput(iAction);
             if (ui.IsTutorialVisible(getPad()) &&

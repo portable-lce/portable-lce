@@ -16,8 +16,7 @@
 #include "minecraft/client/skins/ISkinAssetData.h"
 #include "app/common/Network/Socket.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
-#include "app/common/Tutorial/Tutorial.h"
-#include "app/common/Tutorial/TutorialMode.h"
+#include "minecraft/world/tutorial/ITutorial.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_TradingMenu.h"
 #include "app/linux/Linux_UIController.h"
@@ -2525,9 +2524,11 @@ void ClientConnection::handleRespawn(std::shared_ptr<RespawnPacket> packet) {
         //		minecraft->addPendingLocalConnection(m_userIndex, this);
 
         if (minecraft->localgameModes[m_userIndex] != nullptr) {
-            TutorialMode* gameMode =
-                (TutorialMode*)minecraft->localgameModes[m_userIndex];
-            gameMode->getTutorial()->showTutorialPopup(false);
+            ITutorial* tutorial =
+                minecraft->localgameModes[m_userIndex]->getTutorial();
+            if (tutorial != nullptr) {
+                tutorial->showTutorialPopup(false);
+            }
         }
 
         // 4J-JEV: Fix for Durango #156334 - Content: UI: Rich Presence 'In the

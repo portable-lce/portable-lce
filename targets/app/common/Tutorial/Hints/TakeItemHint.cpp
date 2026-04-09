@@ -4,7 +4,7 @@
 
 #include "app/common/Tutorial/Hints/TutorialHint.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "minecraft/world/item/ItemInstance.h"
 
 TakeItemHint::TakeItemHint(eTutorial_Hint id, Tutorial* tutorial, int items[],

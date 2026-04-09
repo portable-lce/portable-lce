@@ -32,8 +32,7 @@
 #include "Pos.h"
 #include "minecraft/sounds/ConsoleSoundEngine.h"
 #include "platform/profile/ProfileConstants.h"
-#include "app/common/Tutorial/Tutorial.h"
-#include "app/common/Tutorial/TutorialMode.h"
+#include "minecraft/world/tutorial/ITutorial.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
@@ -1221,9 +1220,11 @@ bool LocalPlayer::hasPermission(EGameCommand command) {
 
 void LocalPlayer::onCrafted(std::shared_ptr<ItemInstance> item) {
     if (minecraft->localgameModes[m_iPad] != nullptr) {
-        TutorialMode* gameMode =
-            (TutorialMode*)minecraft->localgameModes[m_iPad];
-        gameMode->getTutorial()->onCrafted(item);
+        ITutorial* tutorial =
+            minecraft->localgameModes[m_iPad]->getTutorial();
+        if (tutorial != nullptr) {
+            tutorial->onCrafted(item);
+        }
     }
 }
 
@@ -1646,10 +1647,11 @@ void LocalPlayer::handleCollectItem(std::shared_ptr<ItemInstance> item) {
                 }
             }
         }
-        TutorialMode* gameMode =
-            (TutorialMode*)minecraft->localgameModes[m_iPad];
-        gameMode->getTutorial()->onTake(item, itemCountAnyAux,
-                                        itemCountThisAux);
+        ITutorial* tutorial =
+            minecraft->localgameModes[m_iPad]->getTutorial();
+        if (tutorial != nullptr) {
+            tutorial->onTake(item, itemCountAnyAux, itemCountThisAux);
+        }
     }
 
     if (ui.IsContainerMenuDisplayed(m_iPad)) {

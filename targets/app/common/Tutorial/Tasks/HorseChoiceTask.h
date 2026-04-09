@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ChoiceTask.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 class Tutorial;
 

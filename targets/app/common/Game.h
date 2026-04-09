@@ -24,7 +24,7 @@
 #include "app/common/SaveManager.h"
 #include "app/common/SkinManager.h"
 #include "app/common/TerrainFeatureManager.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "minecraft/client/model/SkinBox.h"

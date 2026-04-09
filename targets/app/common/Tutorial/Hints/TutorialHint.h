@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "java/Class.h"
 
 class Entity;

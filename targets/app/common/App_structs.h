@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameTypes.h"

@@ -3,7 +3,7 @@
 #include <cstddef>
 
 #include "TutorialConstraint.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "minecraft/world/phys/AABB.h"
 
 class AABB;

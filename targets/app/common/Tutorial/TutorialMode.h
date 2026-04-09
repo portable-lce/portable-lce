@@ -20,18 +20,17 @@ public:
     TutorialMode(int iPad, Minecraft* minecraft, ClientConnection* connection);
     virtual ~TutorialMode();
 
-    virtual void startDestroyBlock(int x, int y, int z, int face);
-    virtual bool destroyBlock(int x, int y, int z, int face);
-    virtual void tick();
-    virtual bool useItemOn(std::shared_ptr<Player> player, Level* level,
-                           std::shared_ptr<ItemInstance> item, int x, int y,
-                           int z, int face, Vec3* hit,
-                           bool bTestUseOnly = false,
-                           bool* pbUsedItem = nullptr);
-    virtual void attack(std::shared_ptr<Player> player,
-                        std::shared_ptr<Entity> entity);
+    void startDestroyBlock(int x, int y, int z, int face) override;
+    bool destroyBlock(int x, int y, int z, int face) override;
+    void tick() override;
+    bool useItemOn(std::shared_ptr<Player> player, Level* level,
+                   std::shared_ptr<ItemInstance> item, int x, int y, int z,
+                   int face, Vec3* hit, bool bTestUseOnly = false,
+                   bool* pbUsedItem = nullptr) override;
+    void attack(std::shared_ptr<Player> player,
+                std::shared_ptr<Entity> entity) override;
 
-    virtual bool isInputAllowed(int mapping);
+    bool isInputAllowed(int mapping) override;
 
-    Tutorial* getTutorial() { return tutorial; }
+    Tutorial* getTutorial() override { return tutorial; }
 };

@@ -153,8 +153,8 @@ bool IUIScene_CraftingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat) {
     Minecraft* pMinecraft = Minecraft::GetInstance();
 
     if (pMinecraft->localgameModes[getPad()] != nullptr) {
-        Tutorial* tutorial =
-            pMinecraft->localgameModes[getPad()]->getTutorial();
+        Tutorial* tutorial = static_cast<Tutorial*>(
+            pMinecraft->localgameModes[getPad()]->getTutorial());
         if (tutorial != nullptr) {
             tutorial->handleUIInput(iAction);
             if (ui.IsTutorialVisible(getPad()) &&
@@ -211,8 +211,9 @@ bool IUIScene_CraftingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat) {
                         // iIcon=pTempItemInst->getItem()->getIcon(pTempItemInst->getAuxValue());
 
                         if (pMinecraft->localgameModes[iPad] != nullptr) {
-                            Tutorial* tutorial =
-                                pMinecraft->localgameModes[iPad]->getTutorial();
+                            Tutorial* tutorial = static_cast<Tutorial*>(
+                                pMinecraft->localgameModes[iPad]
+                                    ->getTutorial());
                             if (tutorial != nullptr) {
                                 tutorial->onCrafted(pTempItemInst);
                             }
@@ -246,8 +247,8 @@ bool IUIScene_CraftingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat) {
                     // iIcon=pTempItemInst->getItem()->getIcon(pTempItemInst->getAuxValue());
 
                     if (pMinecraft->localgameModes[iPad] != nullptr) {
-                        Tutorial* tutorial =
-                            pMinecraft->localgameModes[iPad]->getTutorial();
+                        Tutorial* tutorial = static_cast<Tutorial*>(
+                            pMinecraft->localgameModes[iPad]->getTutorial());
                         if (tutorial != nullptr) {
                             tutorial->createItemSelected(
                                 pTempItemInst,

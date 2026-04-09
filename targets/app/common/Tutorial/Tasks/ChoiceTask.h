@@ -2,7 +2,7 @@
 // using namespace std;
 
 #include "TutorialTask.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 class Tutorial;
 

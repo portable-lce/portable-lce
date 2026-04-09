@@ -2,7 +2,7 @@
 #include <memory>
 
 #include "app/common/Tutorial/Tutorial.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/crafting/Recipy.h"

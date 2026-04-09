@@ -9,12 +9,12 @@
 #include <utility>
 #include <vector>
 
-#include "TutorialEnum.h"
 #include "TutorialMessage.h"
 #include "app/common/Tutorial/Constraints/TutorialConstraint.h"
 #include "app/common/Tutorial/Hints/TutorialHint.h"
 #include "app/common/Tutorial/Tasks/TutorialTask.h"
-#include "app/common/Tutorial/TutorialEnum.h"
+#include "minecraft/world/tutorial/ITutorial.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "util/Timer.h"
 
 class Entity;
@@ -39,7 +39,7 @@ class Level;
 class CXuiScene;
 class Player;
 
-class Tutorial {
+class Tutorial : public ITutorial {
 public:
     class PopupMessageDetails {
     public:
@@ -144,7 +144,7 @@ public:
 
     int getPad() { return m_iPad; }
 
-    virtual bool isStateCompleted(eTutorial_State state);
+    bool isStateCompleted(eTutorial_State state) override;
     virtual void setStateCompleted(eTutorial_State state);
     bool isHintCompleted(eTutorial_Hint hint);
     void setHintCompleted(eTutorial_Hint hint);
@@ -154,15 +154,18 @@ public:
     void setCompleted(int completableId);
     bool getCompleted(int completableId);
 
-    void changeTutorialState(eTutorial_State newState,
-                             UIScene* scene = nullptr);
+    void changeTutorialState(eTutorial_State newState, UIScene* scene);
+    void changeTutorialState(eTutorial_State newState) override {
+        changeTutorialState(newState, nullptr);
+    }
     bool isSelectedItemState();
 
     bool setMessage(PopupMessageDetails* message);
     bool setMessage(TutorialHint* hint, PopupMessageDetails* message);
-    bool setMessage(const std::string& message, int icon, int auxValue);
+    bool setMessage(const std::string& message, int icon,
+                    int auxValue) override;
 
-    void showTutorialPopup(bool show);
+    void showTutorialPopup(bool show) override;
 
     void useItemOn(Level* level, std::shared_ptr<ItemInstance> item, int x,
                    int y, int z, bool bTestUseOnly = false);
@@ -176,18 +179,18 @@ public:
 
     void handleUIInput(int iAction);
     void createItemSelected(std::shared_ptr<ItemInstance> item, bool canMake);
-    void onCrafted(std::shared_ptr<ItemInstance> item);
+    void onCrafted(std::shared_ptr<ItemInstance> item) override;
     void onTake(std::shared_ptr<ItemInstance> item,
                 unsigned int invItemCountAnyAux,
-                unsigned int invItemCountThisAux);
-    void onSelectedItemChanged(std::shared_ptr<ItemInstance> item);
-    void onLookAt(int id, int iData = 0);
-    void onLookAtEntity(std::shared_ptr<Entity> entity);
-    void onRideEntity(std::shared_ptr<Entity> entity);
+                unsigned int invItemCountThisAux) override;
+    void onSelectedItemChanged(std::shared_ptr<ItemInstance> item) override;
+    void onLookAt(int id, int iData = 0) override;
+    void onLookAtEntity(std::shared_ptr<Entity> entity) override;
+    void onRideEntity(std::shared_ptr<Entity> entity) override;
     void onEffectChanged(MobEffect* effect, bool bRemoved = false);
 
     bool canMoveToPosition(double xo, double yo, double zo, double xt,
-                           double yt, double zt);
+                           double yt, double zt) override;
     bool isInputAllowed(int mapping);
 
     void AddGlobalConstraint(TutorialConstraint* c);
