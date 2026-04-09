@@ -10,7 +10,7 @@
 #include "minecraft/client/model/geom/Model.h"
 #include "minecraft/network/packet/Packet.h"
 
-class DLCSkinFile;
+class ISkinAssetData;
 
 class TextureAndGeometryPacket
     : public Packet,
@@ -30,7 +30,7 @@ public:
                              std::uint8_t* pbData, std::uint32_t dataBytes);
     TextureAndGeometryPacket(const std::string& textureName,
                              std::uint8_t* pbData, std::uint32_t dataBytes,
-                             DLCSkinFile* pDLCSkinFile);
+                             ISkinAssetData* pSkinAssetData);
     TextureAndGeometryPacket(const std::string& textureName,
                              std::uint8_t* pbData, std::uint32_t dataBytes,
                              std::vector<SKIN_BOX*>* pvSkinBoxes,

@@ -16,7 +16,7 @@
 #include "app/common/ConsoleGameMode.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
-#include "app/common/DLC/DLCSkinFile.h"
+#include "minecraft/client/skins/ISkinAssetData.h"
 #include "app/common/Network/Socket.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
 #include "app/common/Tutorial/Tutorial.h"
@@ -2313,16 +2313,16 @@ void ClientConnection::handleTextureAndGeometry(
         unsigned int dwBytes = 0;
         gameServices().getMemFileDetails(packet->textureName, &pbData,
                                          &dwBytes);
-        DLCSkinFile* pDLCSkinFile =
-            gameServices().getDLCSkinFile(packet->textureName);
+        ISkinAssetData* pSkinAsset =
+            gameServices().getSkinAssetData(packet->textureName);
 
         if (dwBytes != 0) {
-            if (pDLCSkinFile) {
-                if (pDLCSkinFile->getAdditionalBoxesCount() != 0) {
+            if (pSkinAsset) {
+                if (pSkinAsset->getAdditionalBoxesCount() != 0) {
                     send(std::shared_ptr<TextureAndGeometryPacket>(
                         new TextureAndGeometryPacket(packet->textureName,
                                                      pbData, dwBytes,
-                                                     pDLCSkinFile)));
+                                                     pSkinAsset)));
                 } else {
                     send(std::shared_ptr<TextureAndGeometryPacket>(
                         new TextureAndGeometryPacket(packet->textureName,

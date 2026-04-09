@@ -8,8 +8,9 @@
 #include "app/common/DLC/DLCManager.h"
 #include "minecraft/client/model/HumanoidModel.h"
 #include "minecraft/client/model/SkinBox.h"
+#include "minecraft/client/skins/ISkinAssetData.h"
 
-class DLCSkinFile : public DLCFile {
+class DLCSkinFile : public DLCFile, public ISkinAssetData {
 private:
     std::string m_displayName;
     std::string m_themeName;
@@ -21,15 +22,23 @@ private:
 public:
     DLCSkinFile(const std::string& path);
 
-    virtual void addData(std::uint8_t* pbData, std::uint32_t dataBytes);
-    virtual void addParameter(DLCManager::EDLCParameterType type,
-                              const std::string& value);
+    void addData(std::uint8_t* pbData, std::uint32_t dataBytes) override;
+    void addParameter(DLCManager::EDLCParameterType type,
+                      const std::string& value) override;
 
-    virtual std::string getParameterAsString(
-        DLCManager::EDLCParameterType type);
-    virtual bool getParameterAsBool(DLCManager::EDLCParameterType type);
-    std::vector<SKIN_BOX*>* getAdditionalBoxes();
-    int getAdditionalBoxesCount();
-    unsigned int getAnimOverrideBitmask() { return m_uiAnimOverrideBitmask; }
+    std::string getParameterAsString(
+        DLCManager::EDLCParameterType type) override;
+    bool getParameterAsBool(DLCManager::EDLCParameterType type) override;
+
+    // ISkinAssetData
+    [[nodiscard]] std::uint32_t getSkinID() override {
+        return DLCFile::getSkinID();
+    }
+    [[nodiscard]] unsigned int getAnimOverrideBitmask() override {
+        return m_uiAnimOverrideBitmask;
+    }
+    [[nodiscard]] int getAdditionalBoxesCount() override;
+    [[nodiscard]] std::vector<SKIN_BOX*>* getAdditionalBoxes() override;
+
     bool isFree() { return m_bIsFree; }
 };

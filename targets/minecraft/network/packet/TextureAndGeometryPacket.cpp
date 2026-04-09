@@ -4,10 +4,10 @@
 #include <vector>
 
 #include "PacketListener.h"
-#include "app/common/DLC/DLCSkinFile.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/Minecraft_Macros.h"
+#include "minecraft/client/skins/ISkinAssetData.h"
 
 TextureAndGeometryPacket::TextureAndGeometryPacket() {
     this->textureName = "";
@@ -51,7 +51,7 @@ TextureAndGeometryPacket::TextureAndGeometryPacket(
 
 TextureAndGeometryPacket::TextureAndGeometryPacket(
     const std::string& textureName, std::uint8_t* pbData,
-    std::uint32_t dataBytes, DLCSkinFile* pDLCSkinFile) {
+    std::uint32_t dataBytes, ISkinAssetData* pSkinAssetData) {
     this->textureName = textureName;
 
     std::string skinValue = textureName.substr(7, textureName.size());
@@ -63,11 +63,12 @@ TextureAndGeometryPacket::TextureAndGeometryPacket(
 
     this->pbData = pbData;
     this->dwTextureBytes = dataBytes;
-    this->uiAnimOverrideBitmask = pDLCSkinFile->getAnimOverrideBitmask();
-    this->dwBoxC = pDLCSkinFile->getAdditionalBoxesCount();
+    this->uiAnimOverrideBitmask = pSkinAssetData->getAnimOverrideBitmask();
+    this->dwBoxC = pSkinAssetData->getAdditionalBoxesCount();
     if (this->dwBoxC != 0) {
         this->BoxDataA = new SKIN_BOX[this->dwBoxC];
-        std::vector<SKIN_BOX*>* pSkinBoxes = pDLCSkinFile->getAdditionalBoxes();
+        std::vector<SKIN_BOX*>* pSkinBoxes =
+            pSkinAssetData->getAdditionalBoxes();
         int iCount = 0;
 
         for (auto it = pSkinBoxes->begin(); it != pSkinBoxes->end(); ++it) {

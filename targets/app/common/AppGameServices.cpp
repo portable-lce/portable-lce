@@ -1,5 +1,6 @@
 #include "app/common/AppGameServices.h"
 
+#include "app/common/DLC/DLCSkinFile.h"
 #include "app/common/Game.h"
 #include "java/Class.h"  // eINSTANCEOF
 #include "platform/game/game.h"
@@ -386,7 +387,7 @@ void AppGameServices::debugPrintf(const char* msg) {
 
 // -- DLC --
 
-DLCSkinFile* AppGameServices::getDLCSkinFile(const std::string& name) {
+ISkinAssetData* AppGameServices::getSkinAssetData(const std::string& name) {
     return game_.m_dlcManager.getSkinFile(name);
 }
 bool AppGameServices::dlcNeedsCorruptCheck() {

@@ -4,6 +4,7 @@
 
 class Game;
 class IMenuService;
+class ISkinAssetData;
 
 class AppGameServices : public IGameServices {
 public:
@@ -150,7 +151,7 @@ public:
     void debugPrintf(const char* msg) override;
 
     // -- DLC --
-    DLCSkinFile* getDLCSkinFile(const std::string& name) override;
+    ISkinAssetData* getSkinAssetData(const std::string& name) override;
     bool dlcNeedsCorruptCheck() override;
     unsigned int dlcCheckForCorrupt(bool showMessage) override;
     bool dlcReadDataFile(unsigned int& filesProcessed, const std::string& path,

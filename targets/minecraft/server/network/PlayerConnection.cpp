@@ -9,7 +9,6 @@
 #include <utility>
 
 #include "ServerConnection.h"
-#include "app/common/DLC/DLCSkinFile.h"
 #include "app/common/Network/Socket.h"
 #include "java/Class.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
@@ -24,6 +23,7 @@
 #include "minecraft/IGameServices.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/model/SkinBox.h"
+#include "minecraft/client/skins/ISkinAssetData.h"
 #include "minecraft/commands/CommandDispatcher.h"
 #include "minecraft/commands/CommandsEnum.h"
 #include "minecraft/network/Connection.h"
@@ -850,16 +850,16 @@ void PlayerConnection::handleTextureAndGeometry(
         unsigned int dwTextureBytes = 0;
         gameServices().getMemFileDetails(packet->textureName, &pbData,
                                          &dwTextureBytes);
-        DLCSkinFile* pDLCSkinFile =
-            gameServices().getDLCSkinFile(packet->textureName);
+        ISkinAssetData* pSkinAsset =
+            gameServices().getSkinAssetData(packet->textureName);
 
         if (dwTextureBytes != 0) {
-            if (pDLCSkinFile) {
-                if (pDLCSkinFile->getAdditionalBoxesCount() != 0) {
+            if (pSkinAsset) {
+                if (pSkinAsset->getAdditionalBoxesCount() != 0) {
                     send(std::shared_ptr<TextureAndGeometryPacket>(
                         new TextureAndGeometryPacket(packet->textureName,
                                                      pbData, dwTextureBytes,
-                                                     pDLCSkinFile)));
+                                                     pSkinAsset)));
                 } else {
                     send(std::shared_ptr<TextureAndGeometryPacket>(
                         new TextureAndGeometryPacket(packet->textureName,
@@ -938,14 +938,14 @@ void PlayerConnection::handleTextureAndGeometryReceived(
         std::uint8_t* pbData = nullptr;
         unsigned int dwTextureBytes = 0;
         gameServices().getMemFileDetails(textureName, &pbData, &dwTextureBytes);
-        DLCSkinFile* pDLCSkinFile = gameServices().getDLCSkinFile(textureName);
+        ISkinAssetData* pSkinAsset =
+            gameServices().getSkinAssetData(textureName);
 
         if (dwTextureBytes != 0) {
-            if (pDLCSkinFile &&
-                (pDLCSkinFile->getAdditionalBoxesCount() != 0)) {
+            if (pSkinAsset && (pSkinAsset->getAdditionalBoxesCount() != 0)) {
                 send(std::shared_ptr<TextureAndGeometryPacket>(
                     new TextureAndGeometryPacket(
-                        textureName, pbData, dwTextureBytes, pDLCSkinFile)));
+                        textureName, pbData, dwTextureBytes, pSkinAsset)));
             } else {
                 // get the data from the app
                 std::uint32_t dwSkinID =

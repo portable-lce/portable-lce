@@ -11,7 +11,7 @@ class LevelChunk;
 class ModelPart;
 
 // Forward declarations
-class DLCSkinFile;
+class ISkinAssetData;
 class DLCPack;
 
 #include "minecraft/GameEnums.h"
@@ -199,7 +199,7 @@ public:
 
     // -- DLC --
 
-    [[nodiscard]] virtual DLCSkinFile* getDLCSkinFile(
+    [[nodiscard]] virtual ISkinAssetData* getSkinAssetData(
         const std::string& name) = 0;
     [[nodiscard]] virtual bool dlcNeedsCorruptCheck() = 0;
     virtual unsigned int dlcCheckForCorrupt(bool showMessage = true) = 0;

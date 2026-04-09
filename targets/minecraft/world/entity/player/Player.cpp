@@ -22,7 +22,7 @@
 #include "Inventory.h"
 #include "Player.h"
 #include "app/common/App_structs.h"
-#include "app/common/DLC/DLCSkinFile.h"
+#include "minecraft/client/skins/ISkinAssetData.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
@@ -584,23 +584,23 @@ void Player::setCustomSkin(std::uint32_t skinId) {
     Log::info("Couldn't get model parts for skin %X\n",m_dwSkinId);
 
     // do we have it from the DLC pack?
-    DLCSkinFile *pDLCSkinFile =
-    gameServices().getDLCSkinFile(this->customTextureUrl);
+    ISkinAssetData *pSkinAsset =
+    gameServices().getSkinAssetData(this->customTextureUrl);
 
-    if(pDLCSkinFile!=nullptr)
+    if(pSkinAsset!=nullptr)
     {
             const int additionalBoxCount =
-    pDLCSkinFile->getAdditionalBoxesCount(); if(additionalBoxCount != 0)
+    pSkinAsset->getAdditionalBoxesCount(); if(additionalBoxCount != 0)
     {
     Log::info("Got model parts from DLCskin for skin %X\n",m_dwSkinId);
-    pvModelParts=gameServices().setAdditionalSkinBoxesFromVec(m_dwSkinId,pDLCSkinFile->getAdditionalBoxes());
+    pvModelParts=gameServices().setAdditionalSkinBoxesFromVec(m_dwSkinId,pSkinAsset->getAdditionalBoxes());
     this->SetAdditionalModelParts(pvModelParts);
     }
     else
     {
     this->SetAdditionalModelParts(nullptr);
     }
-    gameServices().setAnimOverrideBitmask(pDLCSkinFile->getSkinID(),pDLCSkinFile->getAnimOverrideBitmask());
+    gameServices().setAnimOverrideBitmask(pSkinAsset->getSkinID(),pSkinAsset->getAnimOverrideBitmask());
     }
     else
     {
@@ -2704,12 +2704,12 @@ std::vector<ModelPart*>* Player::GetAdditionalModelParts() {
                 m_dwSkinId);
 
             // do we have it from the DLC pack?
-            DLCSkinFile* pDLCSkinFile =
-                gameServices().getDLCSkinFile(this->customTextureUrl);
+            ISkinAssetData* pSkinAsset =
+                gameServices().getSkinAssetData(this->customTextureUrl);
 
-            if (pDLCSkinFile != nullptr) {
+            if (pSkinAsset != nullptr) {
                 const int additionalBoxCount =
-                    pDLCSkinFile->getAdditionalBoxesCount();
+                    pSkinAsset->getAdditionalBoxesCount();
                 if (additionalBoxCount != 0) {
                     Log::info(
                         "m_bCheckedForModelParts Got model parts from DLCskin "
@@ -2717,12 +2717,12 @@ std::vector<ModelPart*>* Player::GetAdditionalModelParts() {
                         m_dwSkinId);
                     m_ppAdditionalModelParts =
                         gameServices().setAdditionalSkinBoxesFromVec(
-                            m_dwSkinId, pDLCSkinFile->getAdditionalBoxes());
+                            m_dwSkinId, pSkinAsset->getAdditionalBoxes());
                 }
 
                 gameServices().setAnimOverrideBitmask(
-                    pDLCSkinFile->getSkinID(),
-                    pDLCSkinFile->getAnimOverrideBitmask());
+                    pSkinAsset->getSkinID(),
+                    pSkinAsset->getAnimOverrideBitmask());
 
                 m_bCheckedForModelParts = true;
             }
