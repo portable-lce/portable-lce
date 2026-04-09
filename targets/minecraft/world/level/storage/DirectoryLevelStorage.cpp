@@ -11,7 +11,6 @@
 #include <utility>
 
 #include "LevelData.h"
-#include "app/common/GameRules/GameRuleManager.h"
 #include "java/File.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"
@@ -23,6 +22,7 @@
 #include "minecraft/IGameServices.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/world/entity/player/Player.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/chunk/storage/OldChunkStorage.h"
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/level/dimension/HellDimension.h"

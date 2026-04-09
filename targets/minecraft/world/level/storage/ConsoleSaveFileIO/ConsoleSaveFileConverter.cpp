@@ -8,11 +8,11 @@
 #include <string>
 #include <vector>
 
-#include "app/common/GameRules/GameRuleManager.h"
 #include "java/InputOutputStream/BufferedOutputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/util/ProgressListener.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
 #include "minecraft/world/level/chunk/storage/RegionFile.h"
 #include "minecraft/world/level/chunk/storage/RegionFileCache.h"

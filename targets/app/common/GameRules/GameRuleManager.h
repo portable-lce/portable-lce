@@ -27,8 +27,6 @@ class DLCGameRulesHeader;
 class File;
 class LevelRuleset;
 
-#define GAME_RULE_SAVENAME "requiredGameRules.grf"
-
 // 4J-JEV:
 #define LEVEL_GEN_ID int
 #define LEVEL_GEN_ID_NULL 0

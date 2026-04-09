@@ -2,6 +2,12 @@
 
 #include "java/InputOutputStream/DataOutputStream.h"
 
+// Filename for the per-save game rules blob written by GameRuleManager
+// and consumed by the save / converter / level storage paths. Defined
+// here in minecraft/ so save-path consumers don't need to drag in the
+// full app-side GameRuleManager header just for this string.
+inline constexpr const char* GAME_RULE_SAVENAME = "requiredGameRules.grf";
+
 class ConsoleGameRules {
 public:
     enum EGameRuleType {

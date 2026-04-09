@@ -14,7 +14,6 @@
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/DLC/DLCTextureFile.h"
 #include "app/common/DLC/DLCUIDataFile.h"
-#include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/File.h"
