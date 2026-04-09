@@ -286,6 +286,7 @@ locale/I18n.cpp
 locale/Language.cpp
 locale/StringTable.cpp
 network/Connection.cpp
+network/Socket.cpp
 network/packet/AddEntityPacket.cpp
 network/packet/AddExperienceOrbPacket.cpp
 network/packet/AddGlobalEntityPacket.cpp

@@ -53,7 +53,6 @@ common/Network/GameNetworkManager.cpp
 common/Network/NetworkPlayerQNet.cpp
 common/Network/PlatformNetworkManagerStub.cpp
 common/Network/QNetStubs.cpp
-common/Network/Socket.cpp
 common/NetworkController.cpp
 common/SaveManager.cpp
 common/SkinManager.cpp
