@@ -27,47 +27,47 @@ public:
     using AbstractTexturePack::getResource;
 
     DLCTexturePack(std::uint32_t id, DLCPack* pack, TexturePack* fallback);
-    ~DLCTexturePack(){};
+    ~DLCTexturePack() override = default;
 
-    virtual std::string getResource(const std::string& name);
-    virtual DLCPack* getDLCPack();
-    virtual std::string getDesc1() {
+    std::string getResource(const std::string& name) override;
+    DLCPack* getDLCPack() override;
+    std::string getDesc1() override {
         return m_stringTable->getString("IDS_TP_DESCRIPTION");
     }
-    virtual std::string getName() {
+    std::string getName() override {
         return m_stringTable->getString("IDS_DISPLAY_NAME");
     }
-    virtual std::string getWorldName() {
+    std::string getWorldName() override {
         return m_stringTable->getString("IDS_WORLD_NAME");
     }
 
     // Added for sound banks with MashUp packs
 protected:
     //@Override
-    void loadIcon();
-    void loadComparison();
-    void loadName();
-    void loadDescription();
+    void loadIcon() override;
+    void loadComparison() override;
+    void loadName() override;
+    void loadDescription() override;
     InputStream* getResourceImplementation(
-        const std::string& name);  // throws IOException
+        const std::string& name) override;  // throws IOException
 
 public:
     //@Override
-    bool hasFile(const std::string& name);
-    bool isTerrainUpdateCompatible();
+    bool hasFile(const std::string& name) override;
+    bool isTerrainUpdateCompatible() override;
 
     // 4J Added
-    virtual std::string getPath(bool bTitleUpdateTexture = false,
-                                const char* pchBDPatchFilename = nullptr);
-    virtual std::string getAnimationString(const std::string& textureName,
-                                           const std::string& path);
-    virtual BufferedImage* getImageResource(const std::string& File,
-                                            bool filenameHasExtension = false,
-                                            bool bTitleUpdateTexture = false,
-                                            const std::string& drive = "");
-    virtual void loadColourTable();
-    virtual bool hasData() { return m_bHasLoadedData; }
-    virtual bool isLoadingData() { return m_bLoadingData; }
+    std::string getPath(bool bTitleUpdateTexture = false,
+                        const char* pchBDPatchFilename = nullptr) override;
+    std::string getAnimationString(const std::string& textureName,
+                                   const std::string& path) override;
+    BufferedImage* getImageResource(const std::string& File,
+                                    bool filenameHasExtension = false,
+                                    bool bTitleUpdateTexture = false,
+                                    const std::string& drive = "") override;
+    void loadColourTable() override;
+    bool hasData() override { return m_bHasLoadedData; }
+    bool isLoadingData() override { return m_bLoadingData; }
 
 private:
     static std::string getRootPath(std::uint32_t packId, bool allowOverride,
@@ -78,14 +78,16 @@ private:
 public:
     int onPackMounted(int iPad, std::uint32_t dwErr,
                       std::uint32_t dwLicenceMask);
-    virtual void loadData();
-    virtual void loadUI();
-    virtual void unloadUI();
-    virtual std::string getXuiRootPath();
-    virtual ArchiveFile* getArchiveFile() { return m_archiveFile; }
+    void loadData() override;
+    void loadUI() override;
+    void unloadUI() override;
+    std::string getXuiRootPath() override;
+    ArchiveFile* getArchiveFile() override { return m_archiveFile; }
 
-    virtual unsigned int getDLCParentPackId();
+    unsigned int getDLCParentPackId() override;
     virtual DLCPack* getDLCInfoParentPack();
-    virtual unsigned char getDLCSubPackId();
+    unsigned char getDLCSubPackId() override;
     XCONTENTDEVICEID GetDLCDeviceID();
+
+    [[nodiscard]] bool needsPurchase() override;
 };

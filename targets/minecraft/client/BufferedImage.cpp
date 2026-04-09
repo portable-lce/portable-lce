@@ -7,9 +7,6 @@
 #include <vector>
 
 #include "PlatformTypes.h"
-#include "app/common/DLC/DLCFile.h"
-#include "app/common/DLC/DLCManager.h"
-#include "app/common/DLC/DLCPack.h"
 #include "minecraft/IGameServices.h"
 #include "platform/fs/fs.h"
 #include "platform/renderer/renderer.h"
@@ -121,43 +118,28 @@ BufferedImage::BufferedImage(const std::string& File, bool filenameHasExtension,
         }
     }
 }
-BufferedImage::BufferedImage(DLCPack* dlcPack, const std::string& File,
-                             bool filenameHasExtension) {
-    int32_t hr;
-    std::string filePath = File;
-    std::uint8_t* pbData = nullptr;
-    std::uint32_t dataBytes = 0;
+BufferedImage::BufferedImage() {
     for (int l = 0; l < 10; l++) data[l] = nullptr;
+    width = 0;
+    height = 0;
+}
 
-    for (int l = 0; l < 10; l++) {
-        std::string name;
-        std::string mipMapPath =
-            (l != 0) ? "MipMapLevel" + toWString<int>(l + 1) : "";
-        name = "res" + (filenameHasExtension
-                            ? filePath
-                            : filePath.substr(0, filePath.length() - 4) +
-                                  mipMapPath + ".png");
-
-        if (!dlcPack->doesPackContainFile(DLCManager::e_DLCType_All, name)) {
-            if (l == 0) gameServices().fatalLoadError();
-            return;
-        }
-
-        DLCFile* dlcFile = dlcPack->getFile(DLCManager::e_DLCType_All, name);
-        pbData = dlcFile->getData(dataBytes);
-        if (pbData == nullptr || dataBytes == 0) {
-            if (l == 0) gameServices().fatalLoadError();
-            return;
-        }
-
-        D3DXIMAGE_INFO ImageInfo;
-        hr = PlatformRenderer.LoadTextureData(pbData, dataBytes, &ImageInfo,
-                                              &data[l]);
-        if (hr == 0 && l == 0) {
-            width = ImageInfo.Width;
-            height = ImageInfo.Height;
-        }
+bool BufferedImage::loadMipmapPng(int level, std::uint8_t* bytes,
+                                  std::uint32_t numBytes) {
+    if (level < 0 || level >= 10 || bytes == nullptr || numBytes == 0) {
+        return false;
     }
+    D3DXIMAGE_INFO ImageInfo;
+    int32_t hr = PlatformRenderer.LoadTextureData(bytes, numBytes, &ImageInfo,
+                                                  &data[level]);
+    if (hr != 0) {
+        return false;
+    }
+    if (level == 0) {
+        width = ImageInfo.Width;
+        height = ImageInfo.Height;
+    }
+    return true;
 }
 
 BufferedImage::BufferedImage(std::uint8_t* pbData, std::uint32_t dataBytes) {

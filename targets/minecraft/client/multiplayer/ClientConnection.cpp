@@ -14,8 +14,6 @@
 #include "ReceivingLevelScreen.h"
 #include "app/common/App_structs.h"
 #include "app/common/ConsoleGameMode.h"
-#include "app/common/DLC/DLCManager.h"
-#include "app/common/DLC/DLCPack.h"
 #include "minecraft/client/skins/ISkinAssetData.h"
 #include "app/common/Network/Socket.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
@@ -45,7 +43,7 @@
 #include "minecraft/client/player/LocalPlayer.h"
 #include "minecraft/client/player/RemotePlayer.h"
 #include "minecraft/client/renderer/LevelRenderer.h"
-#include "minecraft/client/skins/DLCTexturePack.h"
+#include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/network/INetworkService.h"
@@ -3456,11 +3454,7 @@ int ClientConnection::HostDisconnectReturned(
     // world
     if (!Minecraft::GetInstance()->skins->isUsingDefaultSkin()) {
         TexturePack* tPack = Minecraft::GetInstance()->skins->getSelected();
-        DLCTexturePack* pDLCTexPack = (DLCTexturePack*)tPack;
-
-        DLCPack* pDLCPack =
-            pDLCTexPack->getDLCInfoParentPack();  // tPack->getDLCPack();
-        if (!pDLCPack->hasPurchasedFile(DLCManager::e_DLCType_Texture, "")) {
+        if (tPack->needsPurchase()) {
             // no upsell, we're about to quit
             MinecraftServer::getInstance()->setSaveOnExit(false);
             // flag a app action of exit game

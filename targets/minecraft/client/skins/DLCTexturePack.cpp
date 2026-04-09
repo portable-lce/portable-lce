@@ -31,6 +31,7 @@
 #include "platform/fs/fs.h"
 #include "platform/input/input.h"
 #include "platform/storage/storage.h"
+#include "util/StringHelpers.h"
 
 #if defined(_WINDOWS64)
 #endif
@@ -192,12 +193,41 @@ std::string DLCTexturePack::getAnimationString(const std::string& textureName,
 BufferedImage* DLCTexturePack::getImageResource(
     const std::string& File, bool filenameHasExtension /*= false*/,
     bool bTitleUpdateTexture /*=false*/, const std::string& drive /*=""*/) {
-    if (m_dlcDataPack)
-        return new BufferedImage(m_dlcDataPack, "/" + File,
-                                 filenameHasExtension);
-    else
+    if (!m_dlcDataPack) {
         return fallback->getImageResource(File, filenameHasExtension,
                                           bTitleUpdateTexture, drive);
+    }
+    auto* image = new BufferedImage();
+    const std::string filePath = "/" + File;
+    for (int l = 0; l < 10; l++) {
+        std::string mipMapPath =
+            (l != 0) ? "MipMapLevel" + toWString<int>(l + 1) : "";
+        std::string name =
+            "res" + (filenameHasExtension
+                         ? filePath
+                         : filePath.substr(0, filePath.length() - 4) +
+                               mipMapPath + ".png");
+
+        if (!m_dlcDataPack->doesPackContainFile(DLCManager::e_DLCType_All,
+                                                name)) {
+            if (l == 0) gameServices().fatalLoadError();
+            break;
+        }
+
+        DLCFile* dlcFile =
+            m_dlcDataPack->getFile(DLCManager::e_DLCType_All, name);
+        std::uint32_t dataBytes = 0;
+        std::uint8_t* pbData = dlcFile->getData(dataBytes);
+        if (pbData == nullptr || dataBytes == 0) {
+            if (l == 0) gameServices().fatalLoadError();
+            break;
+        }
+
+        if (!image->loadMipmapPng(l, pbData, dataBytes)) {
+            break;
+        }
+    }
+    return image;
 }
 
 DLCPack* DLCTexturePack::getDLCPack() { return m_dlcDataPack; }
@@ -470,4 +500,15 @@ DLCPack* DLCTexturePack::getDLCInfoParentPack() {
 
 XCONTENTDEVICEID DLCTexturePack::GetDLCDeviceID() {
     return m_dlcInfoPack->GetDLCDeviceID();
+}
+
+bool DLCTexturePack::needsPurchase() {
+    if (m_dlcInfoPack == nullptr) {
+        return false;
+    }
+    DLCPack* parent = m_dlcInfoPack->GetParentPack();
+    if (parent == nullptr) {
+        return false;
+    }
+    return !parent->hasPurchasedFile(DLCManager::e_DLCType_Texture, "");
 }

@@ -11,14 +11,12 @@
 #include "ServerChunkCache.h"
 #include "ServerLevelListener.h"
 #include "ServerPlayer.h"
-#include "app/common/DLC/DLCManager.h"
-#include "app/common/DLC/DLCPack.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"
-#include "minecraft/client/skins/DLCTexturePack.h"
+#include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/network/packet/AddGlobalEntityPacket.h"
 #include "minecraft/network/packet/EntityEventPacket.h"
@@ -981,11 +979,7 @@ void ServerLevel::saveToDisc(ProgressListener* progressListener,
     // the case for going into the mash-up pack world with a trial version)
     if (!Minecraft::GetInstance()->skins->isUsingDefaultSkin()) {
         TexturePack* tPack = Minecraft::GetInstance()->skins->getSelected();
-        DLCTexturePack* pDLCTexPack = (DLCTexturePack*)tPack;
-
-        DLCPack* pDLCPack = pDLCTexPack->getDLCInfoParentPack();
-
-        if (!pDLCPack->hasPurchasedFile(DLCManager::e_DLCType_Texture, "")) {
+        if (tPack->needsPurchase()) {
             return;
         }
     }

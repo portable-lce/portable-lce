@@ -104,7 +104,6 @@
 #include "minecraft/client/gui/inventory/CreativeInventoryScreen.h"
 #endif
 #include "app/common/ConsoleGameMode.h"
-#include "app/common/DLC/DLCPack.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
 #include "app/common/UI/All Platforms/IUIScene_CreativeMenu.h"
 #include "app/common/UI/UIFontData.h"
@@ -123,7 +122,7 @@
 #include "minecraft/client/player/Input.h"
 #include "minecraft/client/renderer/texture/TextureManager.h"
 #include "minecraft/client/resources/Colours/ColourTable.h"
-#include "minecraft/client/skins/DLCTexturePack.h"
+#include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/world/entity/npc/Villager.h"
 #include "minecraft/world/item/alchemy/PotionMacros.h"
 #include "minecraft/world/level/chunk/SparseDataStorage.h"
@@ -1097,18 +1096,8 @@ void Minecraft::run_middle() {
                                     TexturePack* tPack =
                                         Minecraft::GetInstance()
                                             ->skins->getSelected();
-                                    DLCTexturePack* pDLCTexPack =
-                                        (DLCTexturePack*)tPack;
-
-                                    DLCPack* pDLCPack =
-                                        pDLCTexPack->getDLCInfoParentPack();
-
-                                    if (pDLCPack) {
-                                        if (!pDLCPack->hasPurchasedFile(
-                                                DLCManager::e_DLCType_Texture,
-                                                "")) {
-                                            bTrialTexturepack = true;
-                                        }
+                                    if (tPack->needsPurchase()) {
+                                        bTrialTexturepack = true;
                                     }
                                 }
 

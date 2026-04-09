@@ -47,6 +47,12 @@ return TexturePack.class.getResourceAsStream(name);
     }
     virtual DLCPack* getDLCPack() { return nullptr; }
 
+    // True for trial skins / texture packs that the user has not yet
+    // purchased. The default (built-in) skin and any owned DLC pack
+    // returns false. Used by save and disconnect paths to refuse
+    // operations that would otherwise unlock paid content for free.
+    [[nodiscard]] virtual bool needsPurchase() { return false; }
+
     // 4J Added
     virtual std::string getPath(bool bTitleUpdateTexture = false,
                                 const char* pchBDPatchFilename = nullptr);
