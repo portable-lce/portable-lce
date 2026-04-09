@@ -12,6 +12,7 @@
 #include "platform/C4JThread.h"
 #include "platform/PlatformTypes.h"
 #include "platform/stubs.h"
+#include "platform/leaderboard/leaderboard.h"
 
 class Timer;
 class MultiPlayerLevel;
@@ -32,7 +33,6 @@ class HumanoidModel;
 class HitResult;
 class Options;
 class ConsoleSoundEngine;
-class IPlatformLeaderboard;
 class MinecraftApplet;
 class MouseHandler;
 class TexturePackRepository;

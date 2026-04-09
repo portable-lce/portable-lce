@@ -45,8 +45,6 @@ common/GameRules/LevelRules/RuleDefinitions/UseTileRuleDefinition.cpp
 common/GameRules/LevelRules/Rules/GameRule.cpp
 common/GameSettingsManager.cpp
 common/Game_XuiActions.cpp
-common/Leaderboards/LeaderboardInterface.cpp
-common/Leaderboards/LeaderboardManager.cpp
 common/LocalizationManager.cpp
 common/MenuController.cpp
 common/Network/GameNetworkManager.cpp

@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "app/common/Leaderboards/LeaderboardInterface.h"
-#include "app/common/Leaderboards/LeaderboardManager.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_LeaderboardList.h"
@@ -12,6 +10,8 @@
 #include "app/linux/Iggy/include/iggy.h"
 #include "platform/PlatformTypes.h"
 #include "platform/storage/storage.h"
+#include "platform/leaderboard/leaderboard.h"
+
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
@@ -97,8 +97,6 @@ private:
     bool m_isProcessingStatsRead;
     bool m_bPopulatedOnce;
     bool m_bReady;
-
-    LeaderboardInterface m_interface;
 
     UIControl_LeaderboardList m_listEntries;
     UIControl_Label m_labelFilter, m_labelLeaderboard, m_labelEntries,

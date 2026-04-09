@@ -804,7 +804,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
         //		g_NetworkManager.DoWork();
 
-        //		LeaderboardManager::Instance()->Tick();
+        //		PlatformLeaderboard.Tick();
         // Render game graphics.
         if (app.GetGameStarted()) {
             pMinecraft->run_middle();

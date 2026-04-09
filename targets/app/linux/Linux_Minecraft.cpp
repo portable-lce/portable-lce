@@ -48,7 +48,7 @@ static void sigsegv_handler(int sig) {
 #include <string>
 #include <vector>
 
-#include "app/common/Leaderboards/LeaderboardManager.h"
+#include "platform/leaderboard/leaderboard.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "minecraft/world/level/Level.h"
 // #include "../Common/XUI/XUI_Scene_Container.h"
@@ -70,11 +70,6 @@ static void sigsegv_handler(int sig) {
 #include "minecraft/world/level/chunk/storage/OldChunkStorage.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "strings.h"
-
-// #include "../Orbis/Leaderboards/OrbisLeaderboardManager.h"
-
-// #include "../Orbis/Network/Orbis_NPToolkit.h"
-// #include "../Orbis/Network/SonyVoiceChat_Orbis.h"
 
 #define THEME_NAME "584111F70AAAAAAA"
 #define THEME_FILESIZE 2797568
@@ -518,7 +513,7 @@ int main(int argc, const char* argv[]) {
     // scenes) and pass it down via constructor injection. Once the UI
     // side is also injected, the singleton can be deleted entirely and
     // the backend constructed via std::make_unique here.
-    Minecraft::main(*LeaderboardManager::Instance());
+    Minecraft::main(PlatformLeaderboard);
     Minecraft* pMinecraft = Minecraft::GetInstance();
 
     app.InitGameSettings();
