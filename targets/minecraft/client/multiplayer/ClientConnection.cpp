@@ -12,7 +12,6 @@
 
 #include "MultiPlayerLevel.h"
 #include "ReceivingLevelScreen.h"
-#include "app/common/App_structs.h"
 #include "app/common/ConsoleGameMode.h"
 #include "minecraft/client/skins/ISkinAssetData.h"
 #include "app/common/Network/Socket.h"

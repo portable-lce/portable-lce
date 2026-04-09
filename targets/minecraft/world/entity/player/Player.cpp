@@ -21,7 +21,6 @@
 
 #include "Inventory.h"
 #include "Player.h"
-#include "app/common/App_structs.h"
 #include "minecraft/client/skins/ISkinAssetData.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"

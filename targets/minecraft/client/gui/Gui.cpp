@@ -4,7 +4,6 @@
 #include <cmath>
 
 #include "Facing.h"
-#include "app/common/App_structs.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/Color.h"
 #include "java/JavaMath.h"
