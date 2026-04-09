@@ -24,8 +24,6 @@ LinuxGame app;
 
 LinuxGame::LinuxGame() : Game() {}
 
-void LinuxGame::SetRichPresenceContext(int iPad, int contextId) {}
-
 void LinuxGame::StoreLaunchData() {}
 void LinuxGame::ExitGame() {
     app.DebugPrintf("Linux_App LinuxGame::ExitGame AFTER START\n");
@@ -35,14 +33,6 @@ void LinuxGame::FatalLoadError() {
     app.DebugPrintf("LinuxGame::FatalLoadError - asserting 0 and dying...\n");
     assert(0);
 }
-
-void LinuxGame::CaptureSaveThumbnail() {}
-void LinuxGame::GetSaveThumbnail(std::uint8_t** thumbnailData,
-                                 unsigned int* thumbnailSize) {}
-void LinuxGame::ReleaseSaveThumbnail() {}
-
-void LinuxGame::GetScreenshot(int iPad, std::uint8_t** screenshotData,
-                              unsigned int* screenshotSize) {}
 
 void LinuxGame::TemporaryCreateGameStart() {
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,16 +110,3 @@ void LinuxGame::TemporaryCreateGameStart() {
     thread->run();
 }
 
-int LinuxGame::GetLocalTMSFileIndex(char* wchTMSFile,
-                                    bool bFilenameIncludesExtension,
-                                    eFileExtensionType eEXT) {
-    return -1;
-}
-
-int LinuxGame::LoadLocalTMSFile(char* wchTMSFile) { return -1; }
-
-int LinuxGame::LoadLocalTMSFile(char* wchTMSFile, eFileExtensionType eExt) {
-    return -1;
-}
-
-void LinuxGame::FreeLocalTMSFiles(eTMSFileType eType) {}

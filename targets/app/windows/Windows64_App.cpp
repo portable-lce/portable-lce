@@ -18,22 +18,9 @@ WindowsGame app;
 
 WindowsGame::WindowsGame() : Game() {}
 
-void WindowsGame::SetRichPresenceContext(int iPad, int contextId) {
-    PlatformProfile.SetRichPresenceContextValue(iPad, CONTEXT_GAME_STATE,
-                                                contextId);
-}
-
 void WindowsGame::StoreLaunchData() {}
 void WindowsGame::ExitGame() {}
 void WindowsGame::FatalLoadError() {}
-
-void WindowsGame::CaptureSaveThumbnail() {}
-void WindowsGame::GetSaveThumbnail(std::uint8_t** thumbnailData,
-                                   unsigned int* thumbnailSize) {}
-void WindowsGame::ReleaseSaveThumbnail() {}
-
-void WindowsGame::GetScreenshot(int iPad, std::uint8_t** screenshotData,
-                                unsigned int* screenshotSize) {}
 
 void WindowsGame::TemporaryCreateGameStart() {
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,16 +98,3 @@ void WindowsGame::TemporaryCreateGameStart() {
     thread->run();
 }
 
-int WindowsGame::GetLocalTMSFileIndex(char* wchTMSFile,
-                                      bool bFilenameIncludesExtension,
-                                      eFileExtensionType eEXT) {
-    return -1;
-}
-
-int WindowsGame::LoadLocalTMSFile(char* wchTMSFile) { return -1; }
-
-int WindowsGame::LoadLocalTMSFile(char* wchTMSFile, eFileExtensionType eExt) {
-    return -1;
-}
-
-void WindowsGame::FreeLocalTMSFiles(eTMSFileType eType) {}

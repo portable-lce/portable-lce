@@ -18,7 +18,6 @@
 #include "app/common/DebugOptions.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/GameSettingsManager.h"
-#include "platform/game/IPlatformGame.h"
 #include "app/common/LocalizationManager.h"
 #include "app/common/MenuController.h"
 #include "app/common/NetworkController.h"
@@ -62,7 +61,7 @@ class Merchant;
 
 class CMinecraftAudio;
 
-class Game : public IPlatformGame {
+class Game {
 public:
     Game();
 
@@ -359,7 +358,6 @@ public:
                           const int iPad) {
         return m_gameSettingsManager.setDefaultOptions(pSettings, iPad);
     }
-    void SetRichPresenceContext(int iPad, int contextId) override = 0;
 
     void SetGameSettings(int iPad, eGameSetting eVal, unsigned char ucVal) {
         m_gameSettingsManager.setGameSettings(iPad, eVal, ucVal);
@@ -896,17 +894,6 @@ public:
     void ReadXuidsFileFromTMS(int iPad, eTMSAction action,
                               bool bCallback = false);
 
-    // images for save thumbnail/social post
-    void CaptureSaveThumbnail() override = 0;
-    void GetSaveThumbnail(std::uint8_t** thumbnailData,
-                          unsigned int* thumbnailSize) override = 0;
-    void ReleaseSaveThumbnail() override = 0;
-    void GetScreenshot(int iPad, std::uint8_t** screenshotData,
-                       unsigned int* screenshotSize) override = 0;
-
-    void ReadBannedList(int iPad, eTMSAction action = (eTMSAction)0,
-                        bool bCallback = false) override = 0;
-
     // DLC data members moved to DLCController
     // Sign-in info moved to NetworkController
 
@@ -1149,13 +1136,6 @@ public:
     static std::string getSkinPathFromId(std::uint32_t skinId) {
         return SkinManager::getSkinPathFromId(skinId);
     }
-
-    int LoadLocalTMSFile(char* wchTMSFile) override = 0;
-    int LoadLocalTMSFile(char* wchTMSFile,
-                         eFileExtensionType eExt) override = 0;
-    void FreeLocalTMSFiles(eTMSFileType eType) override = 0;
-    int GetLocalTMSFileIndex(char* wchTMSFile, bool bFilenameIncludesExtension,
-                             eFileExtensionType eEXT) override = 0;
 
     virtual bool GetTMSGlobalFileListRead() { return true; }
     virtual bool GetTMSDLCInfoRead() { return true; }

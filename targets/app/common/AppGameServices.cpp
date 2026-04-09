@@ -2,6 +2,7 @@
 
 #include "app/common/Game.h"
 #include "java/Class.h"  // eINSTANCEOF
+#include "platform/game/game.h"
 
 AppGameServices::AppGameServices(Game& game, IMenuService& menus)
     : game_(game), menus_(menus) {}
@@ -262,19 +263,21 @@ bool AppGameServices::isXuidDeadmau5(PlayerUID xuid) {
 void AppGameServices::fatalLoadError() { game_.FatalLoadError(); }
 
 void AppGameServices::setRichPresenceContext(int iPad, int contextId) {
-    game_.SetRichPresenceContext(iPad, contextId);
+    PlatformGame.SetRichPresenceContext(iPad, contextId);
 }
 
-void AppGameServices::captureSaveThumbnail() { game_.CaptureSaveThumbnail(); }
+void AppGameServices::captureSaveThumbnail() {
+    PlatformGame.CaptureSaveThumbnail();
+}
 
 void AppGameServices::getSaveThumbnail(std::uint8_t** data,
                                        unsigned int* size) {
-    game_.GetSaveThumbnail(data, size);
+    PlatformGame.GetSaveThumbnail(data, size);
 }
 
 void AppGameServices::readBannedList(int iPad, eTMSAction action,
                                      bool bCallback) {
-    game_.ReadBannedList(iPad, action, bCallback);
+    PlatformGame.ReadBannedList(iPad, action, bCallback);
 }
 
 void AppGameServices::updatePlayerInfo(std::uint8_t networkSmallId,
