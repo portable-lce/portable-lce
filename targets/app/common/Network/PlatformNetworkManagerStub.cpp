@@ -6,8 +6,8 @@
 #include <compare>
 
 #include "NetworkPlayerQNet.h"
-#include "Socket.h"
 #include "app/common/Network/GameNetworkManager.h"
+#include "minecraft/network/Socket.h"
 #include "app/linux/LinuxGame.h"
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "platform/C4JThread.h"

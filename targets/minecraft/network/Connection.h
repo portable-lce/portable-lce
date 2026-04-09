@@ -7,7 +7,7 @@
 #include <queue>
 #include <string>
 
-#include "app/common/Network/Socket.h"
+#include "minecraft/network/Socket.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"

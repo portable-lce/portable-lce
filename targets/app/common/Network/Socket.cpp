@@ -1,4 +1,4 @@
-#include "Socket.h"
+#include "minecraft/network/Socket.h"
 
 #include <stdio.h>
 

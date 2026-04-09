@@ -14,7 +14,7 @@
 #include "ReceivingLevelScreen.h"
 #include "app/common/ConsoleGameMode.h"
 #include "minecraft/client/skins/ISkinAssetData.h"
-#include "app/common/Network/Socket.h"
+#include "minecraft/network/Socket.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
 #include "minecraft/world/tutorial/ITutorial.h"
 #include "app/common/UI/All Platforms/UIStructs.h"

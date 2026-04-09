@@ -66,7 +66,7 @@
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFileSplit.h"
 #endif
 #include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
-#include "app/common/Network/Socket.h"
+#include "minecraft/network/Socket.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"

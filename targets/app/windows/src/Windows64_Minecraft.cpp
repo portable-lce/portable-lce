@@ -5,7 +5,7 @@
 
 #include <mutex>
 
-#include "app/common/Network/Socket.h"
+#include "minecraft/network/Socket.h"
 #include "minecraft/client/User.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/client/multiplayer/ConnectScreen.h"

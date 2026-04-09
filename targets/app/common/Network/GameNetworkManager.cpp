@@ -10,7 +10,7 @@
 #include <thread>
 #include <vector>
 
-#include "Socket.h"
+#include "minecraft/network/Socket.h"
 #include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/Network/PlatformNetworkManagerStub.h"
