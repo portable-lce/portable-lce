@@ -3,28 +3,32 @@
 #include <ranges>
 #include <utility>
 
-#include "app/linux/LinuxGame.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
+#include "minecraft/util/Log.h"
 
 StringTable::StringTable(void) {}
 
 // Load string table from a binary blob, filling out with the current
-// localisation data only
-StringTable::StringTable(std::uint8_t* pbData, unsigned int dataSize) {
+// localisation data only. The caller passes the locale list it wants
+// matched (typically obtained from the LocalizationManager) so that
+// StringTable does not have to know about app-side singletons.
+StringTable::StringTable(std::uint8_t* pbData, unsigned int dataSize,
+                         const std::vector<std::string>& locales) {
     src = std::vector<uint8_t>(pbData, pbData + dataSize);
 
-    ProcessStringTableData();
+    ProcessStringTableData(locales);
 }
 
-void StringTable::ReloadStringTable() {
+void StringTable::ReloadStringTable(const std::vector<std::string>& locales) {
     m_stringsMap.clear();
     m_stringsVec.clear();
 
-    ProcessStringTableData();
+    ProcessStringTableData(locales);
 }
 
-void StringTable::ProcessStringTableData(void) {
+void StringTable::ProcessStringTableData(
+    const std::vector<std::string>& locales) {
     ByteArrayInputStream bais(src);
     DataInputStream dis(&bais);
 
@@ -41,9 +45,6 @@ void StringTable::ProcessStringTableData(void) {
                                                                   langSize));
     }
 
-    std::vector<std::string> locales;
-    app.getLocale(locales);
-
     bool foundLang = false;
     int64_t bytesToSkip = 0;
     int dataSize = 0;
@@ -55,8 +56,8 @@ void StringTable::ProcessStringTableData(void) {
 
         for (auto it = langSizeMap.begin(); it != langSizeMap.end(); ++it) {
             if (it->first.compare(*it_locales) == 0) {
-                app.DebugPrintf("StringTable:: Found language '%s'.\n",
-                                it_locales->c_str());
+                Log::info("StringTable:: Found language '%s'.\n",
+                          it_locales->c_str());
                 dataSize = it->second;
                 foundLang = true;
                 break;
@@ -66,8 +67,8 @@ void StringTable::ProcessStringTableData(void) {
         }
 
         if (!foundLang)
-            app.DebugPrintf("StringTable:: Can't find language '%s'.\n",
-                            it_locales->c_str());
+            Log::info("StringTable:: Can't find language '%s'.\n",
+                      it_locales->c_str());
     }
 
     if (foundLang) {
@@ -91,8 +92,8 @@ void StringTable::ProcessStringTableData(void) {
         std::string langId = dis2.readUTF();
         int totalStrings = dis2.readInt();
 
-        app.DebugPrintf("IsStatic=%d totalStrings = %d\n", isStatic ? 1 : 0,
-                        totalStrings);
+        Log::info("IsStatic=%d totalStrings = %d\n", isStatic ? 1 : 0,
+                  totalStrings);
 
         if (!isStatic) {
             for (int i = 0; i < totalStrings; ++i) {
@@ -112,7 +113,7 @@ void StringTable::ProcessStringTableData(void) {
         // We can't delete this data in the dtor, so clear the reference
         bais2.reset();
     } else {
-        app.DebugPrintf("Failed to get language\n");
+        Log::info("Failed to get language\n");
 #ifdef _DEBUG
         assert(0);
 #endif

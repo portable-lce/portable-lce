@@ -284,6 +284,7 @@ core/FacingEnum.cpp
 core/ItemDispenseBehaviors.cpp
 locale/I18n.cpp
 locale/Language.cpp
+locale/StringTable.cpp
 network/Connection.cpp
 network/packet/AddEntityPacket.cpp
 network/packet/AddExperienceOrbPacket.cpp

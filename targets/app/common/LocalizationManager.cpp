@@ -77,7 +77,10 @@ void LocalizationManager::loadStringTable(ArchiveFile* mediaArchive) {
     std::string localisationFile = "languages.loc";
     if (mediaArchive->hasFile(localisationFile)) {
         std::vector<uint8_t> locFile = mediaArchive->getFile(localisationFile);
-        m_stringTable = new StringTable(locFile.data(), locFile.size());
+        std::vector<std::string> locales;
+        getLocale(locales);
+        m_stringTable =
+            new StringTable(locFile.data(), locFile.size(), locales);
     } else {
         m_stringTable = nullptr;
         assert(false);

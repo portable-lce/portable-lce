@@ -145,8 +145,10 @@ void IUIScene_StartGame::UpdateTexturePackDescription(int index) {
         app.GetFileFromTPD(eTPDFileType_Loc, pbData, dwBytes, &pbFileData,
                            &dwFileBytes);
         if (dwFileBytes > 0 && pbFileData) {
+            std::vector<std::string> locales;
+            app.getLocale(locales);
             StringTable* pStringTable =
-                new StringTable(pbFileData, dwFileBytes);
+                new StringTable(pbFileData, dwFileBytes, locales);
             m_texturePackTitle.SetText(
                 pStringTable->getString("IDS_DISPLAY_NAME"));
             m_texturePackDescription.SetText(

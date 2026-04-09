@@ -54,9 +54,10 @@ public:
     // 	};
 
     StringTable(void);
-    StringTable(std::uint8_t* pbData, unsigned int dataSize);
+    StringTable(std::uint8_t* pbData, unsigned int dataSize,
+                const std::vector<std::string>& locales);
     ~StringTable(void);
-    void ReloadStringTable();
+    void ReloadStringTable(const std::vector<std::string>& locales);
 
     void getData(std::uint8_t** ppData, unsigned int* pSize);
 
@@ -67,5 +68,5 @@ public:
 
 private:
     // std::string getLangId(uint32_t dwLanguage=0);
-    void ProcessStringTableData(void);
+    void ProcessStringTableData(const std::vector<std::string>& locales);
 };

@@ -49,7 +49,6 @@ common/GameSettingsManager.cpp
 common/Game_XuiActions.cpp
 common/Leaderboards/LeaderboardInterface.cpp
 common/Leaderboards/LeaderboardManager.cpp
-common/Localisation/StringTable.cpp
 common/LocalizationManager.cpp
 common/MenuController.cpp
 common/Network/GameNetworkManager.cpp
