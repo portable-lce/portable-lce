@@ -34,7 +34,6 @@
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
-#include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"

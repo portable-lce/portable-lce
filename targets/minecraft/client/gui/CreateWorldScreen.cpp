@@ -18,7 +18,6 @@
 // below. Static thread procs can't be virtual; this one consumer keeps the
 // concrete type include.
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/SharedConstants.h"

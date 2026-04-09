@@ -6,7 +6,6 @@
 
 #include "ClientConnection.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "app/common/Tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "minecraft/IGameServices.h"
 #include "minecraft/client/Minecraft.h"

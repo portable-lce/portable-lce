@@ -5,11 +5,9 @@
 #include <cwchar>
 #include <limits>
 #include <vector>
-
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/DLC/DLCAudioFile.h"
 #include "app/common/DLC/DLCColourTableFile.h"
-#include "app/common/DLC/DLCFile.h"
 #include "app/common/DLC/DLCGameRulesHeader.h"
 #include "app/common/DLC/DLCLocalisationFile.h"
 #include "app/common/DLC/DLCManager.h"
@@ -35,8 +33,6 @@
 #include "platform/storage/storage.h"
 
 #if defined(_WINDOWS64)
-#include "app/windows/XML/ATGXmlParser.h"
-#include "app/windows/XML/xmlFilesCallback.h"
 #endif
 
 namespace {

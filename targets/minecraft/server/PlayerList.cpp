@@ -13,7 +13,6 @@
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"
 #include "app/common/Network/Socket.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "app/common/Tutorial/TutorialEnum.h"
 #include "java/Class.h"
 #include "java/JavaMath.h"
 #include "minecraft/GameEnums.h"
