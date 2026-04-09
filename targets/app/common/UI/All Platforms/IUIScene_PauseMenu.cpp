@@ -9,8 +9,6 @@
 #include <thread>
 #include <vector>
 
-#include "platform/profile/profile.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/GameRules/GameRuleManager.h"
@@ -18,7 +16,7 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
-#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
 #include "minecraft/client/multiplayer/MultiPlayerLevel.h"
@@ -26,6 +24,9 @@
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/server/MinecraftServer.h"
+#include "minecraft/server/ServerAction.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
+#include "platform/profile/profile.h"
 #include "strings.h"
 
 class TexturePack;
@@ -211,13 +212,8 @@ int IUIScene_PauseMenu::WarningTrialTexturePackReturned(
 
 int IUIScene_PauseMenu::SaveWorldThreadProc(void* lpParameter) {
     bool bAutosave = (bool)lpParameter;
-    if (bAutosave) {
-        app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                               eXuiServerAction_AutoSaveGame);
-    } else {
-        app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                               eXuiServerAction_SaveGame);
-    }
+    MinecraftServer::getInstance()->queueServerAction(
+        minecraft::server::SaveGame{bAutosave});
 
     // Share AABB & Vec3 pools with default (main thread) - should be ok as long
     // as we don't tick the main thread whilst this thread is running
@@ -228,12 +224,6 @@ int IUIScene_PauseMenu::SaveWorldThreadProc(void* lpParameter) {
     // printf("Loading world on thread\n");
 
     app.SetGameStarted(false);
-
-    while (app.GetXuiServerAction(PlatformProfile.GetPrimaryPad()) !=
-               eXuiServerAction_Idle &&
-           !MinecraftServer::serverHalted()) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
 
     if (!MinecraftServer::serverHalted() && !app.GetChangingSessionType())
         app.SetGameStarted(true);

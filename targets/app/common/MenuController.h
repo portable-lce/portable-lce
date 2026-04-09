@@ -5,7 +5,6 @@
 #include <string>
 
 #include "app/common/App_structs.h"
-#include "minecraft/XuiActionPayload.h"
 #include "platform/XboxStubs.h"
 #include "platform/storage/storage.h"
 
@@ -70,25 +69,8 @@ public:
     // Action management
     void setAction(int iPad, eXuiAction action, void* param = nullptr);
     eXuiAction getXuiAction(int iPad) { return m_eXuiAction[iPad]; }
-    void setXuiServerAction(int iPad, eXuiServerAction action,
-                            XuiActionPayload param = {}) {
-        m_eXuiServerAction[iPad] = action;
-        m_eXuiServerActionParam[iPad] = std::move(param);
-    }
-    eXuiServerAction getXuiServerAction(int iPad) {
-        return m_eXuiServerAction[iPad];
-    }
-    const XuiActionPayload& getXuiServerActionParam(int iPad) {
-        return m_eXuiServerActionParam[iPad];
-    }
     eXuiAction getGlobalXuiAction() { return m_eGlobalXuiAction; }
     void setGlobalXuiAction(eXuiAction action) { m_eGlobalXuiAction = action; }
-    eXuiServerAction getGlobalXuiServerAction() {
-        return m_eGlobalXuiServerAction;
-    }
-    void setGlobalXuiServerAction(eXuiServerAction action) {
-        m_eGlobalXuiServerAction = action;
-    }
 
     // TMS action
     void setTMSAction(int iPad, eTMSAction action) {
@@ -141,9 +123,6 @@ private:
     eTMSAction m_eTMSAction[XUSER_MAX_COUNT];
     void* m_eXuiActionParam[XUSER_MAX_COUNT];
     eXuiAction m_eGlobalXuiAction;
-    eXuiServerAction m_eXuiServerAction[XUSER_MAX_COUNT];
-    XuiActionPayload m_eXuiServerActionParam[XUSER_MAX_COUNT];
-    eXuiServerAction m_eGlobalXuiServerAction;
 
     unsigned int m_uiOpacityCountDown[XUSER_MAX_COUNT];
 

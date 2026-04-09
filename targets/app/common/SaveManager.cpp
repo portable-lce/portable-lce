@@ -6,6 +6,7 @@
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/linux/LinuxGame.h"
 #include "minecraft/server/MinecraftServer.h"
+#include "minecraft/server/ServerAction.h"
 #include "platform/profile/profile.h"
 
 void SaveManager::setAutosaveTimerTime(int settingValue) {
@@ -34,8 +35,8 @@ void SaveManager::lock() {
 
             if (g_NetworkManager.IsLocalGame() &&
                 g_NetworkManager.GetPlayerCount() == 1) {
-                app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                       eXuiServerAction_PauseServer, true);
+                MinecraftServer::getInstance()->queueServerAction(
+                    minecraft::server::PauseServer{true});
             }
         }
     }
@@ -52,8 +53,8 @@ void SaveManager::unlock() {
 
             if (g_NetworkManager.IsLocalGame() &&
                 g_NetworkManager.GetPlayerCount() == 1) {
-                app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                       eXuiServerAction_PauseServer, false);
+                MinecraftServer::getInstance()->queueServerAction(
+                    minecraft::server::PauseServer{false});
             }
         }
     }

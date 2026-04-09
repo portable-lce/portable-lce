@@ -21,6 +21,8 @@
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/client/skins/DLCTexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
+#include "minecraft/server/MinecraftServer.h"
+#include "minecraft/server/ServerAction.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
@@ -64,8 +66,8 @@ UIScene_PauseMenu::UIScene_PauseMenu(int iPad, void* initData,
     // IsLocalGame() issues on Iggy
     if (/*g_NetworkManager.IsLocalGame() &&*/ g_NetworkManager
             .GetPlayerCount() == 1) {
-        app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                               eXuiServerAction_PauseServer, true);
+        MinecraftServer::getInstance()->queueServerAction(
+            minecraft::server::PauseServer{true});
     }
 
     Minecraft* pMinecraft = Minecraft::GetInstance();
@@ -194,8 +196,8 @@ void UIScene_PauseMenu::handleInput(int iPad, int key, bool repeat,
                 if (iPad == PlatformProfile.GetPrimaryPad() &&
                     /*g_NetworkManager.IsLocalGame()*/ g_NetworkManager
                             .GetPlayerCount() == 1) {
-                    app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                           eXuiServerAction_PauseServer, false);
+                    MinecraftServer::getInstance()->queueServerAction(
+                        minecraft::server::PauseServer{false});
                 }
 
                 ui.PlayUISFX(eSFX_Back);
@@ -262,8 +264,8 @@ void UIScene_PauseMenu::handlePress(F64 controlId, F64 childId) {
             if (m_iPad == PlatformProfile.GetPrimaryPad() &&
                 /*g_NetworkManager.IsLocalGame()*/ g_NetworkManager
                         .GetPlayerCount() == 1) {
-                app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                       eXuiServerAction_PauseServer, false);
+                MinecraftServer::getInstance()->queueServerAction(
+                    minecraft::server::PauseServer{false});
             }
             navigateBack();
             break;

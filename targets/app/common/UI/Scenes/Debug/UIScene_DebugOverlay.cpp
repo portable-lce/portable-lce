@@ -39,6 +39,7 @@ class UILayer;
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/client/renderer/GameRenderer.h"
 #include "minecraft/server/MinecraftServer.h"
+#include "minecraft/server/ServerAction.h"
 #include "util/StringHelpers.h"
 
 UIScene_DebugOverlay::UIScene_DebugOverlay(int iPad, void* initData,
@@ -208,9 +209,9 @@ void UIScene_DebugOverlay::handlePress(F64 controlId, F64 childId) {
         case eControl_Mobs: {
             int id = childId;
             if (id < m_mobFactories.size()) {
-                app.SetXuiServerAction(
-                    PlatformProfile.GetPrimaryPad(), eXuiServerAction_SpawnMob,
-                    static_cast<std::int64_t>(m_mobFactories[id]));
+                MinecraftServer::getInstance()->queueServerAction(
+                    minecraft::server::SpawnDebugMob{
+                        0, static_cast<int>(m_mobFactories[id])});
             }
         } break;
         case eControl_Enchantments: {
@@ -245,8 +246,8 @@ void UIScene_DebugOverlay::handlePress(F64 controlId, F64 childId) {
             conn->send(ToggleDownfallCommand::preparePacket());
         } break;
         case eControl_Thunder:
-            app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                                   eXuiServerAction_ToggleThunder);
+            MinecraftServer::getInstance()->queueServerAction(
+                minecraft::server::ToggleThunder{});
             break;
         case eControl_ResetTutorial:
             Tutorial::debugResetPlayerSavedProgress(

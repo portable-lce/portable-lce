@@ -8,7 +8,6 @@
 
 #include "UIEnums.h"
 #include "minecraft/GameHostOptions.h"
-#include "minecraft/XuiActionPayload.h"
 #include "platform/C4JThread.h"
 #include "platform/storage/storage.h"
 
@@ -417,11 +416,6 @@ typedef struct _InGamePlayerOptionsInitData {
     std::uint8_t networkSmallId;
     unsigned int playerPrivileges;
 } InGamePlayerOptionsInitData;
-
-struct DebugSetCameraPosition : minecraft::XuiActionOwnedPayload {
-    int player;
-    double m_camX, m_camY, m_camZ, m_yRot, m_elev;
-};
 
 typedef struct _TeleportMenuInitData {
     int iPad;

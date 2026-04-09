@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "ConsoleInputSource.h"
+#include "ServerAction.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
@@ -300,6 +301,25 @@ private:
     bool IsServerPaused() { return m_isServerPaused; }
 
 private:
+    // Drain the action queue and dispatch each one. Called from the
+    // server tick loop. The drain takes the mutex briefly to swap the
+    // queue out, then dispatches without holding the lock.
+    void drainServerActions();
+
+    void handleServerAction(const minecraft::server::SaveGame& a);
+    void handleServerAction(const minecraft::server::DropDebugItem& a);
+    void handleServerAction(const minecraft::server::SpawnDebugMob& a);
+    void handleServerAction(const minecraft::server::PauseServer& a);
+    void handleServerAction(const minecraft::server::ToggleRain& a);
+    void handleServerAction(const minecraft::server::ToggleThunder& a);
+    void handleServerAction(
+        const minecraft::server::BroadcastSettingChanged& a);
+    void handleServerAction(const minecraft::server::ExportSchematic& a);
+    void handleServerAction(const minecraft::server::SetCameraLocation& a);
+
+    std::mutex m_actionQueueMutex;
+    std::vector<minecraft::server::ServerAction> m_actionQueue;
+
     // 4J Added
     bool m_saveOnExit;
     bool m_suspending;
@@ -313,6 +333,11 @@ public:
 
     void chunkPacketManagement_PreTick();
     void chunkPacketManagement_PostTick();
+
+    // Queue a typed action for the server to handle on its next tick.
+    // Safe to call from any thread; the queue is mutex-protected and
+    // drained from the server tick loop.
+    void queueServerAction(minecraft::server::ServerAction action);
 
     void setSaveOnExit(bool save) {
         m_saveOnExit = save;

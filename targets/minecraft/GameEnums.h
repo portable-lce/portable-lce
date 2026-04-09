@@ -100,25 +100,6 @@ enum eTMSAction {
     eTMSAction_TMSPP_RetrieveUserFilelist_DLCFileOnly,
 };
 
-// The server runs on its own thread, so we need to call its actions there
-// rather than where all other Xui actions are performed In general these are
-// debugging options
-enum eXuiServerAction {
-    eXuiServerAction_Idle = 0,
-    eXuiServerAction_DropItem,  // Debug
-    eXuiServerAction_SaveGame,
-    eXuiServerAction_AutoSaveGame,
-    eXuiServerAction_SpawnMob,  // Debug
-    eXuiServerAction_PauseServer,
-    eXuiServerAction_ToggleRain,     // Debug
-    eXuiServerAction_ToggleThunder,  // Debug
-    eXuiServerAction_ServerSettingChanged_Gamertags,
-    eXuiServerAction_ServerSettingChanged_Difficulty,
-    eXuiServerAction_ExportSchematic,  // Debug
-    eXuiServerAction_ServerSettingChanged_BedrockFog,
-    eXuiServerAction_SetCameraLocation,  // Debug
-};
-
 enum eGameSetting {
     eGameSetting_MusicVolume = 0,
     eGameSetting_SoundFXVolume,

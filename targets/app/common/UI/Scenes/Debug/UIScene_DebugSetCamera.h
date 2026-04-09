@@ -3,7 +3,6 @@
 #include <string>
 
 #include "app/common/UI/All Platforms/UIEnums.h"
-#include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
@@ -30,7 +29,18 @@ private:
         bool freeze;
     } FreezePlayerParam;
 
-    DebugSetCameraPosition* currentPosition;
+    // Local UI state collected from the form. Sent to the server as a
+    // SetCameraLocation action when the user hits Teleport.
+    struct CameraFormState {
+        int player = 0;
+        double m_camX = 0.0;
+        double m_camY = 0.0;
+        double m_camZ = 0.0;
+        double m_yRot = 0.0;
+        double m_elev = 0.0;
+    };
+
+    CameraFormState currentPosition;
     FreezePlayerParam* fpp;
 
     eControls m_keyboardCallbackControl;

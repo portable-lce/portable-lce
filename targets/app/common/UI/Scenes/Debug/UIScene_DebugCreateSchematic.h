@@ -2,7 +2,6 @@
 #ifdef _DEBUG_MENUS_ENABLED
 #include <string>
 
-#include "app/common/GameRules/LevelGeneration/ConsoleSchematicFile.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
@@ -10,6 +9,7 @@
 #include "app/common/UI/Controls/UIControl_TextInput.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/rrCore.h"
+#include "minecraft/server/ServerAction.h"
 
 class UILayer;
 
@@ -30,7 +30,9 @@ private:
 
     eControls m_keyboardCallbackControl;
 
-    ConsoleSchematicFile::XboxSchematicInitParam* m_data;
+    // Local UI state collected from the form. Sent to the server as an
+    // ExportSchematic action when the user hits Create.
+    minecraft::server::ExportSchematic m_data;
 
 public:
     UIScene_DebugCreateSchematic(int iPad, void* initData,

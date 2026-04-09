@@ -35,6 +35,7 @@
 #include "minecraft/network/platform/NetworkPlayerInterface.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
+#include "minecraft/server/ServerAction.h"
 #include "minecraft/server/level/ServerPlayer.h"
 #include "minecraft/server/network/PlayerConnection.h"
 #include "minecraft/world/entity/Entity.h"
@@ -883,13 +884,7 @@ int CGameNetworkManager::ChangeSessionTypeThreadProc(void* lpParam) {
     pMinecraft->progressRenderer->progressStage(
         IDS_PROGRESS_CONVERTING_TO_OFFLINE_GAME);
 
-    while (app.GetXuiServerAction(PlatformProfile.GetPrimaryPad()) !=
-               eXuiServerAction_Idle &&
-           !MinecraftServer::serverHalted()) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
-    app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                           eXuiServerAction_PauseServer, true);
+    pServer->queueServerAction(minecraft::server::PauseServer{true});
 
     // wait for the server to be in a non-ticking state
     pServer->m_serverPausedEvent->waitForSignal(C4JThread::kInfiniteTimeout);
@@ -1016,8 +1011,8 @@ int CGameNetworkManager::ChangeSessionTypeThreadProc(void* lpParam) {
 
     // Start the game again
     app.SetGameStarted(true);
-    app.SetXuiServerAction(PlatformProfile.GetPrimaryPad(),
-                           eXuiServerAction_PauseServer, false);
+    MinecraftServer::getInstance()->queueServerAction(
+        minecraft::server::PauseServer{false});
     app.SetChangingSessionType(false);
     app.SetReallyChangingSessionType(false);
 

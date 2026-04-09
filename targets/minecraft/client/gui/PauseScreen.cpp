@@ -18,6 +18,7 @@
 #include "minecraft/locale/I18n.h"
 #include "minecraft/network/INetworkService.h"
 #include "minecraft/server/MinecraftServer.h"
+#include "minecraft/server/ServerAction.h"
 #include "platform/input/input.h"
 
 PauseScreen::PauseScreen() {
@@ -31,8 +32,8 @@ void PauseScreen::init() {
     int yo = -16;
     // 4jcraft: solves the issue of client-side only pausing in the java gui
     if (NetworkService.IsLocalGame() && NetworkService.GetPlayerCount() == 1)
-        gameServices().setXuiServerAction(PlatformInput.GetPrimaryPad(),
-                                          eXuiServerAction_PauseServer, true);
+        MinecraftServer::getInstance()->queueServerAction(
+            minecraft::server::PauseServer{true});
     buttons.push_back(new Button(1, width / 2 - 100, height / 4 + 24 * 5 + yo,
                                  I18n::get("menu.returnToMenu")));
     if (!NetworkService.IsHost()) {
@@ -90,8 +91,8 @@ void PauseScreen::buttonClicked(Button* button) {
         exitWorld(minecraft, true);
     }
     if (button->id == 4) {
-        gameServices().setXuiServerAction(PlatformInput.GetPrimaryPad(),
-                                          eXuiServerAction_PauseServer, false);
+        MinecraftServer::getInstance()->queueServerAction(
+            minecraft::server::PauseServer{false});
         minecraft->setScreen(nullptr);
         //       minecraft->grabMouse();		// 4J - removed
     }

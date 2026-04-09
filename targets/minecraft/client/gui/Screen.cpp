@@ -10,6 +10,8 @@
 #include "minecraft/client/gui/particle/GuiParticles.h"
 #include "minecraft/client/renderer/Tesselator.h"
 #include "minecraft/network/INetworkService.h"
+#include "minecraft/server/MinecraftServer.h"
+#include "minecraft/server/ServerAction.h"
 #include "minecraft/sounds/SoundTypes.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
@@ -42,9 +44,8 @@ void Screen::keyPressed(char eventCharacter, int eventKey) {
         // unpausing is done in all scenarios
         if (NetworkService.IsLocalGame() &&
             NetworkService.GetPlayerCount() == 1)
-            gameServices().setXuiServerAction(PlatformInput.GetPrimaryPad(),
-                                              eXuiServerAction_PauseServer,
-                                              false);
+            MinecraftServer::getInstance()->queueServerAction(
+                minecraft::server::PauseServer{false});
     }
 }
 

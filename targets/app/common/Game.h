@@ -273,23 +273,6 @@ public:
     eTMSAction GetTMSAction(int iPad) {
         return m_menuController.getTMSAction(iPad);
     }
-    eXuiServerAction GetXuiServerAction(int iPad) {
-        return m_menuController.getXuiServerAction(iPad);
-    }
-    const XuiActionPayload& GetXuiServerActionParam(int iPad) {
-        return m_menuController.getXuiServerActionParam(iPad);
-    }
-    void SetXuiServerAction(int iPad, eXuiServerAction action,
-                            XuiActionPayload param = {}) {
-        m_menuController.setXuiServerAction(iPad, action, std::move(param));
-    }
-    eXuiServerAction GetGlobalXuiServerAction() {
-        return m_menuController.getGlobalXuiServerAction();
-    }
-    void SetGlobalXuiServerAction(eXuiServerAction action) {
-        m_menuController.setGlobalXuiServerAction(action);
-    }
-
     DisconnectPacket::eDisconnectReason GetDisconnectReason() {
         return m_networkController.getDisconnectReason();
     }
@@ -931,7 +914,7 @@ public:
     // void OverrideFontRenderer(bool set, bool immediate = true);
     //	void ToggleFontRenderer() {
     // OverrideFontRenderer(!m_bFontRendererOverridden,false); }
-    BANNEDLIST (&BannedListA)
+    BANNEDLIST(&BannedListA)
     [XUSER_MAX_COUNT] = m_bannedListManager.BannedListA;
 
 public:

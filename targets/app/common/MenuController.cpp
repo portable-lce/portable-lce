@@ -36,7 +36,6 @@ MenuController::MenuController() {
         m_uiOpacityCountDown[i] = 0;
     }
     m_eGlobalXuiAction = eAppAction_Idle;
-    m_eGlobalXuiServerAction = eXuiServerAction_Idle;
 }
 
 void MenuController::setAction(int iPad, eXuiAction action, void* param) {
