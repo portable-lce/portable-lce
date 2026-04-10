@@ -41,7 +41,6 @@
 #include "stb_image.h"
 
 #define GLM_FORCE_RADIANS
-#include <dlfcn.h>
 #include <pthread.h>
 
 #include <cmath>

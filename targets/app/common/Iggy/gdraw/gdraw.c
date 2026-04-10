@@ -3,7 +3,6 @@
 #include "gdraw.h"
 
 #include <GL/gl.h>
-#include <dlfcn.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -38,23 +37,23 @@ void IggyDiscardVertexBufferCallback(void* owner, void* buf) {
 }
 #endif
 
-static void* get_gl_proc(const char* name) {
-    void* p = SDL_GL_GetProcAddress(name);
-    if (!p) p = dlsym(RTLD_DEFAULT, name);
-    if (!p) {
-        char buf[256];
-        strncpy(buf, name, sizeof(buf) - 1);
-        buf[255] = '\0';
-        char* ext = strstr(buf, "ARB");
-        if (!ext) ext = strstr(buf, "EXT");
-        if (ext && ext == buf + strlen(buf) - 3) {
-            *ext = '\0';
-            p = SDL_GL_GetProcAddress(buf);
-            if (!p) p = dlsym(RTLD_DEFAULT, buf);
-        }
-    }
-    return p;
-}
+// static void* get_gl_proc(const char* name) {
+//     void* p = SDL_GL_GetProcAddress(name);
+//     if (!p) p = dlsym(RTLD_DEFAULT, name);
+//     if (!p) {
+//         char buf[256];
+//         strncpy(buf, name, sizeof(buf) - 1);
+//         buf[255] = '\0';
+//         char* ext = strstr(buf, "ARB");
+//         if (!ext) ext = strstr(buf, "EXT");
+//         if (ext && ext == buf + strlen(buf) - 3) {
+//             *ext = '\0';
+//             p = SDL_GL_GetProcAddress(buf);
+//             if (!p) p = dlsym(RTLD_DEFAULT, buf);
+//         }
+//     }
+//     return p;
+// }
 
 #define GDRAW_GL_EXTENSION_LIST                                                \
     /*  identifier                      import procname */                     \
@@ -178,15 +177,15 @@ static gdraw_texsubimage2d_fn gdraw_real_texsubimage2d = NULL;
 
 #define TRY(ptr, arb, core)             \
     do {                                \
-        void* _p = get_gl_proc(core);   \
-        if (!_p) _p = get_gl_proc(arb); \
+        void* _p = SDL_GL_GetProcAddress(core);   \
+        if (!_p) _p = SDL_GL_GetProcAddress(arb); \
         *(void**)&(ptr) = _p;           \
     } while (0)
 
 static void load_extensions(void) {
 // gl_shared requires ts shit ugh
 #define GLE(id, import, procname) \
-    gl##id = (PFNGL##procname##PROC)get_gl_proc("gl" import);
+    gl##id = (PFNGL##procname##PROC)SDL_GL_GetProcAddress("gl" import);
     GDRAW_GL_EXTENSION_LIST
 #undef GLE
 
@@ -248,26 +247,26 @@ static void load_extensions(void) {
 
     // Save raw pointers before we #define over the names below
     gdraw_real_vtxattrib =
-        (gdraw_vtxattrib_fn)get_gl_proc("glVertexAttribPointer");
+        (gdraw_vtxattrib_fn)SDL_GL_GetProcAddress("glVertexAttribPointer");
     gdraw_real_createshader =
-        (gdraw_createshader_fn)get_gl_proc("glCreateShader");
+        (gdraw_createshader_fn)SDL_GL_GetProcAddress("glCreateShader");
     gdraw_real_shadersource =
-        (gdraw_shadersource_fn)get_gl_proc("glShaderSource");
+        (gdraw_shadersource_fn)SDL_GL_GetProcAddress("glShaderSource");
     gdraw_real_compileshader =
-        (gdraw_compileshader_fn)get_gl_proc("glCompileShader");
-    gdraw_real_linkprogram = (gdraw_linkprogram_fn)get_gl_proc("glLinkProgram");
-    gdraw_real_teximage2d = (gdraw_teximage2d_fn)get_gl_proc("glTexImage2D");
+        (gdraw_compileshader_fn)SDL_GL_GetProcAddress("glCompileShader");
+    gdraw_real_linkprogram = (gdraw_linkprogram_fn)SDL_GL_GetProcAddress("glLinkProgram");
+    gdraw_real_teximage2d = (gdraw_teximage2d_fn)SDL_GL_GetProcAddress("glTexImage2D");
     gdraw_real_texsubimage2d =
-        (gdraw_texsubimage2d_fn)get_gl_proc("glTexSubImage2D");
-    gdraw_real_useprogram = (gdraw_useprogram_fn)get_gl_proc("glUseProgram");
+        (gdraw_texsubimage2d_fn)SDL_GL_GetProcAddress("glTexSubImage2D");
+    gdraw_real_useprogram = (gdraw_useprogram_fn)SDL_GL_GetProcAddress("glUseProgram");
     gdraw_real_drawelements =
-        (gdraw_drawelements_fn)get_gl_proc("glDrawElements");
+        (gdraw_drawelements_fn)SDL_GL_GetProcAddress("glDrawElements");
 
-    gdraw_glGetStringi = (PFNGLGETSTRINGIPROC_)get_gl_proc("glGetStringi");
+    gdraw_glGetStringi = (PFNGLGETSTRINGIPROC_)SDL_GL_GetProcAddress("glGetStringi");
     gdraw_glGenVertexArrays =
-        (PFNGLGENVERTEXARRAYSPROC_)get_gl_proc("glGenVertexArrays");
+        (PFNGLGENVERTEXARRAYSPROC_)SDL_GL_GetProcAddress("glGenVertexArrays");
     gdraw_glBindVertexArray =
-        (PFNGLBINDVERTEXARRAYPROC_)get_gl_proc("glBindVertexArray");
+        (PFNGLBINDVERTEXARRAYPROC_)SDL_GL_GetProcAddress("glBindVertexArray");
 
     if (gdraw_glGenVertexArrays && gdraw_glBindVertexArray && gdraw_vao == 0) {
         gdraw_glGenVertexArrays(1, &gdraw_vao);

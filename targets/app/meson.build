@@ -23,7 +23,6 @@ if get_option('ui_backend') == 'shiggy'
 endif
 
 app_dependencies += [
-    dependency('dl'), # blame iggy gdraw, nuke this later
     dependency('sdl2'), # blame iggy gdraw, nuke this later
     dependency('miniaudio'), # todo: remove once PlatformSound is used
     dependency('stb'),
