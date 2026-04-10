@@ -30,7 +30,7 @@
 #include "minecraft/client/gui/ScreenSizeCalculator.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "app/common/Audio/SoundTypes.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"

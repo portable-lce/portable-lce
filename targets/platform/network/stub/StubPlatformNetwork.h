@@ -6,7 +6,7 @@
 
 #include "StubNetworkPlayer.h"
 #include "minecraft/client/model/SkinBox.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/XboxStubs.h"
 #include "platform/network/IPlatformNetwork.h"
@@ -136,19 +136,6 @@ private:
     int m_searchResultsCount[XUSER_MAX_COUNT];
     int m_lastSearchStartTime[XUSER_MAX_COUNT];
 
-    // The results that will be filled in with the current search
-    XSESSION_SEARCHRESULT_HEADER* m_pSearchResults[XUSER_MAX_COUNT];
-    XNQOS* m_pQoSResult[XUSER_MAX_COUNT];
-
-    // The results from the previous search, which are currently displayed in
-    // the game
-    XSESSION_SEARCHRESULT_HEADER* m_pCurrentSearchResults[XUSER_MAX_COUNT];
-    XNQOS* m_pCurrentQoSResult[XUSER_MAX_COUNT];
-    int m_currentSearchResultsCount[XUSER_MAX_COUNT];
-
-    int m_lastSearchPad;
-    bool m_bSearchResultsReady;
-    bool m_bSearchPending;
     std::function<void()> m_SessionsUpdatedCallback;
 
     void TickSearch();

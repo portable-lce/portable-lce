@@ -9,7 +9,7 @@
 #endif
 #include "minecraft/network/INetworkService.h"
 #include "platform/C4JThread.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/network/IPlatformNetwork.h"
 #include "platform/network/network.h"

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 
 // A struct that we store in the QoS data when we are hosting the session. Max
 // size 1020 bytes.

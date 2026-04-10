@@ -70,7 +70,7 @@
 #include "minecraft/world/level/storage/LevelStorage.h"
 #include "minecraft/world/level/storage/PlayerIO.h"
 #include "nbt/CompoundTag.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
 

@@ -32,7 +32,7 @@
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/world/entity/item/MinecartHopper.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/XboxStubs.h"
 
 // JoinFromInviteData moved to NetworkController.h

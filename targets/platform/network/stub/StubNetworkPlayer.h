@@ -4,16 +4,16 @@
 
 #include <string>
 
-#include "platform/network/network.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
+#include "platform/network/network.h"
 
 class Socket;
 
 // This is an implementation of the INetworkPlayer interface for the supported
 // QNet-backed path. It
-// effectively wraps the StubNetworkPlayer class in a non-platform-specific way. It is
-// managed by PlatformNetworkManagerStub.
+// effectively wraps the StubNetworkPlayer class in a non-platform-specific way.
+// It is managed by PlatformNetworkManagerStub.
 
 class StubNetworkPlayer : public INetworkPlayer {
 public:
@@ -21,13 +21,12 @@ public:
 
     // Common player interface
     unsigned char GetSmallId();
-    void SendData(INetworkPlayer* player, const void* pvData,
-                          int dataSize, bool lowPriority, bool ack);
+    void SendData(INetworkPlayer* player, const void* pvData, int dataSize,
+                  bool lowPriority, bool ack);
     bool IsSameSystem(INetworkPlayer* player);
     int GetOutstandingAckCount();
     int GetSendQueueSizeBytes(INetworkPlayer* player, bool lowPriority);
-    int GetSendQueueSizeMessages(INetworkPlayer* player,
-                                         bool lowPriority);
+    int GetSendQueueSizeMessages(INetworkPlayer* player, bool lowPriority);
     int GetCurrentRtt();
     bool IsHost();
     bool IsGuest();

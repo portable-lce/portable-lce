@@ -6,7 +6,7 @@
 #include "minecraft/client/model/SkinBox.h"
 #include "minecraft/client/renderer/entity/LivingEntityRenderer.h"
 #include "minecraft/world/entity/player/Player.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 
 class HumanoidModel;
 class LivingEntity;

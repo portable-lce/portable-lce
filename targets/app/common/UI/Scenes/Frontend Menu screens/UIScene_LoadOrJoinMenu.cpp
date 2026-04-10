@@ -26,7 +26,7 @@
 #include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/LevelSettings.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
 #include "strings.h"

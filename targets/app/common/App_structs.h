@@ -7,7 +7,7 @@
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameTypes.h"
 #include "minecraft/client/model/SkinBox.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/XboxStubs.h"
 #include "platform/profile/ProfileConstants.h"
 #include "platform/storage/storage.h"

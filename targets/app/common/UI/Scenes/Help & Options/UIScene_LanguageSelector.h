@@ -8,7 +8,7 @@
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/rrCore.h"
 #include "minecraft/client/model/SkinBox.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/XboxStubs.h"
 #include "platform/profile/ProfileConstants.h"
 

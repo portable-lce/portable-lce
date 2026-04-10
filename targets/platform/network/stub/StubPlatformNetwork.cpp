@@ -9,7 +9,7 @@
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/Socket.h"
 #include "platform/C4JThread.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/network/network.h"
 
 namespace platform_internal {
@@ -120,23 +120,8 @@ bool StubPlatformNetwork::Initialise(CGameNetworkManager* pGameNetworkManager,
     m_bLeaveGameOnTick = false;
     m_bHostChanged = false;
 
-    m_bSearchResultsReady = false;
-    m_bSearchPending = false;
-
     m_bIsOfflineGame = false;
     m_SessionsUpdatedCallback = nullptr;
-
-    for (unsigned int i = 0; i < XUSER_MAX_COUNT; ++i) {
-        m_searchResultsCount[i] = 0;
-        m_lastSearchStartTime[i] = 0;
-
-        // The results that will be filled in with the current search
-        m_pSearchResults[i] = nullptr;
-        m_pQoSResult[i] = nullptr;
-        m_pCurrentSearchResults[i] = nullptr;
-        m_pCurrentQoSResult[i] = nullptr;
-        m_currentSearchResultsCount[i] = 0;
-    }
 
     // Success!
     return true;
@@ -343,20 +328,6 @@ void StubPlatformNetwork::SystemFlagAddPlayer(INetworkPlayer* pNetworkPlayer) {
     m_playerFlags.push_back(newPlayerFlags);
 }
 
-// Remove a player from the per system flag storage - just maintains the
-// m_playerFlags vector without any gaps in it
-void StubPlatformNetwork::SystemFlagRemovePlayer(
-    INetworkPlayer* pNetworkPlayer) {
-    for (unsigned int i = 0; i < m_playerFlags.size(); i++) {
-        if (m_playerFlags[i]->m_pNetworkPlayer == pNetworkPlayer) {
-            delete m_playerFlags[i];
-            m_playerFlags[i] = m_playerFlags.back();
-            m_playerFlags.pop_back();
-            return;
-        }
-    }
-}
-
 void StubPlatformNetwork::SystemFlagReset() {
     for (unsigned int i = 0; i < m_playerFlags.size(); i++) {
         delete m_playerFlags[i];
@@ -420,10 +391,7 @@ void StubPlatformNetwork::TickSearch() {}
 
 void StubPlatformNetwork::SearchForGames() {}
 
-void StubPlatformNetwork::SetSearchResultsReady(int resultCount) {
-    m_bSearchResultsReady = true;
-    m_searchResultsCount[m_lastSearchPad] = resultCount;
-}
+void StubPlatformNetwork::SetSearchResultsReady(int resultCount) {}
 
 std::vector<FriendSessionInfo*>* StubPlatformNetwork::GetSessionList(
     int iPad, int localPlayers, bool partyOnly) {
@@ -451,13 +419,6 @@ void StubPlatformNetwork::GetFullFriendSessionInfo(
 
 void StubPlatformNetwork::ForceFriendsSessionRefresh() {
     fprintf(stderr, "Resetting friends session search data\n");
-
-    for (unsigned int i = 0; i < XUSER_MAX_COUNT; ++i) {
-        m_searchResultsCount[i] = 0;
-        m_lastSearchStartTime[i] = 0;
-        delete m_pSearchResults[i];
-        m_pSearchResults[i] = nullptr;
-    }
 }
 
 INetworkPlayer* StubPlatformNetwork::addNetworkPlayer(
@@ -484,7 +445,7 @@ INetworkPlayer* StubPlatformNetwork::getNetworkPlayer(
 }
 
 INetworkPlayer* StubPlatformNetwork::GetLocalPlayerByUserIndex(int userIndex) {
-    if (userIndex != 0) return nullptr; // 4jcraft: hack
+    if (userIndex != 0) return nullptr;  // 4jcraft: hack
     return getNetworkPlayer(&m_players[userIndex]);
 }
 

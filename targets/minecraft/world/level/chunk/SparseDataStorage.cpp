@@ -9,7 +9,7 @@
 
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 
 // Note: See header for an overview of this class
 

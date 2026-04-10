@@ -41,7 +41,7 @@
 #include "minecraft/world/item/crafting/Recipy.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/HopperTileEntity.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/XboxStubs.h"
 #include "platform/profile/profile.h"

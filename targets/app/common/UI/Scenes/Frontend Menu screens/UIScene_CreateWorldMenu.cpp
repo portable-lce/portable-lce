@@ -31,7 +31,7 @@
 #include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/level/LevelSettings.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
-#include "platform/NetTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
