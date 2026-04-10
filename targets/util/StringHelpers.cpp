@@ -156,24 +156,6 @@ std::u16string string_to_u16string(const std::string& converting) {
     return result;
 }
 
-std::string wstringtofilename(const std::wstring& name) {
-    std::string result;
-    result.reserve(name.size());
-    for (wchar_t c : name) {
-#if defined(__linux__)
-        if (c == L'\\') c = L'/';
-#else
-        if (c == L'/') c = L'\\';
-#endif
-        result += static_cast<char>(c);
-    }
-    return result;
-}
-
-std::wstring filenametowstring(const char* name) {
-    return convStringToWstring(name);
-}
-
 std::vector<std::string>& stringSplit(const std::string& s, char delim,
                                       std::vector<std::string>& elems) {
     std::stringstream ss(s);
