@@ -87,7 +87,7 @@ subdir('targets/platform')
 
 # MARK: platform configuration
 
-if host_machine.system() == 'linux'
+if host_machine.system() in ['linux', 'windows']
     platform_fs_dep = platform_fs_std_dep
     platform_game_dep = platform_game_stub_dep
     platform_input_dep = platform_input_sdl2_dep
@@ -99,7 +99,7 @@ if host_machine.system() == 'linux'
     platform_storage_dep = platform_storage_stub_dep
     platform_thread_dep = platform_thread_dep # standardized backend (for now)
 
-    app_platform_sources = files('targets/app/linux/main.cpp')
+    app_platform_sources = files('targets/app/desktop/main.cpp')
 endif
 
 subdir('targets/resources')

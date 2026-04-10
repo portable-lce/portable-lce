@@ -1,10 +1,17 @@
 #pragma once
+
+// windows hack: Windows SDK OpenGL headers include WINGDIAPI in their declarations,
+// which can only be found in the Windows API
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
+
 #ifndef GL_GLEXT_PROTOTYPES
 #define GL_GLEXT_PROTOTYPES 1
 #endif
 #include <GL/gl.h>
-#include <GL/glext.h>
-#include <SDL2/SDL.h>
+// #include <GL/glext.h>
 
 #include <cstdio>
 #ifndef GL_ARRAY_BUFFER

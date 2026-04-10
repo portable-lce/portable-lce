@@ -1,5 +1,5 @@
 #pragma once
-#include <flat_map>
+#include <unordered_map>
 #include <memory>
 
 #include "ByteArrayTag.h"
@@ -16,14 +16,14 @@
 
 class CompoundTag : public Tag {
 private:
-    std::flat_map<std::string, std::unique_ptr<Tag>> tags;
+    std::unordered_map<std::string, std::unique_ptr<Tag>> tags;
 
 public:
     CompoundTag() : Tag("") {}
     CompoundTag(const std::string& name) : Tag(name) {}
 
     void write(DataOutput* dos) {
-        for (auto&& [key, value] : tags) {
+        for (auto& [key, value] : tags) {
             Tag::writeNamedTag(value.get(), dos);
         }
         dos->writeByte(Tag::TAG_End);
@@ -49,7 +49,7 @@ public:
     std::vector<Tag*> getAllTags() {
         std::vector<Tag*> ret;
         ret.reserve(tags.size());
-        for (auto&& [key, value] : tags) {
+        for (auto& [key, value] : tags) {
             ret.push_back(value.get());
         }
         return ret;
@@ -228,7 +228,7 @@ public:
 
     Tag* copy() {
         CompoundTag* tag = new CompoundTag(getName());
-        for (auto&& [key, value] : tags) {
+        for (auto& [key, value] : tags) {
             tag->put(key, value->copy());
         }
         return tag;
@@ -239,7 +239,7 @@ public:
             CompoundTag* o = (CompoundTag*)obj;
 
             if (tags.size() == o->tags.size()) {
-                for (auto&& [key, value] : tags) {
+                for (auto& [key, value] : tags) {
                     auto itFind = o->tags.find(key);
                     if (itFind == o->tags.end() ||
                         !value->equals(itFind->second.get())) {

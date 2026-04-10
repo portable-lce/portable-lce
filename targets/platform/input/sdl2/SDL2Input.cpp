@@ -9,16 +9,16 @@
 
 #include "../../PlatformTypes.h"
 #include "../InputConstants.h"
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_events.h"
-#include "SDL2/SDL_gamecontroller.h"
-#include "SDL2/SDL_joystick.h"
-#include "SDL2/SDL_keyboard.h"
-#include "SDL2/SDL_mouse.h"
-#include "SDL2/SDL_scancode.h"
-#include "SDL2/SDL_stdinc.h"
-#include "SDL2/SDL_video.h"
-#include "SDL2/begin_code.h"
+#include "SDL.h"
+#include "SDL_events.h"
+#include "SDL_gamecontroller.h"
+#include "SDL_joystick.h"
+#include "SDL_keyboard.h"
+#include "SDL_mouse.h"
+#include "SDL_scancode.h"
+#include "SDL_stdinc.h"
+#include "SDL_video.h"
+#include "begin_code.h"
 
 namespace platform_internal {
 IPlatformInput& PlatformInput_get() {
