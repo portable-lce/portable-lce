@@ -2,8 +2,9 @@
 
 // windows hack: Windows SDK OpenGL headers include WINGDIAPI in their declarations,
 // which can only be found in the Windows API
-#ifdef _WIN32
+#if defined(_WIN32)
 #define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <windows.h>
 #endif
 

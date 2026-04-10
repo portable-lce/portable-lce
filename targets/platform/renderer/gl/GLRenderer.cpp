@@ -1403,40 +1403,6 @@ void glDeleteTextures_4J(int n, const unsigned int* textures) {
     ::glDeleteTextures(n, textures);
 }
 
-// c hooks
-#undef glFogfv
-#undef glLightfv
-#undef glLightModelfv
-#undef glShadeModel
-#undef glColorMaterial
-#undef glNormal3f
-
-extern "C" {
-void glFogfv(GLenum pname, const GLfloat* params) {
-    if (pname == 0x0B66)
-        PlatformRenderer.StateSetFogColour(params[0], params[1], params[2]);
-}
-void glLightfv(GLenum light, GLenum pname, const GLfloat* params) {
-    if (pname == 0x1203)
-        PlatformRenderer.StateSetLightDirection(
-            light == 0x4000 ? 0 : 1, params[0], params[1], params[2]);
-    else if (pname == 0x1200)
-        PlatformRenderer.StateSetLightAmbientColour(params[0], params[1],
-                                                    params[2]);
-    else if (pname == 0x1201)
-        PlatformRenderer.StateSetLightColour(light == 0x4000 ? 0 : 1, params[0],
-                                             params[1], params[2]);
-}
-void glLightModelfv(GLenum pname, const GLfloat* params) {
-    if (pname == 0x0B53)
-        PlatformRenderer.StateSetLightAmbientColour(params[0], params[1],
-                                                    params[2]);
-}
-void glShadeModel(GLenum) {}
-void glColorMaterial(GLenum, GLenum) {}
-void glNormal3f(GLfloat, GLfloat, GLfloat) {}
-}
-
 // MARK: LinuxStubs
 
 #ifdef GLES

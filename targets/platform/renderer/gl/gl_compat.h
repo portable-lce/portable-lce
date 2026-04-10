@@ -14,7 +14,7 @@
 // rendering files compiling without dragging the concrete GLRenderer
 // class into every minecraft TU.
 
-#include "gl3_loader.h"
+// #include "gl3_loader.h"
 // NOTE: gl3_loader.h must be included before these two
 #include <GL/gl.h>
 

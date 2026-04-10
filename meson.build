@@ -22,7 +22,7 @@ python = pymod.find_installation('python3', required: true)
 
 cc = meson.get_compiler('cpp')
 
-global_cpp_args = ['-Wshift-count-overflow', '-pipe']
+global_cpp_args = []
 global_cpp_defs = [
     '-DSPLIT_SAVES',
     '-D_LARGE_WORLDS',

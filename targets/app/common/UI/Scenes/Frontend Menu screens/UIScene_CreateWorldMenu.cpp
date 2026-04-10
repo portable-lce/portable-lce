@@ -38,13 +38,6 @@
 #include "strings.h"
 #include "util/StringHelpers.h"
 
-#if defined(_WINDOWS64)
-
-#include <windows.h>
-
-#include "../../../../../Windows64/Resource.h"
-#endif
-
 #define GAME_CREATE_ONLINE_TIMER_ID 0
 #define GAME_CREATE_ONLINE_TIMER_TIME 100
 

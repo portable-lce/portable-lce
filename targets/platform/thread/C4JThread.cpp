@@ -15,7 +15,9 @@
 #include <thread>
 
 #if defined(_WIN32)
-#include <Windows.h>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
 #endif
 
 #if defined(__linux__)
@@ -82,46 +84,46 @@ std::int64_t getNativeThreadId() {
 
 void setThreadNamePlatform([[maybe_unused]] std::uint32_t threadId,
                            [[maybe_unused]] const char* name) {
-#if defined(_WIN32)
-    // Try modern API first (Windows 10 1607+).
-    if (threadId == static_cast<std::uint32_t>(-1) ||
-        threadId == ::GetCurrentThreadId()) {
-        using SetThreadDescriptionFn = int32_t(WINAPI*)(void*, PCWSTR);
-        const HMODULE kernel = ::GetModuleHandleW("Kernel32.dll");
-        if (kernel) {
-            const auto fn = reinterpret_cast<SetThreadDescriptionFn>(
-                ::GetProcAddress(kernel, "SetThreadDescription"));
-            if (fn) {
-                char wide[64];
-                const auto n = std::strncpy(
-                    wide, name, (sizeof(wide) / sizeof(wide[0])) - 1);
-                if (n != static_cast<std::size_t>(-1)) {
-                    wide[n] = '\0';
-                    (void)fn(::GetCurrentThread(), wide);
-                    return;
-                }
-            }
-        }
-    }
+// #if defined(_WIN32)
+//     // Try modern API first (Windows 10 1607+).
+//     if (threadId == static_cast<std::uint32_t>(-1) ||
+//         threadId == ::GetCurrentThreadId()) {
+//         using SetThreadDescriptionFn = int32_t(WINAPI*)(void*, PCWSTR);
+//         const HMODULE kernel = ::GetModuleHandleA("Kernel32.dll");
+//         if (kernel) {
+//             const auto fn = reinterpret_cast<SetThreadDescriptionFn>(
+//                 ::GetProcAddress(kernel, "SetThreadDescription"));
+//             if (fn) {
+//                 char wide[64];
+//                 const auto n = std::strncpy(
+//                     wide, name, (sizeof(wide) / sizeof(wide[0])) - 1);
+//                 if (n != static_cast<std::size_t>(-1)) {
+//                     wide[n] = '\0';
+//                     (void)fn(::GetCurrentThread(), wide);
+//                     return;
+//                 }
+//             }
+//         }
+//     }
 
-    // Legacy fallback: raise exception 0x406D1388 for older MSVC debuggers.
-#pragma pack(push, 8)
-    struct THREADNAME_INFO {
-        std::uint32_t dwType;
-        const char* szName;
-        std::uint32_t dwThreadID;
-        std::uint32_t dwFlags;
-    };
-#pragma pack(pop)
+//     // Legacy fallback: raise exception 0x406D1388 for older MSVC debuggers.
+// #pragma pack(push, 8)
+//     struct THREADNAME_INFO {
+//         std::uint32_t dwType;
+//         const char* szName;
+//         std::uint32_t dwThreadID;
+//         std::uint32_t dwFlags;
+//     };
+// #pragma pack(pop)
 
-    THREADNAME_INFO info{0x1000, name, threadId, 0};
-    __try {
-        ::RaiseException(0x406D1388, 0, sizeof(info) / sizeof(uintptr_t),
-                         reinterpret_cast<uintptr_t*>(&info));
-    } __except (EXCEPTION_EXECUTE_HANDLER) {
-    }
+//     THREADNAME_INFO info{0x1000, name, threadId, 0};
+//     __try {
+//         ::RaiseException(0x406D1388, 0, sizeof(info) / sizeof(uintptr_t),
+//                          reinterpret_cast<uintptr_t*>(&info));
+//     } __except (EXCEPTION_EXECUTE_HANDLER) {
+//     }
 
-#elif defined(__linux__)
+#if defined(__linux__)
     // pthread_setname_np limit: 16 chars including null terminator.
     char truncated[16];
     std::snprintf(truncated, sizeof(truncated), "%s", name);
