@@ -6,7 +6,7 @@ project(
     version: '0.1.0',
     meson_version: '>= 1.3',
     default_options: [
-        'cpp_std=c++23',
+        'cpp_std=c++20',
         'warning_level=0',
         'unity=on', # merge source files per target
         'unity_size=8', # TODO: mess around with this

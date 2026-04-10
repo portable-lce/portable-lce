@@ -589,7 +589,7 @@ void UIScene_SkinSelectMenu::handleSkinIndexChanged() {
                 backupTexture = getTextureId(m_skinIndex);
 
                 if (m_skinIndex ==
-                    std::to_underlying(EDefaultSkins::ServerSelected)) {
+                    static_cast<int>(EDefaultSkins::ServerSelected)) {
                     skinName = app.GetString(IDS_DEFAULT_SKINS);
                 } else {
                     skinName = wchDefaultNamesA[m_skinIndex];
@@ -908,8 +908,8 @@ int UIScene_SkinSelectMenu::getNextSkinIndex(int sourceIndex) {
             ++nextSkin;
 
             if (m_packIndex == SKIN_SELECT_PACK_DEFAULT &&
-                nextSkin >= std::to_underlying(EDefaultSkins::Count)) {
-                nextSkin = std::to_underlying(EDefaultSkins::ServerSelected);
+                nextSkin >= static_cast<int>(EDefaultSkins::Count)) {
+                nextSkin = static_cast<int>(EDefaultSkins::ServerSelected);
             } else if (m_currentPack != nullptr &&
                        nextSkin >= m_currentPack->getSkinCount()) {
                 nextSkin = 0;
@@ -933,7 +933,7 @@ int UIScene_SkinSelectMenu::getPreviousSkinIndex(int sourceIndex) {
         default:
             if (previousSkin == 0) {
                 if (m_packIndex == SKIN_SELECT_PACK_DEFAULT) {
-                    previousSkin = std::to_underlying(EDefaultSkins::Count) - 1;
+                    previousSkin = static_cast<int>(EDefaultSkins::Count) - 1;
                 } else if (m_currentPack != nullptr) {
                     previousSkin = m_currentPack->getSkinCount() - 1;
                 }

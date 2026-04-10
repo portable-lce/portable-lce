@@ -81,11 +81,12 @@ public:
             std::chrono::duration<double, std::milli>(elapsed).count();
 
         try {
-            name_.empty()
-                ? std::println(stderr, "[TIMER] {:.3f} ms ({}:{})", ms, file_,
-                               line_)
-                : std::println(stderr, "[TIMER] {} - {:.3f} ms ({}:{})", name_,
-                               ms, file_, line_);
+            const auto log =
+                name_.empty() ? std::format("[TIMER] {:.3f} ms ({}:{})\n", ms,
+                                            file_, line_)
+                              : std::format("[TIMER] {} - {:.3f} ms ({}:{})\n",
+                                            name_, ms, file_, line_);
+            std::fputs(log.c_str(), stderr);
         } catch (...) {
             std::fprintf(stderr, "[TIMER] %.3f ms\n", ms);
         }

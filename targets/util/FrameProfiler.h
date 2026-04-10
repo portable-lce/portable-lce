@@ -40,7 +40,7 @@ public:
 
     [[nodiscard]] static constexpr std::size_t BucketIndex(
         Bucket bucket) noexcept {
-        return static_cast<std::size_t>(std::to_underlying(bucket));
+        return static_cast<size_t>(bucket);
     }
 
     [[nodiscard]] static constexpr std::size_t BucketCount() noexcept {

@@ -140,7 +140,7 @@ void setPriorityPlatform(std::thread& threadHandle, bool isSelf,
         handle = ::GetCurrentThread();
     else
         return;
-    (void)::SetThreadPriority(handle, std::to_underlying(priority));
+    (void)::SetThreadPriority(handle, static_cast<int>(priority));
 
 #elif defined(__linux__)
     std::int64_t tid = 0;

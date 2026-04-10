@@ -535,7 +535,7 @@ void Player::ride(std::shared_ptr<Entity> e) {
 void Player::setPlayerDefaultSkin(EDefaultSkins skin) {
 #if !defined(_CONTENT_PACKAGE)
     printf("Setting default skin to %d for player %s\n",
-           std::to_underlying(skin), name.c_str());
+           static_cast<int>(skin), name.c_str());
 #endif
     m_skinIndex = skin;
 }

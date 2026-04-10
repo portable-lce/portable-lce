@@ -1268,7 +1268,7 @@ bool UIController::NavigateToScene(int iPad, EUIScene scene, void* initData,
             setFullscreenMenuDisplayed(true);
     }
 
-    std::println(stderr, "TIMER: Navigate to scene: Elapsed time {:.6f}",
+    fprintf(stderr, "TIMER: Navigate to scene: Elapsed time %.6f",
                  timer.elapsed_seconds());
 
     return success;

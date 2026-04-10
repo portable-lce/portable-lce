@@ -25,7 +25,7 @@ class UILayer;
 class UIScene_SkinSelectMenu : public UIScene {
 private:
     static const char*
-        wchDefaultNamesA[std::to_underlying(EDefaultSkins::Count)];
+        wchDefaultNamesA[static_cast<size_t>(EDefaultSkins::Count)];
 
     // 4J Stu - How many to show on each side of the main control
     static const int sidePreviewControls = 4;
