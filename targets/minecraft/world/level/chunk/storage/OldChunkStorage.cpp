@@ -72,6 +72,30 @@ OldChunkStorage::OldChunkStorage(File dir, bool create) {
     this->create = create;
 }
 
+// https://cplusplus.com/forum/general/144043/
+void to_base36(int value, char* buf) {
+    static const char digits[] = "0123456789abcdefghijklmnopqrstuvwxyz";
+    char tmp[64];
+    int i = 0;
+    unsigned int uval =
+        (value < 0) ? -(unsigned int)value : (unsigned int)value;
+
+    if (uval == 0) {
+        buf[0] = '0';
+        buf[1] = '\0';
+        return;
+    }
+
+    while (uval > 0) {
+        tmp[i++] = digits[uval % 36];
+        uval /= 36;
+    }
+    if (value < 0) tmp[i++] = '-';
+
+    for (int j = 0; j < i; ++j) buf[j] = tmp[i - 1 - j];
+    buf[i] = '\0';
+}
+
 File OldChunkStorage::getFile(int x, int z) {
     char name[MAX_PATH_SIZE];
     char path1[MAX_PATH_SIZE];
@@ -79,15 +103,13 @@ File OldChunkStorage::getFile(int x, int z) {
 
     char xRadix36[64];
     char zRadix36[64];
-#if defined(__linux__)
-    assert(0);  // need a gcc verison of _itow ?
-#else
-    _itow(x, xRadix36, 36);
-    _itow(z, zRadix36, 36);
+
+    to_base36(x, xRadix36);
+    to_base36(z, zRadix36);
     snprintf(name, MAX_PATH_SIZE, "c.%s.%s.dat", xRadix36, zRadix36);
-    _itow(x & 63, path1, 36);
-    _itow(z & 63, path2, 36);
-#endif
+    to_base36(x & 63, path1);
+    to_base36(z & 63, path2);
+
     // sprintf(file,"%s\\%s",dir,path1);
     File file(dir, std::string(path1));
     if (!file.exists()) {
