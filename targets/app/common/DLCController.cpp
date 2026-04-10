@@ -7,7 +7,6 @@
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/DLC/DLCSkinFile.h"
 #include "app/common/Game.h"
-#include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
@@ -186,9 +185,7 @@ int DLCController::dlcMountedCallback(int iPad, std::uint32_t dwErr,
 
 void DLCController::handleDLC(DLCPack* pack) {
     unsigned int dwFilesProcessed = 0;
-#if defined(_WINDOWS64) || defined(__linux__)
     std::vector<std::string> dlcFilenames;
-#endif
     PlatformStorage.GetMountedDLCFileList("DLCDrive", dlcFilenames);
     for (int i = 0; i < dlcFilenames.size(); i++) {
         app.m_dlcManager.readDLCDataFile(dwFilesProcessed, dlcFilenames[i],
@@ -227,7 +224,6 @@ SCreditTextItemDef* DLCController::getDLCCredits(int iIndex) {
     return vDLCCredits.at(iIndex);
 }
 
-#if defined(_WINDOWS64)
 int32_t DLCController::registerDLCData(char* pType, char* pBannerName,
                                        int iGender, uint64_t ullOfferID_Full,
                                        uint64_t ullOfferID_Trial,
@@ -245,10 +241,10 @@ int32_t DLCController::registerDLCData(char* pType, char* pBannerName,
     pDLCData->iConfig = iConfig;
 
     if (pBannerName != "") {
-        wcsncpy_s(pDLCData->wchBanner, pBannerName, MAX_BANNERNAME_SIZE);
+        strncpy(pDLCData->wchBanner, pBannerName, MAX_BANNERNAME_SIZE);
     }
     if (pDataFile[0] != 0) {
-        wcsncpy_s(pDLCData->wchDataFile, pDataFile, MAX_BANNERNAME_SIZE);
+        strncpy(pDLCData->wchDataFile, pDataFile, MAX_BANNERNAME_SIZE);
     }
 
     if (pType != nullptr) {
@@ -275,19 +271,6 @@ int32_t DLCController::registerDLCData(char* pType, char* pBannerName,
 
     return hr;
 }
-#elif defined(__linux__)
-int32_t DLCController::registerDLCData(char* pType, char* pBannerName,
-                                       int iGender, uint64_t ullOfferID_Full,
-                                       uint64_t ullOfferID_Trial,
-                                       char* pFirstSkin,
-                                       unsigned int uiSortIndex, int iConfig,
-                                       char* pDataFile) {
-    fprintf(stderr,
-            "warning: DLCController::registerDLCData unimplemented for "
-            "platform `__linux__`\n");
-    return 0;
-}
-#endif
 
 bool DLCController::getDLCFullOfferIDForSkinID(const std::string& FirstSkin,
                                                uint64_t* pullVal) {
