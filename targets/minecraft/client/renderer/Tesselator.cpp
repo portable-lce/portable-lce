@@ -412,7 +412,7 @@ typedef unsigned short hfloat;
 extern hfloat convertFloatToHFloat(float f);
 extern float convertHFloatToFloat(hfloat hf);
 
-#if defined(__linux__)
+#if 1
 namespace {
 void packLinuxLightmapCoords(int tex2, std::int16_t& u, std::int16_t& v) {
     u = static_cast<std::int16_t>(tex2 & 0xffff);
@@ -469,7 +469,7 @@ void Tesselator::vertex(float x, float y, float z) {
         pShortData[5] = (((int)(v * 8192.0f)) & 0xffff);
         std::int16_t u2 = static_cast<std::int16_t>(_tex2 & 0xffff);
         std::int16_t v2 = static_cast<std::int16_t>((_tex2 >> 16) & 0xffff);
-#if defined(__linux__)
+#if 1
         packLinuxLightmapCoords(_tex2, u2, v2);
         logLinuxPackedLightmapCoords("compact", _tex2, u2, v2);
 #endif
@@ -524,7 +524,7 @@ void Tesselator::vertex(float x, float y, float z) {
         }
         if (hasTexture2) {
 // 4jcraft: we will be lighting the blocks right in here
-#if defined(__linux__)
+#if 1
             std::int16_t tex2U;
             std::int16_t tex2V;
             packLinuxLightmapCoords(_tex2, tex2U, tex2V);

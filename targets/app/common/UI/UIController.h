@@ -10,17 +10,10 @@
 
 #include "util/Timer.h"
 
-#ifdef __linux__
-
 #include "app/common/Iggy/include/iggy.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
-
-#elif defined(_WINDOWS64)
-#include "app/windows/Iggy/include/iggy.h"
-#endif
-
 #include "UIGroup.h"
 #include "app/common/UI/All Platforms/IUIController.h"
 #include "app/common/UI/All Platforms/UIEnums.h"

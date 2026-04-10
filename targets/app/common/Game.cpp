@@ -521,12 +521,6 @@ int32_t Game::RegisterConfigValues(char* pType, int iValue) {
     return hr;
 }
 
-#if defined(_WINDOWS64)
-#elif defined(__linux__)
-#else
-
-#endif
-
 // DLC
 
 // AUTOSAVE

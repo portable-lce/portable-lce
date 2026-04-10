@@ -1,8 +1,9 @@
 #include "UIControl_Touch.h"
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Controls/UIControl_Base.h"
-#include "app/common/Iggy/include/iggy.h"
+#include "app/common/UI/ConsoleUIController.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
@@ -20,7 +21,6 @@ bool UIControl_Touch::setupControl(UIScene* scene, IggyValuePath* parent,
 void UIControl_Touch::init(int iId) {
     m_id = iId;
 
-#if !defined(__linux__)
     switch (m_parentScene->GetParentLayer()->m_iLayer) {
         case eUILayer_Error:
         case eUILayer_Fullscreen:
@@ -29,7 +29,6 @@ void UIControl_Touch::init(int iId) {
             ui.TouchBoxAdd(this, m_parentScene);
             break;
     }
-#endif
 }
 
 void UIControl_Touch::ReInit() {

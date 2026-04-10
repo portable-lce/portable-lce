@@ -213,7 +213,7 @@ UIController::UIController() {
 
     // 4J Stu - This is a bit of a hack until we change the Minecraft
     // initialisation to store the proper screen size for other platforms
-#if defined(_WINDOWS64) || defined(__linux__)
+#if 1
     m_fScreenWidth = 1920.0f;
     m_fScreenHeight = 1080.0f;
     m_bScreenWidthSetup = true;
@@ -498,7 +498,7 @@ void UIController::tick() {
 void UIController::loadSkins() {
     std::string platformSkinPath = "";
 
-#if defined(_WINDOWS64) || defined(__linux__)
+#if 1
     if (m_fScreenHeight == 1080.0f) {
         platformSkinPath = "skinHDWin.swf";
     } else {
@@ -514,7 +514,7 @@ void UIController::loadSkins() {
             loadSkin(platformSkinPath, "platformskin.swf");
     }
 
-#if defined(_WINDOWS64) || defined(__linux__)
+#if 1
 
 #if defined(_WINDOWS64)
     // 4J Stu - Load the 720/480 skins so that we have something to fallback on
@@ -616,7 +616,7 @@ void UIController::ReloadSkin() {
         m_iggyLibraries[i] = IGGY_INVALID_LIBRARY;
     }
 
-#if defined(_WINDOWS64) || defined(__linux__)
+#if 1
     // 4J Stu - Don't load on a thread on windows. I haven't investigated this
     // in detail, so a quick fix
     reloadSkinThreadProc(this);
@@ -668,7 +668,7 @@ int UIController::reloadSkinThreadProc(void* lpParam) {
 
         // 4J Stu - Don't do this on windows, as we never navigated forwards to
         // start with
-#if !(defined(_WINDOWS64) || defined(__linux__))
+#if 0
         controller->NavigateBack(0, false, eUIScene_COUNT, eUILayer_Tooltips);
 #endif
     }
@@ -969,13 +969,8 @@ void UIController::setupCustomDrawGameState() {
     m_customRenderingClearRect.top = LONG_MAX;
     m_customRenderingClearRect.bottom = LONG_MIN;
 
-#if defined(_WINDOWS64)
-    PlatformRenderer.StartFrame();
 
-    gdraw_D3D11_setViewport_4J();
-#elif defined(__linux__)
     PlatformRenderer.StartFrame();
-#endif
     PlatformRenderer.Set_matrixDirty();
 
     // 4J Stu - We don't need to clear this here as iggy hasn't written anything
@@ -1059,11 +1054,7 @@ void UIController::setupCustomDrawGameStateAndMatrices(
 }
 
 void UIController::endCustomDrawGameState() {
-#if defined(__linux__)
     PlatformRenderer.Clear(GL_DEPTH_BUFFER_BIT);
-#else
-    PlatformRenderer.Clear(GL_DEPTH_BUFFER_BIT, &m_customRenderingClearRect);
-#endif
     // glClear(GL_DEPTH_BUFFER_BIT);
     glDepthMask(false);
     glDisable(GL_ALPHA_TEST);
@@ -2257,7 +2248,7 @@ UIController::RequestContentRestrictedMessageBox(
     }
 
     if (message == -1) {
-#if defined(_WINDOWS64) || defined(__linux__)
+#if 1
         // IDS_CONTENT_RESTRICTION doesn't exist on XB1
         message = IDS_NO_USER_CREATED_CONTENT_PRIVILEGE_CREATE;
 #else
@@ -2283,7 +2274,7 @@ void UIController::setFontCachingCalculationBuffer(int length) {
     draw call is not large enough, Iggy will crash or otherwise behave
     incorrectly.
     */
-#if defined(_WIN64) || defined(__linux__)
+#if INTPTR_MAX == INT64_MAX
     static const int CHAR_SIZE = 24;
 #else
     static const int CHAR_SIZE = 16;

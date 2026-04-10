@@ -4,9 +4,6 @@
 #include <format>
 #include <string>
 #include <vector>
-#if !defined(__linux__)
-#include <qnet.h>
-#endif
 #include "minecraft/network/INetworkService.h"
 #include "platform/C4JThread.h"
 #include "platform/network/NetTypes.h"

@@ -460,14 +460,15 @@ void ItemInHandRenderer::render(float a) {
                                                   std::floor(player->z), 0);
         int u = col % 65536;
         int v = col / 65536;
-#if defined(__linux__)
+
+        // 4jcraft
         static int lightmapLogCount = 0;
         if (lightmapLogCount < 8) {
             ++lightmapLogCount;
-            Log::info("[linux-lightmap] item-hand raw=0x%08x uv=(%d,%d)\n", col,
+            Log::info("[4jcraft-lightmap] item-hand raw=0x%08x uv=(%d,%d)\n", col,
                       u, v);
         }
-#endif
+
         glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
         glColor4f(1, 1, 1, 1);
     }

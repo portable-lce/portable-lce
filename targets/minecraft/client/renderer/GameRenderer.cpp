@@ -802,25 +802,25 @@ void GameRenderer::renderItemInHand(float a, int eye) {
 // 4J - change brought forward from 1.8.2
 void GameRenderer::turnOffLightLayer(double alpha) {  // 4J - TODO
     FRAME_PROFILE_SCOPE(Lightmap);
-#if defined(__linux__)
+
+    // 4jcraft
     if (SharedConstants::TEXTURE_LIGHTING) {
         PlatformRenderer.TextureBindVertex(-1);
     }
-#else
-    // 4jcraft: manually handle this in order to ensure that the light layer is
-    // turned off correctly
-    if (SharedConstants::TEXTURE_LIGHTING) {
-        glClientActiveTexture(GL_TEXTURE1);
-        glActiveTexture(GL_TEXTURE1);
-        glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
-        glDisable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, 0);
-        glClientActiveTexture(GL_TEXTURE0);
-        glActiveTexture(GL_TEXTURE0);
-    }
-#endif
+
+    // // 4jcraft: manually handle this in order to ensure that the light layer is
+    // // turned off correctly
+    // if (SharedConstants::TEXTURE_LIGHTING) {
+    //     glClientActiveTexture(GL_TEXTURE1);
+    //     glActiveTexture(GL_TEXTURE1);
+    //     glMatrixMode(GL_TEXTURE);
+    //     glLoadIdentity();
+    //     glMatrixMode(GL_MODELVIEW);
+    //     glDisable(GL_TEXTURE_2D);
+    //     glBindTexture(GL_TEXTURE_2D, 0);
+    //     glClientActiveTexture(GL_TEXTURE0);
+    //     glActiveTexture(GL_TEXTURE0);
+    // }
 }
 
 // 4J - change brought forward from 1.8.2
@@ -828,7 +828,7 @@ void GameRenderer::turnOnLightLayer(
     double alpha,
     bool scaleLight) {  // 4jcraft: added scaleLight for entity lighting
     FRAME_PROFILE_SCOPE(Lightmap);
-#if defined(__linux__)
+#if 1
     if (!SharedConstants::TEXTURE_LIGHTING) return;
 
     const int textureId = getLightTexture(mc->player->GetXboxPad(), mc->level);
@@ -988,11 +988,11 @@ void GameRenderer::updateLightTexture(float a) {
             int g = (int)(_g * 255);
             int b = (int)(_b * 255);
 
-#if defined(_WIN64) || __linux__
+// #if defined(_WIN64) || __linux__
             lightPixels[j][i] = alpha << 24 | b << 16 | g << 8 | r;
-#else
-            lightPixels[j][i] = r << 24 | g << 16 | b << 8 | alpha;
-#endif
+// #else
+//             lightPixels[j][i] = r << 24 | g << 16 | b << 8 | alpha;
+// #endif
         }
 
         mc->textures->replaceTextureDirect(lightPixels[j], 16, 16,

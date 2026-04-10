@@ -19,9 +19,6 @@ UIComponent_DebugUIMarketingGuide::UIComponent_DebugUIMarketingGuide(
     IggyDataValue value[1];
     value[0].type = IGGY_DATATYPE_number;
     value[0].number = (F64)0;  // WIN64
-#if defined(_WINDOWS64) || defined(__linux__)
-    value[0].number = (F64)0;
-#endif
     IggyResult out = IggyPlayerCallMethodRS(getMovie(), &result,
                                             IggyPlayerRootPath(getMovie()),
                                             m_funcSetPlatform, 1, value);

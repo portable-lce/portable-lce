@@ -143,7 +143,6 @@ common/UI/Controls/UIControl_SlotList.cpp
 common/UI/Controls/UIControl_SpaceIndicatorBar.cpp
 common/UI/Controls/UIControl_TextInput.cpp
 common/UI/Controls/UIControl_TexturePackList.cpp
-common/UI/Controls/UIControl_Touch.cpp
 common/UI/Scenes/Debug/UIScene_DebugCreateSchematic.cpp
 common/UI/Scenes/Debug/UIScene_DebugOptions.cpp
 common/UI/Scenes/Debug/UIScene_DebugOverlay.cpp
