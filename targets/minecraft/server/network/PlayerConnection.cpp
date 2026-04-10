@@ -61,7 +61,7 @@
 #include "minecraft/network/packet/TileUpdatePacket.h"
 #include "minecraft/network/packet/TradeItemPacket.h"
 #include "minecraft/network/packet/UseItemPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/level/ServerLevel.h"

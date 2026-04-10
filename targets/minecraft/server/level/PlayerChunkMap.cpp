@@ -19,7 +19,7 @@
 #include "minecraft/network/packet/ChunkVisibilityPacket.h"
 #include "minecraft/network/packet/Packet.h"
 #include "minecraft/network/packet/TileUpdatePacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/network/PlayerConnection.h"

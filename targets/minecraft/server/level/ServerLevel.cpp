@@ -24,7 +24,7 @@
 #include "minecraft/network/packet/GameEventPacket.h"
 #include "minecraft/network/packet/LevelParticlesPacket.h"
 #include "minecraft/network/packet/TileEventPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/ServerScoreboard.h"

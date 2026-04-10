@@ -26,7 +26,7 @@
 #include "minecraft/client/skins/DLCTexturePack.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "platform/PlatformTypes.h"

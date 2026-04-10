@@ -112,7 +112,7 @@
 #include "minecraft/network/packet/UpdateMobEffectPacket.h"
 #include "minecraft/network/packet/UpdateProgressPacket.h"
 #include "minecraft/network/packet/XZPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"

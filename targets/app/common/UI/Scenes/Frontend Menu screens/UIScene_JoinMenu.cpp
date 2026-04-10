@@ -15,7 +15,7 @@
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameTypes.h"
-#include "minecraft/network/platform/SessionInfo.h"
+#include "platform/network/network.h"
 #include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/Difficulty.h"
 #include "minecraft/world/level/LevelSettings.h"

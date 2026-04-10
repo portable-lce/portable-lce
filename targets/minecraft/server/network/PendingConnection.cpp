@@ -16,7 +16,7 @@
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/LoginPacket.h"
 #include "minecraft/network/packet/PreLoginPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/level/ServerPlayer.h"

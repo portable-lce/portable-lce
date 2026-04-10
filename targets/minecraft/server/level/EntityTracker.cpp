@@ -11,7 +11,7 @@
 #include "ServerPlayer.h"
 #include "TrackedEntity.h"
 #include "java/Class.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/network/PlayerConnection.h"

@@ -7,13 +7,12 @@
 #if !defined(__linux__)
 #include <qnet.h>
 #endif
-#include "platform/network/IPlatformNetwork.h"
 #include "minecraft/network/INetworkService.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
-#include "minecraft/network/platform/SessionInfo.h"
 #include "platform/C4JThread.h"
 #include "platform/NetTypes.h"
 #include "platform/PlatformTypes.h"
+#include "platform/network/IPlatformNetwork.h"
+#include "platform/network/network.h"
 
 class ClientConnection;
 class Minecraft;
@@ -158,7 +157,10 @@ public:
     static int messageQueuePos;
 
     // Methods called from PlatformNetworkManager
-private:
+    // 4jcraft: made these public, we can't friend class StubPlatformNetwork
+    // here like before because that would be naming an opaque platform backend
+    // class, plus this API is shit so i dont care
+public:
     void StateChange_AnyToHosting();
     void StateChange_AnyToJoining();
     void StateChange_JoiningToIdle(IPlatformNetwork::eJoinFailedReason reason);
@@ -187,7 +189,6 @@ private:
     bool m_bInitialised;
 
 private:
-    float m_lastPlayerEventTimeStart;  // For telemetry
     static IPlatformNetwork* s_pPlatformNetworkManager;
     bool m_bNetworkThreadRunning;
     int GetJoiningReadyPercentage();

@@ -31,7 +31,7 @@
 #include "minecraft/network/packet/ServerSettingsChangedPacket.h"
 #include "minecraft/network/packet/SetTimePacket.h"
 #include "minecraft/network/packet/UpdateProgressPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/level/DerivedServerLevel.h"
 #include "minecraft/server/level/EntityTracker.h"
 #include "minecraft/server/level/ServerChunkCache.h"

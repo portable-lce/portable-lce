@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "app/common/Network/GameNetworkManager.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/network/ServerConnection.h"
 #include "platform/NetTypes.h"
 #include "platform/ShutdownManager.h"

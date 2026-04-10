@@ -60,67 +60,6 @@ public:
     }
 };
 
-class IQNetPlayer {
-public:
-    uint8_t GetSmallId();
-    void SendData(IQNetPlayer* player, const void* pvData, uint32_t dwDataSize,
-                  uint32_t dwFlags);
-    bool IsSameSystem(IQNetPlayer* player);
-    uint32_t GetSendQueueSize(IQNetPlayer* player, uint32_t dwFlags);
-    uint32_t GetCurrentRtt();
-    bool IsHost();
-    bool IsGuest();
-    bool IsLocal();
-    PlayerUID GetXuid();
-    const char* GetGamertag();
-    int GetSessionIndex();
-    bool IsTalking();
-    bool IsMutedByLocalUser(uint32_t dwUserIndex);
-    bool HasVoice();
-    bool HasCamera();
-    int GetUserIndex();
-    void SetCustomDataValue(uintptr_t ulpCustomDataValue);
-    uintptr_t GetCustomDataValue();
-
-private:
-    uintptr_t m_customData;
-};
-
-enum QNET_STATE {
-    QNET_STATE_IDLE,
-    QNET_STATE_SESSION_HOSTING,
-    QNET_STATE_SESSION_JOINING,
-    QNET_STATE_GAME_LOBBY,
-    QNET_STATE_SESSION_REGISTERING,
-    QNET_STATE_SESSION_STARTING,
-    QNET_STATE_GAME_PLAY,
-    QNET_STATE_SESSION_ENDING,
-    QNET_STATE_SESSION_LEAVING,
-    QNET_STATE_SESSION_DELETING
-};
-
-class IQNet {
-public:
-    int32_t AddLocalPlayerByUserIndex(uint32_t dwUserIndex);
-    IQNetPlayer* GetHostPlayer();
-    IQNetPlayer* GetLocalPlayerByUserIndex(uint32_t dwUserIndex);
-    IQNetPlayer* GetPlayerByIndex(uint32_t dwPlayerIndex);
-    IQNetPlayer* GetPlayerBySmallId(uint8_t SmallId);
-    IQNetPlayer* GetPlayerByXuid(PlayerUID xuid);
-    uint32_t GetPlayerCount();
-    QNET_STATE GetState();
-    bool IsHost();
-    int32_t JoinGameFromInviteInfo(uint32_t dwUserIndex, uint32_t dwUserMask,
-                                   const INVITE_INFO* pInviteInfo);
-    void HostGame();
-    void EndGame();
-
-    static IQNetPlayer m_player[4];
-};
-
-class IQNetCallbacks {};
-class IQNetGameSearch {};
-
 struct XNQOSINFO {
     uint8_t bFlags;
     uint8_t bReserved;

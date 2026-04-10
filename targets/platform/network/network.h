@@ -1,6 +1,8 @@
 #pragma once
 
 #include "IPlatformNetwork.h"
+#include "INetworkPlayer.h"
+#include "SessionInfo.h"
 
 // Function accessor backed by a function-local static (Meyers singleton).
 // Same shape as platform/profile/profile.h: avoids the static-init-order

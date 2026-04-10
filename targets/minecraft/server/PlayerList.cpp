@@ -36,7 +36,7 @@
 #include "minecraft/network/packet/TexturePacket.h"
 #include "minecraft/network/packet/UpdateMobEffectPacket.h"
 #include "minecraft/network/packet/XZPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/level/EntityTracker.h"
 #include "minecraft/server/level/PlayerChunkMap.h"
 #include "minecraft/server/level/ServerChunkCache.h"

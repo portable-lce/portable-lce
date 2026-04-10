@@ -29,7 +29,7 @@
 #include "minecraft/network/packet/TeleportEntityPacket.h"
 #include "minecraft/network/packet/UpdateAttributesPacket.h"
 #include "minecraft/network/packet/UpdateMobEffectPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/network/PlayerConnection.h"

@@ -16,7 +16,7 @@
 #include "minecraft/network/packet/KeepAlivePacket.h"
 #include "minecraft/network/packet/Packet.h"
 #include "minecraft/network/packet/PacketListener.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
 #include "platform/ShutdownManager.h"
 #include "util/StringHelpers.h"

@@ -15,7 +15,7 @@
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/network/packet/GameCommandPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/commands/TeleportCommand.h"
 #include "app/common/Audio/SoundTypes.h"
 #include "strings.h"

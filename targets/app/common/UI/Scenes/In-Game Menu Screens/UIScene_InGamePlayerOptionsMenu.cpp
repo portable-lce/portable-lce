@@ -18,7 +18,7 @@
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/network/packet/KickPlayerPacket.h"
 #include "minecraft/network/packet/PlayerInfoPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "strings.h"
 

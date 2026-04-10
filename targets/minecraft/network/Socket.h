@@ -12,7 +12,7 @@
 
 #include "java/InputOutputStream/InputStream.h"
 #include "java/InputOutputStream/OutputStream.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "platform/C4JThread.h"
 
 class INetworkPlayer;

@@ -1,129 +1,180 @@
 #pragma once
+#include <stdint.h>
+// using namespace std;
+#include <string>
+#include <vector>
 
+#include "StubNetworkPlayer.h"
+#include "minecraft/client/model/SkinBox.h"
+#include "platform/NetTypes.h"
+#include "platform/PlatformTypes.h"
+#include "platform/XboxStubs.h"
 #include "platform/network/IPlatformNetwork.h"
+#include "platform/network/network.h"
 
-// True no-op platform network backend. Returns false / 0 / nullptr for
-// every operation. The composition root can substitute a real backend
-// (QNet, Steam, EOS, custom) at link time. Used as the platform default
-// so consumers can call PlatformNetwork.* without nullptr checks.
+class CGameNetworkManager;
+class INetworkPlayer;
 
 class StubPlatformNetwork : public IPlatformNetwork {
 public:
-    bool Initialise(CGameNetworkManager* /*pGameNetworkManager*/,
-                    int /*flagIndexSize*/) override {
-        return true;
-    }
-    void Terminate() override {}
-    void DoWork() override {}
-    [[nodiscard]] int GetJoiningReadyPercentage() override { return 100; }
-    [[nodiscard]] int CorrectErrorIDS(int IDS) override { return IDS; }
+    static StubNetworkPlayer m_players[4];
 
-    [[nodiscard]] int GetPlayerCount() override { return 0; }
-    [[nodiscard]] int GetOnlinePlayerCount() override { return 0; }
-    [[nodiscard]] int GetLocalPlayerMask(int /*playerIndex*/) override {
-        return 0;
-    }
-    bool AddLocalPlayerByUserIndex(int /*userIndex*/) override { return false; }
-    bool RemoveLocalPlayerByUserIndex(int /*userIndex*/) override {
-        return false;
-    }
-    [[nodiscard]] INetworkPlayer* GetLocalPlayerByUserIndex(
-        int /*userIndex*/) override {
-        return nullptr;
-    }
-    [[nodiscard]] INetworkPlayer* GetPlayerByIndex(
-        int /*playerIndex*/) override {
-        return nullptr;
-    }
-    [[nodiscard]] INetworkPlayer* GetPlayerByXuid(PlayerUID /*xuid*/) override {
-        return nullptr;
-    }
-    [[nodiscard]] INetworkPlayer* GetPlayerBySmallId(
-        unsigned char /*smallId*/) override {
-        return nullptr;
-    }
-    [[nodiscard]] INetworkPlayer* GetHostPlayer() override { return nullptr; }
-    [[nodiscard]] bool ShouldMessageForFullSession() override { return false; }
+    bool Initialise(CGameNetworkManager* pGameNetworkManager,
+                    int flagIndexSize);
+    void Terminate();
+    int GetJoiningReadyPercentage();
+    int CorrectErrorIDS(int IDS);
 
-    [[nodiscard]] bool IsHost() override { return true; }
-    bool JoinGameFromInviteInfo(int /*userIndex*/, int /*userMask*/,
-                                const INVITE_INFO* /*pInviteInfo*/) override {
-        return false;
-    }
-    bool LeaveGame(bool /*bMigrateHost*/) override { return true; }
-    [[nodiscard]] bool IsInSession() override { return false; }
-    [[nodiscard]] bool IsInGameplay() override { return false; }
-    [[nodiscard]] bool IsReadyToPlayOrIdle() override { return true; }
-    [[nodiscard]] bool IsInStatsEnabledSession() override { return false; }
-    [[nodiscard]] bool SessionHasSpace(
-        unsigned int /*spaceRequired*/) override {
-        return true;
-    }
-    void SendInviteGUI(int /*quadrant*/) override {}
-    [[nodiscard]] bool IsAddingPlayer() override { return false; }
+    void DoWork();
+    int GetPlayerCount();
+    int GetOnlinePlayerCount();
+    int GetLocalPlayerMask(int playerIndex);
+    bool AddLocalPlayerByUserIndex(int userIndex);
+    bool RemoveLocalPlayerByUserIndex(int userIndex);
+    INetworkPlayer* GetLocalPlayerByUserIndex(int userIndex);
+    INetworkPlayer* GetPlayerByIndex(int playerIndex);
+    INetworkPlayer* GetPlayerByXuid(PlayerUID xuid);
+    INetworkPlayer* GetPlayerBySmallId(unsigned char smallId);
+    bool ShouldMessageForFullSession();
 
-    void HostGame(int /*localUsersMask*/, bool /*bOnlineGame*/,
-                  bool /*bIsPrivate*/, unsigned char /*publicSlots*/,
-                  unsigned char /*privateSlots*/) override {}
-    int JoinGame(FriendSessionInfo* /*searchResult*/, int /*dwLocalUsersMask*/,
-                 int /*dwPrimaryUserIndex*/) override {
-        return 0;
-    }
-    bool SetLocalGame(bool /*isLocal*/) override { return true; }
-    [[nodiscard]] bool IsLocalGame() override { return true; }
-    void SetPrivateGame(bool /*isPrivate*/) override {}
-    [[nodiscard]] bool IsPrivateGame() override { return false; }
-    [[nodiscard]] bool IsLeavingGame() override { return false; }
-    void ResetLeavingGame() override {}
+    INetworkPlayer* GetHostPlayer();
+    bool IsHost();
+    bool JoinGameFromInviteInfo(int userIndex, int userMask,
+                                const INVITE_INFO* pInviteInfo);
+    bool LeaveGame(bool bMigrateHost);
+
+    bool IsInSession();
+    bool IsInGameplay();
+    bool IsReadyToPlayOrIdle();
+    bool IsInStatsEnabledSession();
+    bool SessionHasSpace(unsigned int spaceRequired = 1);
+    void SendInviteGUI(int quadrant);
+    bool IsAddingPlayer();
+
+    void HostGame(int localUsersMask, bool bOnlineGame, bool bIsPrivate,
+                  unsigned char publicSlots = MINECRAFT_NET_MAX_PLAYERS,
+                  unsigned char privateSlots = 0);
+    int JoinGame(FriendSessionInfo* searchResult, int localUsersMask,
+                 int primaryUserIndex);
+    bool SetLocalGame(bool isLocal);
+    bool IsLocalGame() { return m_bIsOfflineGame; }
+    void SetPrivateGame(bool isPrivate);
+    bool IsPrivateGame() { return m_bIsPrivateGame; }
+    bool IsLeavingGame() { return m_bLeavingGame; }
+    void ResetLeavingGame() { m_bLeavingGame = false; }
 
     void RegisterPlayerChangedCallback(
-        int /*iPad*/,
-        std::function<void(INetworkPlayer*, bool)> /*callback*/) override {}
-    void UnRegisterPlayerChangedCallback(int /*iPad*/) override {}
+        int iPad,
+        std::function<void(INetworkPlayer* pPlayer, bool leaving)> callback);
+    void UnRegisterPlayerChangedCallback(int iPad);
 
-    void HandleSignInChange() override {}
+    void HandleSignInChange();
 
-    bool _RunNetworkGame() override { return true; }
-    bool _LeaveGame(bool /*bMigrateHost*/, bool /*bLeaveRoom*/) override {
-        return true;
-    }
-    void _HostGame(int /*usersMask*/, unsigned char /*publicSlots*/,
-                   unsigned char /*privateSlots*/) override {}
-    bool _StartGame() override { return true; }
+    bool _RunNetworkGame();
 
+private:
+    bool isSystemPrimaryPlayer(INetworkPlayer* pQNetPlayer);
+    bool _LeaveGame(bool bMigrateHost, bool bLeaveRoom);
+    void _HostGame(int dwUsersMask,
+                   unsigned char publicSlots = MINECRAFT_NET_MAX_PLAYERS,
+                   unsigned char privateSlots = 0);
+    bool _StartGame();
+
+    void* m_notificationListener;
+
+    std::vector<INetworkPlayer*>
+        m_machineQNetPrimaryPlayers;  // collection of players that we deem to
+                                      // be the main one for that system
+
+    bool m_bLeavingGame;
+    bool m_bLeaveGameOnTick;
+    bool m_migrateHostOnLeave;
+    bool m_bHostChanged;
+
+    bool m_bIsOfflineGame;
+    bool m_bIsPrivateGame;
+    int m_flagIndexSize;
+
+    // This is only maintained by the host, and is not valid on client machines
+    GameSessionData m_hostGameSessionData;
+    CGameNetworkManager* m_pGameNetworkManager;
+
+public:
     void UpdateAndSetGameSessionData(
-        INetworkPlayer* /*pNetworkPlayerLeaving*/) override {}
-    bool RemoveLocalPlayer(INetworkPlayer* /*pNetworkPlayer*/) override {
-        return false;
-    }
+        INetworkPlayer* pNetworkPlayerLeaving = nullptr);
 
-    void SystemFlagSet(INetworkPlayer* /*pNetworkPlayer*/,
-                       int /*index*/) override {}
-    [[nodiscard]] bool SystemFlagGet(INetworkPlayer* /*pNetworkPlayer*/,
-                                     int /*index*/) override {
-        return false;
-    }
+private:
+    std::function<void(INetworkPlayer* pPlayer, bool leaving)>
+        playerChangedCallback[XUSER_MAX_COUNT];
 
-    [[nodiscard]] std::string GatherStats() override { return {}; }
-    [[nodiscard]] std::string GatherRTTStats() override { return {}; }
+    bool RemoveLocalPlayer(INetworkPlayer* pNetworkPlayer);
 
-    void SetSessionTexturePackParentId(int /*id*/) override {}
-    void SetSessionSubTexturePackId(int /*id*/) override {}
-    void Notify(int /*ID*/, uintptr_t /*Param*/) override {}
+    // Things for handling per-system flags
+    class PlayerFlags {
+    public:
+        INetworkPlayer* m_pNetworkPlayer;
+        unsigned char* flags;
+        unsigned int count;
+        PlayerFlags(INetworkPlayer* pNetworkPlayer, unsigned int count);
+        ~PlayerFlags();
+    };
+    std::vector<PlayerFlags*> m_playerFlags;
+    void SystemFlagAddPlayer(INetworkPlayer* pNetworkPlayer);
+    void SystemFlagRemovePlayer(INetworkPlayer* pNetworkPlayer);
+    void SystemFlagReset();
 
-    [[nodiscard]] std::vector<FriendSessionInfo*>* GetSessionList(
-        int /*iPad*/, int /*localPlayers*/, bool /*partyOnly*/) override {
-        return nullptr;
-    }
-    [[nodiscard]] bool GetGameSessionInfo(
-        int /*iPad*/, SessionID /*sessionId*/,
-        FriendSessionInfo* /*foundSession*/) override {
-        return false;
-    }
-    void SetSessionsUpdatedCallback(
-        std::function<void()> /*callback*/) override {}
-    void GetFullFriendSessionInfo(
-        FriendSessionInfo* /*foundSession*/,
-        std::function<void(bool)> /*callback*/) override {}
-    void ForceFriendsSessionRefresh() override {}
+public:
+    void SystemFlagSet(INetworkPlayer* pNetworkPlayer, int index);
+    bool SystemFlagGet(INetworkPlayer* pNetworkPlayer, int index);
+
+public:
+    std::string GatherStats();
+    std::string GatherRTTStats();
+
+private:
+    std::vector<FriendSessionInfo*> friendsSessions[XUSER_MAX_COUNT];
+    int m_searchResultsCount[XUSER_MAX_COUNT];
+    int m_lastSearchStartTime[XUSER_MAX_COUNT];
+
+    // The results that will be filled in with the current search
+    XSESSION_SEARCHRESULT_HEADER* m_pSearchResults[XUSER_MAX_COUNT];
+    XNQOS* m_pQoSResult[XUSER_MAX_COUNT];
+
+    // The results from the previous search, which are currently displayed in
+    // the game
+    XSESSION_SEARCHRESULT_HEADER* m_pCurrentSearchResults[XUSER_MAX_COUNT];
+    XNQOS* m_pCurrentQoSResult[XUSER_MAX_COUNT];
+    int m_currentSearchResultsCount[XUSER_MAX_COUNT];
+
+    int m_lastSearchPad;
+    bool m_bSearchResultsReady;
+    bool m_bSearchPending;
+    std::function<void()> m_SessionsUpdatedCallback;
+
+    void TickSearch();
+    void SearchForGames();
+
+    void SetSearchResultsReady(int resultCount = 0);
+
+    std::vector<INetworkPlayer*> currentNetworkPlayers;
+    INetworkPlayer* addNetworkPlayer(INetworkPlayer* pQNetPlayer);
+    void removeNetworkPlayer(INetworkPlayer* pQNetPlayer);
+    static INetworkPlayer* getNetworkPlayer(INetworkPlayer* pQNetPlayer);
+
+    void SetSessionTexturePackParentId(int id);
+    void SetSessionSubTexturePackId(int id);
+    void Notify(int ID, uintptr_t Param);
+
+public:
+    std::vector<FriendSessionInfo*>* GetSessionList(int iPad, int localPlayers,
+                                                    bool partyOnly);
+    bool GetGameSessionInfo(int iPad, SessionID sessionId,
+                            FriendSessionInfo* foundSession);
+    void SetSessionsUpdatedCallback(std::function<void()> callback);
+    void GetFullFriendSessionInfo(FriendSessionInfo* foundSession,
+                                  std::function<void(bool success)> callback);
+    void ForceFriendsSessionRefresh();
+
+private:
+    void NotifyPlayerJoined(INetworkPlayer* pQNetPlayer);
 };

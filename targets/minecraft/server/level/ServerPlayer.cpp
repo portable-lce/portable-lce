@@ -45,7 +45,7 @@
 #include "minecraft/network/packet/SetHealthPacket.h"
 #include "minecraft/network/packet/TileEditorOpenPacket.h"
 #include "minecraft/network/packet/UpdateMobEffectPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/network/PlayerConnection.h"

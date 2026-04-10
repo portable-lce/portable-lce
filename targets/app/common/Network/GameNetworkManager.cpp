@@ -32,7 +32,7 @@
 #include "minecraft/network/Connection.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/PreLoginPacket.h"
-#include "minecraft/network/platform/NetworkPlayerInterface.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/ServerAction.h"
@@ -381,7 +381,7 @@ bool CGameNetworkManager::StartNetworkGame(Minecraft* minecraft,
                 Socket* socket = pNetworkPlayer->GetSocket();
                 app.DebugPrintf(
                     "Closing socket due to player %d not being signed in any "
-                    "more\n");
+                    "more\n", idx);
                 if (!socket->close(false)) socket->close(true);
 
                 continue;

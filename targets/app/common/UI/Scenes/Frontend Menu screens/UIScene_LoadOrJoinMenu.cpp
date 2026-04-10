@@ -21,7 +21,7 @@
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
-#include "minecraft/network/platform/SessionInfo.h"
+#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
