@@ -19,7 +19,7 @@
 #include "minecraft/world/tutorial/ITutorial.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_TradingMenu.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/Class.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"

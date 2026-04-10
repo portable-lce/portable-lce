@@ -21,7 +21,7 @@
 #include "app/common/Tutorial/Tasks/TutorialTask.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/Class.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"

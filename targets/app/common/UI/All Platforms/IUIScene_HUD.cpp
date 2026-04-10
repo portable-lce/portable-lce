@@ -7,7 +7,7 @@
 #include "platform/renderer/renderer.h"
 #include "minecraft/GameEnums.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/Class.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"

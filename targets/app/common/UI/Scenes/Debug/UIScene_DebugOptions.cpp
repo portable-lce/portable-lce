@@ -1,10 +1,10 @@
 #include "UIScene_DebugOptions.h"
 
 #include "app/common/UI/UIScene.h"
-#include "app/linux/Iggy/include/iggy.h"
+#include "app/common/Iggy/include/iggy.h"
 #include "minecraft/Console_Debug_enum.h"
 #ifndef _ENABLEIGGY
-#include "app/linux/Stubs/iggy_stubs.h"
+#include "app/common/Iggy/iggy_stubs.h"
 #endif
 #include "app/common/Game.h"
 #include "platform/input/InputConstants.h"

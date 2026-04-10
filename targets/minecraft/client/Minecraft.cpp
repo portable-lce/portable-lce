@@ -20,7 +20,7 @@
 #include "minecraft/world/tutorial/ITutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "minecraft/GameEnums.h"

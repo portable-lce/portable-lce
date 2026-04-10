@@ -2,8 +2,8 @@
 
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/UIScene.h"
-#include "app/linux/Iggy/include/iggy.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/Iggy/include/iggy.h"
+#include "app/common/UI/ConsoleUIController.h"
 
 class UILayer;
 

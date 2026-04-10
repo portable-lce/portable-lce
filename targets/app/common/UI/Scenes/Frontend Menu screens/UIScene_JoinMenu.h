@@ -7,7 +7,7 @@
 #include "app/common/UI/Controls/UIControl_ButtonList.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
-#include "app/linux/Iggy/include/rrCore.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "platform/storage/storage.h"
 
 class FriendSessionInfo;

@@ -12,9 +12,9 @@
 
 #ifdef __linux__
 
-#include "app/linux/Iggy/include/iggy.h"
+#include "app/common/Iggy/include/iggy.h"
 #ifndef _ENABLEIGGY
-#include "app/linux/Stubs/iggy_stubs.h"
+#include "app/common/Iggy/iggy_stubs.h"
 #endif
 
 #elif defined(_WINDOWS64)
@@ -26,7 +26,7 @@
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl.h"
-#include "app/linux/Iggy/include/rrCore.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Audio/SoundTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/input/input.h"

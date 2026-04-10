@@ -6,7 +6,7 @@
 #include <cstdio>
 #include <cstring>
 
-#include "app/linux/Iggy/include/iggy.h"
+#include "app/common/Iggy/include/iggy.h"
 
 #define STUBBED \
     {}

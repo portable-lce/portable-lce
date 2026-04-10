@@ -8,7 +8,7 @@
 #include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
 #include "minecraft/client/multiplayer/MultiPlayerLevel.h"

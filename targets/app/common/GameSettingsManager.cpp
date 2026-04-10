@@ -6,7 +6,7 @@
 #include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameHostOptions.h"

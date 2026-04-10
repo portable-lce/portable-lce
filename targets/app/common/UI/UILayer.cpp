@@ -75,9 +75,9 @@
 #include "app/common/UI/Scenes/UIScene_Timer.h"
 #include "app/common/UI/UIGroup.h"
 #include "app/common/UI/UIScene.h"
-#include "app/linux/Iggy/include/rrCore.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "platform/renderer/renderer.h"
 
 UILayer::UILayer(UIGroup* parent) {

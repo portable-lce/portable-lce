@@ -5,7 +5,7 @@
 #include <cinttypes>
 #include <vector>
 
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/File.h"
 #include "java/InputOutputStream/BufferedReader.h"
 #include "java/InputOutputStream/FileInputStream.h"

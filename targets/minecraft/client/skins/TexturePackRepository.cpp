@@ -9,7 +9,7 @@
 #include "DefaultTexturePack.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/File.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/IGameServices.h"

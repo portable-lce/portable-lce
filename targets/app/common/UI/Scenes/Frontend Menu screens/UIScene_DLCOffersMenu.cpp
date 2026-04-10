@@ -9,7 +9,7 @@
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "platform/PlatformTypes.h"
 #include "platform/renderer/renderer.h"
 #include "strings.h"

@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "app/linux/Iggy/include/iggy.h"
+#include "app/common/Iggy/include/iggy.h"
 #include "SDL_video.h"
 
 #ifndef _ENABLEIGGY

@@ -16,7 +16,7 @@
 #include "app/common/UI/Scenes/Frontend Menu screens/IUIScene_StartGame.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameHostOptions.h"
 #include "minecraft/GameTypes.h"

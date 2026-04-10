@@ -1,7 +1,7 @@
 #ifndef __LINUX_IGGY_GDRAW_H__
 #define __LINUX_IGGY_GDRAW_H__
 
-#include "app/linux/Iggy/include/rrCore.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/windows/Iggy/include/gdraw.h"
 #include "app/windows/Iggy/include/iggy.h"
 

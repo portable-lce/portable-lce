@@ -7,7 +7,7 @@
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "platform/PlatformTypes.h"
 #include "platform/profile/profile.h"
 #include "strings.h"

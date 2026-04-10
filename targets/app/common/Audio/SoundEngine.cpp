@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "app/common/Audio/ConsoleSoundEngine.h"
-#include "app/linux/Iggy/include/rrCore.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Game.h"
 #include "java/Random.h"
 #include "minecraft/client/Minecraft.h"

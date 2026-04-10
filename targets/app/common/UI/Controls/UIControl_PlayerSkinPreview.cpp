@@ -7,11 +7,11 @@
 #include <vector>
 
 #include "app/common/UI/Controls/UIControl.h"
-#include "app/linux/Iggy/include/iggy.h"
+#include "app/common/Iggy/include/iggy.h"
 #include "minecraft/GameEnums.h"
 #include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
-#include "app/linux/Stubs/iggy_stubs.h"
+#include "app/common/Iggy/iggy_stubs.h"
 #endif
 #include "app/common/Game.h"
 #include "java/Class.h"

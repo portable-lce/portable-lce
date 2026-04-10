@@ -15,7 +15,7 @@
 #include "app/common/DLC/DLCTextureFile.h"
 #include "app/common/DLC/DLCUIDataFile.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/File.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/IGameServices.h"

@@ -4,7 +4,7 @@
 #include <cmath>
 
 #include "Facing.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/Color.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"

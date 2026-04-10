@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "app/common/UI/All Platforms/UIEnums.h"
-#include "app/linux/Iggy/include/rrCore.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "platform/renderer/renderer.h"
 
 // using namespace std;

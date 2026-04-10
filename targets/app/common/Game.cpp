@@ -9,7 +9,7 @@
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Scenes/UIScene_FullscreenProgress.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/Class.h"
 #include "java/File.h"
 #include "java/Random.h"

@@ -14,7 +14,7 @@
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/Minecraft_Macros.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/model/SkinBox.h"

@@ -8,7 +8,7 @@ class Random;
 #include <string>
 
 #include "app/common/Audio/ConsoleSoundEngine.h"
-#include "app/linux/Iggy/include/rrCore.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Audio/SoundTypes.h"
 #include "platform/PlatformTypes.h"
 

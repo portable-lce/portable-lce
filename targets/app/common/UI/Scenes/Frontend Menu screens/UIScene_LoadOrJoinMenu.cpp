@@ -13,7 +13,7 @@
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/common/Game.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "java/File.h"
 #include "java/InputOutputStream/FileInputStream.h"
 #include "minecraft/GameEnums.h"

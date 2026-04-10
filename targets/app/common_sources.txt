@@ -86,6 +86,8 @@ common/Tutorial/Tasks/XuiCraftingTask.cpp
 common/Tutorial/Tutorial.cpp
 common/Tutorial/TutorialMessage.cpp
 common/Tutorial/TutorialMode.cpp
+common/Iggy/gdraw/gdraw.c
+common/UI/ConsoleUIController.cpp
 common/UI/All Platforms/ArchiveFile.cpp
 common/UI/All Platforms/IUIScene_AbstractContainerMenu.cpp
 common/UI/All Platforms/IUIScene_AnvilMenu.cpp

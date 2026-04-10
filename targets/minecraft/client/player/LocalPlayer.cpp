@@ -33,7 +33,7 @@
 #include "app/common/Audio/ConsoleSoundEngine.h"
 #include "platform/profile/ProfileConstants.h"
 #include "minecraft/world/tutorial/ITutorial.h"
-#include "app/linux/Linux_UIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Gui.h"
