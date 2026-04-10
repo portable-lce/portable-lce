@@ -1,7 +1,6 @@
 #pragma once
 
 #include <GL/gl.h>
-#include <GL/glu.h>
 #include <string.h>
 
 #include "java/File.h"
