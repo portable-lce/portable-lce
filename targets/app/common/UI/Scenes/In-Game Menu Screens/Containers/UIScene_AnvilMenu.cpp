@@ -1,6 +1,5 @@
 
 #include "UIScene_AnvilMenu.h"
-#include "platform/game/game.h"
 
 #include <assert.h>
 #include <wchar.h>
@@ -8,14 +7,13 @@
 #include <memory>
 #include <utility>
 
+#include "app/common/Game.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_SlotList.h"
 #include "app/common/UI/Controls/UIControl_TextInput.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_AbstractContainerMenu.h"
-#include "app/common/Game.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/world/entity/player/Abilities.h"
@@ -23,6 +21,8 @@
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/inventory/AnvilMenu.h"
 #include "minecraft/world/inventory/Slot.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
+#include "platform/game/game.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
 #include "strings.h"

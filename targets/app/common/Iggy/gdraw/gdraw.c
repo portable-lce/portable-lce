@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "app/common/Iggy/include/iggy.h"
 #include "SDL_video.h"
+#include "app/common/Iggy/include/iggy.h"
 
 #ifndef _ENABLEIGGY
 void* IggyGDrawMallocAnnotated(SINTa size, const char* file, int line) {

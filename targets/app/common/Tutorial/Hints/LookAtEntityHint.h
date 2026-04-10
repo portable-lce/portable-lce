@@ -2,8 +2,8 @@
 // using namespace std;
 
 #include "TutorialHint.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "java/Class.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 class ItemInstance;
 class Tutorial;
@@ -17,7 +17,7 @@ public:
     LookAtEntityHint(eTutorial_Hint id, Tutorial* tutorial, int descriptionId,
                      int titleId, eINSTANCEOF type);
     // TODO: 4jcraft added, this was not implemented
-    ~LookAtEntityHint(){};
+    ~LookAtEntityHint() {};
 
     virtual bool onLookAtEntity(eINSTANCEOF type);
 };

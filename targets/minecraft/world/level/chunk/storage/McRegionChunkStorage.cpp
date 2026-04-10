@@ -29,8 +29,8 @@
 #include "minecraft/world/level/storage/LevelData.h"
 #include "nbt/CompoundTag.h"
 #include "nbt/NbtIo.h"
-#include "platform/thread/C4JThread.h"
 #include "platform/input/input.h"
+#include "platform/thread/C4JThread.h"
 
 class DataInput;
 

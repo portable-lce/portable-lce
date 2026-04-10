@@ -2,9 +2,9 @@
 #include <cstddef>
 #include <cstdint>
 #include <format>
-#include <vector>
 #include <mutex>
 #include <queue>
+#include <vector>
 
 #include "java/InputOutputStream/InputStream.h"
 #include "java/InputOutputStream/OutputStream.h"

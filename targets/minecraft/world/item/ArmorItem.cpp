@@ -53,12 +53,12 @@ std::shared_ptr<ItemInstance> ArmorItem::ArmorDispenseItemBehavior::execute(
     if (entities->size() > 0) {
         std::shared_ptr<LivingEntity> target =
             std::dynamic_pointer_cast<LivingEntity>(entities->at(0));
-        int offset = target->instanceof (eTYPE_PLAYER) ? 1 : 0;
+        int offset = target->instanceof(eTYPE_PLAYER) ? 1 : 0;
         int slot = Mob::getEquipmentSlotForItem(dispensed);
         std::shared_ptr<ItemInstance> equip = dispensed->copy();
         equip->count = 1;
         target->setEquippedSlot(slot - offset, equip);
-        if (target->instanceof (eTYPE_MOB))
+        if (target->instanceof(eTYPE_MOB))
             std::dynamic_pointer_cast<Mob>(target)->setDropChance(slot, 2);
         dispensed->count--;
 

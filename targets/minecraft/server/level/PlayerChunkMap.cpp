@@ -19,7 +19,6 @@
 #include "minecraft/network/packet/ChunkVisibilityPacket.h"
 #include "minecraft/network/packet/Packet.h"
 #include "minecraft/network/packet/TileUpdatePacket.h"
-#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/network/PlayerConnection.h"
@@ -28,6 +27,7 @@
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
+#include "platform/network/network.h"
 
 PlayerChunkMap::PlayerChunk::PlayerChunk(int x, int z, PlayerChunkMap* pcm)
     : pos(x, z) {

@@ -125,7 +125,9 @@ unsigned int SkullItem::getDescriptionId(
 
 std::string SkullItem::getHoverName(
     std::shared_ptr<ItemInstance> itemInstance) {
-    { return Item::getHoverName(itemInstance); }
+    {
+        return Item::getHoverName(itemInstance);
+    }
 }
 
 void SkullItem::registerIcons(IconRegister* iconRegister) {

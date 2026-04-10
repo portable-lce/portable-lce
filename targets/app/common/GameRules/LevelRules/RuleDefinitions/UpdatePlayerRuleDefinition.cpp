@@ -4,8 +4,8 @@
 
 #include <memory>
 
-#include "app/common/GameRules/LevelRules/RuleDefinitions/AddItemRuleDefinition.h"
 #include "app/common/Game.h"
+#include "app/common/GameRules/LevelRules/RuleDefinitions/AddItemRuleDefinition.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/Pos.h"
 #include "minecraft/world/entity/player/Inventory.h"

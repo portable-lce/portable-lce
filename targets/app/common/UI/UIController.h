@@ -8,19 +8,18 @@
 #include <unordered_map>
 #include <vector>
 
-#include "util/Timer.h"
-
 #include "app/common/Iggy/include/iggy.h"
+#include "util/Timer.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
 #include "UIGroup.h"
+#include "app/common/Audio/SoundTypes.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/UI/All Platforms/IUIController.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl.h"
-#include "app/common/Iggy/include/rrCore.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/input/input.h"
 #include "platform/renderer/renderer.h"

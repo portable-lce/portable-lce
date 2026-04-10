@@ -3,10 +3,10 @@
 #include <optional>
 #include <string>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Class.h"
 #include "java/Random.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/item/SpawnEggItem.h"
 #include "minecraft/world/level/Level.h"

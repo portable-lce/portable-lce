@@ -135,7 +135,7 @@ std::shared_ptr<ItemInstance> SpawnEggDispenseBehavior::execute(
         return dispensed;
     }
 
-    if (entity->instanceof (eTYPE_MOB) && dispensed->hasCustomHoverName()) {
+    if (entity->instanceof(eTYPE_MOB) && dispensed->hasCustomHoverName()) {
         std::dynamic_pointer_cast<Mob>(entity)->setCustomName(
             dispensed->getHoverName());
     }

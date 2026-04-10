@@ -414,7 +414,9 @@ int Textures::loadTexture(int idx) {
 // renderer that map the single 8-bit channel to RGBA differently.
 void Textures::setTextureFormat(const std::string& resourceName) {
     // 4J Stu - These texture formats are not currently in the render header
-    { TEXTURE_FORMAT = IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw; }
+    {
+        TEXTURE_FORMAT = IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw;
+    }
 }
 
 void Textures::bindTexture(const std::string& resourceName) {
@@ -1225,7 +1227,9 @@ BufferedImage* Textures::readImage(
             name, false, isTu,
             drive);  // new BufferedImage(name,false,isTu,drive);
     } else {
-        { drive = skins->getDefault()->getPath(isTu); }
+        {
+            drive = skins->getDefault()->getPath(isTu);
+        }
 
         if (IsOriginalImage(texId, name) || isTu) {
             img = skins->getDefault()->getImageResource(

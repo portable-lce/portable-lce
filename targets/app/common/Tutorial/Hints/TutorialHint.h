@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "java/Class.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 class Entity;
 class ItemInstance;

@@ -3,12 +3,10 @@
 #include <cmath>
 #include <memory>
 
-#include "platform/profile/profile.h"
-#include "platform/renderer/renderer.h"
-#include "minecraft/GameEnums.h"
 #include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "java/Class.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
@@ -22,6 +20,8 @@
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/food/FoodData.h"
 #include "minecraft/world/level/material/Material.h"
+#include "platform/profile/profile.h"
+#include "platform/renderer/renderer.h"
 
 IUIScene_HUD::IUIScene_HUD() {
     m_lastActiveSlot = -1;
@@ -79,9 +79,10 @@ void IUIScene_HUD::updateFrameTick() {
 
     SetDisplayName(PlatformProfile.GetDisplayName(iPad));
 
-    SetTooltipsEnabled(((ui.GetMenuDisplayed(PlatformProfile.GetPrimaryPad())) ||
-                        (app.GetGameSettings(PlatformProfile.GetPrimaryPad(),
-                                             eGameSetting_Tooltips) != 0)));
+    SetTooltipsEnabled(
+        ((ui.GetMenuDisplayed(PlatformProfile.GetPrimaryPad())) ||
+         (app.GetGameSettings(PlatformProfile.GetPrimaryPad(),
+                              eGameSetting_Tooltips) != 0)));
 
     SetActiveSlot(pMinecraft->localplayers[iPad]->inventory->selected);
 

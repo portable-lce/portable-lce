@@ -5,7 +5,6 @@
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/GameEnums.h"

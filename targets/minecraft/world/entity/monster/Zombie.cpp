@@ -8,8 +8,8 @@
 #include <vector>
 
 #include "SharedConstants.h"
-#include "java/Random.h"
 #include "app/common/Audio/SoundTypes.h"
+#include "java/Random.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/Difficulty.h"
@@ -179,12 +179,10 @@ bool Zombie::hurt(DamageSource* source, float dmg) {
     if (Monster::hurt(source, dmg)) {
         std::shared_ptr<LivingEntity> target = getTarget();
         if ((target == nullptr) && getAttackTarget() != nullptr &&
-                getAttackTarget()->instanceof
-            (eTYPE_LIVINGENTITY))
+            getAttackTarget()->instanceof(eTYPE_LIVINGENTITY))
             target = std::dynamic_pointer_cast<LivingEntity>(getAttackTarget());
         if ((target == nullptr) && source->getEntity() != nullptr &&
-                source->getEntity()->instanceof
-            (eTYPE_LIVINGENTITY))
+            source->getEntity()->instanceof(eTYPE_LIVINGENTITY))
             target =
                 std::dynamic_pointer_cast<LivingEntity>(source->getEntity());
 

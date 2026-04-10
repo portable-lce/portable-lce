@@ -45,7 +45,6 @@
 #include "minecraft/network/packet/SetHealthPacket.h"
 #include "minecraft/network/packet/TileEditorOpenPacket.h"
 #include "minecraft/network/packet/UpdateMobEffectPacket.h"
-#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/network/PlayerConnection.h"
@@ -108,6 +107,7 @@
 #include "minecraft/world/scores/criteria/ObjectiveCriteria.h"
 #include "nbt/CompoundTag.h"
 #include "platform/input/input.h"
+#include "platform/network/network.h"
 #include "strings.h"
 
 class Objective;
@@ -716,20 +716,19 @@ bool ServerPlayer::hurt(DamageSource* dmgSource, float dmg) {
         // sometimes nullptr.
         std::shared_ptr<Entity> source = dmgSource->getDirectEntity();
 
-        if (source->instanceof
-            (eTYPE_PLAYER) &&
-                !std::dynamic_pointer_cast<Player>(source)->canHarmPlayer(
-                    std::dynamic_pointer_cast<Player>(shared_from_this()))) {
+        if (source->instanceof(eTYPE_PLAYER) &&
+            !std::dynamic_pointer_cast<Player>(source)->canHarmPlayer(
+                std::dynamic_pointer_cast<Player>(shared_from_this()))) {
             return false;
         }
 
-        if ((source != nullptr) && source->instanceof (eTYPE_ARROW)) {
+        if ((source != nullptr) && source->instanceof(eTYPE_ARROW)) {
             std::shared_ptr<Arrow> arrow =
                 std::dynamic_pointer_cast<Arrow>(source);
-            if ((arrow->owner != nullptr) && arrow->owner->instanceof
-                (eTYPE_PLAYER) &&
-                    !canHarmPlayer(
-                        std::dynamic_pointer_cast<Player>(arrow->owner))) {
+            if ((arrow->owner != nullptr) &&
+                arrow->owner->instanceof(eTYPE_PLAYER) &&
+                !canHarmPlayer(
+                    std::dynamic_pointer_cast<Player>(arrow->owner))) {
                 return false;
             }
         }

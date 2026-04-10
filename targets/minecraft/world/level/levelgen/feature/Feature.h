@@ -10,7 +10,7 @@ private:
 public:
     Feature();
     Feature(bool doUpdate);
-    virtual ~Feature(){};
+    virtual ~Feature() {};
 
     virtual bool place(Level* level, Random* random, int x, int y, int z) = 0;
     virtual bool placeWithIndex(Level* level, Random* random, int x, int y,

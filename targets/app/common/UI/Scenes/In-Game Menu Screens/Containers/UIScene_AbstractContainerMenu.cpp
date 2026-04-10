@@ -4,16 +4,16 @@
 #include <cmath>
 #include <memory>
 
+#include "app/common/Game.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Cursor.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_SlotList.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/util/HtmlString.h"

@@ -20,7 +20,7 @@ public:
                    unsigned int tilesLength, int iconOverride = -1,
                    int iData = -1, int iDataOverride = -1);
     // TODO: 4jcraft, added, destructor was never implemented
-    ~LookAtTileHint(){};
+    ~LookAtTileHint() {};
 
     virtual bool onLookAt(int id, int iData = 0);
 };

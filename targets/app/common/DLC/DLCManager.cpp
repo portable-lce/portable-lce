@@ -15,8 +15,8 @@
 
 #include "DLCFile.h"
 #include "DLCPack.h"
-#include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/Game.h"
+#include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
@@ -482,7 +482,7 @@ bool DLCManager::processDLCDataFile(unsigned int& dwFilesProcessed,
     std::uint8_t* pbTemp =
         &pbData
             [dwTemp];  //+
-                       //sizeof(IPlatformStorage::DLC_FILE_DETAILS)*ulFileCount;
+                       // sizeof(IPlatformStorage::DLC_FILE_DETAILS)*ulFileCount;
     DLC_READ_DETAIL(&fileBuf, pbData, uiCurrentByte);
 
     for (unsigned int i = 0; i < uiFileCount; i++) {

@@ -7,10 +7,10 @@
 #include <queue>
 #include <string>
 
-#include "minecraft/network/Socket.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"
+#include "minecraft/network/Socket.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "platform/thread/C4JThread.h"
 

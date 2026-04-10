@@ -13,7 +13,7 @@ SaddleItem::SaddleItem(int id) : Item(id) { maxStackSize = 1; }
 bool SaddleItem::interactEnemy(std::shared_ptr<ItemInstance> itemInstance,
                                std::shared_ptr<Player> player,
                                std::shared_ptr<LivingEntity> mob) {
-    if ((mob != nullptr) && mob->instanceof (eTYPE_PIG)) {
+    if ((mob != nullptr) && mob->instanceof(eTYPE_PIG)) {
         std::shared_ptr<Pig> pig = std::dynamic_pointer_cast<Pig>(mob);
         if (!pig->hasSaddle() && !pig->isBaby()) {
             pig->setSaddle(true);

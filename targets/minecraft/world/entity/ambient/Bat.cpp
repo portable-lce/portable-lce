@@ -6,9 +6,9 @@
 #include <numbers>
 #include <string>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/Pos.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/entity/SyncedEntityData.h"
 #include "minecraft/world/entity/ai/attributes/AttributeInstance.h"

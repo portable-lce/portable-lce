@@ -7,16 +7,16 @@
 #include <string>
 #include <vector>
 
+#include "app/common/Audio/SoundTypes.h"
+#include "app/common/Game.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
-#include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/player/LocalPlayer.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/entity/player/Player.h"

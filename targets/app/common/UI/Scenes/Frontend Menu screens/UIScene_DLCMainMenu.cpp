@@ -1,12 +1,12 @@
 
 #include "UIScene_DLCMainMenu.h"
 
+#include "app/common/Game.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_ButtonList.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "strings.h"
 

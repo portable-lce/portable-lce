@@ -4,12 +4,12 @@
 
 #include <algorithm>
 
+#include "app/common/Game.h"
 #include "app/common/GameRules/LevelGeneration/ConsoleGenerateStructureAction.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionGenerateBox.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceBlock.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceContainer.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceSpawner.h"
-#include "app/common/Game.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/Direction.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"

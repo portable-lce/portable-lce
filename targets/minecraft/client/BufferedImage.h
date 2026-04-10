@@ -18,7 +18,7 @@ public:
     BufferedImage(int width, int height, int type);
     BufferedImage(const std::string& File, bool filenameHasExtension = false,
                   bool bTitleUpdateTexture = false,
-                  const std::string& drive = "");             // 4J added
+                  const std::string& drive = "");                  // 4J added
     BufferedImage(std::uint8_t* pbData, std::uint32_t dataBytes);  // 4J added
     ~BufferedImage();
 

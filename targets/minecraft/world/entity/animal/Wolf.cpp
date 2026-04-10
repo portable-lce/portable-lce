@@ -6,10 +6,10 @@
 #include <vector>
 
 #include "Sheep.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/entity/Entity.h"
@@ -262,7 +262,7 @@ bool Wolf::hurt(DamageSource* source, float dmg) {
     // 4J: Protect owned wolves from untrusted players
     if (isTame()) {
         std::shared_ptr<Entity> entity = source->getDirectEntity();
-        if (entity != nullptr && entity->instanceof (eTYPE_PLAYER)) {
+        if (entity != nullptr && entity->instanceof(eTYPE_PLAYER)) {
             std::shared_ptr<Player> attacker =
                 std::dynamic_pointer_cast<Player>(entity);
             attacker->canHarmPlayer(getOwnerUUID());
@@ -272,9 +272,8 @@ bool Wolf::hurt(DamageSource* source, float dmg) {
     if (isInvulnerable()) return false;
     std::shared_ptr<Entity> sourceEntity = source->getEntity();
     sitGoal->wantToSit(false);
-    if (sourceEntity != nullptr &&
-        !(sourceEntity->instanceof (eTYPE_PLAYER) || sourceEntity->instanceof
-          (eTYPE_ARROW))) {
+    if (sourceEntity != nullptr && !(sourceEntity->instanceof(eTYPE_PLAYER) ||
+                                     sourceEntity->instanceof(eTYPE_ARROW))) {
         // Take half damage from non-players and arrows
         dmg = (dmg + 1) / 2;
     }
@@ -488,7 +487,7 @@ bool Wolf::canMate(std::shared_ptr<Animal> animal) {
     if (animal == shared_from_this()) return false;
     if (!isTame()) return false;
 
-    if (!animal->instanceof (eTYPE_WOLF)) return false;
+    if (!animal->instanceof(eTYPE_WOLF)) return false;
     std::shared_ptr<Wolf> partner = std::dynamic_pointer_cast<Wolf>(animal);
 
     if (partner == nullptr) return false;
@@ -521,10 +520,9 @@ bool Wolf::wantsToAttack(std::shared_ptr<LivingEntity> target,
             return false;
         }
     }
-    if (target->instanceof (eTYPE_PLAYER) && owner->instanceof
-        (eTYPE_PLAYER) &&
-            !std::dynamic_pointer_cast<Player>(owner)->canHarmPlayer(
-                std::dynamic_pointer_cast<Player>(target))) {
+    if (target->instanceof(eTYPE_PLAYER) && owner->instanceof(eTYPE_PLAYER) &&
+        !std::dynamic_pointer_cast<Player>(owner)->canHarmPlayer(
+            std::dynamic_pointer_cast<Player>(target))) {
         // pvp is off
         return false;
     }

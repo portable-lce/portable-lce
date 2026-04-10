@@ -1,17 +1,15 @@
 
 #include "UIScene_CraftingMenu.h"
-#include "platform/game/game.h"
 
+#include "app/common/Game.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_HTMLLabel.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_SlotList.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/client/player/LocalPlayer.h"
@@ -22,6 +20,8 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/item/crafting/Recipy.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
+#include "platform/game/game.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
 

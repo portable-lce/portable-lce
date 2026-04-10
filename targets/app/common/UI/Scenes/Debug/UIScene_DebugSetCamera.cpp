@@ -5,14 +5,14 @@
 
 #include <memory>
 
+#include "app/common/Game.h"
+#include "app/common/Iggy/include/rrCore.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_TextInput.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Iggy/include/rrCore.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/world/phys/Vec3.h"
 #include "platform/input/input.h"

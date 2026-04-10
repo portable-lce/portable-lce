@@ -4,17 +4,17 @@
 
 #include <memory>
 
+#include "app/common/Audio/SoundTypes.h"
+#include "app/common/Game.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/BuildVer.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/entity/player/Abilities.h"
 #include "platform/input/input.h"
 #include "strings.h"
@@ -75,7 +75,9 @@ UIScene_ControlsMenu::UIScene_ControlsMenu(int iPad, void* initData,
     char* layoutString = new char[128];
     snprintf(layoutString, 128, "%s : %s", app.GetString(IDS_CURRENT_LAYOUT),
              app.GetString(m_iSchemeTextA[iSelected]));
-    { m_labelCurrentLayout.init(layoutString); }
+    {
+        m_labelCurrentLayout.init(layoutString);
+    }
 
     m_iCurrentNavigatedControlsLayout = iSelected;
 
@@ -172,7 +174,9 @@ void UIScene_ControlsMenu::handlePress(F64 controlId, F64 childId) {
             snprintf(layoutString, 128, "%s : %s",
                      app.GetString(IDS_CURRENT_LAYOUT),
                      app.GetString(m_iSchemeTextA[control]));
-            { m_labelCurrentLayout.setLabel(layoutString); }
+            {
+                m_labelCurrentLayout.setLabel(layoutString);
+            }
 
             break;
     };

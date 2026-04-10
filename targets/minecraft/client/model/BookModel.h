@@ -9,7 +9,7 @@ public:
     ModelPart *leftLid, *rightLid;
     ModelPart *leftPages, *rightPages;
     ModelPart *flipPage1, *flipPage2;
-    ModelPart *seam;
+    ModelPart* seam;
 
     BookModel();
     virtual void render(std::shared_ptr<Entity> entity, float time, float r,

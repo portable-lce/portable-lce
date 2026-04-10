@@ -100,8 +100,7 @@ std::shared_ptr<ChatPacket> CombatTracker::getDeathMessagePacket() {
                    (killingEntity == nullptr ||
                     attackerEntity != killingEntity)) {
             std::shared_ptr<ItemInstance> attackerItem =
-                attackerEntity->instanceof
-                (eTYPE_LIVINGENTITY)
+                attackerEntity->instanceof(eTYPE_LIVINGENTITY)
                     ? std::dynamic_pointer_cast<LivingEntity>(attackerEntity)
                           ->getCarriedItem()
                     : nullptr;
@@ -119,8 +118,8 @@ std::shared_ptr<ChatPacket> CombatTracker::getDeathMessagePacket() {
                     attackerEntity->getNetworkName());
             }
         } else if (killingEntity != nullptr) {
-            std::shared_ptr<ItemInstance> killerItem = killingEntity->instanceof
-                (eTYPE_LIVINGENTITY)
+            std::shared_ptr<ItemInstance> killerItem =
+                killingEntity->instanceof(eTYPE_LIVINGENTITY)
                     ? std::dynamic_pointer_cast<LivingEntity>(killingEntity)
                           ->getCarriedItem()
                     : nullptr;
@@ -156,20 +155,18 @@ std::shared_ptr<LivingEntity> CombatTracker::getKiller() {
     for (auto it = entries.begin(); it != entries.end(); ++it) {
         CombatEntry* entry = *it;
         if (entry->getSource() != nullptr &&
-                entry->getSource()->getEntity() != nullptr &&
-                entry->getSource()->getEntity()->instanceof
-            (eTYPE_PLAYER) && (bestPlayer == nullptr ||
-                               entry->getDamage() > bestPlayerDamage)) {
+            entry->getSource()->getEntity() != nullptr &&
+            entry->getSource()->getEntity()->instanceof(eTYPE_PLAYER) &&
+            (bestPlayer == nullptr || entry->getDamage() > bestPlayerDamage)) {
             bestPlayerDamage = entry->getDamage();
             bestPlayer = std::dynamic_pointer_cast<Player>(
                 entry->getSource()->getEntity());
         }
 
         if (entry->getSource() != nullptr &&
-                entry->getSource()->getEntity() != nullptr &&
-                entry->getSource()->getEntity()->instanceof
-            (eTYPE_LIVINGENTITY) &&
-                (bestMob == nullptr || entry->getDamage() > bestMobDamage)) {
+            entry->getSource()->getEntity() != nullptr &&
+            entry->getSource()->getEntity()->instanceof(eTYPE_LIVINGENTITY) &&
+            (bestMob == nullptr || entry->getDamage() > bestMobDamage)) {
             bestMobDamage = entry->getDamage();
             bestMob = std::dynamic_pointer_cast<LivingEntity>(
                 entry->getSource()->getEntity());

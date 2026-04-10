@@ -4,19 +4,19 @@
 
 #include <vector>
 
+#include "app/common/Game.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
 #include "util/StringHelpers.h"

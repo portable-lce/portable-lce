@@ -11,11 +11,11 @@
 
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
+#include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
+#include "app/common/UI/UIScene.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"

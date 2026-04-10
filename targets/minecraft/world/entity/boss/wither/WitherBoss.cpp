@@ -8,9 +8,9 @@
 #include <vector>
 
 #include "SharedConstants.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/Difficulty.h"
 #include "minecraft/world/damageSource/DamageSource.h"
@@ -43,7 +43,7 @@
 #include "nbt/CompoundTag.h"
 
 bool LivingEntitySelector::matches(std::shared_ptr<Entity> entity) const {
-    if (entity->instanceof (eTYPE_LIVINGENTITY)) {
+    if (entity->instanceof(eTYPE_LIVINGENTITY)) {
         return std::dynamic_pointer_cast<LivingEntity>(entity)->getMobType() !=
                UNDEAD;
     } else {
@@ -261,9 +261,10 @@ void WitherBoss::newServerAiStep() {
 
                 // 4J: Added check for instance of living entity, had a problem
                 // with IDs being recycled to other entities
-                if (current == nullptr || !current->instanceof
-                    (eTYPE_LIVINGENTITY) || !current->isAlive() ||
-                        distanceToSqr(current) > 30 * 30 || !canSee(current)) {
+                if (current == nullptr ||
+                    !current->instanceof(eTYPE_LIVINGENTITY) ||
+                    !current->isAlive() || distanceToSqr(current) > 30 * 30 ||
+                    !canSee(current)) {
                     setAlternativeTarget(i, 0);
                 } else {
                     performRangedAttack(
@@ -289,16 +290,16 @@ void WitherBoss::newServerAiStep() {
 
                     if (selected != shared_from_this() && selected->isAlive() &&
                         canSee(selected)) {
-                        if (selected->instanceof (eTYPE_PLAYER)) {
+                        if (selected->instanceof(eTYPE_PLAYER)) {
                             if (!std::dynamic_pointer_cast<Player>(selected)
                                      ->abilities.invulnerable) {
-                                assert(selected->instanceof
-                                       (eTYPE_LIVINGENTITY));
+                                assert(
+                                    selected->instanceof(eTYPE_LIVINGENTITY));
                                 setAlternativeTarget(i, selected->entityId);
                             }
                             break;
                         } else {
-                            assert(selected->instanceof (eTYPE_LIVINGENTITY));
+                            assert(selected->instanceof(eTYPE_LIVINGENTITY));
                             setAlternativeTarget(i, selected->entityId);
                             break;
                         }
@@ -311,7 +312,7 @@ void WitherBoss::newServerAiStep() {
         }
     }
     if (getTarget() != nullptr) {
-        assert(getTarget()->instanceof (eTYPE_LIVINGENTITY));
+        assert(getTarget()->instanceof(eTYPE_LIVINGENTITY));
         setAlternativeTarget(0, getTarget()->entityId);
     } else {
         setAlternativeTarget(0, 0);
@@ -457,11 +458,10 @@ bool WitherBoss::hurt(DamageSource* source, float dmg) {
 
     std::shared_ptr<Entity> sourceEntity = source->getEntity();
     if (sourceEntity != nullptr) {
-        if (sourceEntity->instanceof (eTYPE_PLAYER)) {
-        } else if (sourceEntity->instanceof
-                   (eTYPE_LIVINGENTITY) &&
-                       std::dynamic_pointer_cast<LivingEntity>(sourceEntity)
-                               ->getMobType() == getMobType()) {
+        if (sourceEntity->instanceof(eTYPE_PLAYER)) {
+        } else if (sourceEntity->instanceof(eTYPE_LIVINGENTITY) &&
+                   std::dynamic_pointer_cast<LivingEntity>(sourceEntity)
+                           ->getMobType() == getMobType()) {
             // can't be harmed by other undead
             return false;
         }

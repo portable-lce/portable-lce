@@ -30,7 +30,7 @@ MobCanWearArmourEntitySelector::MobCanWearArmourEntitySelector(
 bool MobCanWearArmourEntitySelector::matches(
     std::shared_ptr<Entity> entity) const {
     if (!entity->isAlive()) return false;
-    if (!entity->instanceof (eTYPE_LIVINGENTITY)) return false;
+    if (!entity->instanceof(eTYPE_LIVINGENTITY)) return false;
 
     std::shared_ptr<LivingEntity> mob =
         std::dynamic_pointer_cast<LivingEntity>(entity);
@@ -38,9 +38,9 @@ bool MobCanWearArmourEntitySelector::matches(
     if (mob->getCarried(Mob::getEquipmentSlotForItem(item)) != nullptr)
         return false;
 
-    if (mob->instanceof (eTYPE_MOB)) {
+    if (mob->instanceof(eTYPE_MOB)) {
         return std::dynamic_pointer_cast<Mob>(mob)->canPickUpLoot();
-    } else if (mob->instanceof (eTYPE_PLAYER)) {
+    } else if (mob->instanceof(eTYPE_PLAYER)) {
         return true;
     }
 

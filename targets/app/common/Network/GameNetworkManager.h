@@ -4,12 +4,13 @@
 #include <format>
 #include <string>
 #include <vector>
+
 #include "minecraft/network/INetworkService.h"
-#include "platform/thread/C4JThread.h"
-#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/network/IPlatformNetwork.h"
+#include "platform/network/NetTypes.h"
 #include "platform/network/network.h"
+#include "platform/thread/C4JThread.h"
 
 class ClientConnection;
 class Minecraft;

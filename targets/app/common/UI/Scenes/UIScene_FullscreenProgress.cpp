@@ -4,22 +4,22 @@
 #include <stdint.h>
 #include <wchar.h>
 
+#include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/Tutorial/Tutorial.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_Progress.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
-#include "platform/thread/C4JThread.h"
 #include "platform/PlatformTypes.h"
 #include "platform/profile/profile.h"
+#include "platform/thread/C4JThread.h"
 #include "strings.h"
 
 UIScene_FullscreenProgress::UIScene_FullscreenProgress(int iPad, void* initData,

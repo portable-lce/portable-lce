@@ -2,13 +2,13 @@
 
 #include <cstdint>
 
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameTypes.h"
 #include "minecraft/client/model/SkinBox.h"
-#include "platform/network/NetTypes.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "platform/XboxStubs.h"
+#include "platform/network/NetTypes.h"
 #include "platform/profile/ProfileConstants.h"
 #include "platform/storage/storage.h"
 

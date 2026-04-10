@@ -91,7 +91,9 @@ SparseLightStorage::~SparseLightStorage() {
     // Determine correct means to free this data - could have been allocated
     // either with XPhysicalAlloc or malloc
 
-    { free(indicesAndData); }
+    {
+        free(indicesAndData);
+    }
     //	printf("Free (in dtor) 0x%x\n", indicesAndData);
 }
 
@@ -476,7 +478,9 @@ void SparseLightStorage::tick() {
         //		if( toFree ) printf("Deleting 0x%x\n", toFree);
         // Determine correct means to free this data - could have been allocated
         // either with XPhysicalAlloc or malloc
-        { free(toFree); }
+        {
+            free(toFree);
+        }
     } while (toFree);
 
     deleteQueueIndex = (deleteQueueIndex + 1) % 3;

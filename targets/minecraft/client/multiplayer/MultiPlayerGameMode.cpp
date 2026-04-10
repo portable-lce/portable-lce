@@ -513,8 +513,7 @@ bool MultiPlayerGameMode::hasFarPickRange() {
 // only happens when the player is riding a horse.
 bool MultiPlayerGameMode::isServerControlledInventory() {
     return minecraft->player->isRiding() &&
-           minecraft->player->riding->instanceof
-        (eTYPE_HORSE);
+           minecraft->player->riding->instanceof(eTYPE_HORSE);
 }
 
 bool MultiPlayerGameMode::handleCraftItem(int recipe,

@@ -56,8 +56,8 @@ void ControlledByPlayerGoal::stop() {
 
 bool ControlledByPlayerGoal::canUse() {
     return mob->isAlive() && mob->rider.lock() != nullptr &&
-           mob->rider.lock()->instanceof
-        (eTYPE_PLAYER) && (boosting || mob->canBeControlledByRider());
+           mob->rider.lock()->instanceof(eTYPE_PLAYER) &&
+           (boosting || mob->canBeControlledByRider());
 }
 
 void ControlledByPlayerGoal::tick() {

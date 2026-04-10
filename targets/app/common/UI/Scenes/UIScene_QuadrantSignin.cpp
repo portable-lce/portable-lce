@@ -3,12 +3,12 @@
 
 #include <wchar.h>
 
+#include "app/common/Game.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_BitmapIcon.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "platform/PlatformTypes.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
@@ -138,7 +138,9 @@ void UIScene_QuadrantSignin::updateState() {
             // app.DebugPrintf("Index %d is signed in, display name - '%s'\n",
             // i, PlatformProfile.GetDisplayName(i).data());
 
-            { setControllerState(i, eControllerStatus_PlayerDetails); }
+            {
+                setControllerState(i, eControllerStatus_PlayerDetails);
+            }
 
             m_labelDisplayName[i].setLabel(PlatformProfile.GetDisplayName(i));
             // m_buttonControllers[i].setLabel(app.GetString(IDS_TOOLTIPS_CONTINUE),i);
@@ -223,7 +225,9 @@ void UIScene_QuadrantSignin::_initQuadrants() {
         if (PlatformProfile.IsSignedIn(i)) {
             app.DebugPrintf("Index %d is signed in\n", i);
 
-            { setControllerState(i, eControllerStatus_PlayerDetails); }
+            {
+                setControllerState(i, eControllerStatus_PlayerDetails);
+            }
 
             m_labelDisplayName[i].init(PlatformProfile.GetDisplayName(i));
         } else if (PlatformInput.IsPadConnected(i)) {

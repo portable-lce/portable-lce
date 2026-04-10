@@ -5,11 +5,11 @@
 #include <string>
 #include <vector>
 
-#include "minecraft/GameEnums.h"
-#include "app/common/UI/All Platforms/IUIScene_AbstractContainerMenu.h"
 #include "app/common/Game.h"
+#include "app/common/UI/All Platforms/IUIScene_AbstractContainerMenu.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
+#include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"

@@ -4,8 +4,8 @@
 
 #include "DLCManager.h"
 #include "app/common/DLC/DLCGameRules.h"
-#include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/Game.h"
+#include "app/common/GameRules/GameRuleManager.h"
 
 class StringTable;
 

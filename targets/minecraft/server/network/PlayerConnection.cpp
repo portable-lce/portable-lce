@@ -61,7 +61,6 @@
 #include "minecraft/network/packet/TileUpdatePacket.h"
 #include "minecraft/network/packet/TradeItemPacket.h"
 #include "minecraft/network/packet/UseItemPacket.h"
-#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/level/ServerLevel.h"
@@ -102,6 +101,7 @@
 #include "minecraft/world/level/tile/entity/SignTileEntity.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
 #include "minecraft/world/phys/AABB.h"
+#include "platform/network/network.h"
 
 class SavedData;
 
@@ -720,8 +720,8 @@ void PlayerConnection::handlePlayerCommand(
         }
     } else if (packet->action == PlayerCommandPacket::OPEN_INVENTORY) {
         // also only supported by horses...
-        if ((player->riding != nullptr) && player->riding->instanceof
-            (eTYPE_HORSE)) {
+        if ((player->riding != nullptr) &&
+            player->riding->instanceof(eTYPE_HORSE)) {
             std::dynamic_pointer_cast<EntityHorse>(player->riding)
                 ->openInventory(player);
         }
@@ -943,8 +943,8 @@ void PlayerConnection::handleTextureAndGeometryReceived(
         if (dwTextureBytes != 0) {
             if (pSkinAsset && (pSkinAsset->getAdditionalBoxesCount() != 0)) {
                 send(std::shared_ptr<TextureAndGeometryPacket>(
-                    new TextureAndGeometryPacket(
-                        textureName, pbData, dwTextureBytes, pSkinAsset)));
+                    new TextureAndGeometryPacket(textureName, pbData,
+                                                 dwTextureBytes, pSkinAsset)));
             } else {
                 // get the data from the app
                 std::uint32_t dwSkinID =

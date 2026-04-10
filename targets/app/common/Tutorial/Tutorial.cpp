@@ -8,6 +8,7 @@
 
 #include "TutorialMessage.h"
 #include "app/common/App_structs.h"
+#include "app/common/Game.h"
 #include "app/common/Tutorial/Constraints/TutorialConstraint.h"
 #include "app/common/Tutorial/Hints/DiggerItemHint.h"
 #include "app/common/Tutorial/Hints/LookAtEntityHint.h"
@@ -20,7 +21,6 @@
 #include "app/common/Tutorial/Tasks/RideEntityTask.h"
 #include "app/common/Tutorial/Tasks/TutorialTask.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
-#include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "java/Class.h"
 #include "minecraft/GameEnums.h"
@@ -2802,8 +2802,8 @@ void Tutorial::onLookAtEntity(std::shared_ptr<Entity> entity) {
         }
     }
 
-    if ((m_CurrentState == e_Tutorial_State_Gameplay) && entity->instanceof
-        (eTYPE_HORSE)) {
+    if ((m_CurrentState == e_Tutorial_State_Gameplay) &&
+        entity->instanceof(eTYPE_HORSE)) {
         changeTutorialState(e_Tutorial_State_Horse);
     }
 

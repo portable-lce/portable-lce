@@ -22,8 +22,8 @@
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/saveddata/SavedData.h"
 #include "minecraft/world/phys/AABB.h"
-#include "platform/thread/C4JThread.h"
 #include "platform/PlatformTypes.h"
+#include "platform/thread/C4JThread.h"
 
 class CompoundTag;
 class ItemInstance;

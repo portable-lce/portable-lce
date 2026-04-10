@@ -1,18 +1,19 @@
 
 
 // GDraw GL backend for Linux
-#include "platform/renderer/renderer.h"
-#include "renderer/gl/gl_compat.h"
 #include "ConsoleUIController.h"
-#include "app/common/UI/All Platforms/UIStructs.h"
+
 #include "app/common/Iggy/gdraw/gdraw.h"
 #include "app/common/Iggy/include/iggy.h"
+#include "app/common/UI/All Platforms/UIStructs.h"
+#include "platform/renderer/renderer.h"
+#include "renderer/gl/gl_compat.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
-#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Game.h"
 #include "app/common/Iggy/include/gdraw.h"
+#include "app/common/Iggy/include/rrCore.h"
 
 ConsoleUIController ui;
 

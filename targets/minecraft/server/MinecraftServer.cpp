@@ -24,14 +24,12 @@
 #include "minecraft/IGameServices.h"
 #include "minecraft/Pos.h"
 #include "minecraft/client/Options.h"
-#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/commands/Command.h"
 #include "minecraft/network/INetworkService.h"
 #include "minecraft/network/packet/GameEventPacket.h"
 #include "minecraft/network/packet/ServerSettingsChangedPacket.h"
 #include "minecraft/network/packet/SetTimePacket.h"
 #include "minecraft/network/packet/UpdateProgressPacket.h"
-#include "platform/network/network.h"
 #include "minecraft/server/level/DerivedServerLevel.h"
 #include "minecraft/server/level/EntityTracker.h"
 #include "minecraft/server/level/ServerChunkCache.h"
@@ -43,6 +41,7 @@
 #include "minecraft/world/entity/Mob.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/item/ItemInstance.h"
+#include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/GameRules.h"
 #include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/LevelSettings.h"
@@ -58,6 +57,7 @@
 #include "minecraft/world/level/storage/McRegionLevelStorageSource.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "platform/PlatformTypes.h"
+#include "platform/network/network.h"
 #include "platform/profile/profile.h"
 #include "platform/storage/storage.h"
 #include "strings.h"
@@ -65,12 +65,11 @@
 #if defined(SPLIT_SAVES)
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFileSplit.h"
 #endif
-#include "minecraft/world/level/levelgen/ConsoleSchematicFile.h"
-#include "minecraft/network/Socket.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
 #include "minecraft/client/renderer/GameRenderer.h"
+#include "minecraft/network/Socket.h"
 #include "minecraft/server/commands/ServerCommandDispatcher.h"
 #include "minecraft/server/level/ServerPlayer.h"
 #include "minecraft/world/level/Level.h"
@@ -78,10 +77,11 @@
 #include "minecraft/world/level/chunk/CompressedTileStorage.h"
 #include "minecraft/world/level/chunk/SparseDataStorage.h"
 #include "minecraft/world/level/chunk/SparseLightStorage.h"
+#include "minecraft/world/level/levelgen/ConsoleSchematicFile.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFileOriginal.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
-#include "platform/thread/ShutdownManager.h"
 #include "platform/input/input.h"
+#include "platform/thread/ShutdownManager.h"
 
 class ConsoleInputSource;
 
@@ -895,7 +895,9 @@ bool MinecraftServer::IsSuspending() { return m_suspending; }
 void MinecraftServer::stopServer(bool didInit) {
     // 4J-PB - need to halt the rendering of the data, since we're about to
     // remove it
-    { Minecraft::GetInstance()->gameRenderer->DisableUpdateThread(); }
+    {
+        Minecraft::GetInstance()->gameRenderer->DisableUpdateThread();
+    }
 
     connection->stop();
 

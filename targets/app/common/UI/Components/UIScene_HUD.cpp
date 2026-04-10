@@ -4,12 +4,12 @@
 #include <algorithm>
 #include <memory>
 
+#include "app/common/Game.h"
 #include "app/common/UI/Components/UIComponent_Chat.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"

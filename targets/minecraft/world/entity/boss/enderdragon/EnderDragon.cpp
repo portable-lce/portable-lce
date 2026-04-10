@@ -5,10 +5,10 @@
 #include <limits>
 #include <numbers>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"
@@ -482,7 +482,7 @@ void EnderDragon::aiStep() {
                     level->getEntities(shared_from_this(), &m_acidArea);
 
                 for (auto it = targets->begin(); it != targets->end(); ++it) {
-                    if ((*it)->instanceof (eTYPE_LIVINGENTITY)) {
+                    if ((*it)->instanceof(eTYPE_LIVINGENTITY)) {
                         // Log::info("Attacking entity with acid\n");
                         std::shared_ptr<LivingEntity> e =
                             std::dynamic_pointer_cast<LivingEntity>(*it);
@@ -878,7 +878,7 @@ void EnderDragon::knockBack(std::vector<std::shared_ptr<Entity> >* entities) {
 
     // for (Entity e : entities)
     for (auto it = entities->begin(); it != entities->end(); ++it) {
-        if ((*it)->instanceof (eTYPE_LIVINGENTITY))  //(e instanceof Mob)
+        if ((*it)->instanceof(eTYPE_LIVINGENTITY))  //(e instanceof Mob)
         {
             std::shared_ptr<LivingEntity> e =
                 std::dynamic_pointer_cast<LivingEntity>(*it);
@@ -893,7 +893,7 @@ void EnderDragon::knockBack(std::vector<std::shared_ptr<Entity> >* entities) {
 void EnderDragon::hurt(std::vector<std::shared_ptr<Entity> >* entities) {
     // for (int i = 0; i < entities->size(); i++)
     for (auto it = entities->begin(); it != entities->end(); ++it) {
-        if ((*it)->instanceof (eTYPE_LIVINGENTITY))  //(e instanceof Mob)
+        if ((*it)->instanceof(eTYPE_LIVINGENTITY))  //(e instanceof Mob)
         {
             std::shared_ptr<LivingEntity> e =
                 std::dynamic_pointer_cast<LivingEntity>(
@@ -1147,8 +1147,9 @@ bool EnderDragon::hurt(std::shared_ptr<MultiEntityMobPart> MultiEntityMobPart,
     // zTarget = z - cc1 * 5 + (random->nextFloat() - 0.5f) * 2;
     // attackTarget = nullptr;
 
-    if (source->getEntity() != nullptr && source->getEntity()->instanceof
-        (eTYPE_PLAYER) || source->isExplosion()) {
+    if (source->getEntity() != nullptr &&
+            source->getEntity()->instanceof(eTYPE_PLAYER) ||
+        source->isExplosion()) {
         int healthBefore = getHealth();
         reallyHurt(source, damage);
 
@@ -1468,8 +1469,8 @@ void EnderDragon::handleCrystalDestroyed(DamageSource* source) {
             Log::info("Dragon action is now: LandingApproach\n");
 #endif
         }
-    } else if (source->getEntity() != nullptr && source->getEntity()->instanceof
-               (eTYPE_PLAYER)) {
+    } else if (source->getEntity() != nullptr &&
+               source->getEntity()->instanceof(eTYPE_PLAYER)) {
         if (setSynchedAction(e_EnderdragonAction_StrafePlayer)) {
             attackTarget =
                 std::dynamic_pointer_cast<Player>(source->getEntity());
@@ -1871,7 +1872,9 @@ double EnderDragon::getHeadPartYRotDiff(int partIndex,
     //	result = m_headYRot / (7 - partIndex);
     // }
     // else
-    { result = partPos[0] - bodyPos[0]; }
+    {
+        result = partPos[0] - bodyPos[0];
+    }
     // Log::info("Part %d is at %f\n", partIndex, result);
     return result;
 }

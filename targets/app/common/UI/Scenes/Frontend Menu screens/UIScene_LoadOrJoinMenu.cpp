@@ -6,14 +6,15 @@
 
 #include <compare>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "app/common/DLC/DLCManager.h"
+#include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_SaveList.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "java/File.h"
 #include "java/InputOutputStream/FileInputStream.h"
 #include "minecraft/GameEnums.h"
@@ -21,13 +22,12 @@
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
-#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/LevelSettings.h"
-#include "platform/network/NetTypes.h"
 #include "platform/input/input.h"
+#include "platform/network/NetTypes.h"
+#include "platform/network/network.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
 

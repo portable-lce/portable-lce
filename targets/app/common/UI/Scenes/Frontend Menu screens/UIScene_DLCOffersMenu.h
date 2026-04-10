@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Controls/UIControl_BitmapIcon.h"
@@ -9,7 +10,6 @@
 #include "app/common/UI/Controls/UIControl_HTMLLabel.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Iggy/include/rrCore.h"
 #include "platform/storage/storage.h"
 
 class UILayer;

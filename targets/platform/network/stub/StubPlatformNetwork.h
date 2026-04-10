@@ -6,10 +6,10 @@
 
 #include "StubNetworkPlayer.h"
 #include "minecraft/client/model/SkinBox.h"
-#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/XboxStubs.h"
 #include "platform/network/IPlatformNetwork.h"
+#include "platform/network/NetTypes.h"
 #include "platform/network/network.h"
 
 class CGameNetworkManager;

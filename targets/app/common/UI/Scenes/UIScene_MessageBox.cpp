@@ -1,13 +1,13 @@
 
 #include "UIScene_MessageBox.h"
 
+#include "app/common/Game.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "platform/PlatformTypes.h"
 #include "platform/profile/profile.h"
 #include "strings.h"

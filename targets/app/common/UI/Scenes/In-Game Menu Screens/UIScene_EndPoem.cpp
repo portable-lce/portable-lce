@@ -6,10 +6,10 @@
 
 #include <memory>
 
-#include "app/common/Tutorial/Tutorial.h"
-#include "app/common/UI/UIScene.h"
 #include "app/common/Game.h"
+#include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/ConsoleUIController.h"
+#include "app/common/UI/UIScene.h"
 #include "java/Random.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/SharedConstants.h"

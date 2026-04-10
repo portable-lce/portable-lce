@@ -31,8 +31,7 @@
 #include "PlatformTypes.h"
 #include "Pos.h"
 #include "app/common/Audio/ConsoleSoundEngine.h"
-#include "platform/profile/ProfileConstants.h"
-#include "minecraft/world/tutorial/ITutorial.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
@@ -54,7 +53,6 @@
 #include "minecraft/commands/CommandsEnum.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/network/INetworkService.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/Achievement.h"
 #include "minecraft/stats/CommonStats.h"
 #include "minecraft/stats/GenericStats.h"
@@ -80,7 +78,9 @@
 #include "minecraft/world/phys/AABB.h"
 #include "minecraft/world/phys/HitResult.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "minecraft/world/tutorial/ITutorial.h"
 #include "platform/input/input.h"
+#include "platform/profile/ProfileConstants.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 
@@ -1220,8 +1220,7 @@ bool LocalPlayer::hasPermission(EGameCommand command) {
 
 void LocalPlayer::onCrafted(std::shared_ptr<ItemInstance> item) {
     if (minecraft->localgameModes[m_iPad] != nullptr) {
-        ITutorial* tutorial =
-            minecraft->localgameModes[m_iPad]->getTutorial();
+        ITutorial* tutorial = minecraft->localgameModes[m_iPad]->getTutorial();
         if (tutorial != nullptr) {
             tutorial->onCrafted(item);
         }
@@ -1589,13 +1588,13 @@ void LocalPlayer::updateRichPresence() {
                    selectedItem->id == Item::map_Id) {
             gameServices().setRichPresenceContext(m_iPad,
                                                   CONTEXT_GAME_STATE_MAP);
-        } else if ((riding != nullptr) && riding->instanceof (eTYPE_MINECART)) {
+        } else if ((riding != nullptr) && riding->instanceof(eTYPE_MINECART)) {
             gameServices().setRichPresenceContext(
                 m_iPad, CONTEXT_GAME_STATE_RIDING_MINECART);
-        } else if ((riding != nullptr) && riding->instanceof (eTYPE_BOAT)) {
+        } else if ((riding != nullptr) && riding->instanceof(eTYPE_BOAT)) {
             gameServices().setRichPresenceContext(m_iPad,
                                                   CONTEXT_GAME_STATE_BOATING);
-        } else if ((riding != nullptr) && riding->instanceof (eTYPE_PIG)) {
+        } else if ((riding != nullptr) && riding->instanceof(eTYPE_PIG)) {
             gameServices().setRichPresenceContext(
                 m_iPad, CONTEXT_GAME_STATE_RIDING_PIG);
         } else if (this->dimension == -1) {
@@ -1647,8 +1646,7 @@ void LocalPlayer::handleCollectItem(std::shared_ptr<ItemInstance> item) {
                 }
             }
         }
-        ITutorial* tutorial =
-            minecraft->localgameModes[m_iPad]->getTutorial();
+        ITutorial* tutorial = minecraft->localgameModes[m_iPad]->getTutorial();
         if (tutorial != nullptr) {
             tutorial->onTake(item, itemCountAnyAux, itemCountThisAux);
         }

@@ -47,8 +47,7 @@ bool Path::sameAs(Path* path) {
     if (path == nullptr) return false;
     if (path->nodes.size() != nodes.size()) return false;
     for (size_t i = 0; i < nodes.size(); ++i)
-        if (nodes[i].x != path->nodes[i].x ||
-            nodes[i].y != path->nodes[i].y ||
+        if (nodes[i].x != path->nodes[i].x || nodes[i].y != path->nodes[i].y ||
             nodes[i].z != path->nodes[i].z)
             return false;
     return true;

@@ -6,8 +6,8 @@
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
-#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Game.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "platform/fs/fs.h"
 #include "util/StringHelpers.h"
 

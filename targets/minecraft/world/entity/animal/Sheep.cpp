@@ -6,8 +6,8 @@
 #include <numbers>
 #include <string>
 
-#include "java/Random.h"
 #include "app/common/Audio/SoundTypes.h"
+#include "java/Random.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/world/entity/AgeableMob.h"
 #include "minecraft/world/entity/EntityEvent.h"

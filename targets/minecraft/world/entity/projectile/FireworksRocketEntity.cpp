@@ -5,10 +5,10 @@
 #include <numbers>
 #include <string>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/EntityEvent.h"

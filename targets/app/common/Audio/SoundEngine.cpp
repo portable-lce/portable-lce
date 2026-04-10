@@ -11,8 +11,8 @@
 #include <vector>
 
 #include "app/common/Audio/ConsoleSoundEngine.h"
-#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Game.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "java/Random.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
@@ -20,9 +20,9 @@
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/entity/Mob.h"
 #include "minecraft/world/level/storage/LevelData.h"
-#include "platform/thread/C4JThread.h"
 #include "platform/PlatformTypes.h"
 #include "platform/fs/fs.h"
+#include "platform/thread/C4JThread.h"
 
 #define STB_VORBIS_HEADER_ONLY
 #include "stb_vorbis.c"
@@ -880,4 +880,3 @@ char* SoundEngine::ConvertSoundPathToName(const std::string& name,
                                           bool bConvertSpaces) {
     return nullptr;
 }
-

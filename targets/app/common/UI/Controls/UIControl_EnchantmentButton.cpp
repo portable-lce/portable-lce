@@ -5,11 +5,11 @@
 #include <memory>
 #include <sstream>
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_EnchantingMenu.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Iggy/include/iggy.h"
 #include "minecraft/GameEnums.h"
 #include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY

@@ -24,7 +24,7 @@ AddGlobalEntityPacket::AddGlobalEntityPacket(std::shared_ptr<Entity> e) {
     x = Mth::floor(e->x * 32);
     y = Mth::floor(e->y * 32);
     z = Mth::floor(e->z * 32);
-    if (e->instanceof (eTYPE_LIGHTNINGBOLT)) {
+    if (e->instanceof(eTYPE_LIGHTNINGBOLT)) {
         type = LIGHTNING;
     } else {
         type = 0;

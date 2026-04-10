@@ -3,15 +3,15 @@
 
 #include <vector>
 
+#include "app/common/Audio/SoundTypes.h"
+#include "app/common/Game.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_DynamicLabel.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "strings.h"
 
 UIScene_NewUpdateMessage::UIScene_NewUpdateMessage(int iPad, void* initData,

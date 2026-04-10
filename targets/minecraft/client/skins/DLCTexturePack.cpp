@@ -5,6 +5,7 @@
 #include <cwchar>
 #include <limits>
 #include <vector>
+
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/DLC/DLCAudioFile.h"
 #include "app/common/DLC/DLCColourTableFile.h"
@@ -414,8 +415,7 @@ int DLCTexturePack::onPackMounted(int iPad, std::uint32_t dwErr,
                             iOverworldStart, iOverworldStart + iOverworldC,
                             iNetherStart, iNetherStart + iNetherC, iEndStart,
                             iEndStart + iEndC,
-                            iEndStart +
-                                iEndC);  // push the CD start to after
+                            iEndStart + iEndC);  // push the CD start to after
                 }
             }
             texturePack->loadColourTable();

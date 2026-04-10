@@ -12,6 +12,7 @@
 
 #include "app/common/Audio/SoundEngine.h"
 #include "app/common/DLC/DLCManager.h"
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
@@ -26,7 +27,6 @@
 #include "app/common/UI/UIScene.h"
 #include "app/common/UI/UIString.h"
 #include "app/common/UI/UITTFFont.h"
-#include "app/common/Iggy/include/iggy.h"
 #include "minecraft/GameEnums.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
@@ -45,8 +45,8 @@
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/client/title/TitleScreen.h"
-#include "platform/thread/C4JThread.h"
 #include "platform/XboxStubs.h"
+#include "platform/thread/C4JThread.h"
 #include "strings.h"
 #include "util/StringHelpers.h"
 #include "util/Timer.h"
@@ -961,7 +961,6 @@ void UIController::setupCustomDrawGameState() {
     m_customRenderingClearRect.right = LONG_MIN;
     m_customRenderingClearRect.top = LONG_MAX;
     m_customRenderingClearRect.bottom = LONG_MIN;
-
 
     PlatformRenderer.StartFrame();
     PlatformRenderer.Set_matrixDirty();

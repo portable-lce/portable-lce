@@ -1,19 +1,19 @@
 #include "UIScene_HorseInventoryMenu.h"
-#include "platform/game/game.h"
 
 #include <assert.h>
 
 #include <memory>
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_MinecraftHorse.h"
 #include "app/common/UI/Controls/UIControl_SlotList.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_AbstractContainerMenu.h"
-#include "app/common/Iggy/include/iggy.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
+#include "platform/game/game.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif

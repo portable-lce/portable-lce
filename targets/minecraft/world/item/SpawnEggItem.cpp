@@ -140,7 +140,7 @@ std::shared_ptr<Entity> SpawnEggItem::canSpawn(int iAuxVal, Level* level,
                 }
                 // 4J: Use eTYPE_ENEMY instead of monster (slimes and ghasts
                 // aren't monsters)
-                else if (newEntity->instanceof (eTYPE_ENEMY)) {
+                else if (newEntity->instanceof(eTYPE_ENEMY)) {
                     // 4J-PB - check if the player is trying to spawn an enemy
                     // in peaceful mode
                     if (level->difficulty == Difficulty::PEACEFUL) {
@@ -218,8 +218,8 @@ bool SpawnEggItem::useOn(std::shared_ptr<ItemInstance> itemInstance,
     if (result != nullptr) {
         // 4J-JEV: SetCustomName is a method for Mob not LivingEntity; so change
         // instanceof to check for Mobs.
-        if (result->instanceof
-            (eTYPE_MOB) && itemInstance->hasCustomHoverName()) {
+        if (result->instanceof(eTYPE_MOB) &&
+            itemInstance->hasCustomHoverName()) {
             std::dynamic_pointer_cast<Mob>(result)->setCustomName(
                 itemInstance->getHoverName());
         }
@@ -263,8 +263,8 @@ std::shared_ptr<ItemInstance> SpawnEggItem::use(
             if (result != nullptr) {
                 // 4J-JEV: SetCustomName is a method for Mob not LivingEntity;
                 // so change instanceof to check for Mobs.
-                if (result->instanceof
-                    (eTYPE_MOB) && itemInstance->hasCustomHoverName()) {
+                if (result->instanceof(eTYPE_MOB) &&
+                    itemInstance->hasCustomHoverName()) {
                     std::dynamic_pointer_cast<Mob>(result)->setCustomName(
                         itemInstance->getHoverName());
                 }
@@ -301,7 +301,7 @@ std::shared_ptr<Entity> SpawnEggItem::spawnMobAt(Level* level, int auxVal,
 
         // 4J-JEV: DynCasting to Mob not LivingEntity; so change instanceof to
         // check for Mobs.
-        if (newEntity != nullptr && newEntity->instanceof (eTYPE_MOB)) {
+        if (newEntity != nullptr && newEntity->instanceof(eTYPE_MOB)) {
             std::shared_ptr<Mob> mob =
                 std::dynamic_pointer_cast<Mob>(newEntity);
             newEntity->moveTo(

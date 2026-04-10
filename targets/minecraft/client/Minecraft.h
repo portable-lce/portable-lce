@@ -9,10 +9,10 @@
 #include "java/File.h"
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
-#include "platform/thread/C4JThread.h"
 #include "platform/PlatformTypes.h"
-#include "platform/stubs.h"
 #include "platform/leaderboard/leaderboard.h"
+#include "platform/stubs.h"
+#include "platform/thread/C4JThread.h"
 
 class Timer;
 class MultiPlayerLevel;

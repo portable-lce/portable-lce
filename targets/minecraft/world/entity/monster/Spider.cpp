@@ -6,9 +6,9 @@
 #include <limits>
 #include <memory>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/IGameServices.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/Difficulty.h"
 #include "minecraft/world/effect/MobEffect.h"
 #include "minecraft/world/effect/MobEffectInstance.h"

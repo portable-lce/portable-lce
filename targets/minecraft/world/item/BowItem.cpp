@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include "java/Random.h"
 #include "app/common/Audio/SoundTypes.h"
+#include "java/Random.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/entity/player/Abilities.h"
 #include "minecraft/world/entity/player/Inventory.h"

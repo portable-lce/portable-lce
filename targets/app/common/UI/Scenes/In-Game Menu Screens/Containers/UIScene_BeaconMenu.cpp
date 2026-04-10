@@ -1,24 +1,24 @@
 #include "UIScene_BeaconMenu.h"
-#include "platform/game/game.h"
 
 #include <assert.h>
 
 #include <memory>
 
+#include "app/common/Game.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/Controls/UIControl_BeaconEffectButton.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_SlotList.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_AbstractContainerMenu.h"
-#include "app/common/Game.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/inventory/AbstractContainerMenu.h"
 #include "minecraft/world/inventory/BeaconMenu.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
+#include "platform/game/game.h"
 #include "strings.h"
 
 class UILayer;

@@ -7,9 +7,9 @@
 #include <vector>
 
 #include "app/common/Network/GameNetworkManager.h"
-#include "platform/network/network.h"
 #include "minecraft/server/network/ServerConnection.h"
 #include "platform/network/NetTypes.h"
+#include "platform/network/network.h"
 #include "platform/thread/ShutdownManager.h"
 
 class SocketAddress {};

@@ -2,6 +2,7 @@
 
 #include <string>
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl.h"
@@ -11,7 +12,6 @@
 #include "app/common/UI/Controls/UIControl_Slider.h"
 #include "app/common/UI/Controls/UIControl_TextInput.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Iggy/include/iggy.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif

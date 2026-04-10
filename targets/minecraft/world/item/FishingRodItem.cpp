@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 
-#include "java/Random.h"
 #include "app/common/Audio/SoundTypes.h"
+#include "java/Random.h"
 #include "minecraft/world/IconRegister.h"
 #include "minecraft/world/entity/player/Player.h"
 #include "minecraft/world/entity/projectile/FishingHook.h"

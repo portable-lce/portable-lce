@@ -488,7 +488,8 @@ std::uint32_t C4JThread::EventArray::waitForAny(int timeoutMs) {
     const std::uint32_t cur = m_signaledMask.load(std::memory_order_acquire);
     const std::uint32_t readyIndex = firstSetBitIndex(cur & bitMask);
     if (m_mode == Mode::AutoClear) {
-        m_signaledMask.fetch_and(~(1U << readyIndex), std::memory_order_release);
+        m_signaledMask.fetch_and(~(1U << readyIndex),
+                                 std::memory_order_release);
     }
     return WaitResult::Signaled + readyIndex;
 }

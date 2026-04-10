@@ -5,12 +5,12 @@
 #include <memory>
 #include <vector>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/IGameServices.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"

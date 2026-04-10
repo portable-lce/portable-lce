@@ -6,8 +6,8 @@
 #include <numbers>
 #include <vector>
 
-#include "app/common/UI/Controls/UIControl.h"
 #include "app/common/Iggy/include/iggy.h"
+#include "app/common/UI/Controls/UIControl.h"
 #include "minecraft/GameEnums.h"
 #include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY

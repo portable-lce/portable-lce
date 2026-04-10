@@ -4,6 +4,9 @@
 
 #include <utility>
 
+#include "app/common/Audio/SoundTypes.h"
+#include "app/common/Game.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
 #include "app/common/UI/Controls/UIControl_HTMLLabel.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
@@ -11,12 +14,9 @@
 #include "app/common/UI/Controls/UIControl_TextInput.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameHostOptions.h"
 #include "minecraft/GameTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"

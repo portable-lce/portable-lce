@@ -6,10 +6,10 @@
 #include <limits>
 #include <numbers>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"
@@ -96,9 +96,8 @@ std::string EntityHorse::MARKING_HASHES[EntityHorse::MARKINGS] = {
     "", "wo_", "wmo", "wdo", "bdo"};
 
 bool HorseEntitySelector::matches(std::shared_ptr<Entity> entity) const {
-    return entity->instanceof
-        (eTYPE_HORSE) &&
-            std::dynamic_pointer_cast<EntityHorse>(entity)->isBred();
+    return entity->instanceof(eTYPE_HORSE) &&
+           std::dynamic_pointer_cast<EntityHorse>(entity)->isBred();
 }
 
 EntityHorse::EntityHorse(Level* level) : Animal(level) {
@@ -312,7 +311,7 @@ bool EntityHorse::hurt(DamageSource* damagesource, float dmg) {
     // 4J: Protect owned horses from untrusted players
     if (isTamed()) {
         std::shared_ptr<Entity> entity = damagesource->getDirectEntity();
-        if (entity != nullptr && entity->instanceof (eTYPE_PLAYER)) {
+        if (entity != nullptr && entity->instanceof(eTYPE_PLAYER)) {
             std::shared_ptr<Player> attacker =
                 std::dynamic_pointer_cast<Player>(entity);
             attacker->canHarmPlayer(getOwnerName());
@@ -1508,7 +1507,7 @@ void EntityHorse::positionRider() {
             y + getRideHeight() + rider.lock()->getRidingHeight() + height,
             z - dist * cos);
 
-        if (rider.lock()->instanceof (eTYPE_LIVINGENTITY)) {
+        if (rider.lock()->instanceof(eTYPE_LIVINGENTITY)) {
             std::shared_ptr<LivingEntity> livingRider =
                 std::dynamic_pointer_cast<LivingEntity>(rider.lock());
             livingRider->yBodyRot = yBodyRot;

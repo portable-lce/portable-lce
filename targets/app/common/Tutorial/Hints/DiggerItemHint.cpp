@@ -57,7 +57,7 @@ int DiggerItemHint::attack(std::shared_ptr<ItemInstance> item,
         if (itemFound) {
             // It's also possible that we could hit TileEntities (eg falling
             // sand) so don't want to give this hint then
-            if (entity->instanceof (eTYPE_MOB)) {
+            if (entity->instanceof(eTYPE_MOB)) {
                 return IDS_TUTORIAL_HINT_ATTACK_WITH_TOOL;
             } else {
                 return -1;

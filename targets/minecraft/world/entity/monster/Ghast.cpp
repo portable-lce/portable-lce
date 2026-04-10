@@ -7,9 +7,9 @@
 #include <string>
 #include <vector>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/network/packet/ChatPacket.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/world/Difficulty.h"
 #include "minecraft/world/damageSource/DamageSource.h"
@@ -61,8 +61,8 @@ bool Ghast::isCharging() { return entityData->getByte(DATA_IS_CHARGING) != 0; }
 bool Ghast::hurt(DamageSource* source, float dmg) {
     if (isInvulnerable()) return false;
     if (source->getMsgId() == ChatPacket::e_ChatDeathFireball) {
-        if ((source->getEntity() != nullptr) && source->getEntity()->instanceof
-            (eTYPE_PLAYER)) {
+        if ((source->getEntity() != nullptr) &&
+            source->getEntity()->instanceof(eTYPE_PLAYER)) {
             // reflected fireball, kill the ghast
             FlyingMob::hurt(source, 1000);
             std::dynamic_pointer_cast<Player>(source->getEntity())

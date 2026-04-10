@@ -3,9 +3,9 @@
 #include <string>
 #include <vector>
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/Controls/UIControl_EnchantmentButton.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Iggy/include/iggy.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif

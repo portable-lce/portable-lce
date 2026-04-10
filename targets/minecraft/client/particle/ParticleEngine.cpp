@@ -29,7 +29,9 @@ ResourceLocation ParticleEngine::PARTICLES_LOCATION =
 ParticleEngine::ParticleEngine(Level* level, Textures* textures) {
     //    if (level != nullptr)	// 4J - removed - we want level to be
     //    initialised to *something*
-    { this->level = level; }
+    {
+        this->level = level;
+    }
     this->textures = textures;
 
     this->random = new Random();

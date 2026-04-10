@@ -176,8 +176,8 @@ LevelChunk* MultiPlayerChunkCache::create(int x, int z) {
                 if (MinecraftServer::getInstance()->serverHalted())
                     return nullptr;
 
-                    // If we're the host, then don't create the chunk, share
-                    // data from the server's copy
+                // If we're the host, then don't create the chunk, share
+                // data from the server's copy
 #ifdef _LARGE_WORLDS
                 LevelChunk* serverChunk =
                     MinecraftServer::getInstance()

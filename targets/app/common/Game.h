@@ -4,8 +4,8 @@
 #include <mutex>
 
 #include "platform/profile/profile.h"
-#include "platform/storage/storage.h"
 #include "platform/renderer/renderer.h"
+#include "platform/storage/storage.h"
 #include "util/Timer.h"
 
 // using namespace std;
@@ -25,7 +25,6 @@
 #include "app/common/SaveManager.h"
 #include "app/common/SkinManager.h"
 #include "app/common/TerrainFeatureManager.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "minecraft/client/model/SkinBox.h"
@@ -33,8 +32,9 @@
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/world/entity/item/MinecartHopper.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
-#include "platform/network/NetTypes.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "platform/XboxStubs.h"
+#include "platform/network/NetTypes.h"
 
 // JoinFromInviteData moved to NetworkController.h
 

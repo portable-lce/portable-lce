@@ -8,9 +8,9 @@
 #include "StubNetworkPlayer.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/Socket.h"
-#include "platform/thread/C4JThread.h"
 #include "platform/network/NetTypes.h"
 #include "platform/network/network.h"
+#include "platform/thread/C4JThread.h"
 
 namespace platform_internal {
 IPlatformNetwork& PlatformNetwork_get() {

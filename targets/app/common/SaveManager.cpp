@@ -4,7 +4,6 @@
 
 #include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
-#include "app/common/Game.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/ServerAction.h"
 #include "platform/profile/profile.h"

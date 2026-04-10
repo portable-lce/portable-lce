@@ -11,7 +11,6 @@
 
 #include "app/common/App_structs.h"
 #include "app/common/Game.h"
-#include "platform/leaderboard/IPlatformLeaderboard.h"
 #include "minecraft/stats/Achievement.h"
 #include "minecraft/stats/Achievements.h"
 #include "minecraft/stats/GenericStats.h"
@@ -20,6 +19,7 @@
 #include "minecraft/util/Log.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/leaderboard/IPlatformLeaderboard.h"
 #include "platform/profile/profile.h"
 
 Stat** StatsCounter::LARGE_STATS[] = {&Stats::walkOneM,     &Stats::swimOneM,

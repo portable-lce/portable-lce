@@ -4,17 +4,16 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "java/Random.h"
 #include "minecraft/IGameServices.h"
 #include "minecraft/util/Log.h"
-#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
-#include "minecraft/world/level/biome/Biome.h"
-#include "minecraft/world/level/chunk/ChunkSource.h"
-#include "platform/fs/fs.h"
-#include "java/Random.h"
 #include "minecraft/world/entity/MobCategory.h"
+#include "minecraft/world/level/GameRules/LevelGenerationOptions.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/MobSpawner.h"
+#include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/biome/BiomeSource.h"
+#include "minecraft/world/level/chunk/ChunkSource.h"
 #include "minecraft/world/level/chunk/LevelChunk.h"
 #include "minecraft/world/level/levelgen/CanyonFeature.h"
 #include "minecraft/world/level/levelgen/LargeCaveFeature.h"
@@ -28,6 +27,7 @@
 #include "minecraft/world/level/storage/LevelData.h"
 #include "minecraft/world/level/tile/HeavyTile.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/fs/fs.h"
 
 const double CustomLevelSource::SNOW_SCALE = 0.3;
 const double CustomLevelSource::SNOW_CUTOFF = 0.5;

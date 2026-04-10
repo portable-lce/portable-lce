@@ -84,7 +84,7 @@ bool Monster::doHurtTarget(std::shared_ptr<Entity> target) {
         (float)getAttribute(SharedMonsterAttributes::ATTACK_DAMAGE)->getValue();
     int knockback = 0;
 
-    if (target->instanceof (eTYPE_LIVINGENTITY)) {
+    if (target->instanceof(eTYPE_LIVINGENTITY)) {
         std::shared_ptr<LivingEntity> livingTarget =
             std::dynamic_pointer_cast<LivingEntity>(target);
         dmg += EnchantmentHelper::getDamageBonus(
@@ -115,7 +115,7 @@ bool Monster::doHurtTarget(std::shared_ptr<Entity> target) {
             target->setOnFire(fireAspect * 4);
         }
 
-        if (target->instanceof (eTYPE_LIVINGENTITY)) {
+        if (target->instanceof(eTYPE_LIVINGENTITY)) {
             std::shared_ptr<LivingEntity> livingTarget =
                 std::dynamic_pointer_cast<LivingEntity>(target);
             ThornsEnchantment::doThornsAfterAttack(shared_from_this(),

@@ -16,6 +16,7 @@
 #include "GameRenderer.h"
 #include "Tesselator.h"
 #include "app/common/Audio/ConsoleSoundEngine.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Class.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
@@ -73,7 +74,6 @@
 #include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/IconRegister.h"
@@ -622,7 +622,7 @@ void LevelRenderer::renderEntities(Vec3* cam, Culler* culler, float a) {
              (entity->noCulling || culler->isVisible(&entity->bb)));
 
         // Render the mob if the mob's leash holder is within the culler
-        if (!shouldRender && entity->instanceof (eTYPE_MOB)) {
+        if (!shouldRender && entity->instanceof(eTYPE_MOB)) {
             std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(entity);
             if (mob->isLeashed() && (mob->getLeashHolder() != nullptr)) {
                 std::shared_ptr<Entity> leashHolder = mob->getLeashHolder();
@@ -636,10 +636,10 @@ void LevelRenderer::renderEntities(Vec3* cam, Culler* culler, float a) {
             // !mc->options->thirdPersonView &&
             // !mc->cameraTargetPlayer->isSleeping()) continue;
             std::shared_ptr<LocalPlayer> localplayer =
-                mc->cameraTargetPlayer->instanceof
-                (eTYPE_LOCALPLAYER) ? std::dynamic_pointer_cast<LocalPlayer>(
-                                          mc->cameraTargetPlayer)
-                                    : nullptr;
+                mc->cameraTargetPlayer->instanceof(eTYPE_LOCALPLAYER)
+                    ? std::dynamic_pointer_cast<LocalPlayer>(
+                          mc->cameraTargetPlayer)
+                    : nullptr;
 
             if (localplayer && entity == mc->cameraTargetPlayer &&
                 !localplayer->ThirdPersonView() &&
@@ -3204,7 +3204,7 @@ std::shared_ptr<Particle> LevelRenderer::addParticleInternal(
 }
 
 void LevelRenderer::entityAdded(std::shared_ptr<Entity> entity) {
-    if (entity->instanceof (eTYPE_PLAYER)) {
+    if (entity->instanceof(eTYPE_PLAYER)) {
         std::shared_ptr<Player> player =
             std::dynamic_pointer_cast<Player>(entity);
         player->prepareCustomTextures();
@@ -3222,7 +3222,7 @@ void LevelRenderer::entityAdded(std::shared_ptr<Entity> entity) {
 }
 
 void LevelRenderer::entityRemoved(std::shared_ptr<Entity> entity) {
-    if (entity->instanceof (eTYPE_PLAYER)) {
+    if (entity->instanceof(eTYPE_PLAYER)) {
         std::shared_ptr<Player> player =
             std::dynamic_pointer_cast<Player>(entity);
         if (player->customTextureUrl != "") {

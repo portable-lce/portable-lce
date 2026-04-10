@@ -1,15 +1,15 @@
 
 #include "UIScene_ConnectingProgress.h"
 
+#include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_Progress.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "java/System.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"

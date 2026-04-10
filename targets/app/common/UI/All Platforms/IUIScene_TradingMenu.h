@@ -6,11 +6,11 @@
 #include <vector>
 
 #include "app/common/Tutorial/Tutorial.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "minecraft/util/HtmlString.h"
 #include "minecraft/world/inventory/MerchantMenu.h"
 #include "minecraft/world/item/Rarity.h"
 #include "minecraft/world/item/trading/Merchant.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 class MerchantRecipe;
 class HtmlString;

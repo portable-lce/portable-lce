@@ -3,8 +3,8 @@
 #include <cmath>
 #include <memory>
 
-#include "minecraft/core/particles/ParticleTypes.h"
 #include "app/common/Audio/SoundTypes.h"
+#include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/material/Material.h"

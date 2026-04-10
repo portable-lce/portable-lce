@@ -2,9 +2,9 @@
 
 #include <memory>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/entity/LivingEntity.h"

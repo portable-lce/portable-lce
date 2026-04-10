@@ -1,10 +1,10 @@
 
 #include "UIScene_ReinstallMenu.h"
 
-#include "app/common/UI/UILayer.h"
-#include "app/common/UI/UIScene.h"
 #include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
+#include "app/common/UI/UILayer.h"
+#include "app/common/UI/UIScene.h"
 #include "minecraft/client/Minecraft.h"
 #include "strings.h"
 

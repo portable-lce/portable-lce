@@ -82,7 +82,9 @@ void SkullTileRenderer::renderSkull(float x, float y, float z, int face,
             //	bindTexture(url, "/mob/char.png");
             //}
             // else
-            { bindTexture(&PlayerRenderer::DEFAULT_LOCATION); }
+            {
+                bindTexture(&PlayerRenderer::DEFAULT_LOCATION);
+            }
             break;
         case SkullTileEntity::TYPE_CREEPER:
             bindTexture(&CREEPER_LOCATION);

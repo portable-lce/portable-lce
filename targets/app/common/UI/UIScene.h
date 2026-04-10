@@ -13,10 +13,10 @@
 #include <unordered_map>
 #include <vector>
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl_Base.h"
-#include "app/common/Iggy/include/iggy.h"
 #include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
@@ -55,8 +55,10 @@ class UIControl;
     currentRoot = lastRoot;         \
     }
 
-#define UI_MAP_NAME(var, name) \
-    { var = registerFastName(name); }
+#define UI_MAP_NAME(var, name)        \
+    {                                 \
+        var = registerFastName(name); \
+    }
 
 class UIScene {
     friend class UILayer;

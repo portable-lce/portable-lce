@@ -1,7 +1,7 @@
 #pragma once
 
-#include "IPlatformNetwork.h"
 #include "INetworkPlayer.h"
+#include "IPlatformNetwork.h"
 #include "SessionInfo.h"
 
 // Function accessor backed by a function-local static (Meyers singleton).

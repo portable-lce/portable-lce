@@ -4,8 +4,8 @@
 
 #include <string>
 
-#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
+#include "platform/network/NetTypes.h"
 #include "platform/network/network.h"
 
 class Socket;

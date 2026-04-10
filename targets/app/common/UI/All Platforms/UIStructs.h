@@ -8,8 +8,8 @@
 
 #include "UIEnums.h"
 #include "minecraft/GameHostOptions.h"
-#include "platform/thread/C4JThread.h"
 #include "platform/storage/storage.h"
+#include "platform/thread/C4JThread.h"
 
 class Container;
 class Inventory;

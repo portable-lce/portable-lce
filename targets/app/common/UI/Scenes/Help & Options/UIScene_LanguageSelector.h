@@ -2,14 +2,14 @@
 
 #include <string>
 
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Controls/UIControl_ButtonList.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Iggy/include/rrCore.h"
 #include "minecraft/client/model/SkinBox.h"
-#include "platform/network/NetTypes.h"
 #include "platform/XboxStubs.h"
+#include "platform/network/NetTypes.h"
 #include "platform/profile/ProfileConstants.h"
 
 class UILayer;

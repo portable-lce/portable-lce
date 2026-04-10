@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "app/common/UI/Controls/UIControl_PlayerSkinPreview.h"
 #include "app/common/Iggy/include/iggy.h"
+#include "app/common/UI/Controls/UIControl_PlayerSkinPreview.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif

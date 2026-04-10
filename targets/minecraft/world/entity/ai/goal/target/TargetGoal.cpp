@@ -88,7 +88,7 @@ bool TargetGoal::canAttack(std::shared_ptr<LivingEntity> target,
             // We're attacking our owner
             return false;
         }
-    } else if (target->instanceof (eTYPE_PLAYER)) {
+    } else if (target->instanceof(eTYPE_PLAYER)) {
         if (!allowInvulnerable &&
             (std::dynamic_pointer_cast<Player>(target))->abilities.invulnerable)
             return false;

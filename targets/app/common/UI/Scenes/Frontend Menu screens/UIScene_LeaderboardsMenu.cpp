@@ -8,18 +8,18 @@
 
 #include <memory>
 
-#include "platform/leaderboard/leaderboard.h"
+#include "app/common/Audio/SoundTypes.h"
+#include "app/common/Game.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_LeaderboardList.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/Console_Debug_enum.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/leaderboard/leaderboard.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
 
@@ -206,8 +206,7 @@ void UIScene_LeaderboardsMenu::handleInput(int iPad, int key, bool repeat,
         case ACTION_MENU_RIGHT_SCROLL: {
             // Do nothing if a stats read is currently in progress, otherwise
             // the system complains about to many read requests
-            if (pressed && m_bPopulatedOnce &&
-                PlatformLeaderboard.isIdle()) {
+            if (pressed && m_bPopulatedOnce && PlatformLeaderboard.isIdle()) {
                 // CD - Added for audio
                 ui.PlayUISFX(eSFX_Scroll);
 
@@ -239,8 +238,7 @@ void UIScene_LeaderboardsMenu::handleInput(int iPad, int key, bool repeat,
         case ACTION_MENU_RIGHT: {
             // Do nothing if a stats read is currently in progress, otherwise
             // the system complains about to many read requests
-            if (pressed && m_bPopulatedOnce &&
-                PlatformLeaderboard.isIdle()) {
+            if (pressed && m_bPopulatedOnce && PlatformLeaderboard.isIdle()) {
                 // CD - Added for audio
                 ui.PlayUISFX(eSFX_Scroll);
 
@@ -270,8 +268,7 @@ void UIScene_LeaderboardsMenu::handleInput(int iPad, int key, bool repeat,
         case ACTION_MENU_PAGEDOWN: {
             // Do nothing if a stats read is currently in progress, otherwise
             // the system complains about to many read requests
-            if (pressed && m_bPopulatedOnce &&
-                PlatformLeaderboard.isIdle()) {
+            if (pressed && m_bPopulatedOnce && PlatformLeaderboard.isIdle()) {
                 // CD - Added for audio
                 ui.PlayUISFX(eSFX_Scroll);
 
@@ -284,8 +281,7 @@ void UIScene_LeaderboardsMenu::handleInput(int iPad, int key, bool repeat,
         case ACTION_MENU_X: {
             // Do nothing if a stats read is currently in progress, otherwise
             // the system complains about to many read requests
-            if (pressed && m_bPopulatedOnce &&
-                PlatformLeaderboard.isIdle()) {
+            if (pressed && m_bPopulatedOnce && PlatformLeaderboard.isIdle()) {
                 // CD - Added for audio
                 ui.PlayUISFX(eSFX_Scroll);
 
@@ -347,7 +343,7 @@ void UIScene_LeaderboardsMenu::ReadStats(int startIndex) {
         m_newEntryIndex = (unsigned int)startIndex;
         // m_newReadSize	= std::min((int)READ_SIZE,
         // (int)m_leaderboard.m_totalEntryCount-(startIndex-1));
-    }   
+    }
 
     // app.DebugPrintf("Requesting stats read %d - %d - %d\n",
     // m_currentLeaderboard, startIndex == -1 ? m_currentFilter :

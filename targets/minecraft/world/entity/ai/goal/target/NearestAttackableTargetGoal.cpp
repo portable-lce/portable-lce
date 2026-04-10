@@ -22,7 +22,7 @@ SubselectEntitySelector::SubselectEntitySelector(
 SubselectEntitySelector::~SubselectEntitySelector() { delete m_subselector; }
 
 bool SubselectEntitySelector::matches(std::shared_ptr<Entity> entity) const {
-    if (!entity->instanceof (eTYPE_LIVINGENTITY)) return false;
+    if (!entity->instanceof(eTYPE_LIVINGENTITY)) return false;
     if (m_subselector != nullptr && !m_subselector->matches(entity))
         return false;
     return m_parent->canAttack(std::dynamic_pointer_cast<LivingEntity>(entity),

@@ -465,8 +465,8 @@ void ItemInHandRenderer::render(float a) {
         static int lightmapLogCount = 0;
         if (lightmapLogCount < 8) {
             ++lightmapLogCount;
-            Log::info("[4jcraft-lightmap] item-hand raw=0x%08x uv=(%d,%d)\n", col,
-                      u, v);
+            Log::info("[4jcraft-lightmap] item-hand raw=0x%08x uv=(%d,%d)\n",
+                      col, u, v);
         }
 
         glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);

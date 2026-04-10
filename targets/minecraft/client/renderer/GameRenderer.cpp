@@ -11,6 +11,7 @@
 #include "ItemInHandRenderer.h"
 #include "LevelRenderer.h"
 #include "Tesselator.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Class.h"
 #include "java/FloatBuffer.h"
 #include "java/JavaMath.h"
@@ -47,7 +48,6 @@
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/util/SmoothFloat.h"
 #include "minecraft/world/effect/MobEffect.h"
@@ -76,10 +76,10 @@
 #include "minecraft/world/phys/HitResult.h"
 #include "minecraft/world/phys/Vec3.h"
 #include "platform/PlatformTypes.h"
-#include "platform/thread/ShutdownManager.h"
 #include "platform/input/input.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
+#include "platform/thread/ShutdownManager.h"
 #include "util/FrameProfiler.h"
 
 bool GameRenderer::anaglyph3d = false;
@@ -375,7 +375,7 @@ void GameRenderer::pick(float a) {
         if (nearest < dist || (mc->hitResult == nullptr)) {
             if (mc->hitResult != nullptr) delete mc->hitResult;
             mc->hitResult = new HitResult(hovered);
-            if (hovered->instanceof (eTYPE_LIVINGENTITY)) {
+            if (hovered->instanceof(eTYPE_LIVINGENTITY)) {
                 mc->crosshairPickMob =
                     std::dynamic_pointer_cast<LivingEntity>(hovered);
             }
@@ -448,7 +448,7 @@ void GameRenderer::bobHurt(float a) {
 }
 
 void GameRenderer::bobView(float a) {
-    if (!mc->cameraTargetPlayer->instanceof (eTYPE_LIVINGENTITY)) return;
+    if (!mc->cameraTargetPlayer->instanceof(eTYPE_LIVINGENTITY)) return;
 
     std::shared_ptr<Player> player =
         std::dynamic_pointer_cast<Player>(mc->cameraTargetPlayer);
@@ -706,8 +706,7 @@ void GameRenderer::renderItemInHand(float a, int eye) {
     // 4J-JEV: I'm fairly confident this method would crash if the cameratarget
     // isnt a local player anyway, but oh well.
     std::shared_ptr<LocalPlayer> localplayer =
-        mc->cameraTargetPlayer->instanceof
-        (eTYPE_LOCALPLAYER)
+        mc->cameraTargetPlayer->instanceof(eTYPE_LOCALPLAYER)
             ? std::dynamic_pointer_cast<LocalPlayer>(mc->cameraTargetPlayer)
             : nullptr;
 
@@ -808,7 +807,8 @@ void GameRenderer::turnOffLightLayer(double alpha) {  // 4J - TODO
         PlatformRenderer.TextureBindVertex(-1);
     }
 
-    // // 4jcraft: manually handle this in order to ensure that the light layer is
+    // // 4jcraft: manually handle this in order to ensure that the light layer
+    // is
     // // turned off correctly
     // if (SharedConstants::TEXTURE_LIGHTING) {
     //     glClientActiveTexture(GL_TEXTURE1);
@@ -1242,7 +1242,9 @@ void GameRenderer::renderLevel(float a, int64_t until) {
 
     //	if (mc->cameraTargetPlayer == nullptr)	// 4J - removed condition as we
     // want to update this is mc->player changes for different local players
-    { mc->cameraTargetPlayer = mc->player; }
+    {
+        mc->cameraTargetPlayer = mc->player;
+    }
     pick(a);
 
     std::shared_ptr<LivingEntity> cameraEntity = mc->cameraTargetPlayer;
@@ -1380,9 +1382,9 @@ void GameRenderer::renderLevel(float a, int64_t until) {
             turnOffLightLayer(a);  // 4J - brought forward from 1.8.2
 
             if ((mc->hitResult != nullptr) &&
-                    cameraEntity->isUnderLiquid(Material::water) &&
-                    cameraEntity->instanceof
-                (eTYPE_PLAYER))  //&& !mc->options.hideGui)
+                cameraEntity->isUnderLiquid(Material::water) &&
+                cameraEntity->instanceof(
+                    eTYPE_PLAYER))  //&& !mc->options.hideGui)
             {
                 std::shared_ptr<Player> player =
                     std::dynamic_pointer_cast<Player>(cameraEntity);
@@ -1458,8 +1460,8 @@ void GameRenderer::renderLevel(float a, int64_t until) {
         glEnable(GL_CULL_FACE);
         glDisable(GL_BLEND);
 
-        if ((zoom == 1) && cameraEntity->instanceof
-            (eTYPE_PLAYER))  //&& !mc->options.hideGui)
+        if ((zoom == 1) &&
+            cameraEntity->instanceof(eTYPE_PLAYER))  //&& !mc->options.hideGui)
         {
             if (mc->hitResult != nullptr &&
                 !cameraEntity->isUnderLiquid(Material::water)) {
@@ -2018,7 +2020,7 @@ void GameRenderer::setupFog(int i, float alpha) {
 
     // 4J - check for creative mode brought forward from 1.2.3
     bool creative = false;
-    if (player->instanceof (eTYPE_PLAYER)) {
+    if (player->instanceof(eTYPE_PLAYER)) {
         creative =
             (std::dynamic_pointer_cast<Player>(player))->abilities.instabuild;
     }

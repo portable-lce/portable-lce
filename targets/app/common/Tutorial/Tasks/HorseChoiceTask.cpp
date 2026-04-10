@@ -3,10 +3,10 @@
 #include <memory>
 
 #include "app/common/Tutorial/Tasks/ChoiceTask.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "java/Class.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/animal/EntityHorse.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 class Tutorial;
 
@@ -39,7 +39,7 @@ int HorseChoiceTask::getDescriptionId() {
 }
 
 void HorseChoiceTask::onLookAtEntity(std::shared_ptr<Entity> entity) {
-    if ((m_eHorseType < 0) && entity->instanceof (eTYPE_HORSE)) {
+    if ((m_eHorseType < 0) && entity->instanceof(eTYPE_HORSE)) {
         std::shared_ptr<EntityHorse> horse =
             std::dynamic_pointer_cast<EntityHorse>(entity);
         if (horse->isAdult()) m_eHorseType = horse->getType();

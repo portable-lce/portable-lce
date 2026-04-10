@@ -11,7 +11,7 @@ private:
     InputStream* stream;
 
 public:
-    GZIPInputStream(InputStream* out) : stream(out){};
+    GZIPInputStream(InputStream* out) : stream(out) {};
     virtual int read() { return stream->read(); };
     virtual int read(std::vector<uint8_t>& b) { return stream->read(b); };
     virtual int read(std::vector<uint8_t>& b, unsigned int offset,

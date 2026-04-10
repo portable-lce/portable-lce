@@ -54,7 +54,7 @@ void MobRenderer::renderLeash(std::shared_ptr<Mob> entity, double x, double y,
         double rotOffCos = cos(roperYRot);
         double rotOffSin = sin(roperYRot);
         double yOff = sin(roperXRot);
-        if (roper->instanceof (eTYPE_HANGING_ENTITY)) {
+        if (roper->instanceof(eTYPE_HANGING_ENTITY)) {
             rotOffCos = 0;
             rotOffSin = 0;
             yOff = -1;

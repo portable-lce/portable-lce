@@ -1,11 +1,11 @@
 
 #include "UIScene_TrialExitUpsell.h"
 
-#include "app/common/UI/UIScene.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
+#include "app/common/UI/UIScene.h"
 #include "minecraft/GameTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
 

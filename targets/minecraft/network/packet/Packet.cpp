@@ -674,7 +674,9 @@ std::shared_ptr<ItemInstance> Packet::readItem(DataInputStream* dis) {
         // 4J Stu - Always read/write the tag
         // if (Item.items[id].canBeDepleted() ||
         // Item.items[id].shouldOverrideMultiplayerNBT())
-        { item->tag = readNbt(dis); }
+        {
+            item->tag = readNbt(dis);
+        }
     }
 
     return item;
@@ -691,7 +693,9 @@ void Packet::writeItem(std::shared_ptr<ItemInstance> item,
         // 4J Stu - Always read/write the tag
         // if (item.getItem().canBeDepleted() ||
         // item.getItem().shouldOverrideMultiplayerNBT())
-        { writeNbt(item->tag, dos); }
+        {
+            writeNbt(item->tag, dos);
+        }
     }
 }
 

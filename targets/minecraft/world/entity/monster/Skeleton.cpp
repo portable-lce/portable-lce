@@ -7,9 +7,9 @@
 #include <string>
 #include <vector>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"
@@ -106,8 +106,8 @@ void Skeleton::playStepSound(int xt, int yt, int zt, int t) {
 
 bool Skeleton::doHurtTarget(std::shared_ptr<Entity> target) {
     if (Monster::doHurtTarget(target)) {
-        if ((getSkeletonType() == TYPE_WITHER) && target->instanceof
-            (eTYPE_LIVINGENTITY)) {
+        if ((getSkeletonType() == TYPE_WITHER) &&
+            target->instanceof(eTYPE_LIVINGENTITY)) {
             std::dynamic_pointer_cast<LivingEntity>(target)->addEffect(
                 new MobEffectInstance(MobEffect::wither->id,
                                       SharedConstants::TICKS_PER_SECOND * 10));
@@ -158,7 +158,7 @@ void Skeleton::aiStep() {
 void Skeleton::rideTick() {
     Monster::rideTick();
 
-    if (riding != nullptr && riding->instanceof (eTYPE_PATHFINDER_MOB)) {
+    if (riding != nullptr && riding->instanceof(eTYPE_PATHFINDER_MOB)) {
         yBodyRot = std::dynamic_pointer_cast<PathfinderMob>(riding)->yBodyRot;
     }
 }
@@ -167,10 +167,9 @@ void Skeleton::die(DamageSource* source) {
     Monster::die(source);
 
     if (source->getDirectEntity() != nullptr &&
-            source->getDirectEntity()->instanceof
-        (eTYPE_ARROW) && source->getEntity() != nullptr &&
-            source->getEntity()->instanceof
-        (eTYPE_PLAYER)) {
+        source->getDirectEntity()->instanceof(eTYPE_ARROW) &&
+        source->getEntity() != nullptr &&
+        source->getEntity()->instanceof(eTYPE_PLAYER)) {
         std::shared_ptr<Player> player =
             std::dynamic_pointer_cast<Player>(source->getEntity());
 

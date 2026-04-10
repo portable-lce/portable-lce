@@ -6,7 +6,6 @@
 
 #include "ClientConnection.h"
 #include "minecraft/IGameServices.h"
-#include "minecraft/world/tutorial/ITutorial.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/player/Input.h"
@@ -33,6 +32,7 @@
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/dimension/Dimension.h"
 #include "minecraft/world/phys/AABB.h"
+#include "minecraft/world/tutorial/ITutorial.h"
 
 class User;
 class ItemEntity;
@@ -233,8 +233,7 @@ void MultiplayerLocalPlayer::actuallyHurt(DamageSource* source, float dmg) {
 void MultiplayerLocalPlayer::completeUsingItem() {
     Minecraft* pMinecraft = Minecraft::GetInstance();
     if (useItem != nullptr && pMinecraft->localgameModes[m_iPad] != nullptr) {
-        ITutorial* tutorial =
-            pMinecraft->localgameModes[m_iPad]->getTutorial();
+        ITutorial* tutorial = pMinecraft->localgameModes[m_iPad]->getTutorial();
         if (tutorial != nullptr) {
             tutorial->completeUsingItem(useItem);
         }
@@ -245,8 +244,7 @@ void MultiplayerLocalPlayer::completeUsingItem() {
 void MultiplayerLocalPlayer::onEffectAdded(MobEffectInstance* effect) {
     Minecraft* pMinecraft = Minecraft::GetInstance();
     if (pMinecraft->localgameModes[m_iPad] != nullptr) {
-        ITutorial* tutorial =
-            pMinecraft->localgameModes[m_iPad]->getTutorial();
+        ITutorial* tutorial = pMinecraft->localgameModes[m_iPad]->getTutorial();
         if (tutorial != nullptr) {
             tutorial->onEffectChanged(MobEffect::effects[effect->getId()]);
         }
@@ -258,8 +256,7 @@ void MultiplayerLocalPlayer::onEffectUpdated(MobEffectInstance* effect,
                                              bool doRefreshAttributes) {
     Minecraft* pMinecraft = Minecraft::GetInstance();
     if (pMinecraft->localgameModes[m_iPad] != nullptr) {
-        ITutorial* tutorial =
-            pMinecraft->localgameModes[m_iPad]->getTutorial();
+        ITutorial* tutorial = pMinecraft->localgameModes[m_iPad]->getTutorial();
         if (tutorial != nullptr) {
             tutorial->onEffectChanged(MobEffect::effects[effect->getId()]);
         }
@@ -270,8 +267,7 @@ void MultiplayerLocalPlayer::onEffectUpdated(MobEffectInstance* effect,
 void MultiplayerLocalPlayer::onEffectRemoved(MobEffectInstance* effect) {
     Minecraft* pMinecraft = Minecraft::GetInstance();
     if (pMinecraft->localgameModes[m_iPad] != nullptr) {
-        ITutorial* tutorial =
-            pMinecraft->localgameModes[m_iPad]->getTutorial();
+        ITutorial* tutorial = pMinecraft->localgameModes[m_iPad]->getTutorial();
         if (tutorial != nullptr) {
             tutorial->onEffectChanged(MobEffect::effects[effect->getId()],
                                       true);
@@ -355,8 +351,7 @@ void MultiplayerLocalPlayer::ride(std::shared_ptr<Entity> e) {
     Minecraft* pMinecraft = Minecraft::GetInstance();
 
     if (pMinecraft->localgameModes[m_iPad] != nullptr) {
-        ITutorial* tutorial =
-            pMinecraft->localgameModes[m_iPad]->getTutorial();
+        ITutorial* tutorial = pMinecraft->localgameModes[m_iPad]->getTutorial();
         if (tutorial != nullptr) {
             if (wasRiding && !isRiding) {
                 tutorial->changeTutorialState(e_Tutorial_State_Gameplay);

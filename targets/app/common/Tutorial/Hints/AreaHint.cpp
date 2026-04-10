@@ -4,11 +4,11 @@
 
 #include "app/common/Tutorial/Hints/TutorialHint.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/world/phys/AABB.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
 
 AreaHint::AreaHint(eTutorial_Hint id, Tutorial* tutorial,
                    eTutorial_State displayState, eTutorial_State completeState,

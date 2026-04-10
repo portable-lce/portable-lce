@@ -105,8 +105,8 @@ std::shared_ptr<MapItemSavedData> MapItem::getSavedData(
 
 void MapItem::update(Level* level, std::shared_ptr<Entity> player,
                      std::shared_ptr<MapItemSavedData> data) {
-    if ((level->dimension->id != data->dimension) || !player->instanceof
-        (eTYPE_PLAYER)) {
+    if ((level->dimension->id != data->dimension) ||
+        !player->instanceof(eTYPE_PLAYER)) {
         // Wrong dimension, abort
         return;
     }
@@ -267,7 +267,7 @@ void MapItem::inventoryTick(std::shared_ptr<ItemInstance> itemInstance,
     if (level->isClientSide) return;
 
     std::shared_ptr<MapItemSavedData> data = getSavedData(itemInstance, level);
-    if (owner->instanceof (eTYPE_PLAYER)) {
+    if (owner->instanceof(eTYPE_PLAYER)) {
         std::shared_ptr<Player> player =
             std::dynamic_pointer_cast<Player>(owner);
 

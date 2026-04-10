@@ -195,7 +195,7 @@ void PlayerRenderer::render(std::shared_ptr<Entity> _mob, double x, double y,
         mob->isSneaking();
 
     double yp = y - mob->heightOffset;
-    if (mob->isSneaking() && !mob->instanceof (eTYPE_LOCALPLAYER)) {
+    if (mob->isSneaking() && !mob->instanceof(eTYPE_LOCALPLAYER)) {
         yp -= 2 / 16.0f;
     }
 

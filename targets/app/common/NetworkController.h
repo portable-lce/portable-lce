@@ -4,8 +4,8 @@
 
 #include "app/common/App_structs.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
-#include "platform/network/NetTypes.h"
 #include "platform/XboxStubs.h"
+#include "platform/network/NetTypes.h"
 #include "platform/storage/storage.h"
 
 struct INVITE_INFO;

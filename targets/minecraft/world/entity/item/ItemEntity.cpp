@@ -7,9 +7,9 @@
 #include <vector>
 
 #include "SharedConstants.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/util/Mth.h"

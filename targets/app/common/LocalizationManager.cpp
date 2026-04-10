@@ -7,8 +7,8 @@
 #include <string>
 
 #include "app/common/App_structs.h"
-#include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "app/common/Game.h"
+#include "app/common/UI/All Platforms/ArchiveFile.h"
 #include "java/Random.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"

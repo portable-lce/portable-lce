@@ -1,5 +1,4 @@
 #include "app/common/Audio/SoundEngine.h"
-#include "platform/game/game.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"
@@ -7,9 +6,8 @@
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
-#include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
-#include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
+#include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameTypes.h"
 #include "minecraft/client/Minecraft.h"
@@ -26,10 +24,11 @@
 #include "minecraft/client/skins/DLCTexturePack.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
-#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "platform/PlatformTypes.h"
+#include "platform/game/game.h"
+#include "platform/network/network.h"
 #include "platform/profile/profile.h"
 #include "platform/storage/storage.h"
 #include "util/StringHelpers.h"
@@ -469,7 +468,8 @@ void Game::HandleXuiActions(void) {
                             }
                         }
                     } else {
-                        PlatformGame.SetRichPresenceContext(i, CONTEXT_GAME_STATE_BLANK);
+                        PlatformGame.SetRichPresenceContext(
+                            i, CONTEXT_GAME_STATE_BLANK);
                         if (g_NetworkManager.IsLocalGame()) {
                             PlatformProfile.SetCurrentGameActivity(
                                 i, CONTEXT_PRESENCE_MULTIPLAYER_1POFFLINE,
@@ -994,12 +994,11 @@ void Game::HandleXuiActions(void) {
                         // streaming audio from the default texture pack now
                         // reset the streaming sounds back to the normal ones
                         static_cast<SoundEngine*>(pMinecraft->soundEngine)
-                            ->SetStreamingSounds(eStream_Overworld_Calm1,
-                                                 eStream_Overworld_piano3,
-                                                 eStream_Nether1,
-                                                 eStream_Nether4,
-                                                 eStream_end_dragon,
-                                                 eStream_end_end, eStream_CD_1);
+                            ->SetStreamingSounds(
+                                eStream_Overworld_Calm1,
+                                eStream_Overworld_piano3, eStream_Nether1,
+                                eStream_Nether4, eStream_end_dragon,
+                                eStream_end_end, eStream_CD_1);
                         pMinecraft->soundEngine->playStreaming("", 0, 0, 0, 1,
                                                                1);
 
@@ -1288,7 +1287,9 @@ void Game::HandleXuiActions(void) {
                 } break;
                 case eAppAction_DebugText:
                     // launch the xui for text entry
-                    { SetAction(i, eAppAction_Idle); }
+                    {
+                        SetAction(i, eAppAction_Idle);
+                    }
                     break;
 
                 case eAppAction_ReloadTexturePack: {

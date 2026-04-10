@@ -6,14 +6,14 @@
 #include <string>
 #include <vector>
 
-#include "app/common/UI/All Platforms/IUIScene_AbstractContainerMenu.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "app/common/Game.h"
+#include "app/common/UI/All Platforms/IUIScene_AbstractContainerMenu.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "java/JavaMath.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/SimpleContainer.h"
 #include "minecraft/world/entity/Painting.h"
 #include "minecraft/world/entity/animal/EntityHorse.h"

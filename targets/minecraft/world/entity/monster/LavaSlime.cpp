@@ -3,9 +3,9 @@
 #include <memory>
 #include <vector>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/Difficulty.h"
 #include "minecraft/world/entity/ai/attributes/AttributeInstance.h"
 #include "minecraft/world/entity/monster/SharedMonsterAttributes.h"

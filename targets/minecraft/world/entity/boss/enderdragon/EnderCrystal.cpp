@@ -74,8 +74,8 @@ bool EnderCrystal::hurt(DamageSource* source, float damage) {
 
     // 4J-PB - if the owner of the source is the enderdragon, then ignore it
     // (where the dragon's fireball hits an endercrystal)
-    if (source->getEntity() != nullptr && source->getEntity()->instanceof
-        (eTYPE_ENDERDRAGON)) {
+    if (source->getEntity() != nullptr &&
+        source->getEntity()->instanceof(eTYPE_ENDERDRAGON)) {
         return false;
     }
 

@@ -74,7 +74,7 @@ void WitherSkull::onHit(HitResult* res) {
             } else {
                 res->entity->hurt(DamageSource::magic, 5);
             }
-            if (res->entity->instanceof (eTYPE_LIVINGENTITY)) {
+            if (res->entity->instanceof(eTYPE_LIVINGENTITY)) {
                 int witherSeconds = 0;
                 if (level->difficulty <= Difficulty::EASY) {
                     // Nothing

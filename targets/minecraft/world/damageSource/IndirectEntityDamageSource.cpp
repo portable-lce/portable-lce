@@ -42,8 +42,8 @@ std::shared_ptr<Entity> IndirectEntityDamageSource::getEntity() {
 
 std::shared_ptr<ChatPacket> IndirectEntityDamageSource::getDeathMessagePacket(
     std::shared_ptr<LivingEntity> player) {
-    std::shared_ptr<ItemInstance> held = entity->instanceof
-        (eTYPE_LIVINGENTITY)
+    std::shared_ptr<ItemInstance> held =
+        entity->instanceof(eTYPE_LIVINGENTITY)
             ? std::dynamic_pointer_cast<LivingEntity>(entity)->getCarriedItem()
             : nullptr;
     std::string additional = "";

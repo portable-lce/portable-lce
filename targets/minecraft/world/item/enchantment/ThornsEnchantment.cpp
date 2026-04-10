@@ -1,7 +1,7 @@
 #include "ThornsEnchantment.h"
 
-#include "java/Random.h"
 #include "app/common/Audio/SoundTypes.h"
+#include "java/Random.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/entity/LivingEntity.h"

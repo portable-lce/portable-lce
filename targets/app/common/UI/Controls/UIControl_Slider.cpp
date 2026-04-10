@@ -1,16 +1,16 @@
 #include "UIControl_Slider.h"
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/Controls/UIControl.h"
 #include "app/common/UI/Controls/UIControl_Base.h"
 #include "app/common/UI/UIScene.h"
 #include "app/common/UI/UIString.h"
-#include "app/common/Iggy/include/iggy.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
+#include "app/common/Audio/SoundTypes.h"
 #include "app/common/Iggy/include/rrCore.h"
 #include "app/common/UI/ConsoleUIController.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "util/StringHelpers.h"
 
 UIControl_Slider::UIControl_Slider() {

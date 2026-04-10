@@ -8,8 +8,8 @@ class Random;
 #include <string>
 
 #include "app/common/Audio/ConsoleSoundEngine.h"
-#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Audio/SoundTypes.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "platform/PlatformTypes.h"
 
 // Forward-declare the miniaudio backing state. The full struct lives in

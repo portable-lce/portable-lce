@@ -6,10 +6,10 @@
 
 #include "Pos.h"
 #include "SharedConstants.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/IGameServices.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/damageSource/DamageSource.h"
 #include "minecraft/world/effect/MobEffect.h"
@@ -272,7 +272,7 @@ void Villager::setLastHurtByMob(std::shared_ptr<LivingEntity> mob) {
     if (_village != nullptr && mob != nullptr) {
         _village->addAggressor(mob);
 
-        if (mob->instanceof (eTYPE_PLAYER)) {
+        if (mob->instanceof(eTYPE_PLAYER)) {
             int amount = -1;
             if (isBaby()) {
                 amount = -3;
@@ -292,11 +292,11 @@ void Villager::die(DamageSource* source) {
     if (_village != nullptr) {
         std::shared_ptr<Entity> sourceEntity = source->getEntity();
         if (sourceEntity != nullptr) {
-            if (sourceEntity->instanceof (eTYPE_PLAYER)) {
+            if (sourceEntity->instanceof(eTYPE_PLAYER)) {
                 _village->modifyStanding(
                     std::dynamic_pointer_cast<Player>(sourceEntity)->getName(),
                     -2);
-            } else if (sourceEntity->instanceof (eTYPE_ENEMY)) {
+            } else if (sourceEntity->instanceof(eTYPE_ENEMY)) {
                 _village->resetNoBreedTimer();
             }
         } else if (sourceEntity == nullptr) {

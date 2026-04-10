@@ -3,15 +3,15 @@
 
 #include <memory>
 
+#include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/IUIScene_PauseMenu.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"

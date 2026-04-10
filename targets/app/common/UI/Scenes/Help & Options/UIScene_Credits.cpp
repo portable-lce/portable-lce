@@ -4,10 +4,10 @@
 #include <string.h>
 #include <wchar.h>
 
-#include "app/common/UI/UILayer.h"
-#include "app/common/UI/UIScene.h"
 #include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
+#include "app/common/UI/UILayer.h"
+#include "app/common/UI/UIScene.h"
 #include "strings.h"
 #include "util/StringHelpers.h"
 

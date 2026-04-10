@@ -5,9 +5,9 @@
 #include <optional>
 
 #include "Facing.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Class.h"
 #include "java/Random.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/stats/Stats.h"
 #include "minecraft/util/Log.h"

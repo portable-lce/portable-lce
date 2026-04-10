@@ -52,8 +52,8 @@ void ThrownEnderpearl::onHit(HitResult* res) {
         // the ground. If the owner has been removed, then ignore
 
         // 4J-JEV: Cheap type check first.
-        if ((getOwner() != nullptr) && getOwner()->instanceof
-            (eTYPE_SERVERPLAYER)) {
+        if ((getOwner() != nullptr) &&
+            getOwner()->instanceof(eTYPE_SERVERPLAYER)) {
             std::shared_ptr<ServerPlayer> serverPlayer =
                 std::dynamic_pointer_cast<ServerPlayer>(getOwner());
             if (!serverPlayer->removed) {

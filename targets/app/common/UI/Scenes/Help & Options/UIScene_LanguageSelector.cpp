@@ -1,12 +1,12 @@
 #include "UIScene_LanguageSelector.h"
 
+#include "app/common/Audio/SoundTypes.h"
+#include "app/common/Game.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_ButtonList.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/client/Minecraft.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "strings.h"
 
 // strings for buttons in the list

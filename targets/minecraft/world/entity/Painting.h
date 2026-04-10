@@ -69,7 +69,7 @@ public:
 
         // private:
         Motive(std::string name, int w, int h, int uo, int vo)
-            : name(name), w(w), h(h), uo(uo), vo(vo){};
+            : name(name), w(w), h(h), uo(uo), vo(vo) {};
     };
 
 public:

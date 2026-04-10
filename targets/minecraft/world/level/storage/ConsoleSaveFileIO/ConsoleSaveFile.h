@@ -10,7 +10,7 @@ enum class SaveFileSeekOrigin { Begin, Current, End };
 
 class ConsoleSaveFile {
 public:
-    virtual ~ConsoleSaveFile(){};
+    virtual ~ConsoleSaveFile() {};
 
     virtual FileEntry* createFile(const ConsoleSavePath& fileName) = 0;
     virtual void deleteFile(FileEntry* file) = 0;

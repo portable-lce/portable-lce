@@ -3,13 +3,13 @@
 
 #include <stdint.h>
 
+#include "app/common/Audio/SoundTypes.h"
+#include "app/common/Game.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_ButtonList.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/client/Minecraft.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "strings.h"
 
 // strings for buttons in the list
@@ -110,7 +110,9 @@ void UIScene_HowToPlayMenu::updateComponents() {
 void UIScene_HowToPlayMenu::handleReload() {
     for (unsigned int i = 0; i < eHTPButton_Max; ++i) {
         // 4J Stu - Re-add for future platforms
-        { m_buttonListHowTo.addItem(app.GetString(m_uiHTPButtonNameA[i]), i); }
+        {
+            m_buttonListHowTo.addItem(app.GetString(m_uiHTPButtonNameA[i]), i);
+        }
     }
 
     doHorizontalResizeCheck();

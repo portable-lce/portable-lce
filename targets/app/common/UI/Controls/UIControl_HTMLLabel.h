@@ -2,11 +2,11 @@
 
 #include <string>
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/Controls/UIControl_Base.h"
 #include "app/common/UI/Controls/UIControl_HTMLLabel.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Iggy/include/iggy.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif

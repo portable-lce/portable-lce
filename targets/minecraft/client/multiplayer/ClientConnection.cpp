@@ -12,14 +12,12 @@
 
 #include "MultiPlayerLevel.h"
 #include "ReceivingLevelScreen.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "app/common/ConsoleGameMode.h"
-#include "minecraft/client/skins/ISkinAssetData.h"
-#include "minecraft/network/Socket.h"
 #include "app/common/Tutorial/FullTutorialMode.h"
-#include "minecraft/world/tutorial/ITutorial.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
-#include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_TradingMenu.h"
 #include "app/common/UI/ConsoleUIController.h"
+#include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_TradingMenu.h"
 #include "java/Class.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
@@ -41,10 +39,12 @@
 #include "minecraft/client/player/LocalPlayer.h"
 #include "minecraft/client/player/RemotePlayer.h"
 #include "minecraft/client/renderer/LevelRenderer.h"
+#include "minecraft/client/skins/ISkinAssetData.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/core/particles/ParticleTypes.h"
 #include "minecraft/network/INetworkService.h"
+#include "minecraft/network/Socket.h"
 #include "minecraft/network/packet/AddEntityPacket.h"
 #include "minecraft/network/packet/AddExperienceOrbPacket.h"
 #include "minecraft/network/packet/AddGlobalEntityPacket.h"
@@ -112,9 +112,7 @@
 #include "minecraft/network/packet/UpdateMobEffectPacket.h"
 #include "minecraft/network/packet/UpdateProgressPacket.h"
 #include "minecraft/network/packet/XZPacket.h"
-#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Log.h"
 #include "minecraft/world/SimpleContainer.h"
@@ -190,8 +188,10 @@
 #include "minecraft/world/level/tile/entity/SkullTileEntity.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
 #include "minecraft/world/phys/AABB.h"
+#include "minecraft/world/tutorial/ITutorial.h"
 #include "platform/PlatformTypes.h"
 #include "platform/input/input.h"
+#include "platform/network/network.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
 #include "util/StringHelpers.h"
@@ -530,7 +530,7 @@ void ClientConnection::handleAddEntity(
                 }
             }
 
-            if (owner->instanceof (eTYPE_PLAYER)) {
+            if (owner->instanceof(eTYPE_PLAYER)) {
                 std::shared_ptr<Player> player =
                     std::dynamic_pointer_cast<Player>(owner);
                 std::shared_ptr<FishingHook> hook =
@@ -784,8 +784,7 @@ void ClientConnection::handleAddEntity(
                     }
                 }
 
-                if (owner != nullptr && owner->instanceof
-                    (eTYPE_LIVINGENTITY)) {
+                if (owner != nullptr && owner->instanceof(eTYPE_LIVINGENTITY)) {
                     std::dynamic_pointer_cast<Arrow>(e)->owner =
                         std::dynamic_pointer_cast<LivingEntity>(owner);
                 }
@@ -1318,7 +1317,6 @@ void ClientConnection::handleTileUpdate(
 
 void ClientConnection::handleDisconnect(
     std::shared_ptr<DisconnectPacket> packet) {
-
     connection->close(DisconnectPacket::eDisconnect_Kicked);
     done = true;
 
@@ -1869,12 +1867,12 @@ void ClientConnection::handleAnimate(std::shared_ptr<AnimatePacket> packet) {
     std::shared_ptr<Entity> e = getEntity(packet->id);
     if (e == nullptr) return;
     if (packet->action == AnimatePacket::SWING) {
-        if (e->instanceof (eTYPE_LIVINGENTITY))
+        if (e->instanceof(eTYPE_LIVINGENTITY))
             std::dynamic_pointer_cast<LivingEntity>(e)->swing();
     } else if (packet->action == AnimatePacket::HURT) {
         e->animateHurt();
     } else if (packet->action == AnimatePacket::WAKE_UP) {
-        if (e->instanceof (eTYPE_PLAYER))
+        if (e->instanceof(eTYPE_PLAYER))
             std::dynamic_pointer_cast<Player>(e)->stopSleepInBed(false, false,
                                                                  false);
     } else if (packet->action == AnimatePacket::RESPAWN) {
@@ -1890,8 +1888,8 @@ void ClientConnection::handleAnimate(std::shared_ptr<AnimatePacket> packet) {
                 new CritParticle(minecraft->level, e, eParticleType_magicCrit));
         critParticle->CritParticlePostConstructor();
         minecraft->particleEngine->add(critParticle);
-    } else if ((packet->action == AnimatePacket::EAT) && e->instanceof
-               (eTYPE_REMOTEPLAYER)) {
+    } else if ((packet->action == AnimatePacket::EAT) &&
+               e->instanceof(eTYPE_REMOTEPLAYER)) {
     }
 }
 
@@ -2167,13 +2165,13 @@ void ClientConnection::handleEntityLinkPacket(
                                     ->entityId) {
             sourceEntity = Minecraft::GetInstance()->localplayers[m_userIndex];
 
-            if (destEntity != nullptr && destEntity->instanceof (eTYPE_BOAT))
+            if (destEntity != nullptr && destEntity->instanceof(eTYPE_BOAT))
                 (std::dynamic_pointer_cast<Boat>(destEntity))->setDoLerp(false);
 
             displayMountMessage =
                 (sourceEntity->riding == nullptr && destEntity != nullptr);
-        } else if (destEntity != nullptr && destEntity->instanceof
-                   (eTYPE_BOAT)) {
+        } else if (destEntity != nullptr &&
+                   destEntity->instanceof(eTYPE_BOAT)) {
             (std::dynamic_pointer_cast<Boat>(destEntity))->setDoLerp(true);
         }
 
@@ -2190,7 +2188,7 @@ void ClientConnection::handleEntityLinkPacket(
         }
         */
     } else if (packet->type == SetEntityLinkPacket::LEASH) {
-        if ((sourceEntity != nullptr) && sourceEntity->instanceof (eTYPE_MOB)) {
+        if ((sourceEntity != nullptr) && sourceEntity->instanceof(eTYPE_MOB)) {
             if (destEntity != nullptr) {
                 (std::dynamic_pointer_cast<Mob>(sourceEntity))
                     ->setLeashedTo(destEntity, false);
@@ -2303,9 +2301,8 @@ void ClientConnection::handleTextureAndGeometry(
             if (pSkinAsset) {
                 if (pSkinAsset->getAdditionalBoxesCount() != 0) {
                     send(std::shared_ptr<TextureAndGeometryPacket>(
-                        new TextureAndGeometryPacket(packet->textureName,
-                                                     pbData, dwBytes,
-                                                     pSkinAsset)));
+                        new TextureAndGeometryPacket(
+                            packet->textureName, pbData, dwBytes, pSkinAsset)));
                 } else {
                     send(std::shared_ptr<TextureAndGeometryPacket>(
                         new TextureAndGeometryPacket(packet->textureName,
@@ -2349,7 +2346,7 @@ void ClientConnection::handleTextureAndGeometry(
 void ClientConnection::handleTextureChange(
     std::shared_ptr<TextureChangePacket> packet) {
     std::shared_ptr<Entity> e = getEntity(packet->id);
-    if ((e == nullptr) || !e->instanceof (eTYPE_PLAYER)) return;
+    if ((e == nullptr) || !e->instanceof(eTYPE_PLAYER)) return;
     std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(e);
 
     bool isLocalPlayer = false;
@@ -3077,7 +3074,7 @@ void ClientConnection::handleAwardStat(
 void ClientConnection::handleUpdateMobEffect(
     std::shared_ptr<UpdateMobEffectPacket> packet) {
     std::shared_ptr<Entity> e = getEntity(packet->entityId);
-    if ((e == nullptr) || !e->instanceof (eTYPE_LIVINGENTITY)) return;
+    if ((e == nullptr) || !e->instanceof(eTYPE_LIVINGENTITY)) return;
 
     //( std::dynamic_pointer_cast<LivingEntity>(e) )->addEffect(new
     // MobEffectInstance(packet->effectId, packet->effectDurationTicks,
@@ -3092,7 +3089,7 @@ void ClientConnection::handleUpdateMobEffect(
 void ClientConnection::handleRemoveMobEffect(
     std::shared_ptr<RemoveMobEffectPacket> packet) {
     std::shared_ptr<Entity> e = getEntity(packet->entityId);
-    if ((e == nullptr) || !e->instanceof (eTYPE_LIVINGENTITY)) return;
+    if ((e == nullptr) || !e->instanceof(eTYPE_LIVINGENTITY)) return;
 
     (std::dynamic_pointer_cast<LivingEntity>(e))
         ->removeEffectNoUpdate(packet->effectId);
@@ -3121,7 +3118,7 @@ void ClientConnection::handlePlayerInfo(
                                     packet->m_playerPrivileges);
 
     std::shared_ptr<Entity> entity = getEntity(packet->m_entityId);
-    if (entity != nullptr && entity->instanceof (eTYPE_PLAYER)) {
+    if (entity != nullptr && entity->instanceof(eTYPE_PLAYER)) {
         std::shared_ptr<Player> player =
             std::dynamic_pointer_cast<Player>(entity);
         player->setPlayerGamePrivilege(Player::ePlayerGamePrivilege_All,
@@ -3531,7 +3528,7 @@ void ClientConnection::handleUpdateAttributes(
     std::shared_ptr<Entity> entity = getEntity(packet->getEntityId());
     if (entity == nullptr) return;
 
-    if (!entity->instanceof (eTYPE_LIVINGENTITY)) {
+    if (!entity->instanceof(eTYPE_LIVINGENTITY)) {
         // Entity is not a living entity!
         assert(0);
     }

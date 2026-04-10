@@ -1,18 +1,18 @@
 #include "UIComponent_Tooltips.h"
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
 #include "app/common/UI/UIString.h"
-#include "app/common/Iggy/include/iggy.h"
 #include "minecraft/GameEnums.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
-#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Game.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "util/StringHelpers.h"
 

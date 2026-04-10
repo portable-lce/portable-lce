@@ -1,20 +1,20 @@
 
 #include "UIScene_FurnaceMenu.h"
-#include "platform/game/game.h"
 
 #include <assert.h>
 
+#include "app/common/Game.h"
 #include "app/common/Tutorial/Tutorial.h"
-#include "minecraft/world/tutorial/TutorialEnum.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_Progress.h"
 #include "app/common/UI/Controls/UIControl_SlotList.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/Containers/UIScene_AbstractContainerMenu.h"
-#include "app/common/Game.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/world/inventory/FurnaceMenu.h"
 #include "minecraft/world/level/tile/entity/FurnaceTileEntity.h"
+#include "minecraft/world/tutorial/TutorialEnum.h"
+#include "platform/game/game.h"
 #include "platform/profile/profile.h"
 #include "strings.h"
 

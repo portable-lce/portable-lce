@@ -2,10 +2,10 @@
 
 #include <string>
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/UIScene.h"
 #include "app/common/UI/UIString.h"
-#include "app/common/Iggy/include/iggy.h"
 #include "minecraft/GameEnums.h"
 #include "platform/PlatformTypes.h"
 #include "platform/renderer/renderer.h"

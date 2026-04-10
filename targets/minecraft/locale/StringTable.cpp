@@ -26,8 +26,7 @@ void StringTable::ReloadStringTable(std::span<const std::string> locales) {
     ProcessStringTableData(locales);
 }
 
-void StringTable::ProcessStringTableData(
-    std::span<const std::string> locales) {
+void StringTable::ProcessStringTableData(std::span<const std::string> locales) {
     ByteArrayInputStream bais(src);
     DataInputStream dis(&bais);
 

@@ -2,8 +2,8 @@
 
 #include "StubPlatformNetwork.h"
 #include "java/System.h"
-#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
+#include "platform/network/NetTypes.h"
 
 StubNetworkPlayer::StubNetworkPlayer() { m_pSocket = nullptr; }
 

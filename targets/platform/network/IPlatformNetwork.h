@@ -5,8 +5,8 @@
 #include <string>
 #include <vector>
 
-#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
+#include "platform/network/NetTypes.h"
 
 #ifndef VER_NETWORK
 #define VER_NETWORK 560

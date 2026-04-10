@@ -156,11 +156,11 @@ void EntityRenderer::renderShadow(std::shared_ptr<Entity> e, double x, double y,
     float r = shadowRadius;
     float fYLocalPlayerShadowOffset = 0.0f;
 
-    if (e->instanceof (eTYPE_MOB)) {
+    if (e->instanceof(eTYPE_MOB)) {
         std::shared_ptr<Mob> mob = std::dynamic_pointer_cast<Mob>(e);
         r *= mob->getSizeScale();
 
-        if (mob->instanceof (eTYPE_ANIMAL)) {
+        if (mob->instanceof(eTYPE_ANIMAL)) {
             if (std::dynamic_pointer_cast<Animal>(mob)->isBaby()) {
                 r *= 0.5f;
             }
@@ -173,7 +173,7 @@ void EntityRenderer::renderShadow(std::shared_ptr<Entity> e, double x, double y,
     // 4J-PB - local players seem to have a position at their head, and remote
     // players have a foot position. get the shadow to render by changing the
     // check here depending on the player type
-    if (e->instanceof (eTYPE_LOCALPLAYER)) {
+    if (e->instanceof(eTYPE_LOCALPLAYER)) {
         ey -= 1.62;
         fYLocalPlayerShadowOffset = -1.62f;
     }

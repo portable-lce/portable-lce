@@ -4,9 +4,9 @@
 
 #include "minecraft/IGameServices.h"
 #include "minecraft/util/Log.h"
+#include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/newbiome/layer/Layer.h"
 #include "platform/fs/fs.h"
-#include "minecraft/world/level/biome/Biome.h"
 
 BiomeOverrideLayer::BiomeOverrideLayer(int seedMixup) : Layer(seedMixup) {
     m_biomeOverride = std::vector<uint8_t>(width * height);

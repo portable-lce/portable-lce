@@ -9,7 +9,8 @@
 #include "app/common/Iggy/include/iggy.h"
 
 #define STUBBED \
-    {}
+    {           \
+    }
 
 RADEXPFUNC inline IggyValuePath* RADEXPLINK IggyPlayerRootPath(Iggy* f) {
     STUBBED;

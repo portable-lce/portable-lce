@@ -1,5 +1,4 @@
 #include "GameNetworkManager.h"
-#include "platform/game/game.h"
 
 #include <assert.h>
 
@@ -10,14 +9,12 @@
 #include <thread>
 #include <vector>
 
-#include "minecraft/network/Socket.h"
 #include "app/common/Game.h"
 #include "app/common/GameRules/GameRuleManager.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
-#include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
-#include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
+#include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
 #include "java/File.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
@@ -30,9 +27,9 @@
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/network/Connection.h"
+#include "minecraft/network/Socket.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/PreLoginPacket.h"
-#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/server/PlayerList.h"
 #include "minecraft/server/ServerAction.h"
@@ -47,13 +44,14 @@
 #include "minecraft/world/level/tile/Tile.h"
 #include "platform/XboxStubs.h"
 #include "platform/fs/fs.h"
+#include "platform/game/game.h"
 #include "platform/input/input.h"
+#include "platform/network/network.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #include "platform/storage/storage.h"
 #include "strings.h"
 #include "util/StringHelpers.h"
-#include "platform/network/network.h"
 
 class FriendSessionInfo;
 class INVITE_INFO;
@@ -350,7 +348,8 @@ bool CGameNetworkManager::StartNetworkGame(Minecraft* minecraft,
         createdConnections.push_back(connection);
 
         int primaryPad = PlatformProfile.GetPrimaryPad();
-        PlatformGame.SetRichPresenceContext(primaryPad, CONTEXT_GAME_STATE_BLANK);
+        PlatformGame.SetRichPresenceContext(primaryPad,
+                                            CONTEXT_GAME_STATE_BLANK);
         if (GetPlayerCount() >
             1)  // Are we offline or online, and how many players are there
         {
@@ -381,7 +380,8 @@ bool CGameNetworkManager::StartNetworkGame(Minecraft* minecraft,
                 Socket* socket = pNetworkPlayer->GetSocket();
                 app.DebugPrintf(
                     "Closing socket due to player %d not being signed in any "
-                    "more\n", idx);
+                    "more\n",
+                    idx);
                 if (!socket->close(false)) socket->close(true);
 
                 continue;
@@ -452,7 +452,8 @@ bool CGameNetworkManager::StartNetworkGame(Minecraft* minecraft,
             if (g_NetworkManager.IsLeavingGame() || !IsInSession()) break;
 
             if (PlatformProfile.IsSignedIn(idx) && !connection->isClosed()) {
-                PlatformGame.SetRichPresenceContext(idx, CONTEXT_GAME_STATE_BLANK);
+                PlatformGame.SetRichPresenceContext(idx,
+                                                    CONTEXT_GAME_STATE_BLANK);
                 if (IsLocalGame())
                     PlatformProfile.SetCurrentGameActivity(
                         idx, CONTEXT_PRESENCE_MULTIPLAYEROFFLINE, false);
@@ -1328,7 +1329,9 @@ void CGameNetworkManager::GameInviteReceived(int userIndex,
             // pInviteInfo;
 
             // tell the app to process this
-            { app.ProcessInvite(userIndex, localUsersMask, pInviteInfo); }
+            {
+                app.ProcessInvite(userIndex, localUsersMask, pInviteInfo);
+            }
         }
     }
 }

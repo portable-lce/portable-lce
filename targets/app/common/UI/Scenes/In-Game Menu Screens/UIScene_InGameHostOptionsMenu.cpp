@@ -3,20 +3,20 @@
 
 #include <memory>
 
+#include "app/common/Game.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_CheckBox.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/ClientConnection.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/network/packet/ServerSettingsChangedPacket.h"
-#include "platform/network/network.h"
 #include "minecraft/world/entity/player/Player.h"
+#include "platform/network/network.h"
 #include "strings.h"
 
 class UILayer;

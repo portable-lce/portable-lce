@@ -8,9 +8,9 @@
 #include <utility>
 #include <vector>
 
+#include "app/common/Game.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/CompleteAllRuleDefinition.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"
-#include "app/common/Game.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/GameRules/GameRule.h"

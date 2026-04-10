@@ -104,7 +104,9 @@ void ServerChunkCache::drop(int x, int z) {
     //}
     //	}
     //	else
-    { canDrop = true; }
+    {
+        canDrop = true;
+    }
     if (canDrop) {
         int ix = x + XZOFFSET;
         int iz = z + XZOFFSET;

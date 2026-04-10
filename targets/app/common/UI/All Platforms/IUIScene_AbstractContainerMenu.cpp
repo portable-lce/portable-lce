@@ -7,17 +7,17 @@
 #include <string>
 #include <vector>
 
+#include "app/common/Audio/SoundTypes.h"
+#include "app/common/Game.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/Tutorial/TutorialMode.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
-#include "app/common/Game.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"
 #include "minecraft/client/player/LocalPlayer.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/util/HtmlString.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/inventory/AbstractContainerMenu.h"
@@ -782,7 +782,9 @@ void IUIScene_AbstractContainerMenu::onMouseTick() {
                     buttonX = eToolTipPickUpHalf;
                 }
 
-                { buttonRT = eToolTipWhatIsThis; }
+                {
+                    buttonRT = eToolTipWhatIsThis;
+                }
             } else {
                 // Nothing in slot and nothing in hand.
             }

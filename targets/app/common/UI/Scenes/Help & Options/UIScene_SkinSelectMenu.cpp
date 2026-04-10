@@ -5,20 +5,20 @@
 
 #include <vector>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCPack.h"
 #include "app/common/DLC/DLCSkinFile.h"
+#include "app/common/Game.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
+#include "app/common/UI/ConsoleUIController.h"
 #include "app/common/UI/Controls/UIControl_Label.h"
 #include "app/common/UI/Controls/UIControl_PlayerSkinPreview.h"
 #include "app/common/UI/UILayer.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Game.h"
-#include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/Minecraft_Macros.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/model/SkinBox.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "platform/profile/ProfileConstants.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"

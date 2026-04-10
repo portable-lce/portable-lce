@@ -90,12 +90,13 @@ File::File(const std::string& pathname) {
             return;
         }
     }
-// #ifdef _WINDOWS64
-//     std::string path = std::filesystem::path(m_abstractPathName).string();
-//     std::string finalPath = PlatformStorage.GetMountedPath(path.c_str());
-//     if (finalPath.size() == 0) finalPath = path;
-//     m_abstractPathName = finalPath;
-// #endif
+    // #ifdef _WINDOWS64
+    //     std::string path =
+    //     std::filesystem::path(m_abstractPathName).string(); std::string
+    //     finalPath = PlatformStorage.GetMountedPath(path.c_str()); if
+    //     (finalPath.size() == 0) finalPath = path; m_abstractPathName =
+    //     finalPath;
+    // #endif
 
     /*
     std::vector<std::string> path = stringSplit( pathname, pathSeparator );

@@ -6,13 +6,13 @@
 #include <numbers>
 #include <vector>
 
+#include "app/common/Audio/SoundTypes.h"
 #include "java/Random.h"
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/particle/Particle.h"
 #include "minecraft/client/particle/ParticleEngine.h"
 #include "minecraft/client/renderer/Tesselator.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/entity/LivingEntity.h"
 #include "minecraft/world/item/FireworksItem.h"
 #include "minecraft/world/level/Level.h"

@@ -215,8 +215,8 @@ int64_t ConsoleSchematicFile::applyBlocksAndData(LevelChunk* chunk,
     int zEnd = std::min(destinationBox->z1, (double)(zStart & ~15) + 16);
 
 #ifdef _DEBUG
-    Log::info("Range is (%d,%d,%d) to (%d,%d,%d)\n", xStart, yStart,
-                    zStart, xEnd - 1, yEnd - 1, zEnd - 1);
+    Log::info("Range is (%d,%d,%d) to (%d,%d,%d)\n", xStart, yStart, zStart,
+              xEnd - 1, yEnd - 1, zEnd - 1);
 #endif
 
     int rowBlocksIncluded = (yEnd - yStart) * (zEnd - zStart);
@@ -290,8 +290,7 @@ int64_t ConsoleSchematicFile::applyBlocksAndData(LevelChunk* chunk,
             dataP += (rowBlockCount - rowBlocksIncluded) / 2;
         }
     } else {
-        Log::info(
-            "ERROR: Rotation of block and data not implemented!!\n");
+        Log::info("ERROR: Rotation of block and data not implemented!!\n");
     }
 
     // 4J Stu - Hack for ME pack to replace sand with end stone in schematics
@@ -555,8 +554,8 @@ void ConsoleSchematicFile::applyTileEntities(LevelChunk* chunk, AABB* chunkBox,
             e->absMoveTo(targetX, targetY, targetZ, e->yRot, e->xRot);
         }
 #ifdef _DEBUG
-        Log::info("Adding entity type %d at (%f,%f,%f)\n", e->GetType(),
-                        e->x, e->y, e->z);
+        Log::info("Adding entity type %d at (%f,%f,%f)\n", e->GetType(), e->x,
+                  e->y, e->z);
 #endif
         e->setLevel(chunk->level);
         e->resetSmallId();
@@ -749,9 +748,9 @@ void ConsoleSchematicFile::generateSchematicFile(
 
         bool mobCanBeSaved = false;
         if (bSaveMobs) {
-            if (e->instanceof (eTYPE_MONSTER) || e->instanceof
-                (eTYPE_WATERANIMAL) || e->instanceof
-                (eTYPE_ANIMAL) || (e->GetType() == eTYPE_VILLAGER))
+            if (e->instanceof(eTYPE_MONSTER) ||
+                e->instanceof(eTYPE_WATERANIMAL) ||
+                e->instanceof(eTYPE_ANIMAL) || (e->GetType() == eTYPE_VILLAGER))
 
             // 4J-JEV: All these are derived from eTYPE_ANIMAL and true
             // implicitly.
@@ -765,9 +764,8 @@ void ConsoleSchematicFile::generateSchematicFile(
         // 4J-JEV: Changed to check for instances of minecarts and
         // hangingEntities instead of just eTYPE_PAINTING, eTYPE_ITEM_FRAME and
         // eTYPE_MINECART
-        if (mobCanBeSaved || e->instanceof
-            (eTYPE_MINECART) || e->GetType() == eTYPE_BOAT || e->instanceof
-            (eTYPE_HANGING_ENTITY)) {
+        if (mobCanBeSaved || e->instanceof(eTYPE_MINECART) ||
+            e->GetType() == eTYPE_BOAT || e->instanceof(eTYPE_HANGING_ENTITY)) {
             CompoundTag* eTag = new CompoundTag();
             if (e->save(eTag)) {
                 ListTag<DoubleTag>* pos =
@@ -777,7 +775,7 @@ void ConsoleSchematicFile::generateSchematicFile(
                 pos->get(1)->data -= yStart;
                 pos->get(2)->data -= zStart;
 
-                if (e->instanceof (eTYPE_HANGING_ENTITY)) {
+                if (e->instanceof(eTYPE_HANGING_ENTITY)) {
                     ((IntTag*)eTag->get("TileX"))->data -= xStart;
                     ((IntTag*)eTag->get("TileY"))->data -= yStart;
                     ((IntTag*)eTag->get("TileZ"))->data -= zStart;

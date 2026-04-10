@@ -254,10 +254,10 @@ void Mob::addAdditonalSaveData(CompoundTag* entityTag) {
     entityTag->putBoolean("Leashed", _isLeashed);
     if (leashHolder != nullptr) {
         CompoundTag* leashTag = new CompoundTag("Leash");
-        if (leashHolder->instanceof (eTYPE_LIVINGENTITY)) {
+        if (leashHolder->instanceof(eTYPE_LIVINGENTITY)) {
             // a walking, talking, leash holder
             leashTag->putString("UUID", leashHolder->getUUID());
-        } else if (leashHolder->instanceof (eTYPE_HANGING_ENTITY)) {
+        } else if (leashHolder->instanceof(eTYPE_HANGING_ENTITY)) {
             // a fixed holder (that doesn't save itself)
             std::shared_ptr<HangingEntity> hangInThere =
                 std::dynamic_pointer_cast<HangingEntity>(leashHolder);
@@ -493,7 +493,7 @@ void Mob::lookAt(std::shared_ptr<Entity> e, float yMax, float xMax) {
     double yd;
     double zd = e->z - z;
 
-    if (e->instanceof (eTYPE_LIVINGENTITY)) {
+    if (e->instanceof(eTYPE_LIVINGENTITY)) {
         std::shared_ptr<LivingEntity> mob =
             std::dynamic_pointer_cast<LivingEntity>(e);
         yd = (mob->y + mob->getHeadHeight()) - (y + getHeadHeight());
@@ -760,14 +760,12 @@ bool Mob::interact(std::shared_ptr<Player> player) {
         if (itemstack->id == Item::lead_Id) {
             if (canBeLeashed()) {
                 std::shared_ptr<TamableAnimal> tamableAnimal = nullptr;
-                if (shared_from_this()->instanceof
-                    (eTYPE_TAMABLE_ANIMAL) &&
-                        (tamableAnimal =
-                             std::dynamic_pointer_cast<TamableAnimal>(
-                                 shared_from_this()))
-                            ->isTame())  // 4J-JEV: excuse the assignment
-                                         // operator in here, don't want to
-                                         // dyn-cast if it's avoidable.
+                if (shared_from_this()->instanceof(eTYPE_TAMABLE_ANIMAL) &&
+                    (tamableAnimal = std::dynamic_pointer_cast<TamableAnimal>(
+                         shared_from_this()))
+                        ->isTame())  // 4J-JEV: excuse the assignment
+                                     // operator in here, don't want to
+                                     // dyn-cast if it's avoidable.
                 {
                     if (player->getUUID().compare(
                             tamableAnimal->getOwnerUUID()) == 0) {
@@ -826,7 +824,7 @@ void Mob::dropLeash(bool synch, bool createItemDrop) {
 }
 
 bool Mob::canBeLeashed() {
-    return !isLeashed() && !shared_from_this()->instanceof (eTYPE_ENEMY);
+    return !isLeashed() && !shared_from_this()->instanceof(eTYPE_ENEMY);
 }
 
 bool Mob::isLeashed() { return _isLeashed; }

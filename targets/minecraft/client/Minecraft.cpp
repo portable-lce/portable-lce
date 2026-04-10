@@ -17,7 +17,7 @@
 #include "Timer.h"
 #include "User.h"
 #include "app/common/Audio/SoundEngine.h"
-#include "minecraft/world/tutorial/ITutorial.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/ConsoleUIController.h"
@@ -53,8 +53,6 @@
 #include "minecraft/network/INetworkService.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
 #include "minecraft/network/packet/Packet.h"
-#include "platform/network/network.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/Stats.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "minecraft/util/Log.h"
@@ -94,7 +92,9 @@
 #include "minecraft/world/level/tile/TallGrassPlantTile.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/phys/HitResult.h"
+#include "minecraft/world/tutorial/ITutorial.h"
 #include "platform/XboxStubs.h"
+#include "platform/network/network.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #include "platform/storage/storage.h"
@@ -1683,9 +1683,10 @@ void Minecraft::run_middle() {
                     if (unoccupiedQuadrant > -1) {
                         // render a logo
                         PlatformRenderer.StateSetViewport((
-                            IPlatformRenderer::eViewportType)(
-                            IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT +
-                            unoccupiedQuadrant));
+                            IPlatformRenderer::
+                                eViewportType)(IPlatformRenderer::
+                                                   VIEWPORT_TYPE_QUADRANT_TOP_LEFT +
+                                               unoccupiedQuadrant));
                         glClearColor(0, 0, 0, 0);
                         glClear(GL_COLOR_BUFFER_BIT);
 
@@ -2163,8 +2164,8 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures) {
             if (player->isRiding()) {
                 std::shared_ptr<Entity> mount = player->riding;
 
-                if (mount->instanceof (eTYPE_MINECART) || mount->instanceof
-                    (eTYPE_BOAT)) {
+                if (mount->instanceof(eTYPE_MINECART) ||
+                    mount->instanceof(eTYPE_BOAT)) {
                     *piAlt = IDS_TOOLTIPS_EXIT;
                 } else {
                     *piAlt = IDS_TOOLTIPS_DISMOUNT;
@@ -3190,7 +3191,7 @@ void Minecraft::tick(bool bFirst, bool bUpdateTextures) {
                                 break;
 
                             default:
-                                if (hitResult->entity->instanceof (eTYPE_MOB)) {
+                                if (hitResult->entity->instanceof(eTYPE_MOB)) {
                                     std::shared_ptr<Mob> mob =
                                         std::dynamic_pointer_cast<Mob>(
                                             hitResult->entity);
@@ -4119,9 +4120,8 @@ void Minecraft::startAndConnectTo(const std::string& name,
     Minecraft* minecraft;
     // 4J - was new Minecraft(frame, canvas, nullptr, 854, 480, fullScreen);
 
-    minecraft =
-        new Minecraft(nullptr, nullptr, nullptr, 1280, 720, fullScreen,
-                      leaderboard);
+    minecraft = new Minecraft(nullptr, nullptr, nullptr, 1280, 720, fullScreen,
+                              leaderboard);
 
     /* - 4J - removed
     {

@@ -5,20 +5,20 @@
 
 #include <memory>
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/Controls/UIControl_Button.h"
 #include "app/common/UI/Controls/UIControl_ButtonList.h"
 #include "app/common/UI/Controls/UIControl_Slider.h"
 #include "app/common/UI/UIScene.h"
-#include "app/common/Iggy/include/iggy.h"
 #include "minecraft/GameEnums.h"
 #include "platform/profile/profile.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
-#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Game.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "minecraft/commands/common/EnchantItemCommand.h"
 #include "minecraft/commands/common/GiveItemCommand.h"

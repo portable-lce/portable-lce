@@ -4,6 +4,7 @@
 #include <mutex>
 #include <utility>
 
+#include "app/common/Iggy/include/iggy.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Controls/UIControl.h"
@@ -11,20 +12,19 @@
 #include "app/common/UI/UIController.h"
 #include "app/common/UI/UIGroup.h"
 #include "app/common/UI/UILayer.h"
-#include "app/common/Iggy/include/iggy.h"
 #include "platform/PlatformTypes.h"
 #include "platform/renderer/renderer.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
-#include "app/common/Iggy/include/rrCore.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "app/common/Game.h"
+#include "app/common/Iggy/include/rrCore.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "java/System.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "util/StringHelpers.h"

@@ -21,7 +21,7 @@
 
 #include "Inventory.h"
 #include "Player.h"
-#include "minecraft/client/skins/ISkinAssetData.h"
+#include "app/common/Audio/SoundTypes.h"
 #include "java/JavaMath.h"
 #include "java/Random.h"
 #include "minecraft/Direction.h"
@@ -31,8 +31,8 @@
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/model/HumanoidModel.h"
 #include "minecraft/client/renderer/Textures.h"
+#include "minecraft/client/skins/ISkinAssetData.h"
 #include "minecraft/core/particles/ParticleTypes.h"
-#include "app/common/Audio/SoundTypes.h"
 #include "minecraft/stats/GenericStats.h"
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/Difficulty.h"
@@ -1208,7 +1208,7 @@ bool Player::hurt(DamageSource* source, float dmg) {
     if (dmg == 0) return false;
 
     std::shared_ptr<Entity> attacker = source->getEntity();
-    if (attacker != nullptr && attacker->instanceof (eTYPE_ARROW)) {
+    if (attacker != nullptr && attacker->instanceof(eTYPE_ARROW)) {
         std::shared_ptr<Arrow> arrow =
             std::dynamic_pointer_cast<Arrow>(attacker);
         if (arrow->owner != nullptr) {
@@ -1319,7 +1319,7 @@ bool Player::interact(std::shared_ptr<Entity> entity) {
         return true;
     }
 
-    if ((item != nullptr) && entity->instanceof (eTYPE_LIVINGENTITY)) {
+    if ((item != nullptr) && entity->instanceof(eTYPE_LIVINGENTITY)) {
         // 4J - PC Comments
         // Hack to prevent item stacks from decrementing if the player has
         // the ability to instabuild
@@ -1363,7 +1363,7 @@ void Player::attack(std::shared_ptr<Entity> entity) {
     int knockback = 0;
     float magicBoost = 0;
 
-    if (entity->instanceof (eTYPE_LIVINGENTITY)) {
+    if (entity->instanceof(eTYPE_LIVINGENTITY)) {
         std::shared_ptr<Player> thisPlayer =
             std::dynamic_pointer_cast<Player>(shared_from_this());
         std::shared_ptr<LivingEntity> mob =
@@ -1378,8 +1378,8 @@ void Player::attack(std::shared_ptr<Entity> entity) {
     if (dmg > 0 || magicBoost > 0) {
         bool bCrit = fallDistance > 0 && !onGround && !onLadder() &&
                      !isInWater() && !hasEffect(MobEffect::blindness) &&
-                     (riding == nullptr) && entity->instanceof
-            (eTYPE_LIVINGENTITY);
+                     (riding == nullptr) &&
+                     entity->instanceof(eTYPE_LIVINGENTITY);
         if (bCrit && dmg > 0) {
             dmg *= 1.5f;
         }
@@ -1390,8 +1390,8 @@ void Player::attack(std::shared_ptr<Entity> entity) {
         bool setOnFireTemporatily = false;
         int fireAspect = EnchantmentHelper::getFireAspect(
             std::dynamic_pointer_cast<LivingEntity>(shared_from_this()));
-        if (entity->instanceof
-            (eTYPE_MOB) && fireAspect > 0 && !entity->isOnFire()) {
+        if (entity->instanceof(eTYPE_MOB) && fireAspect > 0 &&
+            !entity->isOnFire()) {
             setOnFireTemporatily = true;
             entity->setOnFire(1);
         }
@@ -1423,7 +1423,7 @@ void Player::attack(std::shared_ptr<Entity> entity) {
             }
             setLastHurtMob(entity);
 
-            if (entity->instanceof (eTYPE_LIVINGENTITY)) {
+            if (entity->instanceof(eTYPE_LIVINGENTITY)) {
                 std::shared_ptr<LivingEntity> mob =
                     std::dynamic_pointer_cast<LivingEntity>(entity);
                 ThornsEnchantment::doThornsAfterAttack(shared_from_this(), mob,
@@ -1433,17 +1433,17 @@ void Player::attack(std::shared_ptr<Entity> entity) {
 
         std::shared_ptr<ItemInstance> item = getSelectedItem();
         std::shared_ptr<Entity> hurtTarget = entity;
-        if (entity->instanceof (eTYPE_MULTIENTITY_MOB_PART)) {
+        if (entity->instanceof(eTYPE_MULTIENTITY_MOB_PART)) {
             std::shared_ptr<Entity> multiMob =
                 std::dynamic_pointer_cast<Entity>(
                     (std::dynamic_pointer_cast<MultiEntityMobPart>(entity))
                         ->parentMob.lock());
-            if ((multiMob != nullptr) && multiMob->instanceof
-                (eTYPE_LIVINGENTITY)) {
+            if ((multiMob != nullptr) &&
+                multiMob->instanceof(eTYPE_LIVINGENTITY)) {
                 hurtTarget = std::dynamic_pointer_cast<LivingEntity>(multiMob);
             }
         }
-        if ((item != nullptr) && hurtTarget->instanceof (eTYPE_LIVINGENTITY)) {
+        if ((item != nullptr) && hurtTarget->instanceof(eTYPE_LIVINGENTITY)) {
             item->hurtEnemy(
                 std::dynamic_pointer_cast<LivingEntity>(hurtTarget),
                 std::dynamic_pointer_cast<Player>(shared_from_this()));
@@ -1451,7 +1451,7 @@ void Player::attack(std::shared_ptr<Entity> entity) {
                 removeSelectedItem();
             }
         }
-        if (entity->instanceof (eTYPE_LIVINGENTITY)) {
+        if (entity->instanceof(eTYPE_LIVINGENTITY)) {
             // awardStat(Stats.damageDealt, (int) Math.round(dmg * 10));
 
             if (fireAspect > 0 && wasHurt) {
@@ -1868,7 +1868,7 @@ void Player::checkRidingStatistiscs(double dx, double dy, double dz) {
         int distance =
             (int)Math::round(sqrt(dx * dx + dy * dy + dz * dz) * 100.0f);
         if (distance > 0) {
-            if (riding->instanceof (eTYPE_MINECART)) {
+            if (riding->instanceof(eTYPE_MINECART)) {
                 distanceMinecart += distance;
                 if (distanceMinecart >= 100) {
                     int newDistance =
@@ -1897,7 +1897,7 @@ void Player::checkRidingStatistiscs(double dx, double dy, double dz) {
                     }
                 }
 
-            } else if (riding->instanceof (eTYPE_BOAT)) {
+            } else if (riding->instanceof(eTYPE_BOAT)) {
                 distanceBoat += distance;
                 if (distanceBoat >= 100) {
                     int newDistance = distanceBoat - (distanceBoat % 100);
@@ -1905,7 +1905,7 @@ void Player::checkRidingStatistiscs(double dx, double dy, double dz) {
                     awardStat(GenericStats::boatOneM(),
                               GenericStats::param_boat(newDistance / 100));
                 }
-            } else if (riding->instanceof (eTYPE_PIG)) {
+            } else if (riding->instanceof(eTYPE_PIG)) {
                 distancePig += distance;
                 if (distancePig >= 100) {
                     int newDistance = distancePig - (distancePig % 100);
@@ -1937,10 +1937,9 @@ void Player::killed(std::shared_ptr<LivingEntity> mob) {
     // 4J-PB - added the lavaslime enemy - fix for #64007 - TU7: Code:
     // Achievements: TCR#073: Killing Magma Cubes doesn't unlock "Monster
     // Hunter" Achievement.
-    if (mob->instanceof (eTYPE_ENEMY) || mob->GetType() == eTYPE_GHAST ||
-                            mob->GetType() == eTYPE_SLIME ||
-                            mob->GetType() == eTYPE_LAVASLIME ||
-                            mob->GetType() == eTYPE_ENDERDRAGON) {
+    if (mob->instanceof(eTYPE_ENEMY) || mob->GetType() == eTYPE_GHAST ||
+        mob->GetType() == eTYPE_SLIME || mob->GetType() == eTYPE_LAVASLIME ||
+        mob->GetType() == eTYPE_ENDERDRAGON) {
         awardStat(GenericStats::killEnemy(), GenericStats::param_noArgs());
 
         switch (mob->GetType()) {
@@ -2509,7 +2508,7 @@ bool Player::isAllowedToUse(std::shared_ptr<ItemInstance> item) {
 bool Player::isAllowedToInteract(std::shared_ptr<Entity> target) {
     bool allowed = true;
     if (gameServices().getGameHostOption(eGameHostOption_TrustPlayers) == 0) {
-        if (target->instanceof (eTYPE_MINECART)) {
+        if (target->instanceof(eTYPE_MINECART)) {
             if (getPlayerGamePrivilege(
                     Player::ePlayerGamePrivilege_CanUseContainers) == 0) {
                 std::shared_ptr<Minecart> minecart =

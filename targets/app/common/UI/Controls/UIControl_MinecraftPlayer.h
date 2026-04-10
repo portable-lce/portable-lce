@@ -1,7 +1,7 @@
 #pragma once
 
-#include "app/common/UI/Controls/UIControl_MinecraftPlayer.h"
 #include "app/common/Iggy/include/iggy.h"
+#include "app/common/UI/Controls/UIControl_MinecraftPlayer.h"
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
