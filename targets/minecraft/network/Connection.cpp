@@ -18,7 +18,7 @@
 #include "minecraft/network/packet/PacketListener.h"
 #include "platform/network/network.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
-#include "platform/ShutdownManager.h"
+#include "platform/thread/ShutdownManager.h"
 #include "util/StringHelpers.h"
 
 class SocketAddress;

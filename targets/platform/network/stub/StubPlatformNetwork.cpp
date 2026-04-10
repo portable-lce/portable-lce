@@ -8,7 +8,7 @@
 #include "StubNetworkPlayer.h"
 #include "app/common/Network/GameNetworkManager.h"
 #include "minecraft/network/Socket.h"
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 #include "platform/network/NetTypes.h"
 #include "platform/network/network.h"
 

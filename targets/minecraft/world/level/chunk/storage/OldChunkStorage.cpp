@@ -96,7 +96,7 @@ void to_base36(int value, char* buf) {
 }
 
 File OldChunkStorage::getFile(int x, int z) {
-    inline constexpr int MAX_PATH_SIZE = 256;
+    constexpr int MAX_PATH_SIZE = 256;
     
     char name[MAX_PATH_SIZE];
     char path1[MAX_PATH_SIZE];

@@ -6,7 +6,7 @@
 #include <cstddef>
 #include <mutex>
 
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 
 class ShutdownManager {
 public:

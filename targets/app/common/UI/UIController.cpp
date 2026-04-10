@@ -45,7 +45,7 @@
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"
 #include "minecraft/client/title/TitleScreen.h"
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 #include "platform/XboxStubs.h"
 #include "strings.h"
 #include "util/StringHelpers.h"

@@ -9,7 +9,7 @@
 #include "java/InputOutputStream/InputStream.h"
 #include "java/InputOutputStream/OutputStream.h"
 #include "platform/network/network.h"
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 
 class INetworkPlayer;
 

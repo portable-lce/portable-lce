@@ -10,7 +10,7 @@
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
 #include "minecraft/world/level/levelgen/RandomLevelSource.h"
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 
 class ServerLevel;
 class ChunkStorage;

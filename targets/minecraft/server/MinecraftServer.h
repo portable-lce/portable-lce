@@ -11,7 +11,7 @@
 #include "minecraft/SharedConstants.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 #include "util/Timer.h"
 
 class ServerConnection;

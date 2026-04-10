@@ -12,7 +12,7 @@
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 
 class DataInputStream;
 class DataOutputStream;

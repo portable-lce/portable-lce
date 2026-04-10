@@ -17,7 +17,7 @@
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/ProgressRenderer.h"
 #include "minecraft/client/multiplayer/MultiPlayerGameMode.h"
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 #include "platform/PlatformTypes.h"
 #include "platform/profile/profile.h"
 #include "strings.h"

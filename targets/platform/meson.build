@@ -10,19 +10,6 @@ else
   _defs = []
 endif
 
-# Core: thread + shutdown plumbing, no backend.
-lib_platform_core = static_library('platform_core',
-  files('C4JThread.cpp', 'ShutdownManager.cpp'),
-  include_directories: [platform_inc, include_directories('..')],
-  dependencies: [_threads],
-  cpp_args: global_cpp_args + global_cpp_defs,
-)
-
-platform_dep = declare_dependency(
-  link_with: lib_platform_core,
-  include_directories: platform_inc,
-)
-
 # Per-subsystem source lists. Each subdir owns its own list of backend
 # .cpp files via a `platform_<name>_sources` variable. The library
 # build is centralised so we get one library per platform target rather
@@ -38,6 +25,20 @@ subdir('sound')
 subdir('network')
 subdir('leaderboard')
 subdir('game')
+subdir('thread')
+
+# Core: thread + shutdown plumbing, no backend.
+lib_platform_core = static_library('platform_core',
+  platform_thread_sources,
+  include_directories: [platform_inc, include_directories('..')],
+  dependencies: [_threads],
+  cpp_args: global_cpp_args + global_cpp_defs,
+)
+
+platform_dep = declare_dependency(
+  link_with: lib_platform_core,
+  include_directories: platform_inc,
+)
 
 lib_platform_sdl2 = static_library('platform_sdl2',
   platform_input_sources

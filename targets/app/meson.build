@@ -50,7 +50,6 @@ if get_option('ui_backend') == 'shiggy'
   client_dependencies += shiggy_dep
 endif
 
-
 client = executable(
   'Minecraft.Client',
   platform_sources + localisation[1],

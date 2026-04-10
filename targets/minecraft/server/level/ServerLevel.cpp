@@ -60,7 +60,7 @@
 #include "minecraft/world/level/tile/entity/ChestTileEntity.h"
 #include "minecraft/world/level/tile/entity/TileEntity.h"
 #include "minecraft/world/phys/Vec3.h"
-#include "platform/ShutdownManager.h"
+#include "platform/thread/ShutdownManager.h"
 #include "platform/input/input.h"
 #include "platform/storage/storage.h"
 #include "strings.h"

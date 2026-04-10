@@ -76,7 +76,7 @@
 #include "minecraft/world/phys/HitResult.h"
 #include "minecraft/world/phys/Vec3.h"
 #include "platform/PlatformTypes.h"
-#include "platform/ShutdownManager.h"
+#include "platform/thread/ShutdownManager.h"
 #include "platform/input/input.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"

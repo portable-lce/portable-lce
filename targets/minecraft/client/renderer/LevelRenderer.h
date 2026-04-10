@@ -6,7 +6,7 @@
 #include "minecraft/world/level/Level.h"
 #include "minecraft/world/level/LevelListener.h"
 #include "minecraft/world/phys/AABB.h"
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 #include "platform/network/NetTypes.h"
 
 class ClipChunk;

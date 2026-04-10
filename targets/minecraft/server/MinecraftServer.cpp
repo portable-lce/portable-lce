@@ -80,7 +80,7 @@
 #include "minecraft/world/level/chunk/SparseLightStorage.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/ConsoleSaveFileOriginal.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/compression.h"
-#include "platform/ShutdownManager.h"
+#include "platform/thread/ShutdownManager.h"
 #include "platform/input/input.h"
 
 class ConsoleInputSource;

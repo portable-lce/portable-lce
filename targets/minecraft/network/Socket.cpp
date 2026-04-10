@@ -10,7 +10,7 @@
 #include "platform/network/network.h"
 #include "minecraft/server/network/ServerConnection.h"
 #include "platform/network/NetTypes.h"
-#include "platform/ShutdownManager.h"
+#include "platform/thread/ShutdownManager.h"
 
 class SocketAddress {};
 

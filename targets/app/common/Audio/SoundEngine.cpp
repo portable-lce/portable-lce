@@ -20,7 +20,7 @@
 #include "minecraft/util/Mth.h"
 #include "minecraft/world/entity/Mob.h"
 #include "minecraft/world/level/storage/LevelData.h"
-#include "platform/C4JThread.h"
+#include "platform/thread/C4JThread.h"
 #include "platform/PlatformTypes.h"
 #include "platform/fs/fs.h"
 
