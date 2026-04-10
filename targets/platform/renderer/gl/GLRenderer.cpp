@@ -41,11 +41,13 @@
 #include "stb_image.h"
 
 #define GLM_FORCE_RADIANS
-#include <pthread.h>
 
 #include <cmath>
 #include <cstdio>
 #include <cstring>
+#include <mutex>
+#include <optional>
+#include <thread>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -98,17 +100,18 @@ static int s_reqWidth = 1920;
 static int s_reqHeight = 1080;
 static bool s_fullscreen = false;
 
-static pthread_key_t s_glCtxKey;
-static pthread_once_t s_glCtxKeyOnce = PTHREAD_ONCE_INIT;
-static void makeGLCtxKey() { pthread_key_create(&s_glCtxKey, nullptr); }
+static thread_local SDL_GLContext s_glCtx = nullptr;
+
+static std::once_flag s_glCtxKeyOnce;
+
 static const int MAX_SHARED_CTXS = 6;
 static SDL_Window* s_sharedWins[MAX_SHARED_CTXS] = {};
 static SDL_GLContext s_sharedCtxs[MAX_SHARED_CTXS] = {};
 static int s_sharedCtxCount = 0;
 static int s_nextSharedCtx = 0;
-static pthread_mutex_t s_sharedMtx = PTHREAD_MUTEX_INITIALIZER;
-static pthread_mutex_t s_glCallMtx = PTHREAD_MUTEX_INITIALIZER;
-static pthread_t s_mainThread;
+static std::mutex s_sharedMtx;
+static std::mutex s_glCallMtx;
+static std::thread::id s_mainThreadId;
 static bool s_mainThreadSet = false;
 static thread_local unsigned int s_rs_dirty_mask = 0xFFFFFFFF;
 
@@ -686,10 +689,11 @@ void GLRenderer::Initialise() {
     glViewport(0, 0, s_windowWidth, s_windowHeight);
     s_shader.build(VERT_SRC, FRAG_SRC);
     initStreamingVAOs();
-    pthread_once(&s_glCtxKeyOnce, makeGLCtxKey);
-    s_mainThread = pthread_self();
+
+    s_mainThreadId = std::this_thread::get_id();
     s_mainThreadSet = true;
-    pthread_setspecific(s_glCtxKey, (void*)s_window);
+    s_glCtx = s_glContext;
+
     SDL_GL_MakeCurrent(s_window, s_glContext);
     for (int i = 0; i < MAX_SHARED_CTXS; i++) {
         SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
@@ -718,32 +722,36 @@ void GLRenderer::Initialise() {
 
 void GLRenderer::InitialiseContext() {
     if (!s_window) return;
-    pthread_once(&s_glCtxKeyOnce, makeGLCtxKey);
-    if (s_mainThreadSet && pthread_equal(pthread_self(), s_mainThread)) {
+
+    if (s_mainThreadSet && std::this_thread::get_id() == s_mainThreadId) {
         SDL_GL_MakeCurrent(s_window, s_glContext);
-        pthread_setspecific(s_glCtxKey, (void*)s_window);
+        s_glCtx = s_glContext;
         return;
     }
-    void* cp = pthread_getspecific(s_glCtxKey);
-    if (cp) {
-        SDL_GLContext ctx = (SDL_GLContext)cp;
-        for (int i = 0; i < s_sharedCtxCount; i++)
-            if (s_sharedCtxs[i] == ctx) {
-                SDL_GL_MakeCurrent(s_sharedWins[i], ctx);
+
+    if (s_glCtx) {
+        for (int i = 0; i < s_sharedCtxCount; i++) {
+            if (s_sharedCtxs[i] == s_glCtx) {
+                SDL_GL_MakeCurrent(s_sharedWins[i], s_glCtx);
                 return;
             }
+        }
         return;
     }
-    pthread_mutex_lock(&s_sharedMtx);
-    SDL_GLContext shared = (s_nextSharedCtx < s_sharedCtxCount)
-                               ? s_sharedCtxs[s_nextSharedCtx++]
-                               : nullptr;
-    pthread_mutex_unlock(&s_sharedMtx);
+
+    SDL_GLContext shared = nullptr;
+    {
+        std::lock_guard<std::mutex> lk(s_sharedMtx);
+        if (s_nextSharedCtx < s_sharedCtxCount)
+            shared = s_sharedCtxs[s_nextSharedCtx++];
+    }
     if (!shared) return;
-    for (int i = 0; i < s_sharedCtxCount; i++)
+
+    for (int i = 0; i < s_sharedCtxCount; i++) {
         if (s_sharedCtxs[i] == shared)
             SDL_GL_MakeCurrent(s_sharedWins[i], shared);
-    pthread_setspecific(s_glCtxKey, (void*)shared);
+    }
+    s_glCtx = shared;
 }
 
 void GLRenderer::StartFrame() {
@@ -789,10 +797,11 @@ void GLRenderer::GetFramebufferSize(int& w, int& h) {
 void GLRenderer::Close() { s_window = nullptr; }
 
 void GLRenderer::Shutdown() {
-    pthread_mutex_lock(&s_glCallMtx);
-    for (auto& kv : s_chunkPool) kv.second.destroy();
-    s_chunkPool.clear();
-    pthread_mutex_unlock(&s_glCallMtx);
+    {
+        std::lock_guard<std::mutex> lk(s_glCallMtx);
+        for (auto& kv : s_chunkPool) kv.second.destroy();
+        s_chunkPool.clear();
+    }
     glDeleteVertexArrays(1, &s_sVAO_std);
     glDeleteBuffers(1, &s_sVBO_std);
     if (s_shader.prog) glDeleteProgram(s_shader.prog);
@@ -901,7 +910,7 @@ void GLRenderer::DrawVertices(ePrimitiveType ptype, int count, void* dataIn,
         return;
     }
 
-    pthread_mutex_lock(&s_glCallMtx);
+    std::lock_guard<std::mutex> lk(s_glCallMtx);
     pushRenderState();
 
     glBindVertexArray(s_sVAO_std);
@@ -916,26 +925,23 @@ void GLRenderer::DrawVertices(ePrimitiveType ptype, int count, void* dataIn,
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    pthread_mutex_unlock(&s_glCallMtx);
 }
 
 void GLRenderer::ReadPixels(int x, int y, int w, int h, void* buf) {
     if (!buf) return;
-    pthread_mutex_lock(&s_glCallMtx);
+    std::lock_guard<std::mutex> lk(s_glCallMtx);
     glReadPixels(x, y, w, h, GL_RGBA, GL_UNSIGNED_BYTE, buf);
-    pthread_mutex_unlock(&s_glCallMtx);
 }
 
 int GLRenderer::CBuffCreate(int count) {
-    pthread_mutex_lock(&s_glCallMtx);
+    std::lock_guard<std::mutex> lk(s_glCallMtx);
     int b = s_nextListBase;
     s_nextListBase += count;
-    pthread_mutex_unlock(&s_glCallMtx);
     return b;
 }
 
 void GLRenderer::CBuffDelete(int first, int count) {
-    pthread_mutex_lock(&s_glCallMtx);
+    std::lock_guard<std::mutex> lk(s_glCallMtx);
     for (int i = first; i < first + count; i++) {
         auto it = s_chunkPool.find(i);
         if (it != s_chunkPool.end()) {
@@ -943,17 +949,15 @@ void GLRenderer::CBuffDelete(int first, int count) {
             s_chunkPool.erase(it);
         }
     }
-    pthread_mutex_unlock(&s_glCallMtx);
 }
 
 void GLRenderer::CBuffDeleteAll() {
-    pthread_mutex_lock(&s_glCallMtx);
+    std::lock_guard<std::mutex> lk(s_glCallMtx);
     for (auto& kv : s_chunkPool) {
         kv.second.destroy();
     }
     s_chunkPool.clear();
     s_nextListBase = 1;
-    pthread_mutex_unlock(&s_glCallMtx);
 }
 
 void GLRenderer::CBuffStart(int index, bool) {
@@ -964,12 +968,11 @@ void GLRenderer::CBuffStart(int index, bool) {
 
 void GLRenderer::CBuffEnd() {
     if (s_recListId < 0) return;
-    pthread_mutex_lock(&s_glCallMtx);
+    std::lock_guard<std::mutex> lk(s_glCallMtx);
     ChunkBuffer& cb = s_chunkPool[s_recListId];
     cb.destroy();
     if (s_recVerts.empty()) {
         s_chunkPool.erase(s_recListId);
-        pthread_mutex_unlock(&s_glCallMtx);
         s_recListId = -1;
         return;
     }
@@ -977,31 +980,27 @@ void GLRenderer::CBuffEnd() {
     cb.draws = std::move(s_recDraws);
     cb.valid = true;
     cb.vboReady = false;
-    pthread_mutex_unlock(&s_glCallMtx);
     s_recListId = -1;
 }
 
 void GLRenderer::CBuffClear(int index) {
-    pthread_mutex_lock(&s_glCallMtx);
+    std::lock_guard<std::mutex> lk(s_glCallMtx);
     auto it = s_chunkPool.find(index);
     if (it != s_chunkPool.end()) {
         it->second.destroy();
         s_chunkPool.erase(it);
     }
-    pthread_mutex_unlock(&s_glCallMtx);
 }
 
 bool GLRenderer::CBuffCall(int index, bool) {
-    pthread_mutex_lock(&s_glCallMtx);
+    std::lock_guard<std::mutex> lk(s_glCallMtx);
     auto it = s_chunkPool.find(index);
     if (it == s_chunkPool.end() || !it->second.valid) {
-        pthread_mutex_unlock(&s_glCallMtx);
         return false;
     }
     ChunkBuffer& cb = it->second;
     if (!cb.vboReady) {
         if (cb.rawVerts.empty()) {
-            pthread_mutex_unlock(&s_glCallMtx);
             return false;
         }
 
@@ -1026,7 +1025,6 @@ bool GLRenderer::CBuffCall(int index, bool) {
     for (const auto& dc : cb.draws) glDrawArrays(dc.prim, dc.first, dc.count);
     glBindVertexArray(0);
 
-    pthread_mutex_unlock(&s_glCallMtx);
     return true;
 }
 
