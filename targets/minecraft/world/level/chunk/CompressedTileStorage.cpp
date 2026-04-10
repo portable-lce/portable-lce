@@ -12,7 +12,6 @@
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "java/System.h"
 #include "platform/network/NetTypes.h"
-#include "util/Definitions.h"
 
 // Note: See header for an overview of this class
 

@@ -31,7 +31,6 @@
 #include "nbt/ListTag.h"
 #include "nbt/NbtIo.h"
 #include "platform/input/input.h"
-#include "util/Definitions.h"
 
 thread_local OldChunkStorage::ThreadStorage* OldChunkStorage::m_tlsStorage =
     nullptr;
@@ -97,6 +96,8 @@ void to_base36(int value, char* buf) {
 }
 
 File OldChunkStorage::getFile(int x, int z) {
+    inline constexpr int MAX_PATH_SIZE = 256;
+    
     char name[MAX_PATH_SIZE];
     char path1[MAX_PATH_SIZE];
     char path2[MAX_PATH_SIZE];

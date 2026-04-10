@@ -12,7 +12,6 @@
 
 #include "java/System.h"
 #include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
-#include "util/Definitions.h"
 
 FileHeader::FileHeader() {
     lastFile = nullptr;

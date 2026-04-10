@@ -8,7 +8,6 @@
 #include "minecraft/world/phys/AABB.h"
 #include "platform/C4JThread.h"
 #include "platform/network/NetTypes.h"
-#include "util/Definitions.h"
 
 class ClipChunk;
 class HitResult;
