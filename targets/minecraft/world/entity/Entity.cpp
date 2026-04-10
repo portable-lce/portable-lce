@@ -685,13 +685,12 @@ void Entity::move(double xa, double ya, double za,
         onGround && isSneaking() && instanceof(eTYPE_PLAYER);
 
     auto shared = shared_from_this();
-    
+
     if (isPlayerSneaking) {
         double d = 0.05;
 
         AABB translated_bb = bb.move(xa, -1.0, 0.0);
-        while (xa != 0 &&
-               level->getCubes(shared, &translated_bb)->empty()) {
+        while (xa != 0 && level->getCubes(shared, &translated_bb)->empty()) {
             if (xa < d && xa >= -d)
                 xa = 0;
             else if (xa > 0)
@@ -702,8 +701,7 @@ void Entity::move(double xa, double ya, double za,
         }
 
         translated_bb = bb.move(0, -1.0, za);
-        while (za != 0 &&
-               level->getCubes(shared, &translated_bb)->empty()) {
+        while (za != 0 && level->getCubes(shared, &translated_bb)->empty()) {
             if (za < d && za >= -d)
                 za = 0;
             else if (za > 0)

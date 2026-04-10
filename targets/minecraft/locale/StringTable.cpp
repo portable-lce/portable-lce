@@ -1,8 +1,8 @@
 #include "minecraft/locale/StringTable.h"
 
+#include <cassert>
 #include <ranges>
 #include <utility>
-#include <cassert>
 
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"

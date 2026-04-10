@@ -28,7 +28,6 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/level/tile/Tile.h"
 // 4J Stu - Added for tutorial callbacks
-#include "platform/PlatformTypes.h"
 #include "Pos.h"
 #include "app/common/Audio/ConsoleSoundEngine.h"
 #include "app/common/Audio/SoundTypes.h"
@@ -79,6 +78,7 @@
 #include "minecraft/world/phys/HitResult.h"
 #include "minecraft/world/phys/Vec3.h"
 #include "minecraft/world/tutorial/ITutorial.h"
+#include "platform/PlatformTypes.h"
 #include "platform/input/input.h"
 #include "platform/profile/ProfileConstants.h"
 #include "platform/profile/profile.h"

@@ -1,5 +1,14 @@
 #include "SDL2Input.h"
 
+#include <math.h>
+#include <stdio.h>
+#include <string.h>
+
+#include <functional>
+#include <string>
+
+#include "../../PlatformTypes.h"
+#include "../InputConstants.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_gamecontroller.h"
@@ -10,15 +19,6 @@
 #include "SDL2/SDL_stdinc.h"
 #include "SDL2/SDL_video.h"
 #include "SDL2/begin_code.h"
-#include <math.h>
-#include <stdio.h>
-#include <string.h>
-
-#include <functional>
-#include <string>
-
-#include "../../PlatformTypes.h"
-#include "../InputConstants.h"
 
 namespace platform_internal {
 IPlatformInput& PlatformInput_get() {
