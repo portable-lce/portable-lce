@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "app/common/App_structs.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "platform/leaderboard/IPlatformLeaderboard.h"
 #include "minecraft/stats/Achievement.h"
 #include "minecraft/stats/Achievements.h"

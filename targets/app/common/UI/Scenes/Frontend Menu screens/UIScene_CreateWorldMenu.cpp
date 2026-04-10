@@ -17,7 +17,7 @@
 #include "app/common/UI/Controls/UIControl_TextInput.h"
 #include "app/common/UI/Scenes/Frontend Menu screens/IUIScene_StartGame.h"
 #include "app/common/UI/UILayer.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameHostOptions.h"

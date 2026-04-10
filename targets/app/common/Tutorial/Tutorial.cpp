@@ -20,7 +20,7 @@
 #include "app/common/Tutorial/Tasks/RideEntityTask.h"
 #include "app/common/Tutorial/Tasks/TutorialTask.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/Class.h"
 #include "minecraft/GameEnums.h"

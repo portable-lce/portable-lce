@@ -11,7 +11,7 @@
 #include "app/common/UI/Controls/UIControl_TexturePackList.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/rrCore.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/client/skins/TexturePackRepository.h"

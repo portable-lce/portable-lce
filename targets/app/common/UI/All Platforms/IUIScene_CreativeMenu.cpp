@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "app/common/UI/All Platforms/IUIScene_AbstractContainerMenu.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/JavaMath.h"
 #include "minecraft/client/Minecraft.h"

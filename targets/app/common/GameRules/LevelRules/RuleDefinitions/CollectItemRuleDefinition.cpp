@@ -1,6 +1,6 @@
 #include "CollectItemRuleDefinition.h"
 
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/network/Connection.h"
 #include "minecraft/network/packet/UpdateGameRuleProgressPacket.h"

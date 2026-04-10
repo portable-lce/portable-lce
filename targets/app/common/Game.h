@@ -5,6 +5,7 @@
 
 #include "platform/profile/profile.h"
 #include "platform/storage/storage.h"
+#include "platform/renderer/renderer.h"
 #include "util/Timer.h"
 
 // using namespace std;
@@ -1209,5 +1210,4 @@ public:
 #endif
 };
 
-// singleton
-// extern CMinecraftApp app;
+extern Game app;

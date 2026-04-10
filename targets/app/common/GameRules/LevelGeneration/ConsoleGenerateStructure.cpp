@@ -9,7 +9,7 @@
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceBlock.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceContainer.h"
 #include "app/common/GameRules/LevelGeneration/StructureActions/XboxStructureActionPlaceSpawner.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/Direction.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"

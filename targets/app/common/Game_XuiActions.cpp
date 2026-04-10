@@ -8,7 +8,7 @@
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Scenes/In-Game Menu Screens/UIScene_PauseMenu.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/GameEnums.h"
 #include "minecraft/GameTypes.h"

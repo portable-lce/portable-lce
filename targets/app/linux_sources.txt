@@ -1,4 +1,3 @@
 linux/Iggy/gdraw/gdraw.c
-linux/LinuxGame.cpp
 linux/Linux_Minecraft.cpp
 linux/Linux_UIController.cpp

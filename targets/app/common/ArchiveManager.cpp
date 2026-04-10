@@ -4,7 +4,7 @@
 #include <string>
 
 #include "app/common/UI/All Platforms/ArchiveFile.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "java/File.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePack.h"

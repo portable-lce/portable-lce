@@ -17,7 +17,7 @@
 #include "app/common/DLC/DLCFile.h"
 #include "app/common/DLC/DLCManager.h"
 #include "app/common/DLC/DLCSkinFile.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/locale/StringTable.h"
 #include "platform/profile/profile.h"

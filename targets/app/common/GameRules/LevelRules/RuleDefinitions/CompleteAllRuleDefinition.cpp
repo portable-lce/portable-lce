@@ -5,7 +5,7 @@
 #include <utility>
 
 #include "app/common/GameRules/LevelRules/RuleDefinitions/CompoundGameRuleDefinition.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "minecraft/network/Connection.h"
 #include "minecraft/network/packet/UpdateGameRuleProgressPacket.h"
 #include "minecraft/world/level/GameRules/GameRule.h"

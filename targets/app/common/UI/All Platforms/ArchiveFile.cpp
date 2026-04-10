@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <utility>
 
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
 #include "java/InputOutputStream/FileInputStream.h"

@@ -34,7 +34,7 @@
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
 #include "UIFontData.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/System.h"
 #include "minecraft/client/BufferedImage.h"

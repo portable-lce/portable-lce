@@ -1,6 +1,6 @@
 #include "UseTileRuleDefinition.h"
 
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/world/level/ConsoleGameRulesConstants.h"
 #include "minecraft/world/level/GameRules/GameRuleDefinition.h"

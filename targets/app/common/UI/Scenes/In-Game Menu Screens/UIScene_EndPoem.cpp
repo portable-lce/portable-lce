@@ -8,7 +8,7 @@
 
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/UIScene.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/Random.h"
 #include "minecraft/GameEnums.h"

@@ -6,7 +6,7 @@
 
 #include "app/common/Tutorial/Tutorial.h"
 #include "app/common/UI/All Platforms/UIEnums.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "util/StringHelpers.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"

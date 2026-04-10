@@ -16,7 +16,7 @@
 #include "app/common/GameRules/LevelGeneration/LevelGenerators.h"
 #include "app/common/GameRules/LevelRules/LevelRules.h"
 #include "app/common/GameRules/LevelRules/RuleDefinitions/LevelRuleset.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "java/File.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"

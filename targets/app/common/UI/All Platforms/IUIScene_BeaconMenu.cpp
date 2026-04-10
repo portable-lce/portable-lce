@@ -7,7 +7,7 @@
 
 #include "minecraft/GameEnums.h"
 #include "app/common/UI/All Platforms/IUIScene_AbstractContainerMenu.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "java/InputOutputStream/ByteArrayOutputStream.h"
 #include "java/InputOutputStream/DataOutputStream.h"
 #include "minecraft/client/Minecraft.h"

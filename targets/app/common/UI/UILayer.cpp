@@ -76,7 +76,7 @@
 #include "app/common/UI/UIGroup.h"
 #include "app/common/UI/UIScene.h"
 #include "app/linux/Iggy/include/rrCore.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "platform/renderer/renderer.h"
 

@@ -2,7 +2,7 @@
 
 #include "DLCManager.h"
 #include "app/common/DLC/DLCFile.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "minecraft/locale/StringTable.h"
 
 DLCLocalisationFile::DLCLocalisationFile(const std::string& path)

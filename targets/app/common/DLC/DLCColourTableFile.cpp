@@ -2,7 +2,7 @@
 
 #include "DLCManager.h"
 #include "app/common/DLC/DLCFile.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/resources/Colours/ColourTable.h"
 #include "minecraft/client/skins/TexturePack.h"

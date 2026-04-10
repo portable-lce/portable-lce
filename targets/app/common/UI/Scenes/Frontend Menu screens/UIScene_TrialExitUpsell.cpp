@@ -2,7 +2,7 @@
 #include "UIScene_TrialExitUpsell.h"
 
 #include "app/common/UI/UIScene.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/GameTypes.h"
 #include "app/common/Audio/SoundTypes.h"

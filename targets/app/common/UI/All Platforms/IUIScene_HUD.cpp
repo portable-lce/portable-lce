@@ -6,7 +6,7 @@
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #include "minecraft/GameEnums.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/Class.h"
 #include "minecraft/SharedConstants.h"

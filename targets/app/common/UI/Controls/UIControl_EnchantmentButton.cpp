@@ -15,7 +15,7 @@
 #ifndef _ENABLEIGGY
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Font.h"
 #include "minecraft/client/multiplayer/MultiPlayerLocalPlayer.h"

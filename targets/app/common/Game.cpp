@@ -9,7 +9,6 @@
 #include "app/common/UI/All Platforms/UIEnums.h"
 #include "app/common/UI/All Platforms/UIStructs.h"
 #include "app/common/UI/Scenes/UIScene_FullscreenProgress.h"
-#include "app/linux/LinuxGame.h"
 #include "app/linux/Linux_UIController.h"
 #include "java/Class.h"
 #include "java/File.h"
@@ -32,7 +31,6 @@
 #include "minecraft/client/renderer/entity/EntityRenderer.h"
 #include "minecraft/client/skins/TexturePack.h"
 #include "minecraft/network/packet/DisconnectPacket.h"
-#include "platform/network/network.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/stats/StatsCounter.h"
 #include "minecraft/world/Container.h"
@@ -41,9 +39,10 @@
 #include "minecraft/world/item/crafting/Recipy.h"
 #include "minecraft/world/level/tile/Tile.h"
 #include "minecraft/world/level/tile/entity/HopperTileEntity.h"
-#include "platform/network/NetTypes.h"
 #include "platform/PlatformTypes.h"
 #include "platform/XboxStubs.h"
+#include "platform/network/NetTypes.h"
+#include "platform/network/network.h"
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #include "platform/storage/storage.h"
@@ -353,7 +352,10 @@ bool Game::isXuidDeadmau5(PlayerUID xuid) {
 
 void Game::StoreLaunchData() {}
 
-void Game::ExitGame() {}
+void Game::ExitGame() {
+    DebugPrintf("[Game] ExitGame AFTER START\n");
+    PlatformRenderer.Close();
+}
 
 // Invites
 
@@ -366,7 +368,10 @@ void Game::ExitGame() {}
 // We have to assume that we've not been able to load the text for the game.
 //
 //////////////////////////////////////////////////////////////////////////
-void Game::FatalLoadError() {}
+void Game::FatalLoadError() {
+    DebugPrintf("FatalLoadError - asserting 0 and dying...\n");
+    assert(0);
+}
 
 // Game Host options
 
@@ -631,3 +636,5 @@ std::string Game::getRootPath(std::uint32_t packId, bool allowOverride,
         return path + "\\";
     }
 }
+
+Game app;

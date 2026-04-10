@@ -6,7 +6,7 @@
 #include "app/linux/Stubs/iggy_stubs.h"
 #endif
 #include "app/linux/Iggy/include/rrCore.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "java/JavaMath.h"
 
 UIControl::UIControl() {

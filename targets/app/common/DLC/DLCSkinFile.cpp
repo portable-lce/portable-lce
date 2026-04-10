@@ -5,7 +5,7 @@
 
 #include "DLCManager.h"
 #include "app/common/DLC/DLCFile.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "minecraft/client/model/SkinBox.h"
 #include "platform/XboxStubs.h"
 #include "platform/renderer/renderer.h"

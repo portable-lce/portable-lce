@@ -16,7 +16,7 @@
 #include "DLCFile.h"
 #include "DLCPack.h"
 #include "app/common/GameRules/GameRuleManager.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "app/linux/Linux_UIController.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/skins/TexturePackRepository.h"

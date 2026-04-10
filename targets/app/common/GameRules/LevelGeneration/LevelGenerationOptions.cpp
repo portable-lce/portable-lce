@@ -15,7 +15,7 @@
 #include "app/common/GameRules/LevelGeneration/ConsoleGenerateStructure.h"
 #include "minecraft/world/level/levelgen/ConsoleSchematicFile.h"
 #include "app/common/GameRules/LevelGeneration/StartFeature.h"
-#include "app/linux/LinuxGame.h"
+#include "app/common/Game.h"
 #include "java/File.h"
 #include "java/InputOutputStream/ByteArrayInputStream.h"
 #include "java/InputOutputStream/DataInputStream.h"
