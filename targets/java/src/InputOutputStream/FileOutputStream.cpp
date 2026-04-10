@@ -26,13 +26,9 @@ FileOutputStream::FileOutputStream(const File& file) : m_fileHandle(nullptr) {
         return;
     }
 
-#if defined(_WIN32)
-    m_fileHandle = _wfopen(file.getPath().c_str(), "wb");
-#else
     const std::string nativePath =
         std::filesystem::path(file.getPath()).string();
     m_fileHandle = std::fopen(nativePath.c_str(), "wb");
-#endif
 
     if (m_fileHandle == nullptr) {
         // TODO 4J Stu - Any form of error/exception handling
