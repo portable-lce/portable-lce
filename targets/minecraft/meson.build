@@ -9,7 +9,7 @@ minecraft_sources = files(fs.read('sources.txt').strip().split('\n'))
 lib_minecraft = static_library('minecraft',
     minecraft_sources,
     dependencies : [
-        dependency('libcrypto'), # for MD5 in Hasher.cpp on Linux
+        # dependency('libcrypto'), # for MD5 in Hasher.cpp on Linux
         dependency('zlib'),
         dependency('glm'),
         nbt_dep,

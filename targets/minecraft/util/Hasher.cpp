@@ -1,17 +1,30 @@
-#if defined(_WIN32)
-#include <xhash>
-#else
+// #if defined(_WIN32)
+// #include <xhash>
+// #else
 #include <iomanip>
 #include <sstream>
-#endif  // _WIN32
-#include <openssl/evp.h>
-#include <openssl/types.h>
+// #endif  // _WIN32
+// #include <openssl/evp.h>
+// #include <openssl/types.h>
 
 #include "Hasher.h"
 
 Hasher::Hasher(std::string& salt) { this->salt = salt; }
 
 std::string Hasher::getHash(std::string& name) {
+    // 4jcraft: stubbed for portability reasons.
+    // 
+    // The OpenSSL meson is broken on windows and expects winsock to
+    // be statically linked (which is dumb since we only want libcrypto
+    // for MD5 hashing), and avoiding a dependency on libcrypto here is
+    // probably a good thing either way for some platforms.
+    //
+    // Given that this class isn't used and im lazy, we're just gonna do
+    // this until it becomes a problem. This class isnt actually used
+    // anywhere at the moment anyways so it's whatever.
+    return "";
+    
+#if 0
 #if defined(_WIN32)
     // 4J Stu - Removed try/catch
     // try {
@@ -45,5 +58,6 @@ std::string Hasher::getHash(std::string& name) {
     }
     std::string hash_str = ss.str();
     return std::string(hash_str.begin(), hash_str.end());
+#endif
 #endif
 }
