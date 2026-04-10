@@ -17,9 +17,6 @@ class ItemInstance;
 class LivingEntity;
 class Player;
 class ResourceLocation;
-#if !defined(__linux__)
-#include <xmcore.h>
-#endif
 #include <stddef.h>
 #include <stdint.h>
 
