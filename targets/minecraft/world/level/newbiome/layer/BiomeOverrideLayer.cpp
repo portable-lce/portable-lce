@@ -6,8 +6,6 @@
 #include "minecraft/util/Log.h"
 #include "minecraft/world/level/newbiome/layer/Layer.h"
 #include "platform/fs/fs.h"
-#if defined(__linux__)
-#endif
 #include "minecraft/world/level/biome/Biome.h"
 
 BiomeOverrideLayer::BiomeOverrideLayer(int seedMixup) : Layer(seedMixup) {

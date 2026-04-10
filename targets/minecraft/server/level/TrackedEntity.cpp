@@ -59,9 +59,6 @@
 
 class AttributeInstance;
 class MobEffectInstance;
-#ifndef __linux__
-#include <qnet.h>
-#endif  // __linux__
 
 TrackedEntity::TrackedEntity(std::shared_ptr<Entity> e, int range,
                              int updateInterval, bool trackDelta) {

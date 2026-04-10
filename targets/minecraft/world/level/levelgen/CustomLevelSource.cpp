@@ -10,8 +10,6 @@
 #include "minecraft/world/level/biome/Biome.h"
 #include "minecraft/world/level/chunk/ChunkSource.h"
 #include "platform/fs/fs.h"
-#if defined(__linux__)
-#endif
 #include "java/Random.h"
 #include "minecraft/world/entity/MobCategory.h"
 #include "minecraft/world/level/Level.h"

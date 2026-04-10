@@ -280,17 +280,8 @@ LevelData* DirectoryLevelStorage::prepareLevel() {
             Log::info("Loading %d mappings\n", count);
             for (unsigned int i = 0; i < count; ++i) {
                 PlayerUID playerUid = dis.readPlayerUID();
-#if defined(_WINDOWS64) || defined(__linux__)
                 Log::info("  -- %llu\n",
                           static_cast<unsigned long long>(playerUid));
-#else
-#if defined(__linux__)
-                Log::info("  -- %llu\n",
-                          static_cast<unsigned long long>(playerUid));
-#else
-                Log::info("  -- %s\n", playerUid.toWString().c_str());
-#endif
-#endif
                 m_playerMappings[playerUid].readMappings(&dis);
             }
             dis.readFully(m_usedMappings);
@@ -641,16 +632,8 @@ void DirectoryLevelStorage::saveMapIdLookup() {
         Log::info("Saving %zu mappings\n", m_playerMappings.size());
         for (auto it = m_playerMappings.begin(); it != m_playerMappings.end();
              ++it) {
-#if defined(_WINDOWS64) || defined(__linux__)
             Log::info("  -- %llu\n",
                       static_cast<unsigned long long>(it->first));
-#else
-#if defined(__linux__)
-            Log::info("  -- %d\n", it->first);
-#else
-            Log::info("  -- %s\n", it->first.toWString().c_str());
-#endif
-#endif
             dos.writePlayerUID(it->first);
             it->second.writeMappings(&dos);
         }
