@@ -34,11 +34,6 @@ void glEndList_4J(int vertexCount = 0);
 
 void glTexImage2D(int, int, int, int, int, int, int, int, ByteBuffer*);
 void glCallLists(IntBuffer*);
-void glGenQueriesARB(IntBuffer*);
-void glBeginQueryARB(int, int);
-void glEndQueryARB(int);
-void glGetQueryObjectuARB(int, int, IntBuffer*);
-void glReadPixels(int, int, int, int, int, int, ByteBuffer*);
 
 class GL11 {
 public:

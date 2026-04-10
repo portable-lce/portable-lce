@@ -574,12 +574,6 @@ inline void glReadPixels_4J(int x, int y, int width, int height, int format,
     ::glReadPixels(x, y, width, height, (unsigned int)format,
                    (unsigned int)type, pixels->getBuffer());
 }
-void glBeginQuery_4J_Helper(unsigned int target, unsigned int id);
-void glEndQuery_4J_Helper(unsigned int target);
-void glGenQueries_4J_Helper(unsigned int* id);
-void glGetQueryObjectu_4J_Helper(unsigned int id, unsigned int pname,
-                                 unsigned int* val);
-
 // redirect the functions to my own implementation, no more 2.1 funcs
 #define glGenTextures(...) glGenTextures_4J(__VA_ARGS__)
 #define glDeleteTextures(...) glDeleteTextures_4J(__VA_ARGS__)

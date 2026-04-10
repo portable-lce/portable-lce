@@ -1,5 +1,4 @@
 platform_renderer_gl_dependencies = [
-    dependency('dl'),
     dependency('sdl2'),
     dependency('glm'),
     dependency('stb'),
