@@ -1522,8 +1522,8 @@ Player::BedSleepingResult Player::startSleepInBed(int x, int y, int z,
         // use the bed in daytime from far away and you'll get the message about
         // only sleeping at night
 
-        if (abs(this->x - x) > 3 || abs(this->y - y) > 2 ||
-            abs(this->z - z) > 3) {
+        if (std::abs(this->x - x) > 3 || std::abs(this->y - y) > 2 ||
+            std::abs(this->z - z) > 3) {
             // too far away
             return TOO_FAR_AWAY;
         }

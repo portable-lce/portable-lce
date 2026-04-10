@@ -28,7 +28,7 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/level/tile/Tile.h"
 // 4J Stu - Added for tutorial callbacks
-#include "PlatformTypes.h"
+#include "platform/PlatformTypes.h"
 #include "Pos.h"
 #include "app/common/Audio/ConsoleSoundEngine.h"
 #include "app/common/Audio/SoundTypes.h"

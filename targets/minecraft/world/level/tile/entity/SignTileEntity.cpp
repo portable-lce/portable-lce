@@ -2,7 +2,7 @@
 
 #include <wchar.h>
 
-#include "PlatformTypes.h"
+#include "platform/PlatformTypes.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/network/packet/SignUpdatePacket.h"
 #include "minecraft/server/level/ServerLevel.h"

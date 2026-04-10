@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "PlatformTypes.h"
+#include "platform/PlatformTypes.h"
 #include "minecraft/IGameServices.h"
 #include "platform/fs/fs.h"
 #include "platform/renderer/renderer.h"

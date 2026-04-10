@@ -6,9 +6,8 @@
 #include <GL/glu.h>
 
 #include <cstdint>
-#include <cstdlib>
 
-#include "renderer/IPlatformRenderer.h"
+#include "platform/renderer/IPlatformRenderer.h"
 
 extern IPlatformRenderer& PlatformRenderer;
 

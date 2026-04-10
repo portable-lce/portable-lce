@@ -5,7 +5,7 @@
 #include <string>
 
 #include "../IPlatformProfile.h"
-#include "PlatformTypes.h"
+#include "platform/PlatformTypes.h"
 
 class StubProfile : public IPlatformProfile {
 public:

@@ -240,7 +240,7 @@ int32_t DLCController::registerDLCData(char* pType, char* pBannerName,
     pDLCData->uiSortIndex = uiSortIndex;
     pDLCData->iConfig = iConfig;
 
-    if (strcmp(!pBannerName, "") != 0) {
+    if (strcmp(pBannerName, "") != 0) {
         strncpy(pDLCData->wchBanner, pBannerName, MAX_BANNERNAME_SIZE);
     }
     if (pDataFile[0] != 0) {

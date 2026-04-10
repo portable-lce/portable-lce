@@ -1,17 +1,20 @@
+# MARK: build configuration
+
 project(
-  '4jcraft',
-  ['cpp', 'c'],
-  version: '0.1.0',
-  meson_version: '>= 1.3',
-  default_options: [
-    'cpp_std=c++23',
-    'warning_level=0',
-    'unity=on', # merge source files per target
-    'unity_size=8', # TODO: mess around with this
-    'b_pch=true', # precompiled headers
-    'b_lto=true', # link-time optimisation (ThinLTO under clang+lld)
-    'b_ndebug=if-release', # drop assert() in --buildtype=release
-  ],
+    '4jcraft',
+    ['cpp', 'c'],
+    version: '0.1.0',
+    meson_version: '>= 1.3',
+    default_options: [
+        'cpp_std=c++23',
+        'warning_level=0',
+        'unity=on', # merge source files per target
+        'unity_size=8', # TODO: mess around with this
+        'buildtype=debugoptimized', # needed for _FORTIFY_SOURCE
+        'b_pch=true', # precompiled headers
+        'b_lto=true', # link-time optimisation (ThinLTO under clang+lld)
+        'b_ndebug=if-release', # drop assert() in --buildtype=release
+    ],
 )
 
 pymod = import('python')
@@ -19,36 +22,30 @@ python = pymod.find_installation('python3', required: true)
 
 cc = meson.get_compiler('cpp')
 
+global_cpp_args = ['-Wshift-count-overflow', '-pipe']
 global_cpp_defs = [
-  '-DSPLIT_SAVES',
-  '-D_LARGE_WORLDS',
-  '-D_EXTENDED_ACHIEVEMENTS',
-  '-D_FORTIFY_SOURCE=2',
-  '-DMULTITHREAD_ENABLE', # always-on threading flag (formerly in App_Defines.h)
+    '-DSPLIT_SAVES',
+    '-D_LARGE_WORLDS',
+    '-D_EXTENDED_ACHIEVEMENTS',
+    '-D_FORTIFY_SOURCE=2',
+    '-DMULTITHREAD_ENABLE', # always-on threading flag (formerly in App_Defines.h)
 ]
 
 # Debug-only defines: keep for debug + debugoptimized so iteration is unchanged.
 # --buildtype=release strips them so shipping builds don't carry debug logging,
 # debug menu UI, or assert-driven sanity checks.
 if get_option('buildtype') in ['debug', 'debugoptimized']
-  global_cpp_defs += [
-    '-D_DEBUG',
-    '-DDEBUG',
-    '-D_DEBUG_MENUS_ENABLED',
-  ]
+    global_cpp_defs += [
+        '-D_DEBUG',
+        '-DDEBUG',
+        '-D_DEBUG_MENUS_ENABLED',
+    ]
 endif
 
-if get_option('renderer') == 'gles'
-  global_cpp_defs += ['-DGLES']
-  gl_dep = dependency('glesv2', required: true)
-  glu_dep = dependency('', required: false)
-else
-  gl_dep = dependency('gl', required: true)
-  glu_dep = dependency('glu', required: true)
-endif
+# MARK: meson options
 
 if get_option('enable_vsync')
-  global_cpp_defs += ['-DENABLE_VSYNC']
+    global_cpp_defs += ['-DENABLE_VSYNC']
 endif
 
 if get_option('classic_panorama')
@@ -56,44 +53,51 @@ if get_option('classic_panorama')
 endif
 
 if get_option('enable_frame_profiler')
-  global_cpp_defs += ['-DENABLE_FRAME_PROFILER']
+    global_cpp_defs += ['-DENABLE_FRAME_PROFILER']
 endif
 
 if get_option('ui_backend') == 'shiggy'
-  global_cpp_defs += ['-D_ENABLEIGGY']
+    global_cpp_defs += ['-D_ENABLEIGGY']
 endif
 
 if get_option('ui_backend') == 'java'
-  global_cpp_defs += '-DENABLE_JAVA_GUIS'
+    global_cpp_defs += '-DENABLE_JAVA_GUIS'
+endif
+
+if get_option('occlusion_culling') == 'off'
+  global_cpp_defs += ['-DOCCLUSION_MODE_NONE']
+elif get_option('occlusion_culling') == 'frustum'
+  global_cpp_defs += ['-DOCCLUSION_MODE_FRUSTUM']
+elif get_option('occlusion_culling') == 'bfs'
+  global_cpp_defs += ['-DOCCLUSION_MODE_BFS', '-DUSE_OCCLUSION_CULLING']
+elif get_option('occlusion_culling') == 'hardware'
+  global_cpp_defs += ['-DOCCLUSION_MODE_HARDWARE', '-DUSE_OCCLUSION_CULLING']
 endif
 
 add_project_arguments(global_cpp_defs, language: ['cpp', 'c'])
-
-global_cpp_args = [
-  '-Wshift-count-overflow',
-  '-pipe',
-]
 add_project_arguments(global_cpp_args, language: 'cpp')
-
-sdl2_dep = dependency('sdl2')
-thread_dep = dependency('threads')
-dl_dep = cc.find_library('dl', required: true)
-glm_dep = dependency('glm')
-
-stb = subproject('stb').get_variable('stb_inc')
-stb_dep = declare_dependency(include_directories: stb)
-simdutf_dep = dependency('simdutf',
-  fallback: ['simdutf', 'simdutf_dep'],
-  default_options: ['utf8=true', 'utf16=true', 'utf32=true']
-)
-miniaudio_dep = dependency('miniaudio')
-
-mimalloc_dep = cc.find_library('mimalloc', required: get_option('enable_mimalloc'))
 
 subdir('targets/util')
 subdir('targets/java')
 subdir('targets/nbt')
 subdir('targets/platform')
+
+# MARK: platform configuration
+
+if host_machine.system() == 'linux'
+    platform_fs_dep = platform_fs_std_dep
+    platform_game_dep = platform_game_stub_dep
+    platform_input_dep = platform_input_sdl2_dep
+    platform_leaderboard_dep = platform_leaderboard_stub_dep
+    platform_network_dep = platform_network_stub_dep
+    platform_profile_dep = platform_profile_stub_dep
+    platform_renderer_dep = platform_renderer_gl_dep
+    platform_sound_dep = platform_sound_miniaudio_dep
+    platform_storage_dep = platform_storage_stub_dep
+    platform_thread_dep = platform_thread_dep # standardized backend (for now)
+
+    app_platform_sources = files('targets/app/linux/main.cpp')
+endif
 
 subdir('targets/resources')
 subdir('targets/minecraft')

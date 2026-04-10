@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstdint>
-
 #include "../IPlatformInput.h"
 
 class SDL2Input : public IPlatformInput {

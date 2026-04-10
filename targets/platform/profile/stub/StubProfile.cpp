@@ -5,7 +5,7 @@
 #include <functional>
 
 #include "../ProfileConstants.h"
-#include "input/input.h"
+#include "platform/input/input.h"
 
 namespace platform_internal {
 IPlatformProfile& PlatformProfile_get() {

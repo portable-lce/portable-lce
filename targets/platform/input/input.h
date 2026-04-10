@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IPlatformInput.h"
+#include "InputConstants.h"
 
 // Function accessor backed by a function-local static (Meyers singleton).
 // Avoids the static-initialization-order fiasco that the previous

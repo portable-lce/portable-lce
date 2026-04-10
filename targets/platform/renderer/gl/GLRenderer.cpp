@@ -1,6 +1,6 @@
 #include "GLRenderer.h"
 
-#include "PlatformTypes.h"
+#include "platform/PlatformTypes.h"
 #include "SDL.h"
 #include "SDL_error.h"
 #include "SDL_events.h"
@@ -9,7 +9,7 @@
 #include "java/ByteBuffer.h"
 #include "java/FloatBuffer.h"
 #include "java/IntBuffer.h"
-#include "renderer/renderer.h"
+#include "platform/renderer/renderer.h"
 
 // undefine macros from header to avoid argument mismatch
 #undef glGenTextures
@@ -41,15 +41,15 @@
 #include "stb_image.h"
 
 #define GLM_FORCE_RADIANS
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include <dlfcn.h>
 #include <pthread.h>
-
 #include <cmath>
 #include <cstdio>
 #include <cstring>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <unordered_map>
 #include <utility>
 #include <vector>

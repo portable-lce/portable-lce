@@ -8,7 +8,7 @@
 // #include <xtms.h>
 
 #include "../IPlatformStorage.h"
-#include "PlatformTypes.h"
+#include "platform/PlatformTypes.h"
 
 class C4JStringTable;
 

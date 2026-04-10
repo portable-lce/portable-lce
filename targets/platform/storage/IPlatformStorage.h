@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "PlatformTypes.h"
+#include "platform/PlatformTypes.h"
 
 #define MAX_DISPLAYNAME_LENGTH 128  // CELL_SAVEDATA_SYSP_SUBTITLE_SIZE on PS3
 #define MAX_DETAILS_LENGTH 128      // CELL_SAVEDATA_SYSP_SUBTITLE_SIZE on PS3

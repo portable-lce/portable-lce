@@ -3,7 +3,3 @@ c = 'clang'
 cpp = 'clang++'
 c_ld = 'lld'
 cpp_ld = 'lld'
-
-[built-in options]
-cpp_args = ['-stdlib=libc++']
-cpp_link_args = ['-stdlib=libc++']

@@ -2,8 +2,7 @@
 
 #include <functional>
 
-#include "InputConstants.h"
-#include "PlatformTypes.h"
+#include "platform/PlatformTypes.h"
 
 class IPlatformInput {
 public:

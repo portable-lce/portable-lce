@@ -3,7 +3,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 
-#include <string>
+#include <string.h>
 
 #include "java/File.h"
 #include "renderer/gl/gl_compat.h"
