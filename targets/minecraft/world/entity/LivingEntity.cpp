@@ -1244,8 +1244,12 @@ void LivingEntity::jumpFromGround() {
 }
 
 void LivingEntity::travel(float xa, float ya) {
-    std::shared_ptr<Player> thisPlayer =
-        std::dynamic_pointer_cast<Player>(shared_from_this());
+	// AP - dynamic_pointer_cast is a non-trivial call, use raw pointer instead
+    Player* thisPlayer = nullptr;
+    if (this->instanceof(eTYPE_PLAYER)) {
+        thisPlayer = (Player*)this;
+    }
+
     if (isInWater() && !(thisPlayer && thisPlayer->abilities.flying)) {
         double yo = y;
         moveRelative(xa, ya, useNewAi() ? 0.04f : 0.02f);
@@ -1273,13 +1277,13 @@ void LivingEntity::travel(float xa, float ya) {
         }
     } else {
         float friction = 0.91f;
+        int frictionTile = 0;
         if (onGround) {
             friction = 0.6f * 0.91f;
-            int t = level->getTile(Mth::floor(x), Mth::floor(bb.y0) - 1,
-                                   Mth::floor(z));
-            if (t > 0) {
-                friction = Tile::tiles[t]->friction * 0.91f;
-            }
+			frictionTile = level->getTile(Mth::floor(x), Mth::floor(bb.y0) - 1, Mth::floor(z));
+			if (frictionTile > 0) {
+				friction = Tile::tiles[frictionTile]->friction * 0.91f;
+			}
         }
 
         float friction2 = (0.6f * 0.6f * 0.91f * 0.91f * 0.6f * 0.91f) /
@@ -1297,11 +1301,9 @@ void LivingEntity::travel(float xa, float ya) {
         friction = 0.91f;
         if (onGround) {
             friction = 0.6f * 0.91f;
-            int t = level->getTile(Mth::floor(x), Mth::floor(bb.y0) - 1,
-                                   Mth::floor(z));
-            if (t > 0) {
-                friction = Tile::tiles[t]->friction * 0.91f;
-            }
+			if (frictionTile > 0) {
+				friction = Tile::tiles[frictionTile]->friction * 0.91f;
+			}
         }
         if (onLadder()) {
             float max = 0.15f;

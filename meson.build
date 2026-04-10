@@ -12,8 +12,8 @@ project(
         'unity_size=8', # TODO: mess around with this
         'buildtype=debugoptimized', # needed for _FORTIFY_SOURCE
         'b_pch=true', # precompiled headers
-        'b_lto=true', # link-time optimisation (ThinLTO under clang+lld)
-        'b_ndebug=if-release', # drop assert() in --buildtype=release
+        # 'b_lto=true', # link-time optimisation (ThinLTO under clang+lld)
+        # 'b_ndebug=if-release', # drop assert() in --buildtype=release
     ],
 )
 
@@ -27,7 +27,6 @@ global_cpp_defs = [
     '-DSPLIT_SAVES',
     '-D_LARGE_WORLDS',
     '-D_EXTENDED_ACHIEVEMENTS',
-    '-D_FORTIFY_SOURCE=2',
     '-DMULTITHREAD_ENABLE', # always-on threading flag (formerly in App_Defines.h)
 ]
 
@@ -40,6 +39,10 @@ if get_option('buildtype') in ['debug', 'debugoptimized']
         '-DDEBUG',
         '-D_DEBUG_MENUS_ENABLED',
     ]
+endif
+
+if get_option('buildtype') == 'debugoptimized'
+    global_cpp_defs += ['-D_FORTIFY_SOURCE=2']
 endif
 
 # MARK: meson options
