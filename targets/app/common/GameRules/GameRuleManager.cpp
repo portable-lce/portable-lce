@@ -640,7 +640,7 @@ void GameRuleManager::processSchematicsLighting(LevelChunk* levelChunk) {
 }
 
 void GameRuleManager::loadDefaultGameRules() {
-#if !defined(__linux__)
+#if 0
 #if defined(_WINDOWS64)
     File packedTutorialFile("Windows64Media\\Tutorial\\Tutorial.pck");
     if (!packedTutorialFile.exists())
@@ -656,6 +656,8 @@ void GameRuleManager::loadDefaultGameRules() {
             app.GetString(IDS_TUTORIALSAVENAME));
     }
 #else
+    // 4jcraft: brought over from TU18 so the tutorial world loads from assets
+    // TODO clean this up
     std::string fpTutorial = "Tutorial.pck";
     if (app.getArchiveFileSize(fpTutorial) >= 0) {
         DLCPack* pack = new DLCPack("", 0xffffffff);

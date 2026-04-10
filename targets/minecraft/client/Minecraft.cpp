@@ -471,9 +471,7 @@ File Minecraft::getWorkingDirectory(const std::string& applicationName) {
     // 4jcraft: ported to C++
     std::string userHome = getenv("HOME");
     File* workingDirectory;
-#if defined(__linux__)
-    workingDirectory = new File(userHome, '.' + applicationName + '/');
-#elif defined(_WINDOWS64)
+#if defined(_WINDOWS64)
     std::string applicationData = getenv("APPDATA");
     if (!applicationData.empty()) {
         workingDirectory =

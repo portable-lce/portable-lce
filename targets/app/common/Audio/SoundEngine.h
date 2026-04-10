@@ -142,9 +142,7 @@ private:
     float getMasterMusicVolume();
     // platform specific functions
     int initAudioHardware(int iMinSpeakers) { return iMinSpeakers; }
-#if defined(__linux__)
     void updateMiniAudio();
-#endif
 
     int GetRandomishTrack(int iStart, int iEnd);
 
