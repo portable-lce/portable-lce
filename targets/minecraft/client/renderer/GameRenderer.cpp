@@ -988,11 +988,11 @@ void GameRenderer::updateLightTexture(float a) {
             int g = (int)(_g * 255);
             int b = (int)(_b * 255);
 
-// #if defined(_WIN64) || __linux__
+#if 1
             lightPixels[j][i] = alpha << 24 | b << 16 | g << 8 | r;
-// #else
+#else
 //             lightPixels[j][i] = r << 24 | g << 16 | b << 8 | alpha;
-// #endif
+#endif
         }
 
         mc->textures->replaceTextureDirect(lightPixels[j], 16, 16,

@@ -38,10 +38,6 @@ if get_option('buildtype') in ['debug', 'debugoptimized']
   ]
 endif
 
-if host_machine.system() == 'linux'
-  global_cpp_defs += ['-Dlinux', '-D__linux', '-D__linux__']
-endif
-
 if get_option('renderer') == 'gles'
   global_cpp_defs += ['-DGLES']
   gl_dep = dependency('glesv2', required: true)
