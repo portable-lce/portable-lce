@@ -6,8 +6,6 @@
 fs = import('fs')
 minecraft_sources = files(fs.read('sources.txt').strip().split('\n'))
 
-crypto_dep = dependency('libcrypto')  # for MD5 in Hasher.cpp on Linux
-
 lib_minecraft = static_library('minecraft',
     minecraft_sources,
     dependencies : [

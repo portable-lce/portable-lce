@@ -1,6 +1,7 @@
 #include "Stitcher.h"
 
 #include <algorithm>
+#include <cassert>
 
 #include "StitchSlot.h"
 #include "Texture.h"
