@@ -478,7 +478,7 @@ archive_sources_psvita = [
 ]
 
 media_archive = custom_target('Minecraft.Media_Archive',
-  output : 'MediaLinux.arc',
+  output : 'MediaWindows64.arc',
   input : archive_sources + archive_sources_movies1080 + archive_sources_movies720 + archive_sources_linux,
   command : [
     python, meson.project_source_root() / 'scripts/pack_arc.py',
