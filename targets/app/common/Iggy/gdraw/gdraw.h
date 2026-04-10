@@ -2,8 +2,8 @@
 #define __LINUX_IGGY_GDRAW_H__
 
 #include "app/common/Iggy/include/rrCore.h"
-#include "app/windows/Iggy/include/gdraw.h"
-#include "app/windows/Iggy/include/iggy.h"
+#include "app/common/Iggy/include/gdraw.h"
+#include "app/common/Iggy/include/iggy.h"
 
 #ifdef __cplusplus
 extern "C" {

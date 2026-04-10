@@ -12,7 +12,7 @@
 #endif
 #include "app/common/Iggy/include/rrCore.h"
 #include "app/common/Game.h"
-#include "app/windows/Iggy/include/gdraw.h"
+#include "app/common/Iggy/include/gdraw.h"
 
 ConsoleUIController ui;
 

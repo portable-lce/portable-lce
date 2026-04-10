@@ -47,10 +47,6 @@
 #include "platform/renderer/renderer.h"
 #include "platform/storage/storage.h"
 #include "strings.h"
-#if defined(_WINDOWS64)
-#include "app/windows/XML/ATGXmlParser.h"
-#include "app/windows/XML/xmlFilesCallback.h"
-#endif
 #include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>

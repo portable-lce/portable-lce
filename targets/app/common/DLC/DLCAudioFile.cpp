@@ -13,11 +13,6 @@
 #include "platform/storage/storage.h"
 #include "util/StringHelpers.h"
 
-#if defined(_WINDOWS64)
-#include "app/windows/XML/ATGXmlParser.h"
-#include "app/windows/XML/xmlFilesCallback.h"
-#endif
-
 namespace {
 constexpr std::size_t AUDIO_DLC_WCHAR_BIN_SIZE = 2;
 

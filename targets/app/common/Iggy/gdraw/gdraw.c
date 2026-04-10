@@ -688,7 +688,7 @@ static void gdraw_FramebufferRenderbufferSafe(GLenum target, GLenum attachment,
 #define glFramebufferRenderbuffer_SAFE gdraw_FramebufferRenderbufferSafe
 #define glFramebufferRenderbuffer glFramebufferRenderbuffer_SAFE
 
-#include "app/windows/Iggy/gdraw/gdraw_gl_shared.inl"
+#include "gdraw_gl_shared.inl"
 
 #undef glVertexAttribPointer
 #define glVertexAttribPointer gdraw_real_vtxattrib

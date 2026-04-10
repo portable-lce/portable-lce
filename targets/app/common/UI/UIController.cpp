@@ -58,19 +58,12 @@ class Tutorial;
 // #define EXCLUDE_IGGY_ALLOCATIONS_FROM_HEAP_INSPECTOR
 
 // #define ENABLE_IGGY_EXPLORER
-#if defined(ENABLE_IGGY_EXPLORER)
-#include "app/windows/Iggy/include/iggyexpruntime.h"
-#endif
 
 // #define ENABLE_IGGY_PERFMON
 #if defined(ENABLE_IGGY_PERFMON)
 
 #define PM_ORIGIN_X 24
-#define PM_ORIGIN_Y 34
-
-#if defined(__WINDOWS64)
-#include "app/windows/Iggy/include/iggyperfmon.h"
-#endif
+#define PM_ORIGIN_
 
 #endif
 
