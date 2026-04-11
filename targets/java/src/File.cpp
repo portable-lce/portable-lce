@@ -197,11 +197,9 @@ bool File::mkdirs() const {
         return fs::is_directory(path, error);
     }
 
-    if (error) {
-        return false;
-    }
+    fs::create_directories(path, error);
 
-    return fs::create_directories(path, error);
+    return error.value() == 0;
 }
 
 /*

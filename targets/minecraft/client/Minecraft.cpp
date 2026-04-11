@@ -478,7 +478,7 @@ File Minecraft::getWorkingDirectory(const std::string& applicationName) {
 
         if (!workingDirectory.exists()) {
             if (!workingDirectory.mkdirs()) {
-                Log::info("The working directory could not be created");
+                Log::info("The working directory could not be created.\n");
                 assert(0);
             }
         }
