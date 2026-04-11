@@ -467,33 +467,27 @@ File Minecraft::getWorkingDirectory() {
 }
 
 File Minecraft::getWorkingDirectory(const std::string& applicationName) {
-    // 4J - original version
-    // 4jcraft: ported to C++
-    std::string userHome = getenv("HOME");
-    File* workingDirectory;
-#if defined(_WINDOWS64)
-    std::string applicationData = getenv("APPDATA");
-    if (!applicationData.empty()) {
-        workingDirectory =
-            new File(applicationData, '.' + applicationName + '/');
-    } else {
-        workingDirectory = new File(userHome, '.' + applicationName + '/');
-    }
-// #elif defined(_MACOS)
-//		workingDirectory = new File(userHome, "Library/Application
-// Support/" + applicationName);
+#ifndef _WIN32
+    const char* homedir = getenv("HOME");
 #else
-    workingDirectory = new File(userHome, applicationName + '/');
+    const char* homedir = getenv("USERPROFILE");
 #endif
-    if (!workingDirectory->exists()) {
-        if (!workingDirectory->mkdirs()) {
-            Log::info("The working directory could not be created");
-            assert(0);
-            // throw new RuntimeException("The working directory could not be
-            // created: " + workingDirectory);
+
+    if (homedir != nullptr) {
+        File workingDirectory(std::string(homedir), '.' + applicationName + '/');
+
+        if (!workingDirectory.exists()) {
+            if (!workingDirectory.mkdirs()) {
+                Log::info("The working directory could not be created");
+                assert(0);
+            }
         }
+
+        return workingDirectory;
+    } else {
+        Log::info("Could not locate user's home directory. This platform is likely missing an implementation of Minecraft::getWorkingDirectory.");
+        assert(0);
     }
-    return *workingDirectory;
 }
 
 LevelStorageSource* Minecraft::getLevelSource() { return levelSource; }
