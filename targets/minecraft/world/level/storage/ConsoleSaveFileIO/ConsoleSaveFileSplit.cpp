@@ -1354,14 +1354,11 @@ void ConsoleSaveFileSplit::DebugFlushToFile(
 
     char* fileName = new char[XCONTENT_MAX_FILENAME_LENGTH + 1];
 
-    auto now_tp = std::chrono::system_clock::now();
-    std::time_t now_tt = std::chrono::system_clock::to_time_t(now_tp);
-    std::tm t{};
-#if defined(_WIN32)
-    gmtime_s(&t, &now_tt);
-#else
-    gmtime_r(&now_tt, &t);
-#endif
+    auto now = std::chrono::system_clock::now();
+    auto dp = std::chrono::floor<std::chrono::days>(now);
+    std::chrono::year_month_day ymd{dp};
+    std::chrono::hh_mm_ss hms{
+        std::chrono::floor<std::chrono::seconds>(now - dp)};
 
     // 14 chars for the digits
     // 11 chars for the separators + suffix
@@ -1370,10 +1367,14 @@ void ConsoleSaveFileSplit::DebugFlushToFile(
     if (m_fileName.length() > XCONTENT_MAX_FILENAME_LENGTH - 25) {
         cutFileName = m_fileName.substr(0, XCONTENT_MAX_FILENAME_LENGTH - 25);
     }
-    snprintf(fileName, XCONTENT_MAX_FILENAME_LENGTH + 1,
-             "\\v%04d-%s%02d.%02d.%02d.%02d.%02d.mcs", VER_PRODUCTBUILD,
-             cutFileName.c_str(), t.tm_mon + 1, t.tm_mday, t.tm_hour, t.tm_min,
-             t.tm_sec);
+
+    auto result =
+        std::format("\\v{:04d}-{}{:02d}.{:02d}.{:02d}.{:02d}.{:02d}.mcs",
+                    VER_PRODUCTBUILD, cutFileName, (unsigned)ymd.month(),
+                    (unsigned)ymd.day(), (int)hms.hours().count(),
+                    (int)hms.minutes().count(), (int)hms.seconds().count());
+
+    snprintf(fileName, XCONTENT_MAX_FILENAME_LENGTH + 1, "%s", result.c_str());
 
     const std::string outputPath =
         targetFileDir.getPath() + std::string(fileName);

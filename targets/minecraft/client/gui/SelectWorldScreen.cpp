@@ -268,15 +268,17 @@ void SelectWorldScreen::WorldSelectionList::renderItem(int i, int x, int y,
         levelSummary->getLastPlayed() - kFileTimeEpochToUnixEpochMs;
     const auto tp = std::chrono::system_clock::time_point{
         std::chrono::milliseconds{lastPlayedUnixMs}};
-    time_t lastPlayedTime = std::chrono::system_clock::to_time_t(tp);
-    std::tm utc;
-    gmtime_r(&lastPlayedTime, &utc);
+    auto dp = std::chrono::floor<std::chrono::days>(tp);
+    std::chrono::year_month_day ymd{dp};
+    std::chrono::hh_mm_ss hms{
+        std::chrono::floor<std::chrono::minutes>(tp - dp)};
 
-    char buffer[20];
     // 4J Stu - Currently shows years as 4 digits, where java only showed 2
-    snprintf(buffer, 20, "%d/%d/%d %d:%02d", utc.tm_mday, utc.tm_mon + 1,
-             utc.tm_year + 1900, utc.tm_hour,
-             utc.tm_min);  // 4J - TODO Localise this
+    // 4J - TODO Localise this
+    id += std::format(" ({}/{}/{} {}:{:02d}", (unsigned)ymd.day(),
+                      (unsigned)ymd.month(), (int)ymd.year(),
+                      (int)hms.hours().count(), (int)hms.minutes().count());
+
     id = id + " (" + buffer;
 
     int64_t size = levelSummary->getSizeOnDisk();

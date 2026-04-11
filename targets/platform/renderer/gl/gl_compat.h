@@ -257,6 +257,11 @@
 #define GL_TRIANGLE_STRIP 0x0005
 #endif
 
+#ifndef GL_RESCALE_NORMAL
+#define GL_RESCALE_NORMAL 0x803A
+#endif
+
+
 // glCallList / display list macros
 #undef glNewList
 #define glNewList(_list, _mode) PlatformRenderer.CBuffStart(_list)

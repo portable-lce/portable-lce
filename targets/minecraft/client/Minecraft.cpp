@@ -1119,21 +1119,15 @@ void Minecraft::run_middle() {
 #if !defined(_CONTENT_PACKAGE)
                                         {
                                             // print the time
-                                            auto now_tp = std::chrono::
-                                                system_clock::now();
-                                            std::time_t now_tt = std::chrono::
-                                                system_clock::to_time_t(now_tp);
-                                            std::tm utcTime{};
-#if defined(_WIN32)
-                                            gmtime_s(&utcTime, &now_tt);
-#else
-                                            gmtime_r(&now_tt, &utcTime);
-#endif
+                                            auto now = std::chrono::system_clock::now();
+                                            auto dp  = std::chrono::floor<std::chrono::days>(now);
+                                            std::chrono::hh_mm_ss hms{std::chrono::floor<std::chrono::seconds>(now - dp)};
 
                                             Log::info("%02d:%02d:%02d\n",
-                                                      utcTime.tm_hour,
-                                                      utcTime.tm_min,
-                                                      utcTime.tm_sec);
+                                                    (int)hms.hours().count(),
+                                                    (int)hms.minutes().count(),
+                                                    (int)hms.seconds().count());
+
                                         }
 #endif
                                     } else {

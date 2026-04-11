@@ -218,8 +218,8 @@ void HumanoidModel::setupAnim(float time, float r, float bob, float yRot,
             arm1->zRot = 0.0f;
 
         } else if (uiBitmaskOverrideAnim & (1 << eAnim_ArmsOutFront)) {
-            arm0->xRot = -M_PI_2;
-            arm1->xRot = -M_PI_2;
+            arm0->xRot = -(std::numbers::pi / 2.0);
+            arm1->xRot = -(std::numbers::pi / 2.0);
             arm0->zRot = 0.0f;
             arm1->zRot = 0.0f;
         } else if (uiBitmaskOverrideAnim & (1 << eAnim_SingleArms)) {
@@ -256,23 +256,23 @@ void HumanoidModel::setupAnim(float time, float r, float bob, float yRot,
 
         if (riding) {
             if ((uiBitmaskOverrideAnim & (1 << eAnim_SmallModel)) == 0) {
-                arm0->xRot += -M_PI_2 * 0.4f;
-                arm1->xRot += -M_PI_2 * 0.4f;
-                leg0->xRot = -M_PI_2 * 0.8f;
-                leg1->xRot = -M_PI_2 * 0.8f;
-                leg0->yRot = M_PI_2 * 0.2f;
-                leg1->yRot = -M_PI_2 * 0.2f;
+                arm0->xRot += -(std::numbers::pi / 2.0) * 0.4f;
+                arm1->xRot += -(std::numbers::pi / 2.0) * 0.4f;
+                leg0->xRot = -(std::numbers::pi / 2.0) * 0.8f;
+                leg1->xRot = -(std::numbers::pi / 2.0) * 0.8f;
+                leg0->yRot = (std::numbers::pi / 2.0) * 0.2f;
+                leg1->yRot = -(std::numbers::pi / 2.0) * 0.2f;
             } else {
-                arm0->xRot += -M_PI_2 * 0.4f;
-                arm1->xRot += -M_PI_2 * 0.4f;
-                leg0->xRot = -M_PI_2 * 0.4f;
-                leg1->xRot = -M_PI_2 * 0.4f;
+                arm0->xRot += -(std::numbers::pi / 2.0) * 0.4f;
+                arm1->xRot += -(std::numbers::pi / 2.0) * 0.4f;
+                leg0->xRot = -(std::numbers::pi / 2.0) * 0.4f;
+                leg1->xRot = -(std::numbers::pi / 2.0) * 0.4f;
             }
         } else if (idle && !sneaking) {
-            leg0->xRot = -M_PI_2;
-            leg1->xRot = -M_PI_2;
-            leg0->yRot = M_PI_2 * 0.2f;
-            leg1->yRot = -M_PI_2 * 0.2f;
+            leg0->xRot = -(std::numbers::pi / 2.0);
+            leg1->xRot = -(std::numbers::pi / 2.0);
+            leg0->yRot = (std::numbers::pi / 2.0) * 0.2f;
+            leg1->yRot = -(std::numbers::pi / 2.0) * 0.2f;
         } else if (uiBitmaskOverrideAnim & (1 << eAnim_NoLegAnim)) {
             leg0->xRot = 0.0f;
             leg0->zRot = 0.0f;
@@ -289,10 +289,10 @@ void HumanoidModel::setupAnim(float time, float r, float bob, float yRot,
         }
 
         if (holdingLeftHand != 0) {
-            arm1->xRot = arm1->xRot * 0.5f - M_PI_2 * 0.2f * holdingLeftHand;
+            arm1->xRot = arm1->xRot * 0.5f - (std::numbers::pi / 2.0) * 0.2f * holdingLeftHand;
         }
         if (holdingRightHand != 0) {
-            arm0->xRot = arm0->xRot * 0.5f - M_PI_2 * 0.2f * holdingRightHand;
+            arm0->xRot = arm0->xRot * 0.5f - (std::numbers::pi / 2.0) * 0.2f * holdingRightHand;
         }
 
         arm0->yRot = 0.0f;
@@ -425,8 +425,8 @@ void HumanoidModel::setupAnim(float time, float r, float bob, float yRot,
             arm1->zRot = 0.0f;
             arm0->yRot = -(0.1f - attack2 * 0.6f) + head->yRot;
             arm1->yRot = +(0.1f - attack2 * 0.6f) + head->yRot + 0.4f;
-            arm0->xRot = -M_PI_2 + head->xRot;
-            arm1->xRot = -M_PI_2 + head->xRot;
+            arm0->xRot = -(std::numbers::pi / 2.0) + head->xRot;
+            arm1->xRot = -(std::numbers::pi / 2.0) + head->xRot;
             arm0->xRot -= attack2 * 1.2f - attack * 0.4f;
             arm1->xRot -= attack2 * 1.2f - attack * 0.4f;
             arm0->zRot += ((float)(cosf(bob * 0.09f)) * 0.05f + 0.05f);

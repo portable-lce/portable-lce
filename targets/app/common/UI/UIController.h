@@ -36,7 +36,7 @@ class UIScene;
 
 // 4jcraft, used to be D3D11_RECT.
 // This was the only class that used it, so it's here now.
-struct RECT {
+struct 4J_RECT {
     long left;
     long top;
     long right;
@@ -190,7 +190,7 @@ private:
     int m_accumulatedTicks;
     uint64_t m_lastUiSfx;  // Tracks time (ms) of last UI sound effect
 
-    RECT m_customRenderingClearRect;
+    4J_RECT m_customRenderingClearRect;
 
     std::unordered_map<size_t, UIScene*>
         m_registeredCallbackScenes;  // A collection of scenes and unique id's

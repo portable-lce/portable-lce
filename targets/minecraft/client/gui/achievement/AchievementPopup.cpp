@@ -8,6 +8,7 @@
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
 #include "minecraft/locale/I18n.h"
 #include "minecraft/stats/Achievement.h"
+#include "minecraft/SharedConstants.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
 

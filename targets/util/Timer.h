@@ -3,7 +3,6 @@
 #include <chrono>
 #include <cstdint>
 #include <cstdio>
-#include <print>
 #include <source_location>
 #include <string_view>
 
