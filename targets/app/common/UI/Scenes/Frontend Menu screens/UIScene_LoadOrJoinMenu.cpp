@@ -1119,7 +1119,7 @@ void UIScene_LoadOrJoinMenu::UpdateGamesList() {
 
     delete m_currentSessions;
     m_currentSessions =
-        g_NetworkManager.GetSessionList(m_iPad, 1, m_bShowingPartyGamesOnly);
+        PlatformNetwork.GetSessionList(m_iPad, 1, m_bShowingPartyGamesOnly);
 
     // Update the xui list displayed
     unsigned int xuiListSize = m_buttonListGames.getItemCount();

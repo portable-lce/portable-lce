@@ -41,17 +41,10 @@ void GameSettingsManager::initGameSettings() {
         // clear the flag to say the settings have changed
         GameSettingsA[i]->bSettingsChanged = false;
 
-#if defined(_WINDOWS64)
         IPlatformProfile::PROFILESETTINGS* pProfileSettings =
             PlatformProfile.GetDashboardProfileSettings(i);
         memset(pProfileSettings, 0, sizeof(IPlatformProfile::PROFILESETTINGS));
         setDefaultOptions(pProfileSettings, i);
-#else
-        IPlatformProfile::PROFILESETTINGS* pProfileSettings =
-            PlatformProfile.GetDashboardProfileSettings(i);
-        memset(pProfileSettings, 0, sizeof(IPlatformProfile::PROFILESETTINGS));
-        setDefaultOptions(pProfileSettings, i);
-#endif
     }
 }
 

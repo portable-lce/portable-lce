@@ -33,9 +33,6 @@
 #include "platform/storage/storage.h"
 #include "util/StringHelpers.h"
 
-#if defined(_WINDOWS64)
-#endif
-
 namespace {
 bool ReadPortableBinaryFile(File& file, std::uint8_t*& data,
                             unsigned int& size) {

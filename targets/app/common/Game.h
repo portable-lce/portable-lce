@@ -1202,12 +1202,6 @@ private:
     std::string getRootPath(std::uint32_t packId, bool allowOverride,
                             bool bAddDataFolder, std::string mountPoint);
 
-public:
-#if defined(_WINDOWS64)
-    // CMinecraftAudio audio;
-#else
-
-#endif
 };
 
 extern Game app;

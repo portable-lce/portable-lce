@@ -259,11 +259,7 @@ int Game::GetLocalPlayerCount(void) {
 // Installed DLC callback
 
 // 4J-JEV: For the sake of clarity in DLCMountedCallback.
-#if defined(_WINDOWS64)
 #define CONTENT_DATA_DISPLAY_NAME(a) (a.szDisplayName)
-#else
-#define CONTENT_DATA_DISPLAY_NAME(a) (a.wszDisplayName)
-#endif
 
 #undef CONTENT_DATA_DISPLAY_NAME
 

@@ -350,7 +350,7 @@ inline bool eTYPE_FLAGSET(eINSTANCEOF flag, eINSTANCEOF claz) {
 
 /// FOR CHECKING ///
 
-#if !(defined _WINDOWS64)
+#if 1
 
 class SubClass {
     static void checkDerivations() {}

@@ -122,9 +122,8 @@ File::File(const std::string& pathname) {
 File::File(const std::string& parent,
            const std::string& child)  //: m_abstractPathName( child  )
 {
-    m_abstractPathName =
-        pathRoot + pathSeparator + parent + pathSeparator + child;
-    // this->parent = new File( parent );
+    // Using std::filesystem::path to join paths properly
+    m_abstractPathName = (std::filesystem::path(parent) / child).string();
 }
 
 // Creates a new File instance by converting the given path vector into an
