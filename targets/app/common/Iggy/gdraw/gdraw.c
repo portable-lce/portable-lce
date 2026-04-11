@@ -1,8 +1,12 @@
 #define GDRAW_ASSERTS
 
 #include "gdraw.h"
-
-#include <GL/gl.h>
+#if defined(_WIN32)
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
+#endif
+#include <GL/glew.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -128,33 +132,33 @@ typedef gdraw_gl_resourcetype gdraw_resourcetype;
 GDRAW_GL_EXTENSION_LIST
 #undef GLE
 
-typedef const GLubyte*(APIENTRYP PFNGLGETSTRINGIPROC_)(GLenum name,
+typedef const GLubyte*(APIENTRY* PFNGLGETSTRINGIPROC_)(GLenum name,
                                                        GLuint index);
 static PFNGLGETSTRINGIPROC_ gdraw_glGetStringi = NULL;
 
-typedef void(APIENTRYP PFNGLGENVERTEXARRAYSPROC_)(GLsizei n, GLuint* arrays);
-typedef void(APIENTRYP PFNGLBINDVERTEXARRAYPROC_)(GLuint array);
+typedef void(APIENTRY* PFNGLGENVERTEXARRAYSPROC_)(GLsizei n, GLuint* arrays);
+typedef void(APIENTRY* PFNGLBINDVERTEXARRAYPROC_)(GLuint array);
 static PFNGLGENVERTEXARRAYSPROC_ gdraw_glGenVertexArrays = NULL;
 static PFNGLBINDVERTEXARRAYPROC_ gdraw_glBindVertexArray = NULL;
 static GLuint gdraw_vao = 0;
 
-typedef void(APIENTRYP gdraw_vtxattrib_fn)(GLuint, GLint, GLenum, GLboolean,
+typedef void(APIENTRY* gdraw_vtxattrib_fn)(GLuint, GLint, GLenum, GLboolean,
                                            GLsizei, const void*);
 static gdraw_vtxattrib_fn gdraw_real_vtxattrib = NULL;
 static GLuint gdraw_screenvbo = 0;
 static const void* gdraw_screenvbo_base = NULL;
 static size_t gdraw_expected_vbo_size = 0;
 
-typedef void(APIENTRYP gdraw_drawelements_fn)(GLenum mode, GLsizei count,
+typedef void(APIENTRY* gdraw_drawelements_fn)(GLenum mode, GLsizei count,
                                               GLenum type, const void* indices);
 static gdraw_drawelements_fn gdraw_real_drawelements = NULL;
 static GLuint gdraw_screenibo = 0;
 
-typedef GLuint(APIENTRYP gdraw_createshader_fn)(GLenum);
-typedef void(APIENTRYP gdraw_shadersource_fn)(GLuint, GLsizei, const GLchar**,
+typedef GLuint(APIENTRY* gdraw_createshader_fn)(GLenum);
+typedef void(APIENTRY* gdraw_shadersource_fn)(GLuint, GLsizei, const GLchar**,
                                               const GLint*);
-typedef void(APIENTRYP gdraw_compileshader_fn)(GLuint);
-typedef void(APIENTRYP gdraw_linkprogram_fn)(GLuint);
+typedef void(APIENTRY* gdraw_compileshader_fn)(GLuint);
+typedef void(APIENTRY* gdraw_linkprogram_fn)(GLuint);
 static gdraw_createshader_fn gdraw_real_createshader = NULL;
 static gdraw_shadersource_fn gdraw_real_shadersource = NULL;
 static gdraw_compileshader_fn gdraw_real_compileshader = NULL;
@@ -162,24 +166,24 @@ static gdraw_linkprogram_fn gdraw_real_linkprogram = NULL;
 
 // some core reject p0
 
-typedef void(APIENTRYP gdraw_useprogram_fn)(GLuint);
+typedef void(APIENTRY* gdraw_useprogram_fn)(GLuint);
 static gdraw_useprogram_fn gdraw_real_useprogram = NULL;
 static GLuint gdraw_null_program = 0;
 
-typedef void(APIENTRYP gdraw_teximage2d_fn)(GLenum, GLint, GLint, GLsizei,
+typedef void(APIENTRY* gdraw_teximage2d_fn)(GLenum, GLint, GLint, GLsizei,
                                             GLsizei, GLint, GLenum, GLenum,
                                             const void*);
-typedef void(APIENTRYP gdraw_texsubimage2d_fn)(GLenum, GLint, GLint, GLint,
+typedef void(APIENTRY* gdraw_texsubimage2d_fn)(GLenum, GLint, GLint, GLint,
                                                GLsizei, GLsizei, GLenum, GLenum,
                                                const void*);
 static gdraw_teximage2d_fn gdraw_real_teximage2d = NULL;
 static gdraw_texsubimage2d_fn gdraw_real_texsubimage2d = NULL;
 
-#define TRY(ptr, arb, core)             \
-    do {                                \
+#define TRY(ptr, arb, core)                       \
+    do {                                          \
         void* _p = SDL_GL_GetProcAddress(core);   \
         if (!_p) _p = SDL_GL_GetProcAddress(arb); \
-        *(void**)&(ptr) = _p;           \
+        *(void**)&(ptr) = _p;                     \
     } while (0)
 
 static void load_extensions(void) {
@@ -254,15 +258,19 @@ static void load_extensions(void) {
         (gdraw_shadersource_fn)SDL_GL_GetProcAddress("glShaderSource");
     gdraw_real_compileshader =
         (gdraw_compileshader_fn)SDL_GL_GetProcAddress("glCompileShader");
-    gdraw_real_linkprogram = (gdraw_linkprogram_fn)SDL_GL_GetProcAddress("glLinkProgram");
-    gdraw_real_teximage2d = (gdraw_teximage2d_fn)SDL_GL_GetProcAddress("glTexImage2D");
+    gdraw_real_linkprogram =
+        (gdraw_linkprogram_fn)SDL_GL_GetProcAddress("glLinkProgram");
+    gdraw_real_teximage2d =
+        (gdraw_teximage2d_fn)SDL_GL_GetProcAddress("glTexImage2D");
     gdraw_real_texsubimage2d =
         (gdraw_texsubimage2d_fn)SDL_GL_GetProcAddress("glTexSubImage2D");
-    gdraw_real_useprogram = (gdraw_useprogram_fn)SDL_GL_GetProcAddress("glUseProgram");
+    gdraw_real_useprogram =
+        (gdraw_useprogram_fn)SDL_GL_GetProcAddress("glUseProgram");
     gdraw_real_drawelements =
         (gdraw_drawelements_fn)SDL_GL_GetProcAddress("glDrawElements");
 
-    gdraw_glGetStringi = (PFNGLGETSTRINGIPROC_)SDL_GL_GetProcAddress("glGetStringi");
+    gdraw_glGetStringi =
+        (PFNGLGETSTRINGIPROC_)SDL_GL_GetProcAddress("glGetStringi");
     gdraw_glGenVertexArrays =
         (PFNGLGENVERTEXARRAYSPROC_)SDL_GL_GetProcAddress("glGenVertexArrays");
     gdraw_glBindVertexArray =

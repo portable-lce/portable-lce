@@ -8,7 +8,6 @@
 #include <windows.h>
 #endif
 
-#include <GL/gl.h>
 #include <string.h>
 
 #include "java/File.h"

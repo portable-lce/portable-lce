@@ -32,6 +32,7 @@
 #include "platform/profile/profile.h"
 #include "platform/storage/storage.h"
 #include "util/StringHelpers.h"
+#include "strings.h"
 
 void Game::HandleXuiActions(void) {
     eXuiAction eAction;

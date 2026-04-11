@@ -12,6 +12,7 @@ lib_minecraft = static_library('minecraft',
         # dependency('libcrypto'), # for MD5 in Hasher.cpp on Linux
         dependency('zlib'),
         dependency('glm'),
+        dependency('glew'), # TODO remove
         nbt_dep,
         java_dep,
         util_dep,

@@ -176,21 +176,22 @@ void UIScene_MainMenu::handleGainFocus(bool navBack) {
         random->nextInt((int)m_splashes.size() - (eSplashRandomStart + 1));
 
     // Override splash text on certain dates
-    const std::time_t now =
-        std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    std::tm localTime;
-    localtime_r(&now, &localTime);
-    const int month = localTime.tm_mon + 1;  // tm_mon is 0-based
-    const int day = localTime.tm_mday;
-    if (month == 11 && day == 9) {
+    auto now = std::chrono::system_clock::now();
+    auto dp = std::chrono::floor<std::chrono::days>(now);
+    std::chrono::year_month_day ymd{dp};
+    const auto month = ymd.month();
+    const uint32_t day = static_cast<uint32_t>(ymd.day());
+
+    if (month == std::chrono::November && day == 9) {
         splashIndex = eSplashHappyBirthdayEx;
-    } else if (month == 6 && day == 1) {
+    } else if (month == std::chrono::June && day == 1) {
         splashIndex = eSplashHappyBirthdayNotch;
-    } else if (month == 12 && day == 24)  // the Java game shows this on
-                                          // Christmas Eve, so we will too
+    } else if (month == std::chrono::December &&
+               day == 24)  // the Java game shows this on
+                           // Christmas Eve, so we will too
     {
         splashIndex = eSplashMerryXmas;
-    } else if (month == 1 && day == 1) {
+    } else if (month == std::chrono::January && day == 1) {
         splashIndex = eSplashHappyNewYear;
     }
     // splashIndex = 47; // Very short string

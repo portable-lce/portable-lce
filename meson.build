@@ -10,7 +10,7 @@ project(
         'warning_level=0',
         'unity=on', # merge source files per target
         'unity_size=8', # TODO: mess around with this
-        'buildtype=debugoptimized', # needed for _FORTIFY_SOURCE
+        # 'buildtype=debugoptimized', # needed for _FORTIFY_SOURCE
         'b_pch=true', # precompiled headers
         # 'b_lto=true', # link-time optimisation (ThinLTO under clang+lld)
         # 'b_ndebug=if-release', # drop assert() in --buildtype=release

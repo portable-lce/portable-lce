@@ -10,6 +10,15 @@
 
 #include "rrCore.h"  // base data types, macros
 
+// on windows, these will cause MSVC to shit itself due to thinking
+// the stubbed iggy symbols are DLL-exported.
+#ifndef _ENABLEIGGY
+#undef RADEXPFUNC
+#undef RADEXPLINK
+#define RADEXPFUNC
+#define RADEXPLINK
+#endif
+
 RADDEFSTART
 
 #ifndef IGGY_GDRAW_SHARED_TYPEDEF
@@ -123,8 +132,8 @@ typedef enum IggyDatatype {
 /* Describes an AS3 datatype visible through iggy interface. */
 
 #ifdef __RADWIN__
-#include <stddef.h>
-IDOCN typedef char IggyUTF16;
+#include <uchar.h>
+IDOCN typedef char16_t IggyUTF16;
 #else
 #include <uchar.h>
 typedef const char16_t IggyUTF16;

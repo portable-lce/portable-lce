@@ -21,6 +21,7 @@
 #include "platform/input/input.h"
 #include "platform/profile/profile.h"
 #include "platform/storage/storage.h"
+#include "strings.h"
 
 unsigned int NetworkController::m_uiLastSignInData = 0;
 

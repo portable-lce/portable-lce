@@ -279,8 +279,6 @@ void SelectWorldScreen::WorldSelectionList::renderItem(int i, int x, int y,
                       (unsigned)ymd.month(), (int)ymd.year(),
                       (int)hms.hours().count(), (int)hms.minutes().count());
 
-    id = id + " (" + buffer;
-
     int64_t size = levelSummary->getSizeOnDisk();
     id = id + ", " + toWString<float>(size / 1024 * 100 / 1024 / 100.0f) +
          " MB)";

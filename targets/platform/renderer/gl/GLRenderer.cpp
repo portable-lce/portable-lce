@@ -24,8 +24,6 @@
 #undef glNormalPointer
 #undef glColorPointer
 #undef glVertexPointer
-#undef glGenQueriesARB
-#undef glGetQueryObjectuARB
 #undef glEnable
 #undef glDisable
 #undef glBlendFunc

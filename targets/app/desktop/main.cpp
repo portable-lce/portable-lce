@@ -40,7 +40,6 @@ static void sigsegv_handler(int sig) {
     _exit(139);
 }
 #endif
-#include <features.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>

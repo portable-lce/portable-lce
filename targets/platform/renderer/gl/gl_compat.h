@@ -16,7 +16,7 @@
 
 // #include "gl3_loader.h"
 // NOTE: gl3_loader.h must be included before these two
-#include <GL/gl.h>
+#include <GL/glew.h>
 
 #include <cstdint>
 #include <cstdlib>
@@ -261,6 +261,16 @@
 #define GL_RESCALE_NORMAL 0x803A
 #endif
 
+#ifndef GL_BGRA
+#define GL_BGRA 0x80E1
+#endif
+#ifndef GL_RGBA
+#define GL_RGBA 0x1908
+#endif
+
+#ifndef GL_CLAMP_TO_EDGE
+#define GL_CLAMP_TO_EDGE 0x812F
+#endif
 
 // glCallList / display list macros
 #undef glNewList
@@ -460,7 +470,6 @@
 #define glActiveTexture(tex)                         \
     do {                                             \
         PlatformRenderer.StateSetActiveTexture(tex); \
-        ::glActiveTexture(tex);                      \
     } while (0)
 
 #undef glClientActiveTexture
@@ -477,11 +486,6 @@ void glDeleteTextures_4J(int n, const unsigned int* textures);
 void glTexImage2D_4J(int target, int level, int internalformat, int width,
                      int height, int border, int format, int type,
                      void* pixels);
-
-// helprs
-void glGenQueries_4J_Helper(unsigned int* id);
-void glGetQueryObjectu_4J_Helper(unsigned int id, unsigned int pname,
-                                 unsigned int* val);
 
 template <typename T>
 inline void glGenTextures_4J(T* buf) {
@@ -521,20 +525,6 @@ inline void glCallLists_4J(T* lists) {
     for (int i = 0; i < count; i++) {
         PlatformRenderer.CBuffCall(lists->get(base + i));
     }
-}
-template <typename T>
-inline void glGenQueries_4J(T* buf) {
-    unsigned int id = 0;
-    glGenQueries_4J_Helper(&id);
-    buf->put((int)id);
-    buf->flip();
-}
-template <typename T>
-inline void glGetQueryObjectu_4J(int id, int pname, T* params) {
-    unsigned int val = 0;
-    glGetQueryObjectu_4J_Helper((unsigned int)id, (unsigned int)pname, &val);
-    params->put((int)val);
-    params->flip();
 }
 template <typename T>
 inline void glFog_4J(int pname, T* params) {
@@ -589,8 +579,6 @@ inline void glReadPixels_4J(int x, int y, int width, int height, int format,
 #define glTexImage2D(a, b, c, d, e, f, g, h, i) \
     glTexImage2D_4J(a, b, c, d, e, f, g, h, i)
 #define glCallLists(x) glCallLists_4J(x)
-#define glGenQueriesARB(x) glGenQueries_4J(x)
-#define glGetQueryObjectuARB(a, b, c) glGetQueryObjectu_4J(a, b, c)
 #define glReadPixels(a, b, c, d, e, f, g) glReadPixels_4J(a, b, c, d, e, f, g)
 #define glFog(a, b) glFog_4J(a, b)
 #define glLight(a, b, c) glLight_4J(a, b, c)

@@ -65,6 +65,7 @@
 #include "minecraft/world/entity/player/Abilities.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/entity/player/Player.h"
+#include "minecraft/world/entity/item/MinecartHopper.h"
 #include "minecraft/world/food/FoodConstants.h"
 #include "minecraft/world/food/FoodData.h"
 #include "minecraft/world/item/BowItem.h"

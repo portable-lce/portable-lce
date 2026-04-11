@@ -24,6 +24,7 @@
 #include "minecraft/world/level/tile/entity/HopperTileEntity.h"
 #include "platform/profile/profile.h"
 #include "platform/storage/storage.h"
+#include "strings.h"
 
 unsigned char MenuController::m_szPNG[8] = {137, 80, 78, 71, 13, 10, 26, 10};
 
