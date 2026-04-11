@@ -21,7 +21,7 @@
 #include "platform/renderer/renderer.h"
 #include "strings.h"
 #include "util/StringHelpers.h"
-#include "app/common/ui/ConsoleUIController.h"
+#include "app/common/UI/ConsoleUIController.h"
 
 int LocalizationManager::s_iHTMLFontSizesA[eHTMLSize_COUNT] = {20, 13, 20, 26};
 
