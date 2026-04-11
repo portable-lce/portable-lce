@@ -1604,11 +1604,15 @@ void LivingEntity::pushEntities() {
     AABB grown = bb.grow(0.2, 0, 0.2);
     std::vector<std::shared_ptr<Entity>>* entities =
         level->getEntities(shared_from_this(), &grown);
-    if (entities != nullptr && !entities->empty()) {
-        auto itEnd = entities->end();
-        for (auto it = entities->begin(); it != itEnd; it++) {
-            std::shared_ptr<Entity> e = *it;  // entities->at(i);
-            if (e and !e->removed and e->isPushable()) push(e);
+
+    if (entities == nullptr || entities->empty()) {
+        return;
+    }
+
+    std::vector<std::shared_ptr<Entity>> prev_entities = *entities;
+    for (const std::shared_ptr<Entity>& e : prev_entities) {
+        if (e && !e->removed && e->isPushable()) {
+            push(e);
         }
     }
 }

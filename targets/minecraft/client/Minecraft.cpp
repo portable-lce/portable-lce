@@ -485,7 +485,7 @@ File Minecraft::getWorkingDirectory(const std::string& applicationName) {
 
         return workingDirectory;
     } else {
-        Log::info("Could not locate user's home directory. This platform is likely missing an implementation of Minecraft::getWorkingDirectory.");
+        Log::info("Could not locate user's home directory. This platform is likely missing an implementation of Minecraft::getWorkingDirectory.\n");
         assert(0);
     }
 }
