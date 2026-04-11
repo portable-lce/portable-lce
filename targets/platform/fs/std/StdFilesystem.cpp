@@ -6,6 +6,12 @@
 #include <unistd.h>
 #endif
 
+#if defined(_WIN32)
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
+#endif
+
 namespace platform_internal {
 IPlatformFilesystem& PlatformFilesystem_get() {
     static StdFilesystem instance;
@@ -82,15 +88,23 @@ std::size_t StdFilesystem::fileSize(const std::filesystem::path& path) {
 }
 
 std::filesystem::path StdFilesystem::getBasePath() {
-#if defined(__linux__)
-    char buf[4096];
-    ssize_t len = readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+#if defined(_WIN32)
+    wchar_t buf[4096];
+    DWORD len = GetModuleFileNameW(nullptr, buf, sizeof(buf) / sizeof(wchar_t));
     if (len > 0) {
-        buf[len] = '\0';
         return std::filesystem::path(buf).parent_path();
     }
-#endif
+#elif defined(__APPLE__)
+    char buf[4096];
+    uint32_t size = sizeof(buf);
+    if (_NSGetExecutablePath(buf, &size) == 0) {
+        return std::filesystem::path(buf).parent_path();
+    }
+#elif defined(__linux__)
+    return std::filesystem::read_symlink("/proc/self/exe").parent_path();
+#else
     return std::filesystem::current_path();
+#endif
 }
 
 std::filesystem::path StdFilesystem::getUserDataPath() { return getBasePath(); }
