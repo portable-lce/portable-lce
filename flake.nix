@@ -130,7 +130,7 @@
           '';
 
           meta = {
-            description = "Project-LCE";
+            description = "Portable-LCE";
             platforms = lib.platforms.unix;
           };
         };
