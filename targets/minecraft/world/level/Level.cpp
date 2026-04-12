@@ -14,7 +14,15 @@
 
 #include "Explosion.h"
 #include "LevelListener.h"
+<<<<<<< Updated upstream
 #include "app/common/Audio/SoundTypes.h"
+=======
+#include "app/common/Colours/ColourTable.h"
+#include "app/common/Console_Debug_enum.h"
+#include "app/common/Network/GameNetworkManager.h"
+#include "app/linux/LinuxGame.h"
+#include "app/linux/Stubs/winapi_stubs.h"
+>>>>>>> Stashed changes
 #include "java/Random.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/Direction.h"
@@ -97,10 +105,11 @@ void Level::enableLightingCache() {
     // results, plus 128K required for toCheck array. Rounding up to 256 to keep
     // as multiple of alignement - aligning to 128K boundary for possible cache
     // locking.
-    m_tlsLightCache = (lightCache_t*)malloc(256 * 1024);
+    // 4jcraft changed to new instead of malloc
+    m_tlsLightCache = new lightCache_t[256 * 1024 / sizeof(lightCache_t)];
 }
 
-void Level::destroyLightingCache() { delete m_tlsLightCache; }
+void Level::destroyLightingCache() { delete[] m_tlsLightCache; }
 
 inline int GetIndex(int x, int y, int z) {
     return ((x & 15) << 8) | ((y & 15) << 4) | (z & 15);
@@ -681,7 +690,7 @@ Level::~Level() {
     delete dimension;
     delete chunkSource;
     delete levelData;
-    delete toCheckLevel;
+    delete[] toCheckLevel;
     delete scoreboard;
     delete villageSiege;
 
