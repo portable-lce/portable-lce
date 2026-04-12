@@ -2,7 +2,7 @@ name: Publish Documentation
 
 on:
   push:
-    branches: ["dev"]
+    branches: ["main"]
     paths:
       - "resources/**"
       - "Minecraft.Client/**"
