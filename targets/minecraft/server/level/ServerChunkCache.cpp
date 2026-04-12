@@ -8,10 +8,6 @@
 #include <atomic>
 
 #include "ServerLevel.h"
-<<<<<<< Updated upstream
-=======
-#include "app/linux/Stubs/winapi_stubs.h"
->>>>>>> Stashed changes
 #include "minecraft/IGameServices.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/util/Log.h"
