@@ -91,8 +91,8 @@ Or follow the [Meson quickstart guide](https://mesonbuild.com/Quick-guide.html).
 If you don't want to install dependencies, use the included devcontainer. Open the project in VS Code with the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension, or build manually:
 
 ```bash
-docker build -t Portable LCE-dev .devcontainer/
-docker run -it --rm -v $(pwd):/workspaces/Portable LCE -w /workspaces/Portable LCE Portable LCE-dev bash
+docker build -t portable-lce-dev .devcontainer/
+docker run -it --rm -v $(pwd):/workspaces/portable-lce -w /workspaces/portable-lce portable-lce-dev bash
 ```
 
 ### Configure & Build
@@ -148,7 +148,7 @@ cd build/targets/app
 
 ---
 
-### View the online documentation [here](https://Portable LCE.github.io/Portable LCE).
+### View the online documentation [here](https://portable-lce.github.io/portable-lce).
 
 ---
 
