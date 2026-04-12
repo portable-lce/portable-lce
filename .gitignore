@@ -19,6 +19,7 @@
 !/.gitignore
 !/.gitmodules
 !/CONTRIBUTING.md
+!/flake.lock
 !/flake.nix
 !/meson.build
 !/meson.options
