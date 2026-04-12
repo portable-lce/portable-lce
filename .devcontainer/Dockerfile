@@ -1,4 +1,4 @@
-FROM ubuntu:24.04 as clang
+FROM ubuntu:24.04 AS clang
 
 ENV DEBIAN_FRONTEND=noninteractive
 ARG LLVM_VERSION=20
@@ -30,7 +30,7 @@ ENV CC="clang" \
     CC_LD="lld" \
     CXX_LD="lld"
 
-FROM clang AS ivjcraft
+FROM clang AS portablelce
 
 ARG MESON_VERSION=1.10.2
 

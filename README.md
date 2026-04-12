@@ -1,8 +1,10 @@
-# <img src=".github-assets/logo.jpg" alt="Logo" width="50" height="50" style="vertical-align: middle;"> 4JCraft
+# <img src=".github-assets/logo.jpg" alt="Logo" width="50" height="50" style="vertical-align: middle;"> Portable LCE
 
+![](.github-assets/transrights.png) ![](.github-assets/progress.png) ![](.github-assets/freepalestine.gif) ![](.github-assets/internetarchive.gif) ![](.github-assets//ieget-an.gif) ![](.github-assets/minecraft.gif) ![](.github-assets/powered-llvm.gif)
+![](.github-assets/opengl.gif) ![](.github-assets/adobe_getflash2.gif) ![](.github-assets/flash_get_20010813.gif) ![](.github-assets/SiliconValley_7479_English_imagens_get_flashplayer.gif) ![](.github-assets/problematic-media.gif)
 ---
 
-4JCraft is a modified version of the Minecraft Console Legacy Edition, aimed at porting old Minecraft to different platforms (such as Linux, Android, Emscripten, etc.) and refactoring the codebase to improve organization and use modern C++ features.
+Portable LCE is a modified version of the Minecraft Console Legacy Edition, aimed at porting old Minecraft to different platforms (such as Linux, Android, Emscripten, etc.) and refactoring the codebase to improve organization and use modern C++ features.
 
 ## Scope & Platform Support
 
@@ -11,13 +13,13 @@ At the moment, we're aiming to support the following platforms:
 Please note that these percentages are **estimates** and do not necessarily reflect the final playability of the game on each platform.
 
 - Linux (~90%)
-- Emscripten (~10%) [[Check the Emscripten Branch](https://github.com/4jcraft/4jcraft/tree/feat/emscripten)]
+- Emscripten (~10%) [[Check the Emscripten Branch](https://github.com/portable-lce/portable-lce/tree/feat/emscripten)]
 - macOS (not started) [No official support but people have been able to run the game on MacOS]
 - iOS (not started)
 - Android (~35%)
 
 > [!WARNING]
-> There is NO Windows support, for that, go to [smartcmd/MinecraftConsoles](https://github.com/smartcmd/MinecraftConsoles/). 
+> There is NO Windows support, for that, go to [MCLCE/MinecraftConsoles](https://github.com/MCLCE/MinecraftConsoles). 
 
 > All efforts are focused towards a native Linux port, OpenGL rendering pipeline, and modernizing the existing LCE codebase/tooling to make future platform ports easier.
 > 
@@ -26,8 +28,7 @@ Please note that these percentages are **estimates** and do not necessarily refl
 ---
 
 ## Join our community:
-* **Discord:** https://discord.gg/zFCwRWkkUg
-* **Steam:** https://steamcommunity.com/groups/4JCraft
+* **Discord:** https://discord.gg/SC6WCZezry
 
 ## Building (Linux)
 
@@ -92,8 +93,8 @@ Or follow the [Meson quickstart guide](https://mesonbuild.com/Quick-guide.html).
 If you don't want to install dependencies, use the included devcontainer. Open the project in VS Code with the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension, or build manually:
 
 ```bash
-docker build -t 4jcraft-dev .devcontainer/
-docker run -it --rm -v $(pwd):/workspaces/4jcraft -w /workspaces/4jcraft 4jcraft-dev bash
+docker build -t portable-lce-dev .devcontainer/
+docker run -it --rm -v $(pwd):/workspaces/portable-lce -w /workspaces/portable-lce portable-lce-dev bash
 ```
 
 ### Configure & Build
@@ -149,7 +150,7 @@ cd build/targets/app
 
 ---
 
-### View the online documentation [here](https://4jcraft.github.io/4jcraft).
+### View the online documentation [here](https://portable-lce.github.io/portable-lce).
 
 ---
 
