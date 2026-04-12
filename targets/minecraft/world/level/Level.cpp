@@ -14,15 +14,7 @@
 
 #include "Explosion.h"
 #include "LevelListener.h"
-<<<<<<< Updated upstream
 #include "app/common/Audio/SoundTypes.h"
-=======
-#include "app/common/Colours/ColourTable.h"
-#include "app/common/Console_Debug_enum.h"
-#include "app/common/Network/GameNetworkManager.h"
-#include "app/linux/LinuxGame.h"
-#include "app/linux/Stubs/winapi_stubs.h"
->>>>>>> Stashed changes
 #include "java/Random.h"
 #include "minecraft/Console_Debug_enum.h"
 #include "minecraft/Direction.h"
