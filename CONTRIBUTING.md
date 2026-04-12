@@ -1,6 +1,6 @@
-# Contributing to 4JCraft
+# Contributing to Portable-LCE
 
-Thank you for considering contributing to 4JCraft! We appreciate all types of contributions, including bug fixes, new features, and documentation improvements.
+Thank you for considering contributing to Portable-LCE! We appreciate all types of contributions, including bug fixes, new features, and documentation improvements.
 
 Before you start contributing, please take a moment to review the guidelines outlined here. This ensures a smooth collaboration and helps maintain the project's quality.
 
@@ -44,12 +44,12 @@ At this time, we are trying to stay as close to the vanilla game as close as pos
 
 ### Bugfixes should be clearly commented.
 
-If you are submitting a minor addition to *game-relevant code*, clearly comment the purpose of this in a comment starting with `// 4jcraft:`. This indicates a patch over the original game code and lets us keep track of what has been modified in case it needs to be reverted later.
+If you are submitting a minor addition to *game-relevant code*, clearly comment the purpose of this in a comment starting with `// PLCE:`. This indicates a patch over the original game code and lets us keep track of what has been modified in case it needs to be reverted later.
 
 > **Example:**
 >
 > ```cpp
-> // 4jcraft: masking the id to 11 bits before writing to account for entity ids > 4095.
+> // PLCE: masking the id to 11 bits before writing to account for entity ids > 4095.
 > // This fixes a connection drop when loading the tutorial world on linux.
 > //
 > // FIXME: find the root cause of this, since there shouldn't be more than 4095 entities.
@@ -62,7 +62,9 @@ This rule may not apply to contributions fixing *trivially incorrect* 4J code th
 
 If you are fixing a bug, avoid submitting "hacks" that attempt to patch the effects of the bug rather than the root cause.
 
-> Exceptions to this rule may apply depending on the severity of the bug, provided that the code is clearly commented as a hack with a relevant `// 4jcraft:` comment.
+> Exceptions to this rule may apply depending on the severity of the bug, provided that the code is clearly commented as a hack with a relevant `// PLCE:` comment.
+
+Everything previously written before the hardfork from 4jcraft is commented with a "4JCraft" comment prefix.
 
 ### Don't submit code written by AI.
 

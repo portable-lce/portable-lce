@@ -1,5 +1,5 @@
 {
-  description = "4jcraft nix-package and dev-shell";
+  description = "projectlce nix-package and dev-shell";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -80,7 +80,7 @@
       in
       {
         packages.default = pkgs.clangStdenv.mkDerivation {
-          pname = "4jcraft";
+          pname = "projectlce";
           version = "0.1.0";
           src = ./.;
 
@@ -121,16 +121,16 @@
           ];
 
           installPhase = ''
-            mkdir -p $out/share/4jcraft
-            cp -r targets/app/. $out/share/4jcraft/
+            mkdir -p $out/share/projectlce
+            cp -r targets/app/. $out/share/projectlce/
 
             mkdir -p $out/bin
-            makeWrapper $out/share/4jcraft/Minecraft.Client $out/bin/4jcraft \
-              --run "cd $out/share/4jcraft"
+            makeWrapper $out/share/projectlce/Minecraft.Client $out/bin/projectlce \
+              --run "cd $out/share/projectlce"
           '';
 
           meta = {
-            description = "4JCraft";
+            description = "Project-LCE";
             platforms = lib.platforms.unix;
           };
         };
