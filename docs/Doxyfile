@@ -2,8 +2,7 @@
 # File Config
 #---------------------------------------------------------------------------
 PROJECT_NAME           = "Portable-LCE"
-INPUT                  = ../resources \
-                         ../targets \
+INPUT                  = ../targets \
                          ./doxymain.md
 RECURSIVE              = YES
 EXCLUDE_PATTERNS = \
