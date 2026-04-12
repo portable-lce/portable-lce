@@ -12,6 +12,10 @@
 #include <windows.h>
 #endif
 
+#if defined(__APPLE__)
+#include <mach-o/dyld.h>
+#endif
+
 namespace platform_internal {
 IPlatformFilesystem& PlatformFilesystem_get() {
     static StdFilesystem instance;

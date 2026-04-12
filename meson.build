@@ -88,7 +88,7 @@ subdir('targets/platform')
 
 # MARK: platform configuration
 
-if host_machine.system() in ['linux', 'windows']
+if host_machine.system() in ['linux', 'windows', 'darwin']
     platform_fs_dep = platform_fs_std_dep
     platform_game_dep = platform_game_stub_dep
     platform_input_dep = platform_input_sdl2_dep

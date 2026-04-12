@@ -3,7 +3,11 @@
 #include <atomic>
 #include <unordered_map>
 
+#if defined(__APPLE__)
+#include <miniaudio/miniaudio.h>
+#else
 #include "miniaudio.h"
+#endif
 #include "platform/sound/sound.h"
 
 namespace platform::sound::miniaudio {

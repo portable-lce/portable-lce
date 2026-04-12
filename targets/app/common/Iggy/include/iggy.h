@@ -135,8 +135,12 @@ typedef enum IggyDatatype {
 #include <uchar.h>
 IDOCN typedef char16_t IggyUTF16;
 #else
-#include <uchar.h>
+#if defined(__cplusplus)
 typedef const char16_t IggyUTF16;
+#else
+#include <stdint.h>
+typedef const uint16_t IggyUTF16;
+#endif
 #endif
 
 typedef struct IggyStringUTF16 {

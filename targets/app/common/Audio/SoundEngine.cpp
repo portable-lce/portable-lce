@@ -42,7 +42,11 @@ int strcasecmp(const char* a, const char* b) {
     return ca - cb;
 }
 #define MINIAUDIO_IMPLEMENTATION
+#if defined(__APPLE__)
+#include <miniaudio/miniaudio.h>
+#else
 #include "miniaudio.h"
+#endif
 
 #undef STB_VORBIS_HEADER_ONLY
 #include "stb_vorbis.c"

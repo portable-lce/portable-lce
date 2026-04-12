@@ -40,6 +40,10 @@ static void sigsegv_handler(int sig) {
     _exit(139);
 }
 #endif
+
+#if defined(__APPLE__)
+#include <unistd.h>
+#endif
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
