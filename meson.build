@@ -18,6 +18,11 @@ project(
     ],
 )
 
+# there is a little hack for SDL2 on darwin... upgrading to SDL3 will make this irrelevant 
+if host_machine.system() == 'darwin'
+    add_languages('objc', native: false)
+endif
+
 pymod = import('python')
 python = pymod.find_installation('python3', required: true)
 

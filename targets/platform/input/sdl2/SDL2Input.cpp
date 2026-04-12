@@ -20,6 +20,10 @@
 #include "SDL_video.h"
 #include "begin_code.h"
 
+#if defined(__APPLE__)
+#include "SDL2CursorPatch.h"
+#endif
+
 namespace platform_internal {
 IPlatformInput& PlatformInput_get() {
     static SDL2Input instance;
@@ -236,6 +240,9 @@ static void TakeSnapIfNeeded() {
 // We initialize the SDL input
 void SDL2Input::Initialise(int, unsigned char, unsigned char, unsigned char) {
     if (!s_sdlInitialized) {
+#if defined(__APPLE__)
+        PatchSDLInvisibleCursor();
+#endif
         if (SDL_WasInit(SDL_INIT_VIDEO) == 0) {
             SDL_Init(SDL_INIT_VIDEO);
         }
