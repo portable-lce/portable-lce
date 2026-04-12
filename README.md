@@ -11,7 +11,7 @@ At the moment, we're aiming to support the following platforms:
 Please note that these percentages are **estimates** and do not necessarily reflect the final playability of the game on each platform.
 
 - Linux (~90%)
-- Emscripten (~10%) [[Check the Emscripten Branch](https://github.com/Portable-LCE/Portable-LCE/tree/feat/emscripten)]
+- Emscripten (~10%) [[Check the Emscripten Branch](https://github.com/portable-lce/portable-lce/tree/feat/emscripten)]
 - macOS (not started) [No official support but people have been able to run the game on MacOS]
 - iOS (not started)
 - Android (~35%)
