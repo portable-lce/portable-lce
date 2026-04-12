@@ -8,7 +8,7 @@
 
 #include "util/StringHelpers.h"
 
-#if defined(__linux__) && defined(__GLIBC__)
+#if defined(__linux__) && defined(__GLIBC__) || defined(__APPLE__)
 #include <execinfo.h>
 #include <unistd.h>
 
@@ -41,9 +41,6 @@ static void sigsegv_handler(int sig) {
 }
 #endif
 
-#if defined(__APPLE__)
-#include <unistd.h>
-#endif
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -405,7 +402,7 @@ void DefineActions(void) {
 }
 
 int main(int argc, const char* argv[]) {
-#if defined(__linux__) && defined(__GLIBC__)
+#if defined(__linux__) && defined(__GLIBC__) || defined(__APPLE__)
     struct sigaction sa;
     sa.sa_handler = sigsegv_handler;
     sigemptyset(&sa.sa_mask);
