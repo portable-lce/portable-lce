@@ -8,6 +8,10 @@
 #include <atomic>
 
 #include "ServerLevel.h"
+<<<<<<< Updated upstream
+=======
+#include "app/linux/Stubs/winapi_stubs.h"
+>>>>>>> Stashed changes
 #include "minecraft/IGameServices.h"
 #include "minecraft/server/MinecraftServer.h"
 #include "minecraft/util/Log.h"
@@ -58,7 +62,7 @@ ServerChunkCache::~ServerChunkCache() {
     for (unsigned int i = 0; i < XZSIZE * XZSIZE; ++i) {
         delete m_unloadedCache[i];
     }
-    delete m_unloadedCache;
+    delete[] m_unloadedCache;
 #endif
 
     auto itEnd = m_loadedChunkList.end();
