@@ -3,8 +3,7 @@
 #---------------------------------------------------------------------------
 PROJECT_NAME           = "Portable-LCE"
 INPUT                  = ../resources \
-                         ../Minecraft.Client \
-                         ../Minecraft.World  \
+                         ../targets \
                          ./doxymain.md
 RECURSIVE              = YES
 EXCLUDE_PATTERNS = \
