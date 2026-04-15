@@ -93,28 +93,20 @@ public:
             boundingBox[5] = -FLT_MAX;
         }
         void addVert(float x, float y, float z) {
-            if (x < boundingBox[0]) boundingBox[0] = x;
-            if (y < boundingBox[1]) boundingBox[1] = y;
-            if (z < boundingBox[2]) boundingBox[2] = z;
-
-            if (x > boundingBox[3]) boundingBox[3] = x;
-            if (y > boundingBox[4]) boundingBox[4] = y;
-            if (z > boundingBox[5]) boundingBox[5] = z;
+            boundingBox[0] = std::min<float>(boundingBox[0], x);
+            boundingBox[1] = std::min<float>(boundingBox[1], y);
+            boundingBox[2] = std::min<float>(boundingBox[2], z);
+            boundingBox[3] = std::max<float>(boundingBox[3], x);
+            boundingBox[4] = std::max<float>(boundingBox[4], y);
+            boundingBox[5] = std::max<float>(boundingBox[5], z);
         }
-        void addBounds(Bounds& ob) {
-            if (ob.boundingBox[0] < boundingBox[0])
-                boundingBox[0] = ob.boundingBox[0];
-            if (ob.boundingBox[1] < boundingBox[1])
-                boundingBox[1] = ob.boundingBox[1];
-            if (ob.boundingBox[2] < boundingBox[2])
-                boundingBox[2] = ob.boundingBox[2];
-
-            if (ob.boundingBox[3] > boundingBox[3])
-                boundingBox[3] = ob.boundingBox[3];
-            if (ob.boundingBox[4] > boundingBox[4])
-                boundingBox[4] = ob.boundingBox[4];
-            if (ob.boundingBox[5] > boundingBox[5])
-                boundingBox[5] = ob.boundingBox[5];
+        void addBounds(const Bounds& ob) {
+            boundingBox[0] = std::min<float>(boundingBox[0], ob.boundingBox[0]);
+            boundingBox[1] = std::min<float>(boundingBox[1], ob.boundingBox[1]);
+            boundingBox[2] = std::min<float>(boundingBox[2], ob.boundingBox[2]);
+            boundingBox[3] = std::max<float>(boundingBox[3], ob.boundingBox[3]);
+            boundingBox[4] = std::max<float>(boundingBox[4], ob.boundingBox[4]);
+            boundingBox[5] = std::max<float>(boundingBox[5], ob.boundingBox[5]);
         }
         float boundingBox[6];  // 4J MGH added
 

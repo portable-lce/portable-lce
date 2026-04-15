@@ -14,12 +14,7 @@
 #include "minecraft/world/level/tile/Tile.h"
 
 Region::~Region() {
-    delete chunks;
-
-    // AP - added a caching system for Chunk::rebuild to take advantage of
-    if (CachedTiles) {
-        free(CachedTiles);
-    }
+    // flatChunksHeap automatically freed by unique_ptr
 }
 
 Region::Region(Level* level, int x1, int y1, int z1, int x2, int y2, int z2,
@@ -31,21 +26,33 @@ Region::Region(Level* level, int x1, int y1, int z1, int x2, int y2, int z2,
     int xc2 = (x2 + r) >> 4;
     int zc2 = (z2 + r) >> 4;
 
-    chunks = new std::vector<std::vector<LevelChunk*>>(
-        xc2 - xc1 + 1, std::vector<LevelChunk*>(zc2 - zc1 + 1, nullptr));
+    chunksDimX = xc2 - xc1 + 1;
+    chunksDimZ = zc2 - zc1 + 1;
+    int totalChunks = chunksDimX * chunksDimZ;
+
+    // Use stack buffer for common small regions (render chunks), heap for rare
+    // large ones (pathfinding)
+    if (totalChunks <= MAX_STACK_CHUNKS) {
+        flatChunks = flatChunks_stack;
+    } else {
+        flatChunksHeap = std::make_unique<LevelChunk*[]>(totalChunks);
+        flatChunks = flatChunksHeap.get();
+    }
+    std::fill_n(flatChunks, totalChunks, nullptr);
 
     allEmpty = true;
     for (int xc = xc1; xc <= xc2; xc++) {
         for (int zc = zc1; zc <= zc2; zc++) {
             LevelChunk* chunk = level->getChunk(xc, zc);
             if (chunk != nullptr) {
-                (*chunks)[xc - xc1][zc - zc1] = chunk;
+                flatChunks[(xc - xc1) * chunksDimZ + (zc - zc1)] = chunk;
             }
         }
     }
     for (int xc = (x1 >> 4); xc <= (x2 >> 4); xc++) {
         for (int zc = (z1 >> 4); zc <= (z2 >> 4); zc++) {
-            LevelChunk* chunk = (*chunks)[xc - xc1][zc - zc1];
+            LevelChunk* chunk =
+                flatChunks[(xc - xc1) * chunksDimZ + (zc - zc1)];
             if (chunk != nullptr) {
                 if (!chunk->isYSpaceEmpty(y1, y2)) {
                     allEmpty = false;
@@ -72,12 +79,11 @@ int Region::getTile(int x, int y, int z) {
     xc -= xc1;
     zc -= zc1;
 
-    if (xc < 0 || xc >= (int)chunks->size() || zc < 0 ||
-        zc >= (int)(*chunks)[xc].size()) {
+    if (xc < 0 || xc >= chunksDimX || zc < 0 || zc >= chunksDimZ) {
         return 0;
     }
 
-    LevelChunk* lc = (*chunks)[xc][zc];
+    LevelChunk* lc = flatChunks[xc * chunksDimZ + zc];
     if (lc == nullptr) return 0;
 
     return lc->getTile(x & 15, y, z & 15);
@@ -88,10 +94,10 @@ void Region::setCachedTiles(unsigned char* tiles, int xc, int zc) {
     xcCached = xc;
     zcCached = zc;
     int size = 16 * 16 * Level::maxBuildHeight;
-    if (CachedTiles == nullptr) {
-        CachedTiles = (unsigned char*)malloc(size);
+    if (!CachedTiles) {
+        CachedTiles = std::make_unique<unsigned char[]>(size);
     }
-    memcpy(CachedTiles, tiles, size);
+    std::copy(tiles, tiles + size, CachedTiles.get());
 }
 
 LevelChunk* Region::getLevelChunk(int x, int y, int z) {
@@ -101,12 +107,11 @@ LevelChunk* Region::getLevelChunk(int x, int y, int z) {
     int xc = (x >> 4) - xc1;
     int zc = (z >> 4) - zc1;
 
-    if (xc < 0 || xc >= (int)chunks->size() || zc < 0 ||
-        zc >= (int)(*chunks)[xc].size()) {
+    if (xc < 0 || xc >= chunksDimX || zc < 0 || zc >= chunksDimZ) {
         return nullptr;
     }
 
-    LevelChunk* lc = (*chunks)[xc][zc];
+    LevelChunk* lc = flatChunks[xc * chunksDimZ + zc];
     return lc;
 }
 
@@ -114,7 +119,14 @@ std::shared_ptr<TileEntity> Region::getTileEntity(int x, int y, int z) {
     int xc = (x >> 4) - xc1;
     int zc = (z >> 4) - zc1;
 
-    return (*chunks)[xc][zc]->getTileEntity(x & 15, y, z & 15);
+    if (xc < 0 || xc >= chunksDimX || zc < 0 || zc >= chunksDimZ) {
+        return nullptr;
+    }
+
+    LevelChunk* lc = flatChunks[xc * chunksDimZ + zc];
+    if (lc == nullptr) return nullptr;
+
+    return lc->getTileEntity(x & 15, y, z & 15);
 }
 
 int Region::getLightColor(int x, int y, int z, int emitt, int tileId /*=-1*/) {
@@ -176,8 +188,14 @@ int Region::getRawBrightness(int x, int y, int z, bool propagate) {
     int xc = (x >> 4) - xc1;
     int zc = (z >> 4) - zc1;
 
-    return (*chunks)[xc][zc]->getRawBrightness(x & 15, y, z & 15,
-                                               level->skyDarken);
+    if (xc < 0 || xc >= chunksDimX || zc < 0 || zc >= chunksDimZ) {
+        return 0;
+    }
+
+    LevelChunk* lc = flatChunks[xc * chunksDimZ + zc];
+    if (lc == nullptr) return 0;
+
+    return lc->getRawBrightness(x & 15, y, z & 15, level->skyDarken);
 }
 
 int Region::getData(int x, int y, int z) {
@@ -186,7 +204,14 @@ int Region::getData(int x, int y, int z) {
     int xc = (x >> 4) - xc1;
     int zc = (z >> 4) - zc1;
 
-    return (*chunks)[xc][zc]->getData(x & 15, y, z & 15);
+    if (xc < 0 || xc >= chunksDimX || zc < 0 || zc >= chunksDimZ) {
+        return 0;
+    }
+
+    LevelChunk* lc = flatChunks[xc * chunksDimZ + zc];
+    if (lc == nullptr) return 0;
+
+    return lc->getData(x & 15, y, z & 15);
 }
 
 Material* Region::getMaterial(int x, int y, int z) {
@@ -259,7 +284,7 @@ int Region::getBrightnessPropagate(LightLayer::variety layer, int x, int y,
         // "surrounding" which is what we were returning here. Surrounding has
         // the same value as the enum value in our C++ code, so just cast it to
         // an int
-        return (int)layer;
+        return static_cast<int>(layer);
     }
     if (layer == LightLayer::Sky && level->dimension->hasCeiling) {
         return 0;
@@ -287,7 +312,14 @@ int Region::getBrightnessPropagate(LightLayer::variety layer, int x, int y,
     int xc = (x >> 4) - xc1;
     int zc = (z >> 4) - zc1;
 
-    return (*chunks)[xc][zc]->getBrightness(layer, x & 15, y, z & 15);
+    if (xc < 0 || xc >= chunksDimX || zc < 0 || zc >= chunksDimZ) {
+        return static_cast<int>(layer);
+    }
+
+    LevelChunk* lc = flatChunks[xc * chunksDimZ + zc];
+    if (lc == nullptr) return static_cast<int>(layer);
+
+    return lc->getBrightness(layer, x & 15, y, z & 15);
 }
 
 // 4J - brought forward from 1.8.2
@@ -301,12 +333,19 @@ int Region::getBrightness(LightLayer::variety layer, int x, int y, int z) {
         // "surrounding" which is what we were returning here. Surrounding has
         // the same value as the enum value in our C++ code, so just cast it to
         // an int
-        return (int)layer;
+        return static_cast<int>(layer);
     }
     int xc = (x >> 4) - xc1;
     int zc = (z >> 4) - zc1;
 
-    return (*chunks)[xc][zc]->getBrightness(layer, x & 15, y, z & 15);
+    if (xc < 0 || xc >= chunksDimX || zc < 0 || zc >= chunksDimZ) {
+        return static_cast<int>(layer);
+    }
+
+    LevelChunk* lc = flatChunks[xc * chunksDimZ + zc];
+    if (lc == nullptr) return static_cast<int>(layer);
+
+    return lc->getBrightness(layer, x & 15, y, z & 15);
 }
 
 int Region::getMaxBuildHeight() { return Level::maxBuildHeight; }

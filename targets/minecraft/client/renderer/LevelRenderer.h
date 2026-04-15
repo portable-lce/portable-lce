@@ -207,6 +207,11 @@ private:
     double yOld[4];  // 4J - now one per player
     double zOld[4];  // 4J - now one per player
 
+    struct SortEntry {
+        ClipChunk* chunk;
+        float distSq;
+    };
+
     int totalChunks, offscreenChunks, occludedChunks, renderedChunks,
         emptyChunks;
     static const int RENDERLISTS_LENGTH = 4;  // 4J - added
