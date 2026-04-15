@@ -70,9 +70,11 @@ public:
     void setSpecialTutorialCompletionFlag(int iPad, int index) override;
     void setBanListCheck(int iPad, bool val) override;
     bool getBanListCheck(int iPad) override;
+#if defined(_LARGE_WORLDS)
     unsigned int getGameNewWorldSize() override;
     unsigned int getGameNewWorldSizeUseMoat() override;
     unsigned int getGameNewHellScale() override;
+#endif
 
     // -- UI dispatch --
     void setAction(int iPad, eXuiAction action, void* param) override;
