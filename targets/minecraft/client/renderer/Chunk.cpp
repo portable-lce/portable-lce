@@ -433,6 +433,8 @@ void Chunk::rebuild() {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     Region region(level, x0 - r, y0 - r, z0 - r, x1 + r, y1 + r, z1 + r, r);
+    region.setCachedTiles(tileIds, sourceChunk, this->x >> 4, this->z >> 4);
+
     TileRenderer tileRenderer(&region, this->x, this->y, this->z, tileIds);
 
     Tesselator::Bounds bounds;  // 4J MGH - added

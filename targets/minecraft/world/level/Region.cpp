@@ -64,40 +64,54 @@ Region::Region(Level* level, int x1, int y1, int z1, int x2, int y2, int z2,
     // AP - added a caching system for Chunk::rebuild to take advantage of
     xcCached = -1;
     zcCached = -1;
-    CachedTiles = nullptr;
 }
 
 bool Region::isAllEmpty() { return allEmpty; }
 
 int Region::getTile(int x, int y, int z) {
-    if (y < 0) return 0;
-    if (y >= Level::maxBuildHeight) return 0;
+    if (y < 0 || y >= Level::maxBuildHeight) return 0;
 
-    int xc = (x >> 4);
-    int zc = (z >> 4);
+    const int xc = x >> 4;
+    const int zc = z >> 4;
 
-    xc -= xc1;
-    zc -= zc1;
+    // fallback path in case cache is not set
+    // ideally, should never be hit
+    if (xc != xcCached || zc != zcCached) {
+        const int slow_xc = xc - xc1;
+        const int slow_zc = zc - zc1;
 
-    if (xc < 0 || xc >= chunksDimX || zc < 0 || zc >= chunksDimZ) {
-        return 0;
+        if (slow_xc < 0 || slow_xc >= chunksDimX || slow_zc < 0 ||
+            slow_zc >= chunksDimZ)
+            return 0;
+
+        LevelChunk* const levelChunk =
+            flatChunks[slow_xc * chunksDimZ + slow_zc];
+
+        if (levelChunk == nullptr) return 0;
+
+        return levelChunk->getTile(x & 15, y, z & 15);
     }
 
-    LevelChunk* lc = flatChunks[xc * chunksDimZ + zc];
-    if (lc == nullptr) return 0;
+    // tile ids are stored in two sections
+    const int indexY = y & 0x7F;
+    const int offset = ((y >> 7) & 1) * Level::COMPRESSED_CHUNK_SECTION_TILES;
 
-    return lc->getTile(x & 15, y, z & 15);
+    const unsigned char val =
+        CachedTiles[offset + (((x & 15) << 11) | ((z & 15) << 7) | indexY)];
+
+    // needed as tile returns are expected even for invisible tiles
+    if (val != 0xff) return val;
+
+    return CachedChunk ? CachedChunk->getTile(x & 15, y, z & 15) : 0;
 }
 
 // AP - added a caching system for Chunk::rebuild to take advantage of
-void Region::setCachedTiles(unsigned char* tiles, int xc, int zc) {
+void Region::setCachedTiles(const unsigned char* tiles, LevelChunk* chunk,
+                            int xc, int zc) {
+    CachedTiles = tiles;
+    CachedChunk = chunk;
     xcCached = xc;
     zcCached = zc;
-    int size = 16 * 16 * Level::maxBuildHeight;
-    if (!CachedTiles) {
-        CachedTiles = std::make_unique<unsigned char[]>(size);
-    }
-    std::copy(tiles, tiles + size, CachedTiles.get());
 }
 
 LevelChunk* Region::getLevelChunk(int x, int y, int z) {
