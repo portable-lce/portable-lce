@@ -5,4 +5,5 @@ revision = fd476229424b40ae71a58dd5a205795c3d76b5f1
 patch_directory = simdutf
 
 [provide]
-simdutf_dep = simdutf
+dependency_names = simdutf
+

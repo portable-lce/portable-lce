@@ -55,7 +55,7 @@ simdutf_lib = static_library(
 )
 
 simdutf_dep = declare_dependency(
-    include_directories: include_directories('.'),
+    include_directories: include_directories('./include'),
     link_with: simdutf_lib,
 )
 
