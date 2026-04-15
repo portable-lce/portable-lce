@@ -1,7 +1,7 @@
 
 #ifdef ENABLE_FRAME_PROFILER
 
-#include <FrameProfiler.h>
+#include "util/FrameProfiler.h"
 
 #include <array>
 #include <atomic>

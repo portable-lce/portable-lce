@@ -827,10 +827,10 @@ int LevelRenderer::renderChunks(int from, int to, int layer, double alpha) {
         for (int i = 0; i < chunks[playerIndex].size(); i++, pClipChunk++) {
             // unsure of the impact since it varies massively on cpu, but might
             // as well include it
-            if (!pClipChunk->visible) [[likely]]
+            if (!pClipChunk->visible)
                 continue;  // This will be set if the chunk isn't visible, or
                            // isn't compiled, or has both empty flags set
-            if (pClipChunk->globalIdx == -1) [[unlikely]]
+            if (pClipChunk->globalIdx == -1)
                 continue;  // Not sure if we should ever encounter this...
                            // TODO check
             if ((globalChunkFlags[pClipChunk->globalIdx] & emptyFlag) ==

@@ -475,11 +475,10 @@ void Chunk::rebuild() {
                         tileIds[offset +
                                 (((x - x0) << 11) | ((z - z0) << 7) | indexY)];
                     // If flagged as not visible, drop out straight away
-                    if (tileId == 0xff) [[unlikely]]
-                        continue;
+                    if (tileId == 0xff) continue;
                     //					int tileId =
                     // region->getTile(x,y,z);
-                    if (tileId > 0) [[unlikely]] {
+                    if (tileId > 0) {
                         if (!started) {
                             started = true;
 
