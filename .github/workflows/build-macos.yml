@@ -32,8 +32,12 @@ concurrency:
   cancel-in-progress: ${{ !contains(github.ref, 'dev/') }}
 
 jobs:
-  amalgamate:
-    runs-on: macos-latest
+  Build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        build-type: ['release','debug']
+        arch: ['x86-64']
 
     steps:
       - name: Cache .git folder
@@ -53,39 +57,39 @@ jobs:
       - name: Restore build cache
         uses: ./.github/actions/restore-cache
         with:
-          ccache_dir: ${{ runner.temp }}/ccache
+          ccache_dir: ~/.cache/ccache
 
-      - name: Compile
+      - name: Compile unity
+        if: ${{ startsWith(matrix.build-type, 'release') }}
         uses: ./.github/actions/build-meson
         with:
-          dir_name: "build_release"
+          dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=on -Dunity_size=99999 -Dui_backend=java"
 
-  full:
-    runs-on: macos-latest
-
-    steps:
-      - name: Cache .git folder
-        uses: actions/cache@v5
-        with:
-          path: .git
-          key: ${{ runner.os }}-git-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-git-
-
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
-
-      - name: Enter dev-shell
-        uses: ./.github/actions/enter-devshell
-
-      - name: Restore build cache
-        uses: ./.github/actions/restore-cache
-        with:
-          ccache_dir: ${{ runner.temp }}/ccache
-
       - name: Compile
+        if: ${{ startsWith(matrix.build-type, 'debug') }}
         uses: ./.github/actions/build-meson
         with:
-          dir_name: "build_debug"
+          dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=off -Dui_backend=java"
+
+      - name: Package artifact
+        run: |
+          cd build_${{ matrix.build-type }}/targets/app
+          zip -r ../../../minecraft-client-macos-${{ matrix.arch }}.zip * -x "./Minecraft.Client.p/*"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: minecraft-client-macos-${{ matrix.build-type }}-${{ github.sha }}
+          path: minecraft-client-macos-${{ matrix.arch }}.zip
+          retention-days: 7
+
+      - name: Release Nightly
+        if: ${{ startsWith(matrix.build-type, 'release') }}
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: nightly
+          name: Nightly
+          prerelease: true
+          files: minecraft-client-macos-${{ matrix.arch }}.zip

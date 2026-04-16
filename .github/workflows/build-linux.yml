@@ -76,13 +76,13 @@ jobs:
       - name: Package artifact
         run: |
           cd build_${{ matrix.build-type }}/targets/app
-          zip -r ../../../minecraft-client-linux-${{ matrix.arch }}.zip . --exclude "./Minecraft.Client.p/*"
+          zip -r ../../../minecraft-client-linux-${{ matrix.arch }}.zip * -x "./Minecraft.Client.p/*"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
           name: minecraft-client-linux-${{ matrix.build-type }}-${{ github.sha }}
-          path: minecraft-client-linux-.${{ matrix.arch }}.zip
+          path: minecraft-client-linux-${{ matrix.arch }}.zip
           retention-days: 7
 
       - name: Release Nightly
@@ -92,5 +92,4 @@ jobs:
           tag_name: nightly
           name: Nightly
           prerelease: true
-          body: ${{ github.event.workflow_run.head_commit.message }}
           files: minecraft-client-linux-${{ matrix.arch }}.zip
