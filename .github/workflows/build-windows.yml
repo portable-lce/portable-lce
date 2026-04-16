@@ -62,7 +62,7 @@ jobs:
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_${{ matrix.build-type }}"
-          setup_args: "-Dunity=on -Dunity_size=99999 --vsenv -Dzlib:unity=off -Dsdl2:unity=off"
+          setup_args: "-Dunity=on -Dunity_size=99999 --vsenv -Dzlib:unity=off -Dsdl2:unity=off -Dbuildtype=release"
 
       - name: Compile
         if: ${{ startsWith(matrix.build-type, 'debug') }}
@@ -74,8 +74,9 @@ jobs:
       - name: Package artifact
         shell: bash -e {0}
         run: |
+          cp subprojects/shiggy/libs/iggy_w64.dll  build_${{matrix.build-type}}/targets/app/iggy_w64.dll
           cd build_${{matrix.build-type}}/targets/app
-          7z a ../../../minecraft-client-windows-${{matrix.arch}}.zip * -x!Minecraft.Client.exe.p/*
+          7z a ../../../minecraft-client-windows-${{matrix.arch}}.zip * -x!Minecraft.Client.exe.p/
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:

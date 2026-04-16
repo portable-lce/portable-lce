@@ -34,11 +34,11 @@ concurrency:
 
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
         build-type: ['release','debug']
-        arch: ['x86-64']
+        arch: ['arm64']
 
     steps:
       - name: Cache .git folder

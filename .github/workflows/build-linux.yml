@@ -65,7 +65,8 @@ jobs:
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_${{ matrix.build-type }}"
-          setup_args: "-Dunity=on -Dunity_size=99999"
+          # Because this is our release and we are building in nix, im using static here.
+          setup_args: "-Dunity=on -Dunity_size=99999 -Ddefault_library=static"
 
       - name: Compile
         if: ${{ startsWith(matrix.build-type, 'debug') }}
@@ -77,7 +78,7 @@ jobs:
       - name: Package artifact
         run: |
           cd build_${{ matrix.build-type }}/targets/app
-          zip -r ../../../minecraft-client-linux-${{ matrix.arch }}.zip * -x "./Minecraft.Client.p/*"
+          zip -r ../../../minecraft-client-linux-${{ matrix.arch }}.zip * -x "./Minecraft.Client.p/"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v6
