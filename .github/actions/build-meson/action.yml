@@ -27,12 +27,6 @@ runs:
       run: meson setup ${{ inputs.dir_name }} --wipe ${{ inputs.setup_args }}
 
     - name: Setup build-directory
-      if: ${{ runner.os == 'macOS' }}
-      shell: nix develop --command bash -e {0}
-      run: |
-        meson setup ${{ inputs.dir_name }} --wipe ${{ inputs.setup_args }}
-
-    - name: Setup build-directory
       if: ${{ runner.os == 'Windows' }}
       shell: bash -e {0}
       run: |

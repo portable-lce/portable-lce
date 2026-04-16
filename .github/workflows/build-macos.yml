@@ -20,7 +20,7 @@ on:
       - "**.hh"
       - "**.c"
       - "**.h"
-      - ".github/workflows/build-linux.yml"
+      - ".github/workflows/build-macos.yml"
       - "**/meson.build"
       - "flake.nix"
 

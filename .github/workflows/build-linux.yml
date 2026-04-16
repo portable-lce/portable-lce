@@ -32,9 +32,11 @@ concurrency:
   cancel-in-progress: ${{ !contains(github.ref, 'dev/') }}
 
 jobs:
-  amalgamate:
+  Build:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        build-type: ['release','debug']
     steps:
       - name: Cache .git folder
         uses: actions/cache@v5
@@ -53,39 +55,39 @@ jobs:
       - name: Restore build cache
         uses: ./.github/actions/restore-cache
         with:
-          ccache_dir: ${{ runner.temp }}/ccache
+          ccache_dir: ~/.cache/ccache
 
-      - name: Compile
+      - name: Compile unity
+        if: ${{ startsWith(matrix.build-type, 'release') }}
         uses: ./.github/actions/build-meson
         with:
-          dir_name: "build_release"
+          dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=on -Dunity_size=99999"
 
-  full:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Cache .git folder
-        uses: actions/cache@v5
-        with:
-          path: .git
-          key: ${{ runner.os }}-git-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-git-
-
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
-
-      - name: Enter dev-shell
-        uses: ./.github/actions/enter-devshell
-
-      - name: Restore build cache
-        uses: ./.github/actions/restore-cache
-        with:
-          ccache_dir: ${{ runner.temp }}/ccache
-
       - name: Compile
+        if: ${{ startsWith(matrix.build-type, 'debug') }}
         uses: ./.github/actions/build-meson
         with:
-          dir_name: "build_debug"
+          dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=off"
+
+      - name: Package artifact
+        run: |
+          cd build_${{matrix.build-type}}/targets/app
+          zip -r ../../../minecraft-client-linux.zip . --exclude "./Minecraft.Client.p/*"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: minecraft-client-linux-${{ matrix.build-type }}-${{ github.sha }}
+          path: minecraft-client-linux.zip
+          retention-days: 7
+
+      - name: Release Nightly
+        if: ${{ startsWith(matrix.build-type, 'release') }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly
+          name: Nightly
+          prerelease: true
+          files: minecraft-client-linux.zip
