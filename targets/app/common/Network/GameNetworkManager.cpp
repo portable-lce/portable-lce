@@ -153,15 +153,15 @@ bool CGameNetworkManager::StartNetworkGame(Minecraft* minecraft,
                         !param->levelGen->getBaseSavePath().empty()) {
 #if defined(_WINDOWS64)
                         std::string fileRoot =
-                            "Windows64Media\\Tutorial\\" +
+                            "Windows64Media/Tutorial/" +
                             param->levelGen->getBaseSavePath();
                         File root(fileRoot);
                         if (!root.exists())
-                            fileRoot = "Windows64\\Tutorial\\" +
+                            fileRoot = "Windows64/Tutorial/" +
                                        param->levelGen->getBaseSavePath();
 #else
                         std::string fileRoot =
-                            "Tutorial\\" + param->levelGen->getBaseSavePath();
+                            "Tutorial/" + param->levelGen->getBaseSavePath();
 #endif
                         File grf(fileRoot);
                         if (grf.exists()) {

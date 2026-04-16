@@ -287,7 +287,7 @@ void UIScene_PauseMenu::handlePress(F64 controlId, F64 childId) {
             } else {
                 bool bContentRestricted = false;
                 if (bContentRestricted) {
-#if !defined(_WINDOWS64)
+#if 0 // !defined(_WINDOWS64)
                     // we check this for other platforms
                     // you can't see leaderboards
                     unsigned int uiIDA[1];

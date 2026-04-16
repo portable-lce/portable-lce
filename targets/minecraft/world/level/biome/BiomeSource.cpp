@@ -475,7 +475,7 @@ int64_t BiomeSource::findSeed(LevelType* generator) {
             srcInfo.Height = 54 * 16;
 
             char buf[256];
-            sprintf(buf, "GAME:\\BiomeTest%d.bmp", k);
+            sprintf(buf, "GAME:/BiomeTest%d.bmp", k);
             PlatformRender.SaveTextureData(buf, &srcInfo, (int*)pixels);
 
             delete[] pixels;

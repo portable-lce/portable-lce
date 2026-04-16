@@ -6,7 +6,7 @@ std::string TexturePack::getPath(bool bTitleUpdateTexture /*= false*/,
 
     if (bTitleUpdateTexture) {
         // Make the content package point to to the UPDATE: drive is needed
-        wDrive = "Common\\res\\TitleUpdate\\";
+        wDrive = "Common/res/TitleUpdate/";
     } else {
         wDrive = "app/common/";
     }

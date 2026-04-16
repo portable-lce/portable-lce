@@ -69,10 +69,7 @@ enum ESavePlatform {
     SAVE_FILE_PLATFORM_PSVITA = MAKE_FOURCC('P', 'S', 'V', '_'),
     SAVE_FILE_PLATFORM_WIN64 = MAKE_FOURCC('W', 'I', 'N', '_'),
 
-#if defined(_WINDOWS64)
-    SAVE_FILE_PLATFORM_LOCAL = SAVE_FILE_PLATFORM_WIN64
-#else
-    // DecalOverdose(HACK + TODO)
+#if 1 // defined(_WINDOWS64)
     SAVE_FILE_PLATFORM_LOCAL = SAVE_FILE_PLATFORM_WIN64
 #endif
 };

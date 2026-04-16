@@ -10,6 +10,7 @@
 
 #include "java/FileFilter.h"
 #include "platform/fs/fs.h"
+#include "platform/storage/storage.h"
 #include "util/StringHelpers.h"  // 4jcraft TODO
 
 const char File::pathSeparator = '/';
@@ -46,57 +47,61 @@ File::File(const File& parent, const std::string& child) {
 // abstract pathname.
 
 File::File(const std::string& pathname) {
-    if (pathname.empty()) {
-        m_abstractPathName = "";
-        return;
-    }
+    // if (pathname.empty()) {
+    //     m_abstractPathName = "";
+    //     return;
+    // }
 
-    std::string fixedPath = pathname;
-    for (size_t i = 0; i < fixedPath.length(); ++i) {
-        if (fixedPath[i] == '\\') fixedPath[i] = '/';
-    }
-    size_t dpos;
-    while ((dpos = fixedPath.find("//")) != std::string::npos)
-        fixedPath.erase(dpos, 1);
-    if (fixedPath.find("GAME:/") == 0) fixedPath = fixedPath.substr(6);
-    m_abstractPathName = fixedPath;
+    // std::string fixedPath = pathname;
+    // for (size_t i = 0; i < fixedPath.length(); ++i) {
+    //     if (fixedPath[i] == '\\') fixedPath[i] = '/';
+    // }
+    // size_t dpos;
+    // while ((dpos = fixedPath.find("//")) != std::string::npos)
+    //     fixedPath.erase(dpos, 1);
+    // if (fixedPath.find("GAME:/") == 0) fixedPath = fixedPath.substr(6);
+    // m_abstractPathName = fixedPath;
 
-    std::string request = std::filesystem::path(m_abstractPathName).string();
-    while (!request.empty() && request[0] == '/') request.erase(0, 1);
-    if (request.find("res/") == 0) request.erase(0, 4);
+    // std::string request = std::filesystem::path(m_abstractPathName).string();
+    // while (!request.empty() && request[0] == '/') request.erase(0, 1);
+    // if (request.find("res/") == 0) request.erase(0, 4);
 
-    std::string exeDir = PlatformFilesystem.getBasePath().string();
-    std::string fileName = request;
-    size_t lastSlash = fileName.find_last_of('/');
-    if (lastSlash != std::string::npos)
-        fileName = fileName.substr(lastSlash + 1);
+    // std::string exeDir = PlatformFilesystem.getBasePath().string();
+    // std::string fileName = request;
+    // size_t lastSlash = fileName.find_last_of('/');
+    // if (lastSlash != std::string::npos)
+    //     fileName = fileName.substr(lastSlash + 1);
 
-    const char* bases[] = {"/",
-                           "/Common/res/TitleUpdate/res/",
-                           "/Common/Media/",
-                           "/Common/res/",
-                           "/Common/",
-                           "resources/"};
+    // const char* bases[] = {"/",
+    //                        "/Common/res/TitleUpdate/res/",
+    //                        "/Common/Media/",
+    //                        "/Common/res/",
+    //                        "/Common/",
+    //                        "resources/"};
 
-    for (const char* base : bases) {
-        std::string tryFull = exeDir + base + request;
-        std::string tryFile = exeDir + base + fileName;
-        if (PlatformFilesystem.exists(tryFull)) {
-            m_abstractPathName = tryFull;
-            return;
-        }
-        if (PlatformFilesystem.exists(tryFile)) {
-            m_abstractPathName = tryFile;
-            return;
-        }
-    }
-    // #ifdef _WINDOWS64
-    //     std::string path =
-    //     std::filesystem::path(m_abstractPathName).string(); std::string
-    //     finalPath = PlatformStorage.GetMountedPath(path.c_str()); if
-    //     (finalPath.size() == 0) finalPath = path; m_abstractPathName =
-    //     finalPath;
-    // #endif
+    // for (const char* base : bases) {
+    //     std::string tryFull = exeDir + base + request;
+    //     std::string tryFile = exeDir + base + fileName;
+    //     if (PlatformFilesystem.exists(tryFull)) {
+    //         m_abstractPathName = tryFull;
+    //         return;
+    //     }
+    //     if (PlatformFilesystem.exists(tryFile)) {
+    //         m_abstractPathName = tryFile;
+    //         return;
+    //     }
+    // }
+
+	if( pathname.empty() )
+		m_abstractPathName = "";
+	else
+		m_abstractPathName = pathname;
+        
+    std::string path = std::filesystem::path(m_abstractPathName).string();
+    std::string finalPath = PlatformStorage.GetMountedPath(path.c_str());
+    if (finalPath.size() == 0) finalPath = path;
+    std::string exeDir = PlatformFilesystem.getBasePath();
+    m_abstractPathName = (exeDir / std::filesystem::path(finalPath)).string();
 
     /*
     std::vector<std::string> path = stringSplit( pathname, pathSeparator );

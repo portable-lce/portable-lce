@@ -131,6 +131,8 @@ void FileHeader::ReadHeader(
     unsigned int headerOffset;
     unsigned int headerSize;
 
+    // hexdump(saveMem, 8192);
+
     m_savePlatform = plat;
 
     switch (m_savePlatform) {
@@ -153,7 +155,7 @@ void FileHeader::ReadHeader(
 
     // Read the offset of the header
     // assert(numberOfBytesRead == 4);
-    int* begin = (int*)saveMem;
+    int* begin = static_cast<int*>(saveMem);
     headerOffset = *begin;
     if (isSaveEndianDifferent()) System::ReverseULONG(&headerOffset);
 
@@ -198,6 +200,7 @@ void FileHeader::ReadHeader(
         // based PlayerUID
         // : Bumped it to 8 for Durango v1 when to save the chunks in a
         // different compressed format
+        case SAVE_FILE_VERSION_CHUNK_INHABITED_TIME:
         case SAVE_FILE_VERSION_COMPRESSED_CHUNK_STORAGE:
         case SAVE_FILE_VERSION_DURANGO_CHANGE_MAP_DATA_MAPPING_SIZE:
         case SAVE_FILE_VERSION_CHANGE_MAP_DATA_MAPPING_SIZE:
@@ -233,7 +236,7 @@ void FileHeader::ReadHeader(
 #if defined(_DEBUG_FILE_HEADER)
                 Log::info(
                     "File: %s, Start = %d, Length = %d, End = %d, Timestamp = "
-                    "%lld\n",
+                    "%ld\n",
                     entry->data.filename, entry->data.startOffset,
                     entry->data.length,
                     entry->data.startOffset + entry->data.length,

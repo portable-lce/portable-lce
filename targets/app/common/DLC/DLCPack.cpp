@@ -323,6 +323,8 @@ unsigned int DLCPack::getFileIndexAt(DLCManager::EDLCType type,
 
 bool DLCPack::hasPurchasedFile(DLCManager::EDLCType type,
                                const std::string& path) {
+    return true; // PLCE: unlock all mounted DLC.
+    
     if (type == DLCManager::e_DLCType_All) {
         app.DebugPrintf("Unimplemented\n");
 #if !defined(_CONTENT_PACKAGE)

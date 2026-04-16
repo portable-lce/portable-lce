@@ -556,9 +556,8 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail) {
         std::uint8_t* pbDataSaveImage = nullptr;
         unsigned int dwDataSizeSaveImage = 0;
 
-#ifdef _WINDOWS64
-        gameServices().getSaveThumbnail(&pbThumbnailData, &dwThumbnailDataSize,
-                                        &pbDataSaveImage, &dwDataSizeSaveImage);
+#if 1 // _WINDOWS64
+        gameServices().getSaveThumbnail(&pbThumbnailData, &dwThumbnailDataSize);
 #endif
 
         std::uint8_t bTextMetadata[88] = {};
@@ -582,7 +581,7 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail) {
         int32_t saveOrCheckpointId = 0;
         bool validSave =
             PlatformStorage.GetSaveUniqueNumber(&saveOrCheckpointId);
-#ifdef _WINDOWS64
+#if 1 // _WINDOWS64
         // set the icon and save image
         PlatformStorage.SetSaveImages(pbThumbnailData, dwThumbnailDataSize,
                                       pbDataSaveImage, dwDataSizeSaveImage,
@@ -591,7 +590,7 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail) {
 
         // save the data
         PlatformStorage.SaveSaveData(
-            &ConsoleSaveFileOriginal::SaveSaveDataCallback, this);
+            &ConsoleSaveFileOriginal::SaveSaveDataCallback);
 #ifndef _CONTENT_PACKAGE
         if (gameServices().debugSettingsOn()) {
             if (gameServices().getWriteSavesToFolderEnabled()) {
@@ -610,11 +609,9 @@ void ConsoleSaveFileOriginal::Flush(bool autosave, bool updateThumbnail) {
     }
 }
 
-#ifdef _WINDOWS64
+#if 1 // _WINDOWS64
 
-int ConsoleSaveFileOriginal::SaveSaveDataCallback(void* lpParam, bool bRes) {
-    ConsoleSaveFile* pClass = (ConsoleSaveFile*)lpParam;
-
+int ConsoleSaveFileOriginal::SaveSaveDataCallback(bool bRes) {
     return 0;
 }
 
@@ -648,7 +645,7 @@ void ConsoleSaveFileOriginal::DebugFlushToFile(
         cutFileName = m_fileName.substr(0, XCONTENT_MAX_FILENAME_LENGTH - 25);
     }
     snprintf(fileName, XCONTENT_MAX_FILENAME_LENGTH + 1,
-             "\\v%04d-%s%02d.%02d.%02d.%02d.%02d.mcs", VER_PRODUCTBUILD,
+             "/v%04d-%s%02d.%02d.%02d.%02d.%02d.mcs", VER_PRODUCTBUILD,
              cutFileName.c_str(), t.tm_mon + 1, t.tm_mday, t.tm_hour, t.tm_min,
              t.tm_sec);
 

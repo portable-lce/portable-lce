@@ -18,7 +18,7 @@ ArchiveManager::ArchiveManager()
 void ArchiveManager::loadMediaArchive() {
     std::string mediapath = "";
 
-    mediapath = "Common\\Media\\MediaWindows64.arc";
+    mediapath = "Common/Media/MediaWindows64.arc";
 
     if (!mediapath.empty()) {
         std::string exeDirW = PlatformFilesystem.getBasePath().string();

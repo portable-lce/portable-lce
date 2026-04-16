@@ -67,7 +67,7 @@ class Tutorial;
 
 #endif
 
-std::mutex UIController::ms_reloadSkinCS;
+std::recursive_mutex UIController::ms_reloadSkinCS;
 bool UIController::ms_bReloadSkinCSInitialised = false;
 
 std::uint32_t UIController::m_dwTrialTimerLimitSecs =
@@ -509,7 +509,7 @@ void UIController::loadSkins() {
 
 #if 1
 
-#if defined(_WINDOWS64)
+#if 0  // defined(_WINDOWS64)
     // 4J Stu - Load the 720/480 skins so that we have something to fallback on
     // during development
 #if !defined(_FINAL_BUILD)
@@ -644,7 +644,7 @@ void UIController::StartReloadSkinThread() {
 
 int UIController::reloadSkinThreadProc(void* lpParam) {
     {
-        std::lock_guard<std::mutex> lock(
+        std::lock_guard<std::recursive_mutex> lock(
             ms_reloadSkinCS);  // MGH - added to prevent crash loading Iggy
                                // movies while the skins were being reloaded
         UIController* controller = (UIController*)lpParam;
@@ -1098,11 +1098,12 @@ GDrawTexture* RADLINK UIController::TextureSubstitutionCreateCallback(
     void* user_callback_data, IggyUTF16* texture_name, S32* width, S32* height,
     void** destroy_callback_data) {
     UIController* uiController = (UIController*)user_callback_data;
-    auto it = uiController->m_substitutionTextures.find((char*)texture_name);
+    auto texture_name_utf8 = u16string_to_string(std::u16string(texture_name));
+    auto it = uiController->m_substitutionTextures.find(texture_name_utf8);
 
     if (it != uiController->m_substitutionTextures.end()) {
         app.DebugPrintf("Found substitution texture %s, with %d bytes\n",
-                        (char*)texture_name, it->second.size());
+                        texture_name_utf8.c_str(), it->second.size());
 
         BufferedImage image(it->second.data(), it->second.size());
         if (image.getData() != nullptr) {
@@ -1120,7 +1121,7 @@ GDrawTexture* RADLINK UIController::TextureSubstitutionCreateCallback(
             *destroy_callback_data = (void*)(intptr_t)id;
 
             app.DebugPrintf("Found substitution texture %s (%d) - %dx%d\n",
-                            (char*)texture_name, id, image.getWidth(),
+                            texture_name_utf8.c_str(), id, image.getWidth(),
                             image.getHeight());
             return ui.getSubstitutionTexture(id);
         } else {
@@ -1128,7 +1129,7 @@ GDrawTexture* RADLINK UIController::TextureSubstitutionCreateCallback(
         }
     } else {
         app.DebugPrintf("Could not find substitution texture %s\n",
-                        (char*)texture_name);
+                        texture_name_utf8.c_str());
         return nullptr;
     }
 }
@@ -1161,6 +1162,9 @@ void UIController::registerSubstitutionTexture(const std::string& textureName,
 
 void UIController::unregisterSubstitutionTexture(const std::string& textureName,
                                                  bool deleteData) {
+    app.DebugPrintf("Unregistering substitution texture %s\n",
+                    textureName.c_str());
+
     auto it = m_substitutionTextures.find(textureName);
 
     if (it != m_substitutionTextures.end()) {
@@ -1269,7 +1273,7 @@ bool UIController::NavigateToScene(int iPad, EUIScene scene, void* initData,
     }
 
     fprintf(stderr, "TIMER: Navigate to scene: Elapsed time %.6f",
-                 timer.elapsed_seconds());
+            timer.elapsed_seconds());
 
     return success;
     // return true;

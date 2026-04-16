@@ -17,9 +17,9 @@ DefaultTexturePack::DefaultTexturePack()
 }
 
 void DefaultTexturePack::loadIcon() {
-    if (gameServices().hasArchiveFile("Graphics\\TexturePackIcon.png")) {
+    if (gameServices().hasArchiveFile("Graphics/TexturePackIcon.png")) {
         std::vector<uint8_t> ba =
-            gameServices().getArchiveFile("Graphics\\TexturePackIcon.png");
+            gameServices().getArchiveFile("Graphics/TexturePackIcon.png");
         m_iconData = ba.data();
         m_iconSize = static_cast<std::uint32_t>(ba.size());
     }
@@ -42,7 +42,7 @@ InputStream* DefaultTexturePack::getResourceImplementation(
 {
     std::string wDrive = "";
     // Make the content package point to to the UPDATE: drive is needed
-    wDrive = "Common\\res\\TitleUpdate\\res";
+    wDrive = "Common/res/TitleUpdate/res";
 
     InputStream* resource = InputStream::getResourceAsStream(wDrive + name);
     // InputStream *stream =

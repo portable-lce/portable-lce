@@ -69,7 +69,7 @@ void ReadDlcStruct(T* out, const std::uint8_t* data, unsigned int offset = 0) {
 std::string getMountedDlcReadPath(const std::string& path) {
     std::string readPath = path;
 
-#if defined(_WINDOWS64)
+#if 1
     const std::string mountedPath =
         PlatformStorage.GetMountedPath(path.c_str());
     if (!mountedPath.empty()) {

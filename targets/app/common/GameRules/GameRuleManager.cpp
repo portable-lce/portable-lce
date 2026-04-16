@@ -642,11 +642,11 @@ void GameRuleManager::processSchematicsLighting(LevelChunk* levelChunk) {
 void GameRuleManager::loadDefaultGameRules() {
 #if 0
 #if defined(_WINDOWS64)
-    File packedTutorialFile("Windows64Media\\Tutorial\\Tutorial.pck");
+    File packedTutorialFile("Windows64Media/Tutorial/Tutorial.pck");
     if (!packedTutorialFile.exists())
-        packedTutorialFile = File("Windows64\\Tutorial\\Tutorial.pck");
+        packedTutorialFile = File("Windows64/Tutorial/Tutorial.pck");
 #else
-    File packedTutorialFile("Tutorial\\Tutorial.pck");
+    File packedTutorialFile("Tutorial/Tutorial.pck");
 #endif
     if (loadGameRulesPack(&packedTutorialFile)) {
         m_levelGenerators.getLevelGenerators()->at(0)->setWorldName(

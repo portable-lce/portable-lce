@@ -485,7 +485,7 @@ void UIScene_CreateWorldMenu::StartSharedLaunchFlow() {
             {
                 // upsell
 
-#if defined(_WINDOWS64)
+#if 1 // defined(_WINDOWS64)
                 // trial pack warning
                 unsigned int uiIDA[1];
                 uiIDA[0] = IDS_CONFIRM_OK;

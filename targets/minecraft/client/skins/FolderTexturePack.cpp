@@ -22,7 +22,7 @@ InputStream* FolderTexturePack::getResourceImplementation(
 {
     std::string wDrive = "";
     // Make the content package point to to the UPDATE: drive is needed
-    wDrive = "Common\\DummyTexturePack\\res";
+    wDrive = "Common/DummyTexturePack/res";
     InputStream* resource = InputStream::getResourceAsStream(wDrive + name);
     // InputStream *stream =
     // DefaultTexturePack::class->getResourceAsStream(name); if (stream ==
@@ -46,7 +46,7 @@ bool FolderTexturePack::isTerrainUpdateCompatible() { return true; }
 std::string FolderTexturePack::getPath(bool bTitleUpdateTexture /*= false*/,
                                        const char* pchBDPatchFilename) {
     std::string wDrive;
-    wDrive = "Common\\" + file->getPath() + "\\";
+    wDrive = "Common/" + file->getPath() + "/";
     return wDrive;
 }
 

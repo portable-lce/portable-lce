@@ -763,7 +763,7 @@ void UIScene_LeaderboardsMenu::PopulateLeaderboard(
         m_labelEntries.setLabel(entriesBuffer);
 
         // Show the no results message
-#if !defined(_WINDOWS64)
+#if 0 // !defined(_WINDOWS64)
         // so we check this for other platforms
         if (ret == IPlatformLeaderboard::eStatsReturn_NetworkError)
             m_labelInfo.setLabel(app.GetString(IDS_ERROR_NETWORK));

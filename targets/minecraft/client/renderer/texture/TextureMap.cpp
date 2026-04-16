@@ -179,10 +179,10 @@ void TextureMap::stitch() {
             TexturePack* texturePack =
                 Minecraft::GetInstance()->skins->getSelected();
             bool requiresFallback =
-                !texturePack->hasFile("\\" + textureName + ".png", false);
+                !texturePack->hasFile("/" + textureName + ".png", false);
             // try {
             InputStream* fileStream = texturePack->getResource(
-                "\\" + path + animationDefinitionFile, requiresFallback);
+                "/" + path + animationDefinitionFile, requiresFallback);
 
             // Minecraft::getInstance()->getLogger().info("Found animation info
             // for: " + animationDefinitionFile);

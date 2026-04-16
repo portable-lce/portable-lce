@@ -160,15 +160,6 @@ public:
                       const char* szGroupID) = 0;
     virtual void ResetSaveData() = 0;
 
-    // Messages
-    virtual EMessageResult RequestMessageBox(
-        unsigned int uiTitle, unsigned int uiText, unsigned int* uiOptionA,
-        unsigned int uiOptionC, unsigned int pad = XUSER_INDEX_ANY,
-        std::function<int(int, const EMessageResult)> callback = nullptr,
-        C4JStringTable* pStringTable = nullptr,
-        char* pwchFormatString = nullptr, unsigned int focusButton = 0) = 0;
-    virtual EMessageResult GetMessageBoxResult() = 0;
-
     // Save device
     virtual bool SetSaveDevice(std::function<int(const bool)> callback,
                                bool bForceResetOfSaveDevice = false) = 0;
@@ -176,14 +167,10 @@ public:
     virtual bool GetSaveDeviceSelected(unsigned int iPad) = 0;
 
     // Save game
-    virtual void SetDefaultSaveNameForKeyboardDisplay(
-        const char* pwchDefaultSaveName) = 0;
     virtual void SetSaveTitle(const char* pwchDefaultSaveName) = 0;
     virtual bool GetSaveUniqueNumber(int* piVal) = 0;
     virtual bool GetSaveUniqueFilename(char* pszName) = 0;
     virtual void SetSaveUniqueFilename(char* szFilename) = 0;
-    virtual void SetState(ESaveGameControlState eControlState,
-                          std::function<int(const bool)> callback) = 0;
     virtual void SetSaveDisabled(bool bDisable) = 0;
     virtual bool GetSaveDisabled() = 0;
     virtual unsigned int GetSaveSize() = 0;
@@ -196,13 +183,8 @@ public:
                                unsigned int textDataBytes) = 0;
     virtual ESaveGameState SaveSaveData(
         std::function<int(const bool)> callback) = 0;
-    virtual void CopySaveDataToNewSave(std::uint8_t* pbThumbnail,
-                                       unsigned int cbThumbnail,
-                                       char* wchNewName,
-                                       std::function<int(bool)> callback) = 0;
     virtual ESaveGameState DoesSaveExist(bool* pbExists) = 0;
     virtual bool EnoughSpaceForAMinSaveGame() = 0;
-    virtual void SetSaveMessageVPosition(float fY) = 0;
     virtual ESaveGameState GetSavesInfo(
         int iPad,
         std::function<int(SAVE_DETAILS* pSaveDetails, const bool)> callback,
@@ -213,11 +195,6 @@ public:
         PSAVE_INFO pSaveInfo, std::function<int(std::uint8_t* thumbnailData,
                                                 unsigned int thumbnailBytes)>
                                   callback) = 0;
-    virtual void GetSaveCacheFileInfo(unsigned int fileIndex,
-                                      XCONTENT_DATA& xContentData) = 0;
-    virtual void GetSaveCacheFileInfo(unsigned int fileIndex,
-                                      std::uint8_t** ppbImageData,
-                                      unsigned int* pImageBytes) = 0;
     virtual ESaveGameState LoadSaveData(
         PSAVE_INFO pSaveInfo,
         std::function<int(const bool, const bool)> callback) = 0;
@@ -253,25 +230,6 @@ public:
                                        std::vector<std::string>& fileList) = 0;
     virtual std::string GetMountedPath(std::string szMount) = 0;
 
-    // Title storage
-    virtual ETMSStatus ReadTMSFile(
-        int iQuadrant, eGlobalStorage eStorageFacility, eTMS_FileType eFileType,
-        char* pwchFilename, std::uint8_t** ppBuffer, unsigned int* pBufferSize,
-        std::function<int(char*, int, bool, int)> callback = nullptr,
-        int iAction = 0) = 0;
-    virtual bool WriteTMSFile(int iQuadrant, eGlobalStorage eStorageFacility,
-                              char* pwchFilename, std::uint8_t* pBuffer,
-                              unsigned int bufferSize) = 0;
-    virtual bool DeleteTMSFile(int iQuadrant, eGlobalStorage eStorageFacility,
-                               char* pwchFilename) = 0;
-    virtual void StoreTMSPathName(char* pwchName = nullptr) = 0;
-    virtual ETMSStatus TMSPP_ReadFile(
-        int iPad, eGlobalStorage eStorageFacility,
-        eTMS_FILETYPEVAL eFileTypeVal, const char* szFilename,
-        std::function<int(int, int, PTMSPP_FILEDATA, const char*)> callback =
-            nullptr,
-        int iUserData = 0) = 0;
-
     // Subfile management (save splitting)
     virtual int AddSubfile(int regionIndex) = 0;
     virtual unsigned int GetSubfileCount() = 0;
@@ -283,6 +241,5 @@ public:
     virtual ESaveGameState GetSaveState() = 0;
 
     // Misc
-    virtual unsigned int CRC(unsigned char* buf, int len) = 0;
     virtual void ContinueIncompleteOperation() = 0;
 };

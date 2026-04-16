@@ -50,7 +50,7 @@ public:
 
     // MGH - added to prevent crash loading Iggy movies while the skins were
     // being reloaded
-    static std::mutex ms_reloadSkinCS;
+    static std::recursive_mutex ms_reloadSkinCS;
     static bool ms_bReloadSkinCSInitialised;
 
 protected:
@@ -120,7 +120,7 @@ private:
         eLibrary_Tooltips,
         eLibrary_Default,
 
-#if defined(_WINDOWS64)
+#if 0 // defined(_WINDOWS64)
     // 4J Stu - Load the 720/480 skins so that we have something to fallback on
     // during development
 #if !defined(_FINAL_BUILD)

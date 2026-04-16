@@ -293,7 +293,7 @@ void UIScene_LoadMenu::tick() {
         // #ifdef _DEBUG
         // 			// dump out the thumbnail
         // 			void* hThumbnail =
-        // CreateFile("GAME:\\thumbnail.png", GENERIC_WRITE, 0, nullptr,
+        // CreateFile("GAME:/thumbnail.png", GENERIC_WRITE, 0, nullptr,
         // OPEN_ALWAYS, FILE_FLAG_RANDOM_ACCESS, nullptr);
         // uint32_t dwBytes;
         // 			WriteFile(hThumbnail,pbImageData,dwImageBytes,&dwBytes,nullptr);
@@ -630,7 +630,7 @@ void UIScene_LoadMenu::StartSharedLaunchFlow() {
             {
                 // upsell
 
-#if defined(_WINDOWS64)
+#if 1 // defined(_WINDOWS64)
                 // trial pack warning
                 unsigned int uiIDA[1];
                 uiIDA[0] = IDS_CONFIRM_OK;

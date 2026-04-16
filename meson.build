@@ -31,7 +31,6 @@ cc = meson.get_compiler('cpp')
 
 global_cpp_args = []
 global_cpp_defs = [
-    '-DSPLIT_SAVES',
     '-D_LARGE_WORLDS',
     '-D_EXTENDED_ACHIEVEMENTS',
     '-DMULTITHREAD_ENABLE', # always-on threading flag (formerly in App_Defines.h)
@@ -103,7 +102,7 @@ if host_machine.system() in ['linux', 'windows', 'darwin']
     platform_profile_dep = platform_profile_stub_dep
     platform_renderer_dep = platform_renderer_gl_dep
     platform_sound_dep = platform_sound_miniaudio_dep
-    platform_storage_dep = platform_storage_stub_dep
+    platform_storage_dep = platform_storage_std_dep
     platform_thread_dep = platform_thread_dep # standardized backend (for now)
 
     app_platform_sources = files('targets/app/desktop/main.cpp')

@@ -156,6 +156,19 @@ std::u16string string_to_u16string(const std::string& converting) {
     return result;
 }
 
+std::string u16string_to_string(const std::u16string& converting) {
+    if (converting.empty()) return {};
+
+    std::string result(
+        simdutf::utf8_length_from_utf16(converting.data(), converting.size()),
+        '\0');
+    std::size_t convertedLength = simdutf::convert_utf16_to_utf8(
+        converting.data(), converting.size(), result.data());
+    result.resize(convertedLength);
+
+    return result;
+}
+
 std::vector<std::string>& stringSplit(const std::string& s, char delim,
                                       std::vector<std::string>& elems) {
     std::stringstream ss(s);

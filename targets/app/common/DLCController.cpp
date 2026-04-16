@@ -117,7 +117,7 @@ void DLCController::mountNextDLC(int iPad) {
     }
 }
 
-#if defined(_WINDOWS64)
+#if 1
 #define CONTENT_DATA_DISPLAY_NAME(a) (a.szDisplayName)
 #else
 #define CONTENT_DATA_DISPLAY_NAME(a) (a.wszDisplayName)
@@ -125,7 +125,7 @@ void DLCController::mountNextDLC(int iPad) {
 
 int DLCController::dlcMountedCallback(int iPad, std::uint32_t dwErr,
                                       std::uint32_t dwLicenceMask) {
-#if defined(_WINDOWS64)
+#if 1
     app.DebugPrintf("--- DLCController::dlcMountedCallback\n");
 
     if (dwErr != 0 /* ERROR_SUCCESS */) {
@@ -150,7 +150,7 @@ int DLCController::dlcMountedCallback(int iPad, std::uint32_t dwErr,
             app.DebugPrintf("Pack \"%s\" is not installed, so adding it\n",
                             CONTENT_DATA_DISPLAY_NAME(ContentData));
 
-#if defined(_WINDOWS64)
+#if 1
             pack = new DLCPack(ContentData.szDisplayName, dwLicenceMask);
 #else
             pack = new DLCPack(ContentData.wszDisplayName, dwLicenceMask);
@@ -661,7 +661,7 @@ int DLCController::tmsPPFileReturned(
         for (auto it = pClass->m_TMSPPDownloadQueue.begin();
              it != pClass->m_TMSPPDownloadQueue.end(); ++it) {
             TMSPPRequest* pCurrent = *it;
-#if defined(_WINDOWS64)
+#if 1
             char szFile[MAX_TMSFILENAME_SIZE];
             strncpy(szFile, pCurrent->wchFilename, MAX_TMSFILENAME_SIZE);
 

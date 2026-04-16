@@ -1312,7 +1312,7 @@ void GameRenderer::renderLevel(float a, int64_t until) {
             int PIXPass = 0;
             do {
                 bool retval =
-                    mc->levelRenderer->updateDirtyChunks(cameraEntity, false);
+                    mc->levelRenderer->updateDirtyChunks();
 
                 if (retval) break;
 

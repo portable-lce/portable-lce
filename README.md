@@ -22,9 +22,9 @@ This project is a heavily modified version of the Minecraft Console Legacy Editi
 | **sound** | `miniaudio` | `miniaudio` | `miniaudio` |
 | **input** | `sdl2` | `sdl2` | `sdl2` |
 | **thread** | `std` | `std` | `std` |
+| **storage** | `std` | `std` | `std` |
 | **game** | `stub` | `stub` | `stub` |
 | **network** | `stub` | `stub` | `stub` |
-| **storage** | `stub` | `stub` | `stub` |
 | **profile** | `stub` | `stub` | `stub` |
 | **leaderboard** | `stub` | `stub` | `stub` |
 

@@ -125,12 +125,12 @@ std::string AbstractTexturePack::getAnimationString(
     const std::string& textureName, const std::string& path) {
     std::string animationDefinitionFile = textureName + ".txt";
 
-    bool requiresFallback = !hasFile("\\" + textureName + ".png", false);
+    bool requiresFallback = !hasFile("/" + textureName + ".png", false);
 
     std::string result = "";
 
     InputStream* fileStream =
-        getResource("\\" + path + animationDefinitionFile, requiresFallback);
+        getResource("/" + path + animationDefinitionFile, requiresFallback);
 
     if (fileStream) {
         // Minecraft::getInstance()->getLogger().info("Found animation info for:

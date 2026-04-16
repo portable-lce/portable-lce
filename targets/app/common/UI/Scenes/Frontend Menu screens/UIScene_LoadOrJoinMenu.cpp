@@ -356,7 +356,7 @@ std::string UIScene_LoadOrJoinMenu::getMoviePath() { return "LoadOrJoinMenu"; }
 void UIScene_LoadOrJoinMenu::tick() {
     UIScene::tick();
 
-#if defined(_WINDOWS64)
+#if 1 // defined(_WINDOWS64)
     if (m_bExitScene)  // navigate forward or back
     {
         if (!m_bRetrievingSaveThumbnails) {
@@ -438,21 +438,12 @@ void UIScene_LoadOrJoinMenu::tick() {
 
             // check we're not waiting to exit the scene
             if (!m_bExitScene) {
+#if 1 // defined(_WINDOWS64)
                 // convert to utf16
-                std::uint16_t u16Message[MAX_SAVEFILENAME_LENGTH];
-#if defined(_WINDOWS64)
-                int result = ::MultiByteToWideChar(
-                    CP_UTF8,               // convert from UTF-8
-                    MB_ERR_INVALID_CHARS,  // error on invalid chars
-                    m_saveDetails[m_iRequestingThumbnailId]
-                        .UTF8SaveFilename,    // source UTF-8 string
-                    MAX_SAVEFILENAME_LENGTH,  // total length of source UTF-8
-                                              // string,
-                    // in char's (= bytes), including end-of-string \0
-                    (char*)u16Message,       // destination buffer
-                    MAX_SAVEFILENAME_LENGTH  // size of destination buffer, in
-                                             // char's
+                std::u16string u16MessageString = string_to_u16string(
+                    m_saveDetails[m_iRequestingThumbnailId].UTF8SaveFilename
                 );
+                const std::uint16_t* u16Message = reinterpret_cast<const uint16_t*>(u16MessageString.c_str());
 #else
                 std::uint32_t srcmax, dstmax;
                 std::uint32_t srclen, dstlen;
@@ -1018,7 +1009,7 @@ void UIScene_LoadOrJoinMenu::CheckAndJoinGame(int gameIndex) {
 
 void UIScene_LoadOrJoinMenu::LoadLevelGen(LevelGenerationOptions* levelGen) {
     // Load data from disc
-    // File saveFile( "Tutorial\\Tutorial" );
+    // File saveFile( "Tutorial/Tutorial" );
     // LoadSaveFromDisk(&saveFile);
 
     // clear out the app's terrain features list

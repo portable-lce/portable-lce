@@ -667,7 +667,7 @@ int UIScene_MainMenu::Leaderboards_SignInReturned(void* pParam, bool bContinue,
             bool bContentRestricted = false;
             if (bContentRestricted) {
                 pClass->m_bIgnorePress = false;
-#if !defined(_WINDOWS64)
+#if 0 // !defined(_WINDOWS64)
                 // we check this for other platforms
                 // you can't see leaderboards
                 unsigned int uiIDA[1];
@@ -880,7 +880,7 @@ void UIScene_MainMenu::RunLeaderboards(int iPad) {
 
         bool bContentRestricted = false;
         if (bContentRestricted) {
-#if !defined(_WINDOWS64)
+#if 0 // !defined(_WINDOWS64)
             // we check this for other platforms
             // you can't see leaderboards
             unsigned int uiIDA[1];
@@ -920,7 +920,7 @@ void UIScene_MainMenu::RunUnlockOrDLC(int iPad) {
                 bool bContentRestricted = false;
                 if (bContentRestricted) {
                     m_bIgnorePress = false;
-#if !defined(_WINDOWS64)
+#if 0 // !defined(_WINDOWS64)
                     // we check this for other platforms
                     // you can't see the store
                     unsigned int uiIDA[1];

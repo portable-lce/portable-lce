@@ -274,7 +274,7 @@ void UIScene::loadMovie() {
                                            // skins were being reloaded
     std::string moviePath = getMoviePath();
 
-#if defined(_WINDOWS64)
+#if 0 // defined(_WINDOWS64)
     if (ui.getScreenHeight() == 720) {
         moviePath.append("720.swf");
         m_loadedResolution = eSceneResolution_720;
@@ -1093,7 +1093,6 @@ void UIScene::registerSubstitutionTexture(const std::string& textureName,
                                           unsigned int dwLength,
                                           bool deleteData) {
     m_registeredTextures[textureName] = deleteData;
-    ;
     ui.registerSubstitutionTexture(textureName, pbData, dwLength);
 }
 

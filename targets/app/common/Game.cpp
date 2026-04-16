@@ -595,10 +595,10 @@ enum ETitleUpdateTexturePacks {
     // Stu - The released Steampunk pack had a sub-pack ID
 };
 
-#if defined(_WINDOWS64)
-std::string titleUpdateTexturePackRoot = "Windows64\\DLC\\";
+#if 1
+std::string titleUpdateTexturePackRoot = "Windows64/DLC/";
 #else
-std::string titleUpdateTexturePackRoot = "CU\\DLC\\";
+std::string titleUpdateTexturePackRoot = "CU/DLC/";
 #endif
 
 std::string Game::getRootPath(std::uint32_t packId, bool allowOverride,
@@ -617,9 +617,9 @@ std::string Game::getRootPath(std::uint32_t packId, bool allowOverride,
     }
 
     if (bAddDataFolder) {
-        return path + "\\Data\\";
+        return path + "/Data/";
     } else {
-        return path + "\\";
+        return path + "/";
     }
 }
 

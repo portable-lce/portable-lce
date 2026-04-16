@@ -2,20 +2,21 @@
 
 #include <cstdint>
 #include <ctime>
+#include <filesystem>
 #include <functional>
 #include <string>
 #include <vector>
-// #include <xtms.h>
 
 #include "../IPlatformStorage.h"
 #include "platform/PlatformTypes.h"
+#include "platform/fs/fs.h"
 
 class C4JStringTable;
 
 typedef std::vector<PXMARKETPLACE_CONTENTOFFER_INFO> OfferDataArray;
 typedef std::vector<PXCONTENT_DATA> XContentDataArray;
 
-class StubStorage : public IPlatformStorage {
+class StdStorage : public IPlatformStorage {
 public:
     struct CACHEINFOSTRUCT {
         char wchDisplayName[XCONTENT_MAX_DISPLAYNAME_LENGTH];
@@ -61,20 +62,9 @@ public:
     };
     using PTMSPP_FILE_LIST = TMSPP_FILE_LIST*;
 
-    StubStorage();
+    StdStorage();
 
     void Tick(void);
-
-    // Messages
-    StubStorage::EMessageResult RequestMessageBox(
-        unsigned int uiTitle, unsigned int uiText, unsigned int* uiOptionA,
-        unsigned int uiOptionC, unsigned int pad = XUSER_INDEX_ANY,
-        std::function<int(int, const StubStorage::EMessageResult)> callback =
-            nullptr,
-        C4JStringTable* pStringTable = nullptr,
-        char* pwchFormatString = nullptr, unsigned int focusButton = 0);
-
-    StubStorage::EMessageResult GetMessageBoxResult();
 
     // save device
     bool SetSaveDevice(std::function<int(const bool)> callback,
@@ -87,13 +77,10 @@ public:
               const char* szGroupID);
     void ResetSaveData();  // Call before a new save to clear out stored save
                            // file name
-    void SetDefaultSaveNameForKeyboardDisplay(const char* pwchDefaultSaveName);
     void SetSaveTitle(const char* pwchDefaultSaveName);
     bool GetSaveUniqueNumber(int* piVal);
     bool GetSaveUniqueFilename(char* pszName);
     void SetSaveUniqueFilename(char* szFilename);
-    void SetState(ESaveGameControlState eControlState,
-                  std::function<int(const bool)> callback);
     void SetSaveDisabled(bool bDisable);
     bool GetSaveDisabled(void);
     unsigned int GetSaveSize();
@@ -106,51 +93,39 @@ public:
         unsigned int textDataBytes);  // Sets the thumbnail & image for the
                                       // save, optionally setting the
                                       // metadata in the png
-    StubStorage::ESaveGameState SaveSaveData(
+    StdStorage::ESaveGameState SaveSaveData(
         std::function<int(const bool)> callback);
-    void CopySaveDataToNewSave(std::uint8_t* pbThumbnail,
-                               unsigned int cbThumbnail, char* wchNewName,
-                               std::function<int(bool)> callback);
     void SetSaveDeviceSelected(unsigned int uiPad, bool bSelected);
     bool GetSaveDeviceSelected(unsigned int iPad);
-    StubStorage::ESaveGameState DoesSaveExist(bool* pbExists);
+    StdStorage::ESaveGameState DoesSaveExist(bool* pbExists);
     bool EnoughSpaceForAMinSaveGame();
 
-    void SetSaveMessageVPosition(
-        float fY);  // The 'Saving' message will display at a default position
-                    // unless changed
     // Get the info for the saves
-    StubStorage::ESaveGameState GetSavesInfo(
+    StdStorage::ESaveGameState GetSavesInfo(
         int iPad,
         std::function<int(SAVE_DETAILS* pSaveDetails, const bool)> callback,
         char* pszSavePackName);
     PSAVE_DETAILS ReturnSavesInfo();
     void ClearSavesInfo();  // Clears results
-    StubStorage::ESaveGameState LoadSaveDataThumbnail(
+    StdStorage::ESaveGameState LoadSaveDataThumbnail(
         PSAVE_INFO pSaveInfo,
         std::function<int(std::uint8_t* thumbnailData,
                           unsigned int thumbnailBytes)>
             callback);  // Get the thumbnail for an individual save referenced
                         // by pSaveInfo
 
-    void GetSaveCacheFileInfo(unsigned int fileIndex,
-                              XCONTENT_DATA& xContentData);
-    void GetSaveCacheFileInfo(unsigned int fileIndex,
-                              std::uint8_t** ppbImageData,
-                              unsigned int* pImageBytes);
-
     // Load the save. Need to call GetSaveData once the callback is called
-    StubStorage::ESaveGameState LoadSaveData(
+    StdStorage::ESaveGameState LoadSaveData(
         PSAVE_INFO pSaveInfo,
         std::function<int(const bool, const bool)> callback);
-    StubStorage::ESaveGameState DeleteSaveData(
+    StdStorage::ESaveGameState DeleteSaveData(
         PSAVE_INFO pSaveInfo, std::function<int(const bool)> callback);
 
     // DLC
     void RegisterMarketplaceCountsCallback(
-        std::function<int(StubStorage::DLC_TMS_DETAILS*, int)> callback);
+        std::function<int(StdStorage::DLC_TMS_DETAILS*, int)> callback);
     void SetDLCPackageRoot(char* pszDLCRoot);
-    StubStorage::EDLCStatus GetDLCOffers(
+    StdStorage::EDLCStatus GetDLCOffers(
         int iPad, std::function<int(int, std::uint32_t, int)> callback,
         std::uint32_t dwOfferTypesBitmask = XMARKETPLACE_OFFERING_TYPE_CONTENT);
     unsigned int CancelGetDLCOffers();
@@ -162,7 +137,7 @@ public:
                               bool bTrial = false);
     unsigned int GetAvailableDLCCount(int iPad);
 
-    StubStorage::EDLCStatus GetInstalledDLC(
+    StdStorage::EDLCStatus GetInstalledDLC(
         int iPad, std::function<int(int, int)> callback);
     XCONTENT_DATA& GetDLC(unsigned int dw);
     std::uint32_t MountInstalledDLC(
@@ -173,53 +148,6 @@ public:
     void GetMountedDLCFileList(const char* szMountDrive,
                                std::vector<std::string>& fileList);
     std::string GetMountedPath(std::string szMount);
-
-    // Global title storage
-    StubStorage::ETMSStatus ReadTMSFile(
-        int iQuadrant, eGlobalStorage eStorageFacility,
-        StubStorage::eTMS_FileType eFileType, char* pwchFilename,
-        std::uint8_t** ppBuffer, unsigned int* pBufferSize,
-        std::function<int(char*, int, bool, int)> callback = nullptr,
-        int iAction = 0);
-    bool WriteTMSFile(int iQuadrant, eGlobalStorage eStorageFacility,
-                      char* pwchFilename, std::uint8_t* pBuffer,
-                      unsigned int bufferSize);
-    bool DeleteTMSFile(int iQuadrant, eGlobalStorage eStorageFacility,
-                       char* pwchFilename);
-    void StoreTMSPathName(char* pwchName = nullptr);
-
-    // TMS++
-#ifdef _XBOX
-    StubStorage::ETMSStatus WriteTMSFile(
-        int iPad, StubStorage::eGlobalStorage eStorageFacility,
-        StubStorage::eTMS_FileType eFileType, char* pchFilePath,
-        char* pchBuffer, unsigned int bufferSize, TMSCLIENT_CALLBACK Func,
-        void* lpParam);
-    int GetUserQuotaInfo(int iPad, TMSCLIENT_CALLBACK Func, void* lpParam);
-#endif
-
-    // Older TMS++ write/quota entry points were kept in platform-specific
-    // implementations and are intentionally not part of this shared API.
-    StubStorage::ETMSStatus TMSPP_ReadFile(
-        int iPad, StubStorage::eGlobalStorage eStorageFacility,
-        StubStorage::eTMS_FILETYPEVAL eFileTypeVal, const char* szFilename,
-        std::function<int(int, int, PTMSPP_FILEDATA, const char*)> callback =
-            nullptr,
-        int iUserData = 0);
-    // Older TMS++ list/delete helpers stayed platform-specific. The shared
-    // surface keeps the read path plus CRC/subfile helpers below.
-
-    // 	enum eXBLWS
-    // 	{
-    // 		eXBLWS_GET,
-    // 		eXBLWS_POST,
-    // 		eXBLWS_PUT,
-    // 		eXBLWS_DELETE,
-    // 	};
-    // bool
-    // XBLWS_Command(eXBLWS eCommand);
-
-    unsigned int CRC(unsigned char* buf, int len);
 
     int AddSubfile(int regionIndex);
     unsigned int GetSubfileCount();
@@ -232,5 +160,44 @@ public:
 
     void ContinueIncompleteOperation();
 
-    C4JStringTable* m_pStringTable;
+    std::filesystem::path basePath = PlatformFilesystem.getBasePath();
+    std::filesystem::path gameHDDDir = basePath / "Windows64" / "GameHDD";
+
+    void* m_pSaveData = nullptr;
+    unsigned int m_uiSaveSize = 0;
+    char m_szSaveUniqueName[32] = {};
+    char m_szSaveTitle[256] = {};
+    bool m_bIsSafeDisabled;
+    bool m_bHasSaveDetails;
+    SAVE_DETAILS* m_pSaveDetails = nullptr;
+
+    uint8_t* m_pbThumbnailData = nullptr;
+    unsigned int m_uiThumbnailSize = 0;
+    uint8_t* m_pbImageData = nullptr;
+    unsigned int m_uiImageSize = 0;
+
+    // DLC-specific
+    struct DriveMapping
+    {
+        DriveMapping(std::string szDirectoryPath, std::string szMountPath) : m_szDirectoryPath(szDirectoryPath), m_szMountPath(szMountPath)
+        {
+            ;
+        }
+
+        std::string m_szMountPath;
+        std::string m_szDirectoryPath;
+    };
+
+    std::function<int(int, int)> m_pInstalledDLCFunc;
+    int m_iHasNewInstalledDLCs;
+    std::vector<XCONTENT_DATA> m_vInstalledDLCs;
+    uint32_t m_iHasNewMountedDLCs;
+    std::function<int(int, uint32_t, uint32_t)> m_pMountedDLCFunc;
+    std::string m_szMountPath;
+    uint32_t m_uiCurrentMappedDLC;
+    uint32_t m_dwLicenseMask;
+    char m_szPackageRoot[40];
+    std::vector<DriveMapping> m_vDLCDriveMappings;
+    char m_szDLCProductCode[16];
+    char m_szProductUpgradeKey[60];
 };

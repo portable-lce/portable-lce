@@ -34,8 +34,8 @@ private:
     void MoveDataBeyond(FileEntry* file, unsigned int nNumberOfBytesToWrite);
 
 public:
-#if defined(_WINDOWS64)
-    static int SaveSaveDataCallback(void* lpParam, bool bRes);
+#if 1 // defined(_WINDOWS64)
+    static int SaveSaveDataCallback(bool bRes);
 #endif
     ConsoleSaveFileOriginal(const std::string& fileName,
                             void* pvSaveData = nullptr,
