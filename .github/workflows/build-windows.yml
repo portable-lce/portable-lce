@@ -71,7 +71,7 @@ jobs:
           setup_args: "-Dunity=off --vsenv"
 
       - name: Package artifact
-        shell: bash -e
+        shell: bash -e {0}
         run: |
           cd build_${{matrix.build-type}}/targets/app
           zip -r ../../../minecraft-client-linux-${{matrix.arch}}.zip . --exclude "./Minecraft.Client.p/*"
