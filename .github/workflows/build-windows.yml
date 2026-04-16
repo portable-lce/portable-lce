@@ -1,4 +1,4 @@
-name: Build (Windows, x86-64)
+name: Build Windows
 
 # TODO: test with only pull-request
 on:
@@ -32,8 +32,12 @@ concurrency:
   cancel-in-progress: ${{ !contains(github.ref, 'dev/') }}
 
 jobs:
-  amalgamate:
+  Build:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        build-type: ['release','debug']
+        arch: ['x86-64']
     steps:
       - name: Cache .git folder
         uses: actions/cache@v5
@@ -46,49 +50,45 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Restore build cache
-        uses: ./.github/actions/restore-cache
-        with:
-          ccache_dir: ${{ runner.temp }}/ccache
-
+      # Can't use nix here, windows :(
       - name: Install tooling 
         run: |
           choco install ccache -y 
           python -m pip install meson
 
-      - name: Compile
+      - name: Compile unity
+        if: ${{ startsWith(matrix.build-type, 'release') }}
         uses: ./.github/actions/build-meson
         with:
-          dir_name: "build_release"
+          dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=on -Dunity_size=99999 --vsenv -Dzlib:unity=off -Dsdl2:unity=off"
 
-  full:
-    runs-on: windows-latest
-    steps:
-      - name: Cache .git folder
-        uses: actions/cache@v5
-        with:
-          path: .git
-          key: ${{ runner.os }}-git-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-git-
-
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 1
-
-      - name: Restore build cache
-        uses: ./.github/actions/restore-cache
-        with:
-          ccache_dir: ${{ runner.temp }}/ccache
-
-      - name: Install tooling 
-        run: |
-          choco install ccache -y
-          python -m pip install meson
-
-      - name: Compile 
+      - name: Compile
+        if: ${{ startsWith(matrix.build-type, 'debug') }}
         uses: ./.github/actions/build-meson
         with:
-          dir_name: "build_debug"
-          setup_args: "-Dunity=off --vsenv -Dzlib:unity=off -Dsdl2:unity=off"
+          dir_name: "build_${{ matrix.build-type }}"
+          setup_args: "-Dunity=off --vsenv"
 
+      - name: Package artifact
+        shell: bash -e
+        run: |
+          cd build_${{matrix.build-type}}/targets/app
+          zip -r ../../../minecraft-client-linux-${{matrix.arch}}.zip . --exclude "./Minecraft.Client.p/*"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: minecraft-client-windows-${{ matrix.build-type }}-${{ github.sha }}
+          path: minecraft-client-windows-${{ matrix.arch }}.zip
+          retention-days: 7
+
+      - name: Release Nightly
+        if: ${{ startsWith(matrix.build-type, 'release') }}
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: nightly
+          name: Nightly
+          prerelease: true
+          body: ${{ github.event.workflow_run.head_commit.message }}
+          files: minecraft-client-linux-${{ matrix.arch }}.zip

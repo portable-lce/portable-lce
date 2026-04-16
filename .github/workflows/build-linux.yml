@@ -1,4 +1,4 @@
-name: Build (Linux, x86-64)
+name: Build Linux 
 
 # TODO: test with only pull-request
 on:
@@ -37,6 +37,8 @@ jobs:
     strategy:
       matrix:
         build-type: ['release','debug']
+        arch: ['x86-64']
+
     steps:
       - name: Cache .git folder
         uses: actions/cache@v5
@@ -73,14 +75,14 @@ jobs:
 
       - name: Package artifact
         run: |
-          cd build_${{matrix.build-type}}/targets/app
-          zip -r ../../../minecraft-client-linux.zip . --exclude "./Minecraft.Client.p/*"
+          cd build_${{ matrix.build-type }}/targets/app
+          zip -r ../../../minecraft-client-linux-${{ matrix.arch }}.zip . --exclude "./Minecraft.Client.p/*"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
           name: minecraft-client-linux-${{ matrix.build-type }}-${{ github.sha }}
-          path: minecraft-client-linux.zip
+          path: minecraft-client-linux-.${{ matrix.arch }}.zip
           retention-days: 7
 
       - name: Release Nightly
@@ -90,4 +92,5 @@ jobs:
           tag_name: nightly
           name: Nightly
           prerelease: true
-          files: minecraft-client-linux.zip
+          body: ${{ github.event.workflow_run.head_commit.message }}
+          files: minecraft-client-linux-${{ matrix.arch }}.zip
