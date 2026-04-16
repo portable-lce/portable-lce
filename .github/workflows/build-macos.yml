@@ -47,9 +47,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install latest Bash
-        run: brew install bash
-
       - name: Enter dev-shell
         uses: ./.github/actions/enter-devshell
 

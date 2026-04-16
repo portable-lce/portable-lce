@@ -22,6 +22,11 @@ if get_option('ui_backend') == 'shiggy'
     )
 endif
 
+# Ditto of below for SDL
+if host_machine.system() == 'windows'
+  dependency('sdl2main')
+endif
+
 app_dependencies += [
     dependency('sdl2'), # blame iggy gdraw, nuke this later
     dependency('miniaudio'), # todo: remove once PlatformSound is used

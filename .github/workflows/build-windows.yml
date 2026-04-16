@@ -59,7 +59,7 @@ jobs:
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_release"
-          setup_args: "-Dunity=on -Dunity_size=99999"
+          setup_args: "-Dunity=on -Dunity_size=99999 --vsenv -Dzlib:unity=off -Dsdl2:unity=off"
 
   full:
     runs-on: windows-latest
@@ -82,11 +82,11 @@ jobs:
 
       - name: Install tooling 
         run: |
-          choco install meson ccache -yml
+          choco install ccache -y
           python -m pip install meson
 
       - name: Compile 
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_debug"
-          setup_args: "-Dunity=off"
+          setup_args: "-Dunity=off --vsenv -Dzlib:unity=off -Dsdl2:unity=off"
