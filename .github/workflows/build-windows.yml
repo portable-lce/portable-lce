@@ -1,0 +1,92 @@
+name: Build (Windows, x86-64)
+
+on:
+  push:
+    paths: &workflow_paths
+      - "**.cppm"
+      - "**.ixx"
+      - "**.inl"
+      - "**.mpp"
+      - "**.ipp"
+      - "**.tpp"
+      - "**.txx"
+      - "**.inc"
+      - "**.cpp"
+      - "**.hpp"
+      - "**.cxx"
+      - "**.hxx"
+      - "**.cc"
+      - "**.hh"
+      - "**.c"
+      - "**.h"
+      - ".github/workflows/build-windows.yml"
+      - "**/meson.build"
+      - "flake.nix"
+
+  pull_request:
+    paths: *workflow_paths
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !contains(github.ref, 'dev/') }}
+
+jobs:
+  build-windows-amalgamate:
+    runs-on: windows-latest
+    steps:
+      - name: Cache .git folder
+        uses: actions/cache@v5
+        with:
+          path: .git
+          key: ${{ runner.os }}-git-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-git-
+
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Restore build cache
+        uses: ./.github/actions/restore-cache
+        with:
+          ccache_dir: ${{ runner.temp }}/ccache
+
+      - name: Install tooling 
+        run: |
+          choco install ccache -y 
+          python -m pip install meson
+
+      - name: Compile
+        uses: ./.github/actions/build-meson
+        with:
+          dir_name: "build_release"
+          setup_args: "-Dunity=on -Dunity_size=99999"
+
+  build-windows-full:
+    runs-on: windows-latest
+    steps:
+      - name: Cache .git folder
+        uses: actions/cache@v5
+        with:
+          path: .git
+          key: ${{ runner.os }}-git-${{ github.sha }}
+          restore-keys: ${{ runner.os }}-git-
+
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Restore build cache
+        uses: ./.github/actions/restore-cache
+        with:
+          ccache_dir: ${{ runner.temp }}/ccache
+
+      - name: Install tooling 
+        run: |
+          choco install meson ccache -yml
+          python -m pip install meson
+
+      - name: Compile 
+        uses: ./.github/actions/build-meson
+        with:
+          dir_name: "build_debug"
+          setup_args: "-Dunity=off"

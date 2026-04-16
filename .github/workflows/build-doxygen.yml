@@ -17,16 +17,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
-
       - name: Set up Doxygen
         run: sudo apt-get update && sudo apt-get install -y doxygen graphviz build-essential libsdl2-dev libgl-dev libglu1-mesa-dev libpthread-stubs0-dev
       - name: Update doxygen-awesome
         run: git submodule update --init --recursive
       - name: Generate Docs
         run: cd docs && doxygen
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v5
+        id: deployment
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/html
-          force_orphan: true
+          path: ./docs/html
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages 
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v5
+        id: deployment

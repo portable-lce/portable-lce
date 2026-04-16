@@ -11,7 +11,7 @@ runs:
   using: "composite"
   steps:
     - name: Restore ccache cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.ccache
         key: ${{ runner.os }}-ccache-${{ hashFiles('**/meson.build') }}
@@ -21,7 +21,7 @@ runs:
       run: mkdir -p {{ inputs.ccache_dir }}
 
     - name: Restore meson cache
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: ~/.cache/meson
         key: ${{ runner.os }}-meson-${{ hashFiles('**/meson.build') }}

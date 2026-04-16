@@ -22,17 +22,30 @@ runs:
   using: "composite"
   steps:
     - name: Setup build-directory
+      if: ${{ runner.os == 'Linux' }}
       shell: nix develop --command bash -e {0}
       run: meson setup ${{ inputs.dir_name }} --wipe ${{ inputs.setup_args }}
 
+    - name: Setup build-directory
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash -e {0}
+      run: |
+        CC=clang CXX=clang++ meson setup ${{ inputs.dir_name }} --wipe ${{ inputs.setup_args }}
+
     - name: Compile directory
+      if: ${{ runner.os == 'Linux' }}
       shell: nix develop --command bash -e {0}
       run: meson compile -C ${{ inputs.dir_name }} -j $(nproc) -v Minecraft.Client
 
+    - name: Compile directory
+      if: ${{ runner.os == 'Windows' }}
+      shell: bash -e {0}
+      run: |
+        meson compile -C ${{ inputs.dir_name }} -j $(nproc) -v Minecraft.Client
+
     - name: Upload executable
       if: ${{ inputs.upload }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: minecraft-client-linux-${{ inputs.dir_name }}-${{ github.sha }}
-        path: ${{ inputs.dir_name }}/Minecraft.Client/Minecraft.Client
-        retention-days: 7
+        path: ${{ inputs.dir_name }}/targets/app/Minecraft.Client
