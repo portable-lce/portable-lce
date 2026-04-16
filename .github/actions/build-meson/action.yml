@@ -36,13 +36,13 @@ runs:
       if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
       shell: nix develop --command bash -e {0}
       run: |
-        meson compile -C ${{ inputs.dir_name }} -j $(nproc) -v Minecraft.Client
+        meson compile -C ${{ inputs.dir_name }} -j $(nproc) -v
 
     - name: Compile directory
       if: ${{ runner.os == 'Windows' }}
       shell: bash -e {0}
       run: |
-        meson compile -C ${{ inputs.dir_name }} -j $(nproc) -v Minecraft.Client.
+        meson compile -C ${{ inputs.dir_name }} -j $(nproc) -v
 
     - name: Upload executable
       if: ${{ inputs.upload && (runner.os == 'Linux' || runner.os == 'macOS' )}}
