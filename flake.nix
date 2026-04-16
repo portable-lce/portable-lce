@@ -142,11 +142,10 @@
             }
             {
               inputsFrom = [ self.packages.${system}.default ];
-
               packages = with pkgs; [
                 clang-tools
                 lldb
-                valgrind
+                (if pkgs.stdenv.isDarwin then null else valgrind)
                 include-what-you-use
                 ccache
               ];

@@ -47,6 +47,9 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Install latest Bash
+        run: brew install bash
+
       - name: Enter dev-shell
         uses: ./.github/actions/enter-devshell
 
@@ -62,7 +65,7 @@ jobs:
           setup_args: "-Dunity=on -Dunity_size=99999"
 
   full:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Cache .git folder
