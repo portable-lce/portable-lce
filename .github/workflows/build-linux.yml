@@ -32,7 +32,7 @@ concurrency:
   cancel-in-progress: ${{ !contains(github.ref, 'dev/') }}
 
 jobs:
-  build-linux-amalgamate:
+  amalgamate:
     runs-on: ubuntu-latest
 
     steps:
@@ -61,7 +61,7 @@ jobs:
           dir_name: "build_release"
           setup_args: "-Dunity=on -Dunity_size=99999"
 
-  build-linux-full:
+  full:
     runs-on: ubuntu-latest
 
     steps:

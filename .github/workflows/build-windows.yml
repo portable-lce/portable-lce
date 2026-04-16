@@ -31,7 +31,7 @@ concurrency:
   cancel-in-progress: ${{ !contains(github.ref, 'dev/') }}
 
 jobs:
-  build-windows-amalgamate:
+  amalgamate:
     runs-on: windows-latest
     steps:
       - name: Cache .git folder
@@ -61,7 +61,7 @@ jobs:
           dir_name: "build_release"
           setup_args: "-Dunity=on -Dunity_size=99999"
 
-  build-windows-full:
+  full:
     runs-on: windows-latest
     steps:
       - name: Cache .git folder
