@@ -21,6 +21,7 @@ on:
       - "**.c"
       - "**.h"
       - ".github/workflows/build-macos.yml"
+      - ".github/workflows/actions/build-meson/action.yml"
       - "**/meson.build"
       - "flake.nix"
 
