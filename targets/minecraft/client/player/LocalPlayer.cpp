@@ -263,6 +263,9 @@ void LocalPlayer::aiStep() {
     float runTreshold = 0.8f;
 
     bool wasRunning = input->ya >= runTreshold;
+
+   
+    
     // input->tick( std::dynamic_pointer_cast<Player>( shared_from_this() ) );
     //  4J-PB - make it a localplayer
     input->tick(this);
@@ -312,8 +315,12 @@ void LocalPlayer::aiStep() {
                                          // have returned to the deadzone
         {
             sprintTriggerRegisteredReturn = true;
-        } else if (input->sprintKey) {
-            setSprinting(true);
+        } 
+        
+        //Checks if the player is moving to start sprinting
+        else if (input->sprintKey && input->ya > 0.0f) {
+                setSprinting(true);
+                    
         }
     }
     if (isSneaking()) sprintTriggerTime = 0;
