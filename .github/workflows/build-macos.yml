@@ -1,4 +1,4 @@
-name: Build (MacOS, arm64)
+name: macOS
 
 # TODO: test with only pull-request
 on:
