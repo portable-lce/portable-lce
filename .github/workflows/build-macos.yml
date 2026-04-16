@@ -62,7 +62,7 @@ jobs:
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_release"
-          setup_args: "-Dunity=on -Dunity_size=99999"
+          setup_args: "-Dunity=on -Dunity_size=99999 -Dui_backend=java"
 
   full:
     runs-on: macos-latest
@@ -91,4 +91,4 @@ jobs:
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_debug"
-          setup_args: "-Dunity=off"
+          setup_args: "-Dunity=off -Dui_backend=java"
