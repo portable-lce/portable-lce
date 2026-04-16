@@ -23,5 +23,5 @@ runs:
     - name: Restore meson cache
       uses: actions/cache@v5
       with:
-        path: ~/.cache/meson
+        path: ${{ github.workspace }}/build_${{ matrix.build-type }}
         key: ${{ runner.os }}-meson-${{ hashFiles('**/meson.build') }}
