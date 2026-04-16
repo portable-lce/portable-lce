@@ -53,7 +53,7 @@ jobs:
 
       - name: Install tooling 
         run: |
-          choco install sccache -y 
+          choco install ccache -y 
           python -m pip install meson
 
       - name: Compile
@@ -83,7 +83,7 @@ jobs:
 
       - name: Install tooling 
         run: |
-          choco install sccache -y
+          choco install ccache -y
           python -m pip install meson
 
       - name: Compile 

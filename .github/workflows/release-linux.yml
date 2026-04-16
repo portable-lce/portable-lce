@@ -41,8 +41,8 @@ jobs:
       - name: Create source code .zip and .tar.gz
         run: |
           mkdir -p /tmp/sources
-          zip -r "/tmp/sources/Source Code.zip" ./* .[^/]* 
-          tar -czf "/tmp/sources/Source Code.tar.gz"  ./* .[^/]* 
+          zip -r "/tmp/sources/Source Code.zip" ./*
+          tar -czf "/tmp/sources/Source Code.tar.gz" ./*
 
       - name: Restore ccache
         uses: actions/cache@v5

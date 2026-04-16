@@ -23,6 +23,10 @@ project(
 if host_machine.system() == 'darwin'
     add_languages('objc', native: false)
 endif
+# This makes sure unity builds work on MSVC
+if meson.get_compiler('cpp').get_id() == 'msvc'
+  add_project_arguments('/bigobj', language : 'cpp')
+endif
 
 pymod = import('python')
 python = pymod.find_installation('python3', required: true)
