@@ -40,9 +40,9 @@ jobs:
 
       - name: Create source code .zip and .tar.gz
         run: |
-          mkdir -p /sources
-          zip -r "/sources/Source Code.zip" ./* .[^/]* 
-          tar -czf "/sources/Source Code.tar.gz"  ./* .[^/]* 
+          mkdir -p /tmp/sources
+          zip -r "/tmp/sources/Source Code.zip" ./* .[^/]* 
+          tar -czf "/tmp/sources/Source Code.tar.gz"  ./* .[^/]* 
 
       - name: Restore ccache
         uses: actions/cache@v5
@@ -91,5 +91,5 @@ jobs:
           prerelease: true
           files: |
             minecraft-client-linux.zip
-            "sources/Source Code.zip"
-            "sources/Source Code.tar.gz"
+            "/tmp/sources/Source Code.zip"
+            "/tmp/sources/Source Code.tar.gz"
