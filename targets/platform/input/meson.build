@@ -6,7 +6,8 @@ if host_machine.system() == 'darwin'
     patch_deps += dependency('appleframeworks', modules: ['AppKit'])
 endif
 
-lib_platform_input_sdl2 = static_library('platform_input_sdl2',
+lib_platform_input_sdl2 = static_library(
+    'platform_input_sdl2',
     files('sdl2/SDL2Input.cpp') + patch_sources,
     dependencies: [dependency('sdl2')] + patch_deps,
     include_directories: include_directories('../../'),

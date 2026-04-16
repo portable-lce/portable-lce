@@ -1,4 +1,5 @@
-lib_platform_fs_std = static_library('platform_fs_std',
+lib_platform_fs_std = static_library(
+    'platform_fs_std',
     files('std/StdFilesystem.cpp'),
     include_directories: include_directories('../../'),
     cpp_args: global_cpp_args + global_cpp_defs,

@@ -1,49 +1,51 @@
 option(
-  'ui_backend',
-  type: 'combo',
-  choices: ['shiggy', 'java'],
-  value: 'shiggy',
-  description: 'Specifies a backend implementation for the game UI.',
-)
-
-option('classic_panorama',
-  type : 'boolean', 
-  value : false, 
-  description : 'Enable classic java edition panorama (ui_backend=java ONLY).')
-
-option(
-  'renderer',
-  type: 'combo',
-  choices: ['gl3', 'gles'],
-  value: 'gl3',
-  description: 'Specifies a rendering implementation for the game.',
+    'ui_backend',
+    type: 'combo',
+    choices: ['shiggy', 'java'],
+    value: 'shiggy',
+    description: 'Specifies a backend implementation for the game UI.',
 )
 
 option(
-  'enable_vsync',
-  type: 'boolean',
-  value: true,
-  description: 'Toggles V-Sync and adds options to unlock maximum in-game framerate.',
+    'classic_panorama',
+    type: 'boolean',
+    value: false,
+    description: 'Enable classic java edition panorama (ui_backend=java ONLY).',
 )
 
 option(
-  'enable_frame_profiler',
-  type: 'boolean',
-  value: false,
-  description: 'Enable the in-engine frame profiler for render hotspot discovery.',
+    'renderer',
+    type: 'combo',
+    choices: ['gl3', 'gles'],
+    value: 'gl3',
+    description: 'Specifies a rendering implementation for the game.',
 )
 
 option(
-  'occlusion_culling',
-  type: 'combo',
-  choices: ['off', 'frustum', 'bfs', 'hardware'],
-  value: 'frustum',
-  description: 'Occlusion culling mode. Off disables ALL CULLING (debug only!), Frustum disables offscreen rendering (default), BFS is experimental connectivity culling, hardware uses GPU queries.',
+    'enable_vsync',
+    type: 'boolean',
+    value: true,
+    description: 'Toggles V-Sync and adds options to unlock maximum in-game framerate.',
 )
 
 option(
-  'enable_mimalloc',
-  type: 'feature',
-  value: 'auto',
-  description: 'Link mimalloc as the malloc implementation. Requires libmimalloc-dev.',
+    'enable_frame_profiler',
+    type: 'boolean',
+    value: false,
+    description: 'Enable the in-engine frame profiler for render hotspot discovery.',
+)
+
+option(
+    'occlusion_culling',
+    type: 'combo',
+    choices: ['off', 'frustum', 'bfs', 'hardware'],
+    value: 'frustum',
+    description: 'Occlusion culling mode. Off disables ALL CULLING (debug only!), Frustum disables offscreen rendering (default), BFS is experimental connectivity culling, hardware uses GPU queries.',
+)
+
+option(
+    'enable_mimalloc',
+    type: 'feature',
+    value: 'auto',
+    description: 'Link mimalloc as the malloc implementation. Requires libmimalloc-dev.',
 )

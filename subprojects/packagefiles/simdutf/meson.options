@@ -1,34 +1,48 @@
-option('utf8',
+option(
+    'utf8',
     type: 'boolean',
     value: false,
-    description: 'Include UTF-8 support')
+    description: 'Include UTF-8 support',
+)
 
-option('utf16',
+option(
+    'utf16',
     type: 'boolean',
     value: false,
-    description: 'Include UTF-16 support')
+    description: 'Include UTF-16 support',
+)
 
-option('utf32',
+option(
+    'utf32',
     type: 'boolean',
     value: false,
-    description: 'Include UTF-32 support')
+    description: 'Include UTF-32 support',
+)
 
-option('base64',
+option(
+    'base64',
     type: 'boolean',
     value: false,
-    description: 'Include Base64 support')
+    description: 'Include Base64 support',
+)
 
-option('detect-enc',
+option(
+    'detect-enc',
     type: 'boolean',
     value: false,
-    description: 'Include encoding detection support')
+    description: 'Include encoding detection support',
+)
 
-option('ascii',
+option(
+    'ascii',
     type: 'boolean',
     value: false,
-    description: 'Include ASCII support')
+    description: 'Include ASCII support',
+)
 
-option('latin1',
+option(
+    'latin1',
     type: 'boolean',
     value: false,
-    description: 'Include Latin1 support')
+    description: 'Include Latin1 support',
+)

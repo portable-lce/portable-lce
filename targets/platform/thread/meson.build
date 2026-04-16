@@ -1,4 +1,5 @@
-lib_platform_thread = static_library('platform_thread',
+lib_platform_thread = static_library(
+    'platform_thread',
     files('C4JThread.cpp', 'ShutdownManager.cpp'),
     dependencies: [dependency('threads')],
     include_directories: include_directories('../../'),

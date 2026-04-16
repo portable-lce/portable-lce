@@ -24,15 +24,15 @@ endif
 
 # Ditto of below for SDL
 if host_machine.system() == 'windows'
-  dependency('sdl2main')
+    dependency('sdl2main')
 endif
 
 app_dependencies += [
-    dependency('sdl2'), # blame iggy gdraw, nuke this later
-    dependency('miniaudio'), # todo: remove once PlatformSound is used
+    dependency('sdl2'),  # blame iggy gdraw, nuke this later
+    dependency('miniaudio'),  # todo: remove once PlatformSound is used
     dependency('stb'),
     dependency('simdutf'),
-    dependency('glew'), # TODO remove
+    dependency('glew'),  # TODO remove
     java_dep,
     nbt_dep,
     util_dep,

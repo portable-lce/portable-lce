@@ -8,24 +8,24 @@ project(
     default_options: [
         'cpp_std=c++20',
         'warning_level=0',
-        'unity=on', # merge source files per target
-        'unity_size=8', # TODO: mess around with this
+        'unity=on',  # merge source files per target
+        'unity_size=8',  # TODO: mess around with this
         'buildtype=debug',
         'force_fallback_for=[\'miniaudio\',\'stb\']',
-        'b_pch=true', # precompiled headers
-        'default_library=static', # static linkage to subprojects
-        # 'b_lto=true', # link-time optimisation (ThinLTO under clang+lld)
-        # 'b_ndebug=if-release', # drop assert() in --buildtype=release
+        'b_pch=true',  # precompiled headers
+        'default_library=static',  # static linkage to subprojects
+            # 'b_lto=true', # link-time optimisation (ThinLTO under clang+lld)
+            # 'b_ndebug=if-release', # drop assert() in --buildtype=release
     ],
 )
 
-# there is a little hack for SDL2 on darwin... upgrading to SDL3 will make this irrelevant 
+# there is a little hack for SDL2 on darwin... upgrading to SDL3 will make this irrelevant
 if host_machine.system() == 'darwin'
     add_languages('objc', native: false)
 endif
 # This makes sure unity builds work on MSVC
 if meson.get_compiler('cpp').get_id() == 'msvc'
-  add_project_arguments('/bigobj', language : 'cpp')
+    add_project_arguments('/bigobj', language: 'cpp')
 endif
 
 pymod = import('python')
@@ -38,7 +38,7 @@ global_cpp_defs = [
     '-DSPLIT_SAVES',
     '-D_LARGE_WORLDS',
     '-D_EXTENDED_ACHIEVEMENTS',
-    '-DMULTITHREAD_ENABLE', # always-on threading flag (formerly in App_Defines.h)
+    '-DMULTITHREAD_ENABLE',  # always-on threading flag (formerly in App_Defines.h)
 ]
 
 # Debug-only defines: keep for debug + debugoptimized so iteration is unchanged.
@@ -79,13 +79,13 @@ if get_option('ui_backend') == 'java'
 endif
 
 if get_option('occlusion_culling') == 'off'
-  global_cpp_defs += ['-DOCCLUSION_MODE_NONE']
+    global_cpp_defs += ['-DOCCLUSION_MODE_NONE']
 elif get_option('occlusion_culling') == 'frustum'
-  global_cpp_defs += ['-DOCCLUSION_MODE_FRUSTUM']
+    global_cpp_defs += ['-DOCCLUSION_MODE_FRUSTUM']
 elif get_option('occlusion_culling') == 'bfs'
-  global_cpp_defs += ['-DOCCLUSION_MODE_BFS', '-DUSE_OCCLUSION_CULLING']
+    global_cpp_defs += ['-DOCCLUSION_MODE_BFS', '-DUSE_OCCLUSION_CULLING']
 elif get_option('occlusion_culling') == 'hardware'
-  global_cpp_defs += ['-DOCCLUSION_MODE_HARDWARE', '-DUSE_OCCLUSION_CULLING']
+    global_cpp_defs += ['-DOCCLUSION_MODE_HARDWARE', '-DUSE_OCCLUSION_CULLING']
 endif
 
 add_project_arguments(global_cpp_defs, language: ['cpp', 'c'])
@@ -108,7 +108,7 @@ if host_machine.system() in ['linux', 'windows', 'darwin']
     platform_renderer_dep = platform_renderer_gl_dep
     platform_sound_dep = platform_sound_miniaudio_dep
     platform_storage_dep = platform_storage_stub_dep
-    platform_thread_dep = platform_thread_dep # standardized backend (for now)
+    platform_thread_dep = platform_thread_dep  # standardized backend (for now)
 
     app_platform_sources = files('targets/app/desktop/main.cpp')
 endif

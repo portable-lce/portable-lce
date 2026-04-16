@@ -1,4 +1,5 @@
-project('simdutf',
+project(
+    'simdutf',
     'cpp',
     default_options: ['cpp_std=c++20'],
     version: '8.2.0',
@@ -12,9 +13,12 @@ python = pymod.find_installation('python3', required: true)
 simdutf_amalgamate_args = [
     '--no-zip',
     '--no-readme',
-    '--source-dir', meson.project_source_root() / 'src',
-    '--include-dir', meson.project_source_root() / 'include',
-    '--output-dir', meson.project_build_root(),
+    '--source-dir',
+    meson.project_source_root() / 'src',
+    '--include-dir',
+    meson.project_source_root() / 'include',
+    '--output-dir',
+    meson.project_build_root(),
 ]
 
 if get_option('utf8')

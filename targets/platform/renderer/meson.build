@@ -14,7 +14,8 @@ else
     platform_renderer_gl_defs = []
 endif
 
-lib_platform_renderer_gl = static_library('platform_renderer_gl',
+lib_platform_renderer_gl = static_library(
+    'platform_renderer_gl',
     files('gl/GLRenderer.cpp', 'gl/render_stubs.cpp'),
     include_directories: include_directories('../../'),
     dependencies: platform_renderer_gl_dependencies,

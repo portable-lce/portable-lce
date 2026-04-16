@@ -1,4 +1,5 @@
-lib_platform_network_stub = static_library('platform_network_stub',
+lib_platform_network_stub = static_library(
+    'platform_network_stub',
     files('stub/StubNetworkPlayer.cpp', 'stub/StubPlatformNetwork.cpp'),
     include_directories: include_directories('../../'),
     dependencies: java_dep,
