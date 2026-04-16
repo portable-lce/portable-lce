@@ -30,7 +30,6 @@ runs:
       if: ${{ runner.os == 'macOS' }}
       shell: nix develop --command bash -e {0}
       run: |
-        rm -rf subprojects/shiggy # Attempt at a lazy fix for shiggy required error
         meson setup ${{ inputs.dir_name }} --wipe ${{ inputs.setup_args }}
 
     - name: Setup build-directory

@@ -39,9 +39,8 @@
       let
         pkgs = import nixpkgs { inherit system; };
         lib = pkgs.lib;
-
         subprojectNames = [
-          "shiggy"
+          (if system=="x86_64-darwin" || system=="aarch64-darwin" then null else "shiggy")
           "stb"
           "simdutf"
           "miniaudio"
@@ -145,7 +144,7 @@
               packages = with pkgs; [
                 clang-tools
                 lldb
-                (if pkgs.stdenv.isDarwin then null else valgrind)
+                (if system=="x86_64-darwin" || system=="aarch64-darwin" then null else valgrind)
                 include-what-you-use
                 ccache
               ];
