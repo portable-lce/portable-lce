@@ -1,5 +1,6 @@
 name: Build (Windows, x86-64)
 
+# TODO: test with only pull-request
 on:
   push:
     paths: &workflow_paths
@@ -48,11 +49,11 @@ jobs:
       - name: Restore build cache
         uses: ./.github/actions/restore-cache
         with:
-          ccache_dir: ${{ runner.temp }}/ccache
+          ccache_dir: ${{ runner.temp }}/sccache
 
       - name: Install tooling 
         run: |
-          choco install ccache -y 
+          choco install sccache -y 
           python -m pip install meson
 
       - name: Compile
@@ -78,11 +79,11 @@ jobs:
       - name: Restore build cache
         uses: ./.github/actions/restore-cache
         with:
-          ccache_dir: ${{ runner.temp }}/ccache
+          ccache_dir: ${{ runner.temp }}/sccache
 
       - name: Install tooling 
         run: |
-          choco install ccache -y
+          choco install sccache -y
           python -m pip install meson
 
       - name: Compile 
@@ -90,3 +91,4 @@ jobs:
         with:
           dir_name: "build_debug"
           setup_args: "-Dunity=off --vsenv -Dzlib:unity=off -Dsdl2:unity=off"
+

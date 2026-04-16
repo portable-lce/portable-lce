@@ -36,7 +36,7 @@ runs:
       if: ${{ runner.os == 'Windows' }}
       shell: bash -e {0}
       run: |
-        CC=clang CXX=clang++ meson setup ${{ inputs.dir_name }} --wipe ${{ inputs.setup_args }}
+        CXXFLAGS="/bigobj" CFLAGS="/bigobj" CC="sccache cl" CXX="sccache cl" meson setup ${{ inputs.dir_name }} --wipe ${{ inputs.setup_args }}
 
     - name: Compile directory
       if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}

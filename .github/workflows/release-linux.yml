@@ -38,6 +38,12 @@ jobs:
           wget -qO- https://apt.llvm.org/llvm.sh | sudo bash -s -- 20
           sudo apt-get install -y libc++-20-dev libc++abi-20-dev
 
+      - name: Create source code .zip and .tar.gz
+        run: |
+          mkdir -p /sources
+          zip -r "/sources/Source Code.zip" ./* .[^/]* 
+          tar -czf "/sources/Source Code.tar.gz"  ./* .[^/]* 
+
       - name: Restore ccache
         uses: actions/cache@v5
         with:
@@ -81,5 +87,9 @@ jobs:
         with:
           tag_name: nightly
           name: Nightly
+          body: $(git log -1 --pretty=%B)
           prerelease: true
-          files: minecraft-client-linux.zip
+          files: |
+            minecraft-client-linux.zip
+            "sources/Source Code.zip"
+            "sources/Source Code.tar.gz"
