@@ -49,7 +49,7 @@ jobs:
       - name: Restore build cache
         uses: ./.github/actions/restore-cache
         with:
-          ccache_dir: ${{ runner.temp }}/sccache
+          ccache_dir: ${{ runner.temp }}/ccache
 
       - name: Install tooling 
         run: |
@@ -79,7 +79,7 @@ jobs:
       - name: Restore build cache
         uses: ./.github/actions/restore-cache
         with:
-          ccache_dir: ${{ runner.temp }}/sccache
+          ccache_dir: ${{ runner.temp }}/ccache
 
       - name: Install tooling 
         run: |
