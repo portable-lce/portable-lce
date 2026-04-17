@@ -38,7 +38,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-type: ["amalgam", "full"]
+        build-type: ["amalgam", "full", "optimized"]
         arch: ["arm64"]
 
     steps:
@@ -75,6 +75,13 @@ jobs:
           dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=off -Dui_backend=java"
 
+      - name: Compile optimized
+        if: ${{ matrix.build-type == 'optimized' }}
+        uses: ./.github/actions/build-meson
+        with:
+          dir_name: "build_${{ matrix.build-type }}"
+          setup_args: "-Dunity=on -Dunity_size=99999 -Dui_backend=java -Doptimization=3"
+
       - name: Package artifact
         run: |
           cd build_${{ matrix.build-type }}/targets/app
@@ -88,7 +95,7 @@ jobs:
           retention-days: 7
 
       - name: Release Nightly
-        if: ${{ matrix.build-type=='amalgam' }}
+        if: ${{ matrix.build-type=='optimized' }}
         uses: softprops/action-gh-release@v3
         continue-on-error: true
         with:
