@@ -1,4 +1,4 @@
-name: Linux 
+name: Linux
 
 # TODO: test with only pull-request
 on:
@@ -38,8 +38,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-type: ['amalgam','full','optimized']
-        arch: ['x86-64']
+        build-type: ["amalgam", "full", "optimized"]
+        arch: ["x86-64"]
 
     steps:
       - name: Cache .git folder

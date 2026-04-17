@@ -3,18 +3,18 @@ name: Format Check
 on:
   push:
     paths: &workflow_paths
-      - '**.cpp'
-      - '**.h'
-      - '**.c'
-      - '**.cc'
-      - '**.cxx'
-      - '**.hh'
-      - '**.hpp'
-      - '**.hxx'
-      - '**.inl'
-      - '.clang-format'
-      - '.github/workflows/clang-format.yml'
-      - '.github/scripts/check-clang-format.sh'
+      - "**.cpp"
+      - "**.h"
+      - "**.c"
+      - "**.cc"
+      - "**.cxx"
+      - "**.hh"
+      - "**.hpp"
+      - "**.hxx"
+      - "**.inl"
+      - ".clang-format"
+      - ".github/workflows/clang-format.yml"
+      - ".github/scripts/check-clang-format.sh"
 
   pull_request:
     paths: *workflow_paths

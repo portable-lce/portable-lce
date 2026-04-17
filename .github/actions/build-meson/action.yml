@@ -57,7 +57,6 @@ runs:
       run: |
         meson compile -C ${{ inputs.dir_name }} -j $(nproc) -v
 
-
     - name: Compile directory
       if: ${{ runner.os == 'Windows' }}
       shell: bash -e {0}

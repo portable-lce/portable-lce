@@ -38,8 +38,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-type: ['amalgam','full']
-        arch: ['arm64']
+        build-type: ["amalgam", "full"]
+        arch: ["arm64"]
 
     steps:
       - name: Cache .git folder

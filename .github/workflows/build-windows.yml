@@ -38,8 +38,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-type: ['amalgam','full','optimized']
-        arch: ['x86-64']
+        build-type: ["amalgam", "full", "optimized"]
+        arch: ["x86-64"]
     steps:
       - name: Cache .git folder
         uses: actions/cache@v5
@@ -53,7 +53,7 @@ jobs:
           fetch-depth: 1
 
       # Can't use nix here, windows :(
-      - name: Install tooling 
+      - name: Install tooling
         run: |
           choco install 7zip -y 
           python -m pip install meson
@@ -85,7 +85,7 @@ jobs:
           cp subprojects/shiggy/libs/iggy_w64.dll  build_${{matrix.build-type}}/targets/app/iggy_w64.dll
           cd build_${{matrix.build-type}}/targets/app
           7z a ../../../minecraft-client-windows-${{matrix.arch}}.zip * -x!Minecraft.Client.exe.p/
-      
+
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
