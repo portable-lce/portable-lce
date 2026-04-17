@@ -37,7 +37,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        build-type: ['release','debug']
+        build-type: ['amalgam','full']
         arch: ['arm64']
 
     steps:
@@ -61,14 +61,14 @@ jobs:
           ccache_dir: ~/.cache/ccache
 
       - name: Compile unity
-        if: ${{ startsWith(matrix.build-type, 'release') }}
+        if: ${{ matrix.build-type == 'amalgam' }}
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=on -Dunity_size=99999 -Dui_backend=java"
 
       - name: Compile
-        if: ${{ startsWith(matrix.build-type, 'debug') }}
+        if: ${{ matrix.build-type=='full' }}
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_${{ matrix.build-type }}"
@@ -87,7 +87,7 @@ jobs:
           retention-days: 7
 
       - name: Release Nightly
-        if: ${{ startsWith(matrix.build-type, 'release') }}
+        if: ${{ matrix.build-type=='amalgam' }}
         uses: softprops/action-gh-release@v3
         with:
           tag_name: nightly

@@ -39,8 +39,8 @@
       let
         pkgs = import nixpkgs { inherit system; };
         lib = pkgs.lib;
-        subprojectNames = builtins.filter (x: x!="") [
-          (if !(system == "x86_64-darwin" || system == "aarch64-darwin") then "shiggy" else "")
+        subprojectNames = builtins.filter (x: x!=null) [
+          (if !(system == "x86_64-darwin" || system == "aarch64-darwin") then "shiggy" else null)
           "stb"
           "simdutf"
           "miniaudio"

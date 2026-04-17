@@ -37,7 +37,7 @@ jobs:
     runs-on: windows-latest
     strategy:
       matrix:
-        build-type: ['release','debug']
+        build-type: ['amalgam','full','optimized']
         arch: ['x86-64']
     steps:
       - name: Cache .git folder
@@ -58,18 +58,25 @@ jobs:
           python -m pip install meson
 
       - name: Compile unity
-        if: ${{ startsWith(matrix.build-type, 'release') }}
+        if: ${{ matrix.build-type=='amalgam' }}
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=on -Dunity_size=99999 --vsenv -Dzlib:unity=off -Dsdl2:unity=off -Dbuildtype=release"
 
       - name: Compile
-        if: ${{ startsWith(matrix.build-type, 'debug') }}
+        if: ${{ matrix.build-type=='full' }}
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=off --vsenv"
+
+      - name: Compile Optimized
+        if: ${{ matrix.build-type=='optimized' }}
+        uses: ./.github/actions/build-meson
+        with:
+          dir_name: "build_${{ matrix.build-type }}"
+          setup_args: "-Dunity=on -Dunity_size=99999 --vsenv -Dzlib:unity=off -Dsdl2:unity=off -Dbuildtype=release -Doptimization=3"
 
       - name: Package artifact
         shell: bash -e {0}
@@ -77,6 +84,7 @@ jobs:
           cp subprojects/shiggy/libs/iggy_w64.dll  build_${{matrix.build-type}}/targets/app/iggy_w64.dll
           cd build_${{matrix.build-type}}/targets/app
           7z a ../../../minecraft-client-windows-${{matrix.arch}}.zip * -x!Minecraft.Client.exe.p/
+      
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
@@ -85,7 +93,7 @@ jobs:
           retention-days: 7
 
       - name: Release Nightly
-        if: ${{ startsWith(matrix.build-type, 'release') }}
+        if: ${{ matrix.build-type=='optimized' }}
         uses: softprops/action-gh-release@v3
         with:
           tag_name: nightly

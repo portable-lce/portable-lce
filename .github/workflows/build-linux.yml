@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        build-type: ['release','debug']
+        build-type: ['amalgam','full','optimized']
         arch: ['x86-64']
 
     steps:
@@ -53,7 +53,18 @@ jobs:
           fetch-depth: 1
 
       - name: Enter dev-shell
+        if: ${{ matrix.build-type != 'optimized' }}
         uses: ./.github/actions/enter-devshell
+
+      - name: Download tooling
+        if: ${{ matrix.build-type == 'optimized' }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential ccache python3 python3-pip ninja-build libsdl2-dev libgl-dev libglu1-mesa-dev libpthread-stubs0-dev libglm-dev
+          python -m pip install meson
+          ccache -M 5G || true
+          wget -qO- https://apt.llvm.org/llvm.sh | sudo bash -s -- 20
+          sudo apt-get install -y libc++-20-dev libc++abi-20-dev
 
       - name: Restore build cache
         uses: ./.github/actions/restore-cache
@@ -61,19 +72,25 @@ jobs:
           ccache_dir: ~/.cache/ccache
 
       - name: Compile unity
-        if: ${{ startsWith(matrix.build-type, 'release') }}
+        if: ${{ matrix.build-type=='amalgam' }}
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_${{ matrix.build-type }}"
-          # Because this is our release and we are building in nix, im using static here.
-          setup_args: "-Dunity=on -Dunity_size=99999 -Ddefault_library=static"
+          setup_args: "-Dunity=on -Dunity_size=99999"
 
       - name: Compile
-        if: ${{ startsWith(matrix.build-type, 'debug') }}
+        if: ${{ matrix.build-type=='full' }}
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_${{ matrix.build-type }}"
           setup_args: "-Dunity=off"
+
+      - name: Compile optimized
+        if: ${{ matrix.build-type=='optimized' }}
+        uses: ./.github/actions/build-meson
+        with:
+          dir_name: "build_${{ matrix.build-type }}"
+          setup_args: "-Dunity=on -Dunity_size=99999 -Dbuildtype=release -Doptimization=3"
 
       - name: Package artifact
         run: |
@@ -88,7 +105,7 @@ jobs:
           retention-days: 7
 
       - name: Release Nightly
-        if: ${{ startsWith(matrix.build-type, 'release') }}
+        if: ${{ matrix.build-type=='optimized' }}
         uses: softprops/action-gh-release@v3
         with:
           tag_name: nightly
