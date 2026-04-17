@@ -18,7 +18,7 @@ runs:
 
     - name: Create ccache dir
       shell: bash
-      run: mkdir -p {{ inputs.ccache_dir }}
+      run: mkdir -p ${{ inputs.ccache_dir }}
 
     - name: Restore meson cache
       uses: actions/cache@v5
