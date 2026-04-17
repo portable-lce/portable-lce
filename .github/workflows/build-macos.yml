@@ -54,7 +54,17 @@ jobs:
           fetch-depth: 1
 
       - name: Enter dev-shell
+        if: ${{ matrix.build-type != 'optimized' }}
         uses: ./.github/actions/enter-devshell
+
+      - name: Download tooling
+        if: ${{ matrix.build-type == 'optimized' }}
+        run: |
+          xcode-select --install
+          brew install ccache python sdl2 glfw glm
+          python -m ensurepip --upgrade # Jussst in case
+          python -m pip install meson
+          python -m pip install ninja
 
       - name: Restore build cache
         uses: ./.github/actions/restore-cache
