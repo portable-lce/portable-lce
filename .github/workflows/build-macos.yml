@@ -60,7 +60,6 @@ jobs:
       - name: Download tooling
         if: ${{ matrix.build-type == 'optimized' }}
         run: |
-          xcode-select --install
           brew install ccache python sdl2 glfw glm
           python -m ensurepip --upgrade # Jussst in case
           python -m pip install meson
