@@ -55,7 +55,7 @@ runs:
       if: ${{ (runner.os == 'Linux' || runner.os == 'macOS') && matrix.build-type == 'optimized' }}
       shell: bash -e {0}
       run: |
-        meson compile -C ${{ inputs.dir_name }} -j $(nproc) -v
+        meson compile -C ${{ inputs.dir_name }} -j $(nproc | sysctl -n hw.ncpu) -v
 
     - name: Compile directory
       if: ${{ runner.os == 'Windows' }}
