@@ -78,7 +78,7 @@ jobs:
           setup_args: "-Dunity=on -Dunity_size=99999 -Dui_backend=java"
 
       - name: Compile
-        if: ${{ matrix.build-type=='full' }}
+        if: ${{ matrix.build-type == 'full' }}
         uses: ./.github/actions/build-meson
         with:
           dir_name: "build_${{ matrix.build-type }}"
@@ -104,7 +104,7 @@ jobs:
           retention-days: 7
 
       - name: Release Nightly
-        if: ${{ matrix.build-type=='optimized' }}
+        if: ${{ matrix.build-type == 'optimized' }}
         uses: softprops/action-gh-release@v3
         continue-on-error: true
         with:
