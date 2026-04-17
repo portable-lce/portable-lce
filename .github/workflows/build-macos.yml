@@ -36,6 +36,7 @@ jobs:
   Build:
     runs-on: macos-latest
     strategy:
+      fail-fast: false
       matrix:
         build-type: ['amalgam','full']
         arch: ['arm64']

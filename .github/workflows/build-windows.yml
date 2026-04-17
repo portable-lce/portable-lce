@@ -36,6 +36,7 @@ jobs:
   Build:
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         build-type: ['amalgam','full','optimized']
         arch: ['x86-64']
