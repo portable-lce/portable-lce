@@ -90,6 +90,7 @@ jobs:
       - name: Release Nightly
         if: ${{ matrix.build-type=='amalgam' }}
         uses: softprops/action-gh-release@v3
+        continue-on-error: true
         with:
           tag_name: nightly
           name: Nightly
