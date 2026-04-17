@@ -15,7 +15,7 @@ This project is a heavily modified version of the Minecraft Console Legacy Editi
 
 |  | **Linux** | **Windows** | **macOS[^1]** |
 | - | - | - | - |
-| **building** | [![Build (Linux, x86-64)](https://github.com/Liriosha/portable-lce/actions/workflows/build-linux.yml/badge.svg)](https://github.com/Liriosha/portable-lce/actions/workflows/build-linux.yml?branch=new-ci) | [![Build (Windows, x86-64)](https://github.com/Liriosha/portable-lce/actions/workflows/build-windows.yml/badge.svg)](https://github.com/Liriosha/portable-lce/actions/workflows/build-windows.yml?branch=new-ci) |[![Build (MacOS, arm64)](https://github.com/Liriosha/portable-lce/actions/workflows/build-macos.yml/badge.svg?branch=new-ci)](https://github.com/Liriosha/portable-lce/actions/workflows/build-macos.yml)
+| **building** | [![Linux](https://github.com/portable-lce/portable-lce/actions/workflows/build-linux.yml/badge.svg)](https://github.com/portable-lce/portable-lce/actions/workflows/build-linux.yml) | [![Windows](https://github.com/portable-lce/portable-lce/actions/workflows/build-windows.yml/badge.svg)](https://github.com/portable-lce/portable-lce/actions/workflows/build-windows.yml) |[![macOS](https://github.com/portable-lce/portable-lce/actions/workflows/build-macos.yml/badge.svg)](https://github.com/portable-lce/portable-lce/actions/workflows/build-macos.yml)
 | **app** | `desktop` | `desktop` | `desktop` |
 | **ui** | `java`, `shiggy`[^2] | `java`, `shiggy`[^2] | `java` |
 | **fs** | `std` | `std` | `std` |
