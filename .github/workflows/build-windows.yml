@@ -58,6 +58,11 @@ jobs:
           choco install 7zip -y 
           python -m pip install meson
 
+      - name: Restore build cache
+        uses: ./.github/actions/restore-cache
+        with:
+          ccache_dir: ~/.cache/ccache
+
       - name: Compile unity
         if: ${{ matrix.build-type == 'amalgam' }}
         uses: ./.github/actions/build-meson
