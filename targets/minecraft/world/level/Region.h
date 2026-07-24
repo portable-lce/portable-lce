@@ -16,18 +16,32 @@ class ProgressListener;
 
 class Region : public LevelSource {
 private:
+    static constexpr int MAX_STACK_CHUNKS = 16;
     int xc1, zc1;
-    std::vector<std::vector<LevelChunk*>>* chunks;
+    LevelChunk* flatChunks_stack[MAX_STACK_CHUNKS];
+    LevelChunk** flatChunks;  // non-owning: points to flatChunks_stack or
+                              // flatChunksHeap's buffer
+    std::unique_ptr<LevelChunk*[]>
+        flatChunksHeap;  // owns heap allocation for large regions
+    int chunksDimX, chunksDimZ;
     Level* level;
     bool allEmpty;
 
     // AP - added a caching system for Chunk::rebuild to take advantage of
     int xcCached, zcCached;
-    unsigned char* CachedTiles;
+    const unsigned char* CachedTiles = nullptr;
+    LevelChunk* CachedChunk = nullptr;
 
 public:
     Region(Level* level, int x1, int y1, int z1, int x2, int y2, int z2, int r);
     virtual ~Region();
+
+    // Non-copyable/movable: flatChunks may point to internal stack buffer
+    Region(const Region&) = delete;
+    Region& operator=(const Region&) = delete;
+    Region(Region&&) = delete;
+    Region& operator=(Region&&) = delete;
+
     bool isAllEmpty();
     int getTile(int x, int y, int z);
     std::shared_ptr<TileEntity> getTileEntity(int x, int y, int z);
@@ -58,5 +72,6 @@ public:
     LevelChunk* getLevelChunk(int x, int y, int z);
 
     // AP - added a caching system for Chunk::rebuild to take advantage of
-    void setCachedTiles(unsigned char* tiles, int xc, int zc);
+    void setCachedTiles(const unsigned char* tiles, LevelChunk* chunk, int xc,
+                        int zc);
 };

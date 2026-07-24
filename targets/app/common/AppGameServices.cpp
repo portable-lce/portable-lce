@@ -157,6 +157,7 @@ bool AppGameServices::getBanListCheck(int iPad) {
     return game_.GetBanListCheck(iPad);
 }
 
+#if defined(_LARGE_WORLDS)
 unsigned int AppGameServices::getGameNewWorldSize() {
     return game_.GetGameNewWorldSize();
 }
@@ -168,6 +169,7 @@ unsigned int AppGameServices::getGameNewWorldSizeUseMoat() {
 unsigned int AppGameServices::getGameNewHellScale() {
     return game_.GetGameNewHellScale();
 }
+#endif
 
 // -- UI dispatch --
 

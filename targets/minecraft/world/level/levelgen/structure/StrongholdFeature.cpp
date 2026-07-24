@@ -26,6 +26,7 @@
 #include "minecraft/world/level/levelgen/structure/StructureFeature.h"
 #include "minecraft/world/level/levelgen/structure/StructurePiece.h"
 #include "minecraft/world/level/levelgen/structure/StructureStart.h"
+#include "minecraft/world/level/storage/ConsoleSaveFileIO/FileHeader.h"
 
 const std::string StrongholdFeature::OPTION_DISTANCE = "distance";
 const std::string StrongholdFeature::OPTION_COUNT = "count";

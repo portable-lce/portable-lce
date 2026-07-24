@@ -103,9 +103,11 @@ public:
     virtual void setSpecialTutorialCompletionFlag(int iPad, int index) = 0;
     virtual void setBanListCheck(int iPad, bool val) = 0;
     [[nodiscard]] virtual bool getBanListCheck(int iPad) = 0;
+#if defined(_LARGE_WORLDS)
     [[nodiscard]] virtual unsigned int getGameNewWorldSize() = 0;
     [[nodiscard]] virtual unsigned int getGameNewWorldSizeUseMoat() = 0;
     [[nodiscard]] virtual unsigned int getGameNewHellScale() = 0;
+#endif
 
     // -- UI dispatch --
 

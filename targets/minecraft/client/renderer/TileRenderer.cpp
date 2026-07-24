@@ -70,6 +70,9 @@ bool TileRenderer::fancy = true;
 
 const float smallUV = (1.0f / 16.0f);
 
+static constexpr int TILE_RENDERER_CACHE_SIZE = 32 * 32 * 32;
+static thread_local unsigned int s_tlsCache[TILE_RENDERER_CACHE_SIZE];
+
 void TileRenderer::_init() {
     fixedTexture = nullptr;
     xFlipTexture = false;
@@ -210,13 +213,11 @@ TileRenderer::TileRenderer(LevelSource* level, int xMin, int yMin, int zMin,
     this->yMin2 = yMin - 2;
     this->zMin2 = zMin - 2;
     this->tileIds = tileIds;
-    cache = new unsigned int[32 * 32 * 32];
-    memset(cache, 0, 32 * 32 * 32 * sizeof(unsigned int));
+    cache = s_tlsCache;
+    std::memset(cache, 0, TILE_RENDERER_CACHE_SIZE * sizeof(unsigned int));
 }
 
-TileRenderer::~TileRenderer() {
-    delete[] cache;  // 4jcraft, changed to []
-}
+TileRenderer::~TileRenderer() = default;
 
 TileRenderer::TileRenderer(LevelSource* level) {
     this->level = level;

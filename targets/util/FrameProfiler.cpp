@@ -1,6 +1,8 @@
 
 #ifdef ENABLE_FRAME_PROFILER
 
+#include "util/FrameProfiler.h"
+
 #include <array>
 #include <atomic>
 #include <chrono>
