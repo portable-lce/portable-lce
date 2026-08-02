@@ -84,6 +84,8 @@
 #include "strings.h"
 #include "util/StringHelpers.h"
 #include "util/Timer.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 class BeaconTileEntity;
 class BrewingStandTileEntity;
@@ -346,7 +348,7 @@ void Game::StoreLaunchData() {}
 
 void Game::ExitGame() {
     DebugPrintf("[Game] ExitGame AFTER START\n");
-    PlatformRenderer.Close();
+    RenderPath.Close();
 }
 
 // Invites
@@ -538,7 +540,7 @@ bool Game::IsLocalMultiplayerAvailable() {
             ++connectedControllers;
     }
 
-    bool available = PlatformRenderer.IsHiDef() && connectedControllers > 1;
+    bool available = RenderPath.framebuffer().is_hi_def && connectedControllers > 1;
 
     return available;
 

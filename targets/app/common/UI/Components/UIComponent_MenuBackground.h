@@ -35,5 +35,5 @@ public:
 
     // RENDERING
     virtual void render(S32 width, S32 height,
-                        IPlatformRenderer::eViewportType viewport);
+                        int viewport);
 };

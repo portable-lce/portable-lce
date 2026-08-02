@@ -70,7 +70,7 @@ void IUIScene_HUD::updateFrameTick() {
     int iGuiScale;
 
     if (pMinecraft->localplayers[iPad]->m_iScreenSection ==
-        IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN) {
+        0) {
         iGuiScale = app.GetGameSettings(iPad, eGameSetting_UISize);
     } else {
         iGuiScale = app.GetGameSettings(iPad, eGameSetting_UISizeSplitscreen);

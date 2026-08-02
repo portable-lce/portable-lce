@@ -71,7 +71,7 @@ public:
 
     // RENDERING
     virtual void render(S32 width, S32 height,
-                        IPlatformRenderer::eViewportType viewport);
+                        int viewport);
 
     virtual void SetTooltipText(unsigned int tooltip, int iTextID);
     virtual void SetEnableTooltips(bool bVal);

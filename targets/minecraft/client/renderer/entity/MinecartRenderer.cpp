@@ -34,7 +34,7 @@ void MinecartRenderer::render(std::shared_ptr<Entity> _cart, double x, double y,
     // our version
     std::shared_ptr<Minecart> cart = std::dynamic_pointer_cast<Minecart>(_cart);
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
     bindTexture(cart);
 
@@ -47,7 +47,7 @@ void MinecartRenderer::render(std::shared_ptr<Entity> _cart, double x, double y,
     float yo = ((((seed >> 20) & 0x7) + 0.5f) / 8.0f - 0.5f) * 0.004f;
     float zo = ((((seed >> 24) & 0x7) + 0.5f) / 8.0f - 0.5f) * 0.004f;
 
-    glTranslatef(xo, yo, zo);
+    RenderPath.MatrixTranslate(xo, yo, zo);
 
     double xx = cart->xOld + (cart->x - cart->xOld) * a;
     double yy = cart->yOld + (cart->y - cart->yOld) * a;
@@ -78,15 +78,15 @@ void MinecartRenderer::render(std::shared_ptr<Entity> _cart, double x, double y,
             xRot = (float)(atan(dir.y) * 73);
         }
     }
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
 
-    glRotatef(180 - rot, 0, 1, 0);
-    glRotatef(-xRot, 0, 0, 1);
+    RenderPath.MatrixRotate((180 - rot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((-xRot)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
     float hurt = cart->getHurtTime() - a;
     float dmg = cart->getDamage() - a;
     if (dmg < 0) dmg = 0;
     if (hurt > 0) {
-        glRotatef(sinf(hurt) * hurt * dmg / 10 * cart->getHurtDir(), 1, 0, 0);
+        RenderPath.MatrixRotate((sinf(hurt) * hurt * dmg / 10 * cart->getHurtDir())*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
     }
 
     int yOffset = cart->getDisplayOffset();
@@ -94,57 +94,57 @@ void MinecartRenderer::render(std::shared_ptr<Entity> _cart, double x, double y,
     int tileData = cart->getDisplayData();
 
     if (tile != nullptr) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
 
         bindTexture(&TextureAtlas::LOCATION_BLOCKS);
         float ss = 12 / 16.0f;
 
-        glScalef(ss, ss, ss);
-        glTranslatef(0 / 16.f, yOffset / 16.f, 0 / 16.f);
+        RenderPath.MatrixScale(ss, ss, ss);
+        RenderPath.MatrixTranslate(0 / 16.f, yOffset / 16.f, 0 / 16.f);
         renderMinecartContents(cart, a, tile, tileData);
 
-        glPopMatrix();
-        glColor4f(1, 1, 1, 1);
+        RenderPath.MatrixPop();
+        RenderPath.StateSetColour(1, 1, 1, 1);
         bindTexture(cart);
     }
 
-    glScalef(-1, -1, 1);
+    RenderPath.MatrixScale(-1, -1, 1);
     model->render(cart, 0, 0, -0.1f, 0, 0, 1 / 16.0f, true);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     /*
     if (cart->type != Minecart::RIDEABLE)
     {
-    glPushMatrix();
+    RenderPath.MatrixPush();
     bindTexture(TN_TERRAIN);	// 4J was "/terrain.png"
     float ss = 12 / 16.0f;
-    glScalef(ss, ss, ss);
+    RenderPath.MatrixScale(ss, ss, ss);
 
     // 4J - changes here brought forward from 1.2.3
     if (cart->type == Minecart::CHEST)
     {
-    glTranslatef(0 / 16.0f, 8 / 16.0f, 0 / 16.0f);
+    RenderPath.MatrixTranslate(0 / 16.0f, 8 / 16.0f, 0 / 16.0f);
     TileRenderer *tr = new TileRenderer();
     tr->renderTile(Tile::chest, 0, cart->getBrightness(a));
     delete tr;
     }
     else if (cart->type == Minecart::FURNACE)
     {
-    glTranslatef(0, 6 / 16.0f, 0);
+    RenderPath.MatrixTranslate(0, 6 / 16.0f, 0);
     TileRenderer *tr = new TileRenderer();
     tr->renderTile(Tile::furnace, 0, cart->getBrightness(a));
     delete tr;
     }
-    glPopMatrix();
-    glColor4f(1, 1, 1, 1);
+    RenderPath.MatrixPop();
+    RenderPath.StateSetColour(1, 1, 1, 1);
     }
 
     bindTexture(TN_ITEM_CART);		// 4J - was "/item/cart.png"
-    glScalef(-1, -1, 1);
+    RenderPath.MatrixScale(-1, -1, 1);
     // model.render(0, 0, cart->getLootContent() * 7.1f - 0.1f, 0, 0, 1 /
     // 16.0f);
     model->render(cart, 0, 0, -0.1f, 0, 0, 1 / 16.0f, true);
-    glPopMatrix();
+    RenderPath.MatrixPop();
     */
 }
 
@@ -158,7 +158,7 @@ void MinecartRenderer::renderMinecartContents(std::shared_ptr<Minecart> cart,
                                               int tileData) {
     float brightness = cart->getBrightness(a);
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
     renderer->renderTile(tile, tileData, brightness);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }

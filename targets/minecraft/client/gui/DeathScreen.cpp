@@ -49,10 +49,10 @@ void DeathScreen::buttonClicked(Button* button) {
 void DeathScreen::render(int xm, int ym, float a) {
     fillGradient(0, 0, width, height, 0x60500000, 0xa0803030);
 
-    glPushMatrix();
-    glScalef(2, 2, 2);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixScale(2, 2, 2);
     drawCenteredString(font, "Game over!", width / 2 / 2, 60 / 2, 0xffffff);
-    glPopMatrix();
+    RenderPath.MatrixPop();
     drawCenteredString(font,
                        "Score: &e" + toWString(minecraft->player->getScore()),
                        width / 2, 100, 0xffffff);

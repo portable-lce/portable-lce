@@ -1,6 +1,7 @@
 #include "ItemSpriteRenderer.h"
 
 #include <memory>
+#include <numbers>
 
 #include "EntityRenderDispatcher.h"
 #include "minecraft/client/renderer/Tesselator.h"
@@ -36,11 +37,11 @@ void ItemSpriteRenderer::render(std::shared_ptr<Entity> e, double x, double y,
         return;
     }
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
-    glTranslatef((float)x, (float)y, (float)z);
-    glEnable(GL_RESCALE_NORMAL);
-    glScalef(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
+    (void)0;
+    RenderPath.MatrixScale(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
     bindTexture(e);
     Tesselator* t = Tesselator::getInstance();
 
@@ -52,17 +53,17 @@ void ItemSpriteRenderer::render(std::shared_ptr<Entity> e, double x, double y,
         float g = ((col >> 8) & 0xff) / 255.0f;
         float b = ((col) & 0xff) / 255.0f;
 
-        glColor3f(red, g, b);
-        glPushMatrix();
+        RenderPath.StateSetColour(red, g, b, 1.0f);
+        RenderPath.MatrixPush();
         renderIcon(t, PotionItem::getTexture(PotionItem::CONTENTS_ICON));
-        glPopMatrix();
-        glColor3f(1, 1, 1);
+        RenderPath.MatrixPop();
+        RenderPath.StateSetColour(1, 1, 1, 1.0f);
     }
 
     renderIcon(t, icon);
 
-    glDisable(GL_RESCALE_NORMAL);
-    glPopMatrix();
+    (void)0;
+    RenderPath.MatrixPop();
 }
 
 void ItemSpriteRenderer::renderIcon(Tesselator* t, Icon* icon) {
@@ -75,8 +76,8 @@ void ItemSpriteRenderer::renderIcon(Tesselator* t, Icon* icon) {
     float xo = 0.5f;
     float yo = 0.25f;
 
-    glRotatef(180 - entityRenderDispatcher->playerRotY, 0, 1, 0);
-    glRotatef(-entityRenderDispatcher->playerRotX, 1, 0, 0);
+    RenderPath.MatrixRotate((180 - entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((-entityRenderDispatcher->playerRotX)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
     t->begin();
     t->normal(0, 1, 0);
     t->vertexUV((float)(0 - xo), (float)(0 - yo), (float)(0), (float)(u0),

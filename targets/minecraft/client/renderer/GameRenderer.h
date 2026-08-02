@@ -9,6 +9,7 @@
 #include "minecraft/client/resources/ResourceLocation.h"
 #include "minecraft/util/SmoothFloat.h"
 #include "minecraft/world/phys/Vec3.h"
+#include "platform/renderer/IRenderPath.h"
 #include "platform/thread/C4JThread.h"
 
 class Minecraft;
@@ -211,4 +212,11 @@ public:
     static void FinishedReassigning();
     void EnableUpdateThread();
     void DisableUpdateThread();
+
+    rp::ViewDesc current_view{};
+    rp::FogProfile captured_fog_profiles[4]{};
+    uint8_t captured_fog_count = 0;
+
+    void captureFogProfile(int pass_index, float alpha);
+    void captureLighting();
 };

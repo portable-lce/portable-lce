@@ -211,8 +211,8 @@ void Font::draw(const std::string& str, bool dropShadow) {
                 if (dropShadow) colorN += 16;
 
                 int color = colors[colorN];
-                glColor3f((color >> 16) / 255.0F, ((color >> 8) & 255) / 255.0F,
-                          (color & 255) / 255.0F);
+                RenderPath.StateSetColour((color >> 16) / 255.0F, ((color >> 8) & 255) / 255.0F,
+                          (color & 255) / 255.0F, 1.0f);
             }
 
             i += 1;
@@ -244,7 +244,7 @@ void Font::draw(const std::string& str, int x, int y, int color,
                          // FF FF)
             color = (color & 0xfcfcfc) >> 2 | (color & (0xFFFFFFFF << 24));
 
-        glColor4f((color >> 16 & 255) / 255.0F, (color >> 8 & 255) / 255.0F,
+        RenderPath.StateSetColour((color >> 16 & 255) / 255.0F, (color >> 8 & 255) / 255.0F,
                   (color & 255) / 255.0F, (color >> 24 & 255) / 255.0F);
 
         xPos = x;
@@ -477,7 +477,7 @@ Font::renderFakeCB(IntBuffer *ib)
                 // charWidths[chars[i]], 8);
                         t->end();
 
-                        glTranslatef((float)charWidths[i], 0, 0);
+                        RenderPath.MatrixTranslate((float)charWidths[i], 0, 0);
                 }
                 else
                 {
@@ -500,7 +500,7 @@ Font::renderFakeCB(IntBuffer *ib)
                                 g /= 4;
                                 b /= 4;
                         }
-                        glColor3f(r / 255.0f, g / 255.0f, b / 255.0f);
+                        RenderPath.StateSetColour(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
                 }
         }
 }
@@ -539,7 +539,7 @@ void Font::renderUnicodeCharacter(char c)
 
         if (lastBoundTexture != unicodeTexID[page])
         {
-                glBindTexture(GL_TEXTURE_2D, unicodeTexID[page]);
+                RenderPath.TextureBind(unicodeTexID[page]);
                 lastBoundTexture = unicodeTexID[page];
         }
 
@@ -556,7 +556,7 @@ void Font::renderUnicodeCharacter(char c)
         float width = right - left - .02f;
 
     Tesselator *t = Tesselator::getInstance();
-        t->begin(GL_TRIANGLE_STRIP);
+        t->begin(0x0005);
         t->tex(xOff / 256.0F, yOff / 256.0F);
         t->vertex(xPos, yPos, 0.0f);
         t->tex(xOff / 256.0F, (yOff + 15.98f) / 256.0F);

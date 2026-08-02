@@ -48,10 +48,11 @@ void OffsettedRenderList::render() {
         rendered = true;
     }
     if (lists->remaining() > 0) {
-        glPushMatrix();
-        glTranslatef(x - xOff, y - yOff, z - zOff);
-        glCallLists(lists);
-        glPopMatrix();
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate(x - xOff, y - yOff, z - zOff);
+        for (int i = lists->position(); i < lists->limit(); i++)
+            (void)RenderPath.CBuffCall(lists->get(i));
+        RenderPath.MatrixPop();
     }
 }
 

@@ -2,6 +2,7 @@
 
 #include <wchar.h>
 
+#include <numbers>
 #include <vector>
 
 #include "minecraft/IGameServices.h"
@@ -47,15 +48,16 @@ void AbstractContainerScreen::render(int xm, int ym, float a) {
 
     renderBg(a);
 
-    glPushMatrix();
-    glRotatef(120, 1, 0, 0);
-    glPopMatrix();
+    RenderPath.MatrixPush();
+    RenderPath.MatrixRotate((120) * (std::numbers::pi_v<float> / 180.f), 1, 0,
+                            0);
+    RenderPath.MatrixPop();
 
-    glPushMatrix();
-    glTranslatef((float)xo, (float)yo, 0);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)xo, (float)yo, 0);
 
-    glColor4f(1, 1, 1, 1);
-    glEnable(GL_RESCALE_NORMAL);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    (void)0;
     Lighting::turnOn();
 
     Slot* hoveredSlot = nullptr;
@@ -69,20 +71,20 @@ void AbstractContainerScreen::render(int xm, int ym, float a) {
         if (isHovering(slot, xm, ym)) {
             hoveredSlot = slot;
 
-            glDisable(GL_LIGHTING);
-            glDisable(GL_DEPTH_TEST);
+            RenderPath.StateSetLightingEnable(false);
+            RenderPath.StateSetDepthTestEnable(false);
 
             int x = slot->x;
             int y = slot->y;
             fillGradient(x, y, x + 16, y + 16, 0x80ffffff, 0x80ffffff);
-            glEnable(GL_LIGHTING);
-            glEnable(GL_DEPTH_TEST);
+            RenderPath.StateSetLightingEnable(true);
+            RenderPath.StateSetDepthTestEnable(true);
         }
     }
 
     std::shared_ptr<Inventory> inventory = minecraft->player->inventory;
     if (inventory->getCarried() != nullptr) {
-        glTranslatef(0, 0, 32);
+        RenderPath.MatrixTranslate(0, 0, 32);
         // Slot old = carriedSlot;
         // carriedSlot = null;
         itemRenderer->renderGuiItem(font, minecraft->textures,
@@ -94,10 +96,10 @@ void AbstractContainerScreen::render(int xm, int ym, float a) {
         // carriedSlot = old;
     }
     Lighting::turnOff();
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 
-    glDisable(GL_LIGHTING);
-    glDisable(GL_DEPTH_TEST);
+    RenderPath.StateSetLightingEnable(false);
+    RenderPath.StateSetDepthTestEnable(false);
 
     renderLabels();
 
@@ -113,11 +115,11 @@ void AbstractContainerScreen::render(int xm, int ym, float a) {
         renderTooltip(item, xm - xo, ym - yo);
     }
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     Screen::render(xm, ym, a);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_DEPTH_TEST);
+    RenderPath.StateSetLightingEnable(true);
+    RenderPath.StateSetDepthTestEnable(true);
 #endif
 }
 
@@ -293,10 +295,10 @@ void AbstractContainerScreen::renderSlot(Slot* slot) {
     //     int icon = slot->getNoItemIcon();
     //     if (icon >= 0)
     // 	{
-    //         glDisable(GL_LIGHTING);
+    //         RenderPath.StateSetLightingEnable(false);
     //         minecraft->textures->bind(minecraft->textures->loadTexture(TN_GUI_ITEMS));//"/gui/items.png"));
     //         blit(x, y, icon % 16 * 16, icon / 16 * 16, 16, 16);
-    //         glEnable(GL_LIGHTING);
+    //         RenderPath.StateSetLightingEnable(true);
     //         return;
     //     }
     // }

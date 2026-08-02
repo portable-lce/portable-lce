@@ -52,6 +52,8 @@
 #include "platform/storage/storage.h"
 #include "strings.h"
 #include "util/StringHelpers.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 class FriendSessionInfo;
 class INVITE_INFO;
@@ -1509,16 +1511,16 @@ void CGameNetworkManager::ServerStoppedWait() {
     if (C4JThread::isMainThread()) {
         int result = C4JThread::WaitResult::Timeout;
         do {
-            PlatformRenderer.StartFrame();
+            RenderPath.StartFrame();
             result = m_hServerStoppedEvent->waitForSignal(20);
             // Tick some simple things
             PlatformProfile.Tick();
             PlatformStorage.Tick();
             PlatformInput.Tick();
-            PlatformRenderer.Tick();
+            RenderPath.tick();
             ui.tick();
             ui.render();
-            PlatformRenderer.Present();
+            RenderPath.Present();
         } while (result == C4JThread::WaitResult::Timeout);
     } else {
         if (m_hServerStoppedEvent != nullptr) {

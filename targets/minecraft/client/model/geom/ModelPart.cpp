@@ -146,18 +146,18 @@ void ModelPart::render(float scale, bool usecompiled,
     if (!visible) return;
     if (!compiled) compile(scale);
 
-    glTranslatef(translateX, translateY, translateZ);
+    RenderPath.MatrixTranslate(translateX, translateY, translateZ);
 
     if (xRot != 0 || yRot != 0 || zRot != 0) {
-        glPushMatrix();
-        glTranslatef(x * scale, y * scale, z * scale);
-        if (zRot != 0) glRotatef(zRot * RAD, 0, 0, 1);
-        if (yRot != 0) glRotatef(yRot * RAD, 0, 1, 0);
-        if (xRot != 0) glRotatef(xRot * RAD, 1, 0, 0);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate(x * scale, y * scale, z * scale);
+        if (zRot != 0) RenderPath.MatrixRotate((zRot * RAD)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        if (yRot != 0) RenderPath.MatrixRotate((yRot * RAD)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        if (xRot != 0) RenderPath.MatrixRotate((xRot * RAD)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
         if (!bHideParentBodyPart) {
             if (usecompiled) {
-                glCallList(list);
+                ((void)RenderPath.CBuffCall(list));
             } else {
                 Tesselator* t = Tesselator::getInstance();
                 for (unsigned int i = 0; i < cubes.size(); i++) {
@@ -172,12 +172,12 @@ void ModelPart::render(float scale, bool usecompiled,
             }
         }
 
-        glPopMatrix();
+        RenderPath.MatrixPop();
     } else if (x != 0 || y != 0 || z != 0) {
-        glTranslatef(x * scale, y * scale, z * scale);
+        RenderPath.MatrixTranslate(x * scale, y * scale, z * scale);
         if (!bHideParentBodyPart) {
             if (usecompiled) {
-                glCallList(list);
+                ((void)RenderPath.CBuffCall(list));
             } else {
                 Tesselator* t = Tesselator::getInstance();
                 for (unsigned int i = 0; i < cubes.size(); i++) {
@@ -191,11 +191,11 @@ void ModelPart::render(float scale, bool usecompiled,
                 children.at(i)->render(scale, usecompiled);
             }
         }
-        glTranslatef(-x * scale, -y * scale, -z * scale);
+        RenderPath.MatrixTranslate(-x * scale, -y * scale, -z * scale);
     } else {
         if (!bHideParentBodyPart) {
             if (usecompiled) {
-                glCallList(list);
+                ((void)RenderPath.CBuffCall(list));
             } else {
                 Tesselator* t = Tesselator::getInstance();
                 for (unsigned int i = 0; i < cubes.size(); i++) {
@@ -211,7 +211,7 @@ void ModelPart::render(float scale, bool usecompiled,
         }
     }
 
-    glTranslatef(-translateX, -translateY, -translateZ);
+    RenderPath.MatrixTranslate(-translateX, -translateY, -translateZ);
 }
 
 void ModelPart::renderRollable(float scale, bool usecompiled) {
@@ -219,13 +219,13 @@ void ModelPart::renderRollable(float scale, bool usecompiled) {
     if (!visible) return;
     if (!compiled) compile(scale);
 
-    glPushMatrix();
-    glTranslatef(x * scale, y * scale, z * scale);
-    if (yRot != 0) glRotatef(yRot * RAD, 0, 1, 0);
-    if (xRot != 0) glRotatef(xRot * RAD, 1, 0, 0);
-    if (zRot != 0) glRotatef(zRot * RAD, 0, 0, 1);
-    glCallList(list);
-    glPopMatrix();
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate(x * scale, y * scale, z * scale);
+    if (yRot != 0) RenderPath.MatrixRotate((yRot * RAD)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    if (xRot != 0) RenderPath.MatrixRotate((xRot * RAD)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+    if (zRot != 0) RenderPath.MatrixRotate((zRot * RAD)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+    ((void)RenderPath.CBuffCall(list));
+    RenderPath.MatrixPop();
 }
 
 void ModelPart::translateTo(float scale) {
@@ -234,12 +234,12 @@ void ModelPart::translateTo(float scale) {
     if (!compiled) compile(scale);
 
     if (xRot != 0 || yRot != 0 || zRot != 0) {
-        glTranslatef(x * scale, y * scale, z * scale);
-        if (zRot != 0) glRotatef(zRot * RAD, 0, 0, 1);
-        if (yRot != 0) glRotatef(yRot * RAD, 0, 1, 0);
-        if (xRot != 0) glRotatef(xRot * RAD, 1, 0, 0);
+        RenderPath.MatrixTranslate(x * scale, y * scale, z * scale);
+        if (zRot != 0) RenderPath.MatrixRotate((zRot * RAD)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        if (yRot != 0) RenderPath.MatrixRotate((yRot * RAD)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        if (xRot != 0) RenderPath.MatrixRotate((xRot * RAD)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
     } else if (x != 0 || y != 0 || z != 0) {
-        glTranslatef(x * scale, y * scale, z * scale);
+        RenderPath.MatrixTranslate(x * scale, y * scale, z * scale);
     } else {
     }
 }
@@ -247,18 +247,18 @@ void ModelPart::translateTo(float scale) {
 void ModelPart::compile(float scale) {
     list = MemoryTracker::genLists(1);
 
-    glNewList(list, GL_COMPILE);
+    RenderPath.CBuffStart(list);
     // Set a few render states that aren't configured by default
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-    glDepthMask(true);
+    RenderPath.StateSetDepthTestEnable(true);
+    RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
+    RenderPath.StateSetDepthMask(true);
     Tesselator* t = Tesselator::getInstance();
 
     for (unsigned int i = 0; i < cubes.size(); i++) {
         cubes.at(i)->render(t, scale);
     }
 
-    glEndList();
+    RenderPath.CBuffEnd();
 
     compiled = true;
 }

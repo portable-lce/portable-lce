@@ -1,6 +1,7 @@
 #include "TheEndPortalRenderer.h"
 
 #include <memory>
+#include <numbers>
 
 #include "TileEntityRenderDispatcher.h"
 #include "java/FloatBuffer.h"
@@ -33,13 +34,13 @@ void TheEndPortalRenderer::render(std::shared_ptr<TileEntity> _table, double x,
     float yy = (float)tileEntityRenderDispatcher->yPlayer;
     float zz = (float)tileEntityRenderDispatcher->zPlayer;
 
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
 
     RANDOM.setSeed(RANDOM_SEED);
 
     float hoff = 12 / 16.0f;
     for (int i = 0; i < 16; i++) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
 
         float dist = (16 - (i));
         float sscale = 1 / 16.0f;
@@ -50,13 +51,13 @@ void TheEndPortalRenderer::render(std::shared_ptr<TileEntity> _table, double x,
             br = 0.1f;
             dist = 65;
             sscale = 1 / 8.0f;
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            RenderPath.StateSetBlendEnable(true);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
         }
         if (i == 1) {
             this->bindTexture(&END_PORTAL_LOCATION);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_ONE, GL_ONE);
+            RenderPath.StateSetBlendEnable(true);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::one, rp::BlendFactor::one);
             sscale = 1 / 2.0f;
         }
 
@@ -67,42 +68,39 @@ void TheEndPortalRenderer::render(std::shared_ptr<TileEntity> _table, double x,
             float s = ss1 / ss2;
             s = (float)(y + hoff) + s;
 
-            glTranslatef(xx, s, zz);
+            RenderPath.MatrixTranslate(xx, s, zz);
         }
         // 4J - note that the glTexGeni/glEnable calls don't actually do
         // anything in our opengl wrapper version, everything is currently just
         // inferred from the glTexGen calls.
 
-        glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-        glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-        glTexGeni(GL_R, GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-        glTexGeni(GL_Q, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
+        (void)0;
+        (void)0;
+        (void)0;
+        (void)0;
 
-        glTexGen(GL_S, GL_OBJECT_PLANE, getBuffer(1, 0, 0, 0));
-        glTexGen(GL_T, GL_OBJECT_PLANE, getBuffer(0, 0, 1, 0));
-        glTexGen(GL_R, GL_OBJECT_PLANE, getBuffer(0, 0, 0, 1));
-        glTexGen(GL_Q, GL_EYE_PLANE, getBuffer(0, 1, 0, 0));
+        // texgen not supported in bgfx backend
 
-        glEnable(GL_TEXTURE_GEN_S);
-        glEnable(GL_TEXTURE_GEN_T);
-        glEnable(GL_TEXTURE_GEN_R);
-        glEnable(GL_TEXTURE_GEN_Q);
+        (void)0;
+        (void)0;
+        (void)0;
+        (void)0;
 
-        glPopMatrix();
-        glMatrixMode(GL_TEXTURE);
+        RenderPath.MatrixPop();
+        RenderPath.MatrixMode(rp::MatrixStack::texture);
 
-        glPushMatrix();
-        glLoadIdentity();
+        RenderPath.MatrixPush();
+        RenderPath.MatrixSetIdentity();
 
-        glTranslatef(0, System::currentTimeMillis() % 700000 / 700000.0f, 0);
-        glScalef(sscale, sscale, sscale);
-        glTranslatef(0.5f, 0.5f, 0);
-        glRotatef((i * i * 4321 + i * 9) * 2.0f, 0, 0, 1);
-        glTranslatef(-0.5f, -0.5f, 0);
-        glTranslatef(-xx, -zz, -yy);
+        RenderPath.MatrixTranslate(0, System::currentTimeMillis() % 700000 / 700000.0f, 0);
+        RenderPath.MatrixScale(sscale, sscale, sscale);
+        RenderPath.MatrixTranslate(0.5f, 0.5f, 0);
+        RenderPath.MatrixRotate(((i * i * 4321 + i * 9) * 2.0f)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        RenderPath.MatrixTranslate(-0.5f, -0.5f, 0);
+        RenderPath.MatrixTranslate(-xx, -zz, -yy);
         float ss1 = (float)(dd + Camera::yPlayerOffs);
-        glTranslatef(Camera::xPlayerOffs * dist / ss1,
-                     Camera::zPlayerOffs * dist / ss1, -yy);
+        RenderPath.MatrixTranslate(Camera::xPlayerOffs * dist / ss1,
+                                   Camera::zPlayerOffs * dist / ss1, -yy);
 
         Tesselator* t = Tesselator::getInstance();
         t->useProjectedTexture(
@@ -123,16 +121,16 @@ void TheEndPortalRenderer::render(std::shared_ptr<TileEntity> _table, double x,
         t->end();
 
         t->useProjectedTexture(false);  // 4J added
-        glPopMatrix();
-        glMatrixMode(GL_MODELVIEW);
+        RenderPath.MatrixPop();
+        RenderPath.MatrixMode(rp::MatrixStack::modelview);
     }
-    glDisable(GL_BLEND);
+    RenderPath.StateSetBlendEnable(false);
 
-    glDisable(GL_TEXTURE_GEN_S);
-    glDisable(GL_TEXTURE_GEN_T);
-    glDisable(GL_TEXTURE_GEN_R);
-    glDisable(GL_TEXTURE_GEN_Q);
-    glEnable(GL_LIGHTING);
+    (void)0;
+    (void)0;
+    (void)0;
+    (void)0;
+    RenderPath.StateSetLightingEnable(true);
 }
 
 TheEndPortalRenderer::TheEndPortalRenderer() {

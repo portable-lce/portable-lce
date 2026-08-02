@@ -19,7 +19,7 @@ GiantMobRenderer::GiantMobRenderer(Model* model, float shadow, float _scale)
 }
 
 void GiantMobRenderer::scale(std::shared_ptr<LivingEntity> mob, float a) {
-    glScalef(_scale, _scale, _scale);
+    RenderPath.MatrixScale(_scale, _scale, _scale);
 }
 
 ResourceLocation* GiantMobRenderer::getTextureLocation(

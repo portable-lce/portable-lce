@@ -103,9 +103,9 @@ void ParticleEngine::render(std::shared_ptr<Entity> player, float a, int list) {
     int l =
         level->dimension->id == 0 ? 0 : (level->dimension->id == -1 ? 1 : 2);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glAlphaFunc(GL_GREATER, 1.0f / 255.0f);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+    RenderPath.StateSetAlphaFunc(rp::AlphaTest::greater, 1.0f / 255.0f);
 
     for (int tt = 0; tt < TEXTURE_COUNT; tt++) {
         if (tt == ENTITY_PARTICLE_TEXTURE) continue;
@@ -113,10 +113,10 @@ void ParticleEngine::render(std::shared_ptr<Entity> player, float a, int list) {
         if (!particles[l][tt][list].empty()) {
             switch (list) {
                 case TRANSLUCENT_LIST:
-                    glDepthMask(false);
+                    RenderPath.StateSetDepthMask(false);
                     break;
                 case OPAQUE_LIST:
-                    glDepthMask(true);
+                    RenderPath.StateSetDepthMask(true);
                     break;
             }
 
@@ -127,7 +127,7 @@ void ParticleEngine::render(std::shared_ptr<Entity> player, float a, int list) {
             if (tt == ITEM_TEXTURE)
                 textures->bindTexture(&TextureAtlas::LOCATION_ITEMS);
             Tesselator* t = Tesselator::getInstance();
-            glColor4f(1.0f, 1.0f, 1.0f, 1);
+            RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1);
 
             t->begin();
             for (unsigned int i = 0; i < particles[l][tt][list].size(); i++) {
@@ -148,9 +148,9 @@ void ParticleEngine::render(std::shared_ptr<Entity> player, float a, int list) {
         }
     }
 
-    glDisable(GL_BLEND);
-    glDepthMask(true);
-    glAlphaFunc(GL_GREATER, .1f);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetDepthMask(true);
+    RenderPath.StateSetAlphaFunc(rp::AlphaTest::greater, .1f);
 }
 
 void ParticleEngine::renderLit(std::shared_ptr<Entity> player, float a,

@@ -1,5 +1,6 @@
 #include "HumanoidMobRenderer.h"
 
+#include <numbers>
 #include <utility>
 #include <vector>
 
@@ -106,7 +107,7 @@ void HumanoidMobRenderer::prepareSecondPassArmor(
 
             float brightness =
                 SharedConstants::TEXTURE_LIGHTING ? 1 : mob->getBrightness(a);
-            glColor3f(brightness, brightness, brightness);
+            RenderPath.StateSetColour(brightness, brightness, brightness, 1.0f);
         }
     }
 }
@@ -150,14 +151,14 @@ int HumanoidMobRenderer::prepareArmor(std::shared_ptr<LivingEntity> _mob,
                 float red = (float)((color >> 16) & 0xFF) / 0xFF;
                 float green = (float)((color >> 8) & 0xFF) / 0xFF;
                 float blue = (float)(color & 0xFF) / 0xFF;
-                glColor3f(brightness * red, brightness * green,
-                          brightness * blue);
+                RenderPath.StateSetColour(brightness * red, brightness * green,
+                                          brightness * blue, 1.0f);
 
                 if (itemInstance->isEnchanted()) return 0x1f;
                 return 0x10;
 
             } else {
-                glColor3f(brightness, brightness, brightness);
+                RenderPath.StateSetColour(brightness, brightness, brightness, 1.0f);
             }
 
             if (itemInstance->isEnchanted()) return 15;
@@ -175,7 +176,7 @@ void HumanoidMobRenderer::render(std::shared_ptr<Entity> _mob, double x,
 
     float brightness =
         SharedConstants::TEXTURE_LIGHTING ? 1 : mob->getBrightness(a);
-    glColor3f(brightness, brightness, brightness);
+    RenderPath.StateSetColour(brightness, brightness, brightness, 1.0f);
     std::shared_ptr<ItemInstance> item = mob->getCarriedItem();
 
     prepareCarriedItem(mob, item);
@@ -211,7 +212,7 @@ void HumanoidMobRenderer::additionalRendering(std::shared_ptr<LivingEntity> mob,
                                               float a) {
     float brightness =
         SharedConstants::TEXTURE_LIGHTING ? 1 : mob->getBrightness(a);
-    glColor3f(brightness, brightness, brightness);
+    RenderPath.StateSetColour(brightness, brightness, brightness, 1.0f);
     std::shared_ptr<ItemInstance> item = mob->getCarriedItem();
     std::shared_ptr<ItemInstance> headGear = mob->getArmor(3);
 
@@ -222,7 +223,7 @@ void HumanoidMobRenderer::additionalRendering(std::shared_ptr<LivingEntity> mob,
 
         if ((mob->getAnimOverrideBitmask() &
              (1 << HumanoidModel::eAnim_DontRenderArmour)) == 0) {
-            glPushMatrix();
+            RenderPath.MatrixPush();
             humanoidModel->head->translateTo(1 / 16.0f);
 
             if (headGear->getItem()->id < 256) {
@@ -230,16 +231,16 @@ void HumanoidMobRenderer::additionalRendering(std::shared_ptr<LivingEntity> mob,
                     TileRenderer::canRender(
                         Tile::tiles[headGear->id]->getRenderShape())) {
                     float s = 10 / 16.0f;
-                    glTranslatef(-0 / 16.0f, -4 / 16.0f, 0 / 16.0f);
-                    glRotatef(90, 0, 1, 0);
-                    glScalef(s, -s, -s);
+                    RenderPath.MatrixTranslate(-0 / 16.0f, -4 / 16.0f, 0 / 16.0f);
+                    RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                    RenderPath.MatrixScale(s, -s, -s);
                 }
 
                 this->entityRenderDispatcher->itemInHandRenderer->renderItem(
                     mob, headGear, 0);
             } else if (headGear->getItem()->id == Item::skull_Id) {
                 float s = 17 / 16.0f;
-                glScalef(s, -s, -s);
+                RenderPath.MatrixScale(s, -s, -s);
 
                 std::string extra = "";
                 if (headGear->hasTag() &&
@@ -251,51 +252,51 @@ void HumanoidMobRenderer::additionalRendering(std::shared_ptr<LivingEntity> mob,
                     extra);
             }
 
-            glPopMatrix();
+            RenderPath.MatrixPop();
         }
     }
 
     if (item != nullptr) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
 
         if (model->young) {
             float s = 0.5f;
-            glTranslatef(0 / 16.0f, 10 / 16.0f, 0 / 16.0f);
-            glRotatef(-20, -1, 0, 0);
-            glScalef(s, s, s);
+            RenderPath.MatrixTranslate(0 / 16.0f, 10 / 16.0f, 0 / 16.0f);
+            RenderPath.MatrixRotate((-20)*(std::numbers::pi_v<float>/180.f), -1, 0, 0);
+            RenderPath.MatrixScale(s, s, s);
         }
 
         humanoidModel->arm0->translateTo(1 / 16.0f);
-        glTranslatef(-1 / 16.0f, 7 / 16.0f, 1 / 16.0f);
+        RenderPath.MatrixTranslate(-1 / 16.0f, 7 / 16.0f, 1 / 16.0f);
 
         if (item->id < 256 &&
             TileRenderer::canRender(Tile::tiles[item->id]->getRenderShape())) {
             float s = 8 / 16.0f;
-            glTranslatef(-0 / 16.0f, 3 / 16.0f, -5 / 16.0f);
+            RenderPath.MatrixTranslate(-0 / 16.0f, 3 / 16.0f, -5 / 16.0f);
             s *= 0.75f;
-            glRotatef(20, 1, 0, 0);
-            glRotatef(45, 0, 1, 0);
-            glScalef(-s, -s, s);
+            RenderPath.MatrixRotate((20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixScale(-s, -s, s);
         } else if (item->id == Item::bow_Id) {
             float s = 10 / 16.0f;
-            glTranslatef(0 / 16.0f, 2 / 16.0f, 5 / 16.0f);
-            glRotatef(-20, 0, 1, 0);
-            glScalef(s, -s, s);
-            glRotatef(-100, 1, 0, 0);
-            glRotatef(45, 0, 1, 0);
+            RenderPath.MatrixTranslate(0 / 16.0f, 2 / 16.0f, 5 / 16.0f);
+            RenderPath.MatrixRotate((-20)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixScale(s, -s, s);
+            RenderPath.MatrixRotate((-100)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
         } else if (Item::items[item->id]->isHandEquipped()) {
             float s = 10 / 16.0f;
-            glTranslatef(0, 3 / 16.0f, 0);
-            glScalef(s, -s, s);
-            glRotatef(-100, 1, 0, 0);
-            glRotatef(45, 0, 1, 0);
+            RenderPath.MatrixTranslate(0, 3 / 16.0f, 0);
+            RenderPath.MatrixScale(s, -s, s);
+            RenderPath.MatrixRotate((-100)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
         } else {
             float s = 6 / 16.0f;
-            glTranslatef(+4 / 16.0f, +3 / 16.0f, -3 / 16.0f);
-            glScalef(s, s, s);
-            glRotatef(60, 0, 0, 1);
-            glRotatef(-90, 1, 0, 0);
-            glRotatef(20, 0, 0, 1);
+            RenderPath.MatrixTranslate(+4 / 16.0f, +3 / 16.0f, -3 / 16.0f);
+            RenderPath.MatrixScale(s, s, s);
+            RenderPath.MatrixRotate((60)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+            RenderPath.MatrixRotate((-90)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((20)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
         }
 
         this->entityRenderDispatcher->itemInHandRenderer->renderItem(mob, item,
@@ -305,10 +306,10 @@ void HumanoidMobRenderer::additionalRendering(std::shared_ptr<LivingEntity> mob,
                 mob, item, 1);
         }
 
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
 }
 
 void HumanoidMobRenderer::scale(std::shared_ptr<LivingEntity> mob, float a) {
-    glScalef(_scale, _scale, _scale);
+    RenderPath.MatrixScale(_scale, _scale, _scale);
 }

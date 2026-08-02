@@ -365,33 +365,33 @@ void UIScene_MainMenu::customDrawSplash(IggyCustomDrawCallbackRegion* region) {
     Font* font = pMinecraft->font;
 
     // build and render with the game call
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_DEPTH_TEST);
+    RenderPath.StateSetFaceCull(false);
+    RenderPath.StateSetDepthTestEnable(false);
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
     float width = region->x1 - region->x0;
     float height = region->y1 - region->y0;
     float xo = width / 2;
     float yo = height;
 
-    glTranslatef(xo, yo, 0);
+    RenderPath.MatrixTranslate(xo, yo, 0);
 
-    glRotatef(-17, 0, 0, 1);
+    RenderPath.MatrixRotate((-17)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
     float sss = 1.8f - std::abs(sinf(System::currentTimeMillis() % 1000 /
                                      1000.0f * std::numbers::pi * 2) *
                                 0.1f);
     sss *= (m_fScreenWidth / m_fRawWidth);
 
     sss = sss * 100 / (font->width(m_splash) + 8 * 4);
-    glScalef(sss, sss, sss);
+    RenderPath.MatrixScale(sss, sss, sss);
     // drawCenteredString(font, splash, 0, -8, 0xffff00);
     font->drawShadow(m_splash, 0 - (font->width(m_splash)) / 2, -8, 0xffff00);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 
-    glEnable(GL_DEPTH_TEST);
+    RenderPath.StateSetDepthTestEnable(true);
 
     // Finish GDraw and anything else that needs to be finalised
     ui.endCustomDraw(region);

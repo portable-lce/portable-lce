@@ -2,6 +2,7 @@
 
 #include <math.h>
 
+#include <numbers>
 #include <vector>
 
 #include "EntityRenderDispatcher.h"
@@ -25,6 +26,7 @@
 #include "minecraft/world/item/Item.h"
 #include "minecraft/world/item/ItemInstance.h"
 #include "minecraft/world/level/tile/Tile.h"
+#include "platform/renderer/IRenderPath.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
 #include "util/StringHelpers.h"
@@ -72,7 +74,7 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
     std::shared_ptr<ItemInstance> item = itemEntity->getItem();
     if (item->getItem() == nullptr) return;
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
     float bob =
         sinf((itemEntity->age + a) / 10.0f + itemEntity->bobOffs) * 0.1f + 0.1f;
     float spin =
@@ -84,19 +86,19 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
     if (itemEntity->getItem()->count > 20) count = 4;
     if (itemEntity->getItem()->count > 40) count = 5;
 
-    glTranslatef((float)x, (float)y + bob, (float)z);
-    glEnable(GL_RESCALE_NORMAL);
+    RenderPath.MatrixTranslate((float)x, (float)y + bob, (float)z);
+    (void)0;
 
     Tile* tile = Tile::tiles[item->id];
 
     if (item->getIconType() == Icon::TYPE_TERRAIN && tile != nullptr &&
         TileRenderer::canRender(tile->getRenderShape())) {
-        glRotatef(spin, 0, 1, 0);
+        RenderPath.MatrixRotate((spin)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
         if (m_bItemFrame) {
-            glScalef(1.25f, 1.25f, 1.25f);
-            glTranslatef(0, 0.05f, 0);
-            glRotatef(-90, 0, 1, 0);
+            RenderPath.MatrixScale(1.25f, 1.25f, 1.25f);
+            RenderPath.MatrixTranslate(0, 0.05f, 0);
+            RenderPath.MatrixRotate((-90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
         }
 
         float s = 1 / 4.0f;
@@ -106,30 +108,30 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
             s = 0.5f;
         }
 
-        glScalef(s, s, s);
+        RenderPath.MatrixScale(s, s, s);
         for (int i = 0; i < count; i++) {
-            glPushMatrix();
+            RenderPath.MatrixPush();
             if (i > 0) {
                 float xo = (random->nextFloat() * 2 - 1) * 0.2f / s;
                 float yo = (random->nextFloat() * 2 - 1) * 0.2f / s;
                 float zo = (random->nextFloat() * 2 - 1) * 0.2f / s;
-                glTranslatef(xo, yo, zo);
+                RenderPath.MatrixTranslate(xo, yo, zo);
             }
             // 4J - change brought forward from 1.8.2
             float br = SharedConstants::TEXTURE_LIGHTING
                            ? 1.0f
                            : itemEntity->getBrightness(a);
             tileRenderer->renderTile(tile, item->getAuxValue(), br);
-            glPopMatrix();
+            RenderPath.MatrixPop();
         }
     } else if (item->getIconType() == Icon::TYPE_ITEM &&
                item->getItem()->hasMultipleSpriteLayers()) {
         if (m_bItemFrame) {
-            glScalef(1 / 1.95f, 1 / 1.95f, 1 / 1.95f);
-            glTranslatef(0, -0.05f, 0);
-            glDisable(GL_LIGHTING);
+            RenderPath.MatrixScale(1 / 1.95f, 1 / 1.95f, 1 / 1.95f);
+            RenderPath.MatrixTranslate(0, -0.05f, 0);
+            RenderPath.StateSetLightingEnable(false);
         } else {
-            glScalef(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
+            RenderPath.MatrixScale(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
         }
 
         bindTexture(&TextureAtlas::LOCATION_ITEMS);  // 4J was "/gui/items.png"
@@ -147,7 +149,7 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
                 float g = ((col >> 8) & 0xff) / 255.0f;
                 float b = ((col) & 0xff) / 255.0f;
 
-                glColor4f(red * brightness, g * brightness, b * brightness, 1);
+                RenderPath.StateSetColour(red * brightness, g * brightness, b * brightness, 1);
                 renderItemBillboard(itemEntity, icon, count, a,
                                     red * brightness, g * brightness,
                                     b * brightness);
@@ -157,11 +159,11 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
         }
     } else {
         if (m_bItemFrame) {
-            glScalef(1 / 1.95f, 1 / 1.95f, 1 / 1.95f);
-            glTranslatef(0, -0.05f, 0);
-            glDisable(GL_LIGHTING);
+            RenderPath.MatrixScale(1 / 1.95f, 1 / 1.95f, 1 / 1.95f);
+            RenderPath.MatrixTranslate(0, -0.05f, 0);
+            RenderPath.StateSetLightingEnable(false);
         } else {
-            glScalef(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
+            RenderPath.MatrixScale(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
         }
 
         // 4J Stu - For rendering the static compass, we give it a non-zero aux
@@ -179,17 +181,17 @@ void ItemRenderer::render(std::shared_ptr<Entity> _itemEntity, double x,
                                    ? 1
                                    : itemEntity->getBrightness(a);
 
-            glColor4f(red * brightness, g * brightness, b * brightness, 1);
+            RenderPath.StateSetColour(red * brightness, g * brightness, b * brightness, 1);
             renderItemBillboard(itemEntity, icon, count, a, red * brightness,
                                 g * brightness, b * brightness);
         } else {
             renderItemBillboard(itemEntity, icon, count, a, 1, 1, 1);
         }
     }
-    glDisable(GL_RESCALE_NORMAL);
-    glPopMatrix();
+    (void)0;
+    RenderPath.MatrixPop();
     if (m_bItemFrame) {
-        glEnable(GL_LIGHTING);
+        RenderPath.StateSetLightingEnable(true);
     }
 }
 
@@ -222,15 +224,15 @@ void ItemRenderer::renderItemBillboard(std::shared_ptr<ItemEntity> entity,
             LOD = 2;  // Force LOD level 2 to achieve texture reads from 256x256
                       // map
         }
-        PlatformRenderer.StateSetForceLOD(LOD);
+        RenderPath.StateSetForceLOD(LOD);
 
-        glPushMatrix();
+        RenderPath.MatrixPush();
         if (m_bItemFrame) {
-            glRotatef(180, 0, 1, 0);
+            RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
         } else {
-            glRotatef(
-                ((entity->age + a) / 20.0f + entity->bobOffs) * Mth::RAD_TO_DEG,
-                0, 1, 0);
+            RenderPath.MatrixRotate(
+                (entity->age + a) / 20.0f + entity->bobOffs,
+                                    0, 1, 0);
         }
 
         float width = 1 / 16.0f;
@@ -248,10 +250,10 @@ void ItemRenderer::renderItemBillboard(std::shared_ptr<ItemEntity> entity,
             count = 4;
         }
 
-        glTranslatef(-xo, -yo, -((width + margin) * count / 2));
+        RenderPath.MatrixTranslate(-xo, -yo, -((width + margin) * count / 2));
 
         for (int i = 0; i < count; i++) {
-            glTranslatef(0, 0, width + margin);
+            RenderPath.MatrixTranslate(0, 0, width + margin);
 
             bool bIsTerrain = false;
             if (item->getIconType() == Icon::TYPE_TERRAIN &&
@@ -264,7 +266,7 @@ void ItemRenderer::renderItemBillboard(std::shared_ptr<ItemEntity> entity,
                                                              // sanely by Icon
             }
 
-            glColor4f(red, green, blue, 1);
+            RenderPath.StateSetColour(red, green, blue, 1);
             // 4J Stu - u coords were swapped in Java
             // ItemInHandRenderer::renderItem3D(t, u1, v0, u0, v1,
             // icon->getSourceWidth(), icon->getSourceHeight(), width, false);
@@ -273,57 +275,57 @@ void ItemRenderer::renderItemBillboard(std::shared_ptr<ItemEntity> entity,
                 icon->getSourceHeight(), width, false, bIsTerrain);
 
             if (item != nullptr && item->isFoil()) {
-                glDepthFunc(GL_EQUAL);
-                glDisable(GL_LIGHTING);
+                RenderPath.StateSetDepthFunc(rp::DepthTest::equal);
+                RenderPath.StateSetLightingEnable(false);
                 entityRenderDispatcher->textures->bindTexture(
                     &ItemInHandRenderer::ENCHANT_GLINT_LOCATION);
-                glEnable(GL_BLEND);
-                glBlendFunc(GL_SRC_COLOR, GL_ONE);
+                RenderPath.StateSetBlendEnable(true);
+                RenderPath.StateSetBlendFunc(rp::BlendFactor::src_color, rp::BlendFactor::one);
                 float br = 0.76f;
-                glColor4f(0.5f * br, 0.25f * br, 0.8f * br, 1);
-                glMatrixMode(GL_TEXTURE);
-                glPushMatrix();
+                RenderPath.StateSetColour(0.5f * br, 0.25f * br, 0.8f * br, 1);
+                RenderPath.MatrixMode(rp::MatrixStack::texture);
+                RenderPath.MatrixPush();
                 float ss = 1 / 8.0f;
-                glScalef(ss, ss, ss);
+                RenderPath.MatrixScale(ss, ss, ss);
                 float sx =
                     Minecraft::currentTimeMillis() % (3000) / (3000.0f) * 8;
-                glTranslatef(sx, 0, 0);
-                glRotatef(-50, 0, 0, 1);
+                RenderPath.MatrixTranslate(sx, 0, 0);
+                RenderPath.MatrixRotate((-50)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
                 ItemInHandRenderer::renderItem3D(t, 0, 0, 1, 1, 255, 255, width,
                                                  true, bIsTerrain);
-                glPopMatrix();
-                glPushMatrix();
-                glScalef(ss, ss, ss);
+                RenderPath.MatrixPop();
+                RenderPath.MatrixPush();
+                RenderPath.MatrixScale(ss, ss, ss);
                 sx = Minecraft::currentTimeMillis() % (3000 + 1873) /
                      (3000 + 1873.0f) * 8;
-                glTranslatef(-sx, 0, 0);
-                glRotatef(10, 0, 0, 1);
+                RenderPath.MatrixTranslate(-sx, 0, 0);
+                RenderPath.MatrixRotate((10)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
                 ItemInHandRenderer::renderItem3D(t, 0, 0, 1, 1, 255, 255, width,
                                                  true, bIsTerrain);
-                glPopMatrix();
-                glMatrixMode(GL_MODELVIEW);
-                glDisable(GL_BLEND);
-                glEnable(GL_LIGHTING);
-                glDepthFunc(GL_LEQUAL);
+                RenderPath.MatrixPop();
+                RenderPath.MatrixMode(rp::MatrixStack::modelview);
+                RenderPath.StateSetBlendEnable(false);
+                RenderPath.StateSetLightingEnable(true);
+                RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
             }
         }
 
-        glPopMatrix();
+        RenderPath.MatrixPop();
 
-        PlatformRenderer.StateSetForceLOD(-1);
+        RenderPath.StateSetForceLOD(-1);
     } else {
         for (int i = 0; i < count; i++) {
-            glPushMatrix();
+            RenderPath.MatrixPush();
             if (i > 0) {
                 float _xo = (random->nextFloat() * 2 - 1) * 0.3f;
                 float _yo = (random->nextFloat() * 2 - 1) * 0.3f;
                 float _zo = (random->nextFloat() * 2 - 1) * 0.3f;
-                glTranslatef(_xo, _yo, _zo);
+                RenderPath.MatrixTranslate(_xo, _yo, _zo);
             }
             if (!m_bItemFrame)
-                glRotatef(180 - entityRenderDispatcher->playerRotY, 0, 1, 0);
-            glColor4f(red, green, blue, 1);
+                RenderPath.MatrixRotate((180 - entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.StateSetColour(red, green, blue, 1);
             t->begin();
             t->normal(0, 1, 0);
             t->vertexUV((float)(0 - xo), (float)(0 - yo), (float)(0),
@@ -336,7 +338,7 @@ void ItemRenderer::renderItemBillboard(std::shared_ptr<ItemEntity> entity,
                         (float)(u0), (float)(v0));
             t->end();
 
-            glPopMatrix();
+            RenderPath.MatrixPop();
         }
     }
 }
@@ -362,29 +364,30 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
         textures->bindTexture(&TextureAtlas::LOCATION_BLOCKS);
 
         Tile* tile = Tile::tiles[itemId];
-        glPushMatrix();
+        RenderPath.StateSetFaceCull(false);
+        RenderPath.MatrixPush();
         // 4J - original code left here for reference
         // 4jcraft: original code reused for proper lighting
-        glTranslatef((float)(x), (float)(y), 0.0f);
-        glScalef(fScaleX, fScaleY, 1.0f);
-        glTranslatef(-2.0f, 3.0f, -3.0f + blitOffset);
-        glScalef(10.0f, 10.0f, 10.0f);
-        glTranslatef(1.0f, 0.5f, 8.0f);
-        glScalef(1.0f, 1.0f, -1.0f);
-        glRotatef(180.0f + 30.0f, 1.0f, 0.0f, 0.0f);
-        glRotatef(45.0f, 0.0f, 1.0f, 0.0f);
+        RenderPath.MatrixTranslate((float)(x), (float)(y), 0.0f);
+        RenderPath.MatrixScale(fScaleX, fScaleY, 1.0f);
+        RenderPath.MatrixTranslate(-2.0f, 3.0f, -3.0f + blitOffset);
+        RenderPath.MatrixScale(10.0f, 10.0f, 10.0f);
+        RenderPath.MatrixTranslate(1.0f, 0.5f, 8.0f);
+        RenderPath.MatrixScale(1.0f, 1.0f, -1.0f);
+        RenderPath.MatrixRotate((180.0f + 30.0f)*(std::numbers::pi_v<float>/180.f), 1.0f, 0.0f, 0.0f);
+        RenderPath.MatrixRotate((45.0f)*(std::numbers::pi_v<float>/180.f), 0.0f, 1.0f, 0.0f);
         // 4J-PB - pass the alpha value in - the grass block
         // render has the top surface coloured differently to
         // the rest of the block
-        glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
+        RenderPath.MatrixRotate((-90.0f)*(std::numbers::pi_v<float>/180.f), 0.0f, 1.0f, 0.0f);
 
         tileRenderer->renderTile(tile, itemAuxValue, 1, fAlpha, useCompiled);
 
-        glPopMatrix();
+        RenderPath.MatrixPop();
 
     } else if (Item::items[itemId]->hasMultipleSpriteLayers()) {
         // special double-layered
-        glDisable(GL_LIGHTING);
+        RenderPath.StateSetLightingEnable(false);
 
         ResourceLocation* location = getTextureLocation(item->getIconType());
         textures->bindTexture(location);
@@ -398,7 +401,7 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
             float g = ((col >> 8) & 0xff) / 255.0f;
             float b = ((col) & 0xff) / 255.0f;
 
-            if (setColor) glColor4f(r, g, b, fAlpha);
+            if (setColor) RenderPath.StateSetColour(r, g, b, fAlpha);
             // scale the x and y by the scale factor
             if ((fScaleX != 1.0f) || (fScaleY != 1.0f)) {
                 blit(x, y, fillingIcon, 16 * fScaleX, 16 * fScaleY);
@@ -406,10 +409,10 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
                 blit((int)x, (int)y, fillingIcon, 16, 16);
             }
         }
-        glEnable(GL_LIGHTING);
+        RenderPath.StateSetLightingEnable(true);
 
     } else {
-        glDisable(GL_LIGHTING);
+        RenderPath.StateSetLightingEnable(false);
         if (item->getIconType() == Icon::TYPE_TERRAIN) {
             textures->bindTexture(
                 &TextureAtlas::LOCATION_BLOCKS);  // "/terrain.png"));
@@ -427,7 +430,7 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
         float g = ((col >> 8) & 0xff) / 255.0f;
         float b = ((col) & 0xff) / 255.0f;
 
-        if (setColor) glColor4f(r, g, b, fAlpha);
+        if (setColor) RenderPath.StateSetColour(r, g, b, fAlpha);
 
         // scale the x and y by the scale factor
         if ((fScaleX != 1.0f) || (fScaleY != 1.0f)) {
@@ -435,9 +438,9 @@ void ItemRenderer::renderGuiItem(Font* font, Textures* textures,
         } else {
             blit((int)x, (int)y, itemIcon, 16, 16);
         }
-        glEnable(GL_LIGHTING);
+        RenderPath.StateSetLightingEnable(true);
     }
-    glEnable(GL_CULL_FACE);
+    RenderPath.StateSetFaceCull(true);
 }
 
 // 4J - original interface, now just a wrapper for preceding overload
@@ -475,24 +478,24 @@ void ItemRenderer::renderAndDecorateItem(
                   useCompiled);
 
     if (isFoil || item->isFoil()) {
-        glDepthFunc(GL_GREATER);
-        glDisable(GL_LIGHTING);
-        glDepthMask(false);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::greater);
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetDepthMask(false);
         textures->bindTexture(
             &ItemInHandRenderer::
                 ENCHANT_GLINT_LOCATION);  // 4J was "%blur%/misc/glint.png"
         blitOffset -= 50;
-        if (!isConstantBlended) glEnable(GL_BLEND);
+        if (!isConstantBlended) RenderPath.StateSetBlendEnable(true);
 
-        glBlendFunc(GL_DST_COLOR,
-                    GL_ONE);  // 4J - changed blend equation from GL_DST_COLOR,
-                              // GL_DST_COLOR so we can fade this out
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::dst_color,
+                    rp::BlendFactor::one);  // 4J - changed blend equation from rp::BlendFactor::dst_color,
+                              // rp::BlendFactor::dst_color so we can fade this out
 
         float blendFactor =
             isConstantBlended ? Gui::currentGuiBlendFactor : 1.0f;
 
-        glColor4f(0.5f * blendFactor, 0.25f * blendFactor, 0.8f * blendFactor,
-                  1);  // 4J - scale back colourisation with blendFactor
+        RenderPath.StateSetColour(0.5f * blendFactor, 0.25f * blendFactor, 0.8f * blendFactor,
+            1);  // 4J - scale back colourisation with blendFactor
         // scale the x and y by the scale factor
         if ((fScaleX != 1.0f) || (fScaleY != 1.0f)) {
             // 4J Stu - Scales were multiples of 20, making 16 to not overlap in
@@ -502,16 +505,16 @@ void ItemRenderer::renderAndDecorateItem(
         } else {
             blitGlint(x * 431278612.0f + y * 32178161.0f, x - 2, y - 2, 20, 20);
         }
-        glColor4f(1.0f, 1.0f, 1.0f, 1);  // 4J added
-        if (!isConstantBlended) glDisable(GL_BLEND);
+        RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1);  // 4J added
+        if (!isConstantBlended) RenderPath.StateSetBlendEnable(false);
 
-        glDepthMask(true);
+        RenderPath.StateSetDepthMask(true);
         blitOffset += 50;
-        glEnable(GL_LIGHTING);
-        glDepthFunc(GL_LEQUAL);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
 
         if (isConstantBlended)
-            glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::constant_alpha, rp::BlendFactor::one_minus_constant_alpha);
     }
 }
 
@@ -558,8 +561,8 @@ void ItemRenderer::blitGlint(int id, float x, float y, float w, float h) {
     float yy1f = yy1 / sfy;
 
     for (int i = 0; i < 2; i++) {
-        if (i == 0) glBlendFunc(GL_SRC_COLOR, GL_ONE);
-        if (i == 1) glBlendFunc(GL_SRC_COLOR, GL_ONE);
+        if (i == 0) RenderPath.StateSetBlendFunc(rp::BlendFactor::src_color, rp::BlendFactor::one);
+        if (i == 1) RenderPath.StateSetBlendFunc(rp::BlendFactor::src_color, rp::BlendFactor::one);
         float sx = Minecraft::currentTimeMillis() % (3000 + i * 1873) /
                    (3000.0f + i * 1873) * 256;
         float sy = 0;
@@ -602,12 +605,12 @@ void ItemRenderer::renderGuiItemDecorations(Font* font, Textures* textures,
                 amount = toWString<int>(item->count);
             }
         }
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetDepthTestEnable(false);
         font->drawShadow(amount, x + 19 - 2 - font->width(amount), y + 6 + 3,
                          0xffffff | (((unsigned int)(fAlpha * 0xff)) << 24));
-        glEnable(GL_LIGHTING);
-        glEnable(GL_DEPTH_TEST);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetDepthTestEnable(true);
     }
 
     if (item->isDamaged()) {
@@ -616,9 +619,9 @@ void ItemRenderer::renderGuiItemDecorations(Font* font, Textures* textures,
         int cc =
             (int)Math::round(255.0 - (double)item->getDamageValue() * 255.0 /
                                          (double)item->getMaxDamage());
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_TEXTURE_2D);
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetDepthTestEnable(false);
+        RenderPath.StateSetTextureEnable(false);
 
         Tesselator* t = Tesselator::getInstance();
 
@@ -628,14 +631,14 @@ void ItemRenderer::renderGuiItemDecorations(Font* font, Textures* textures,
         fillRect(t, x + 2, y + 13, 12, 1, cb);
         fillRect(t, x + 2, y + 13, p, 1, ca);
 
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_DEPTH_TEST);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetTextureEnable(true);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetDepthTestEnable(true);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     } else if (item->hasPotionStrengthBar()) {
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_TEXTURE_2D);
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetDepthTestEnable(false);
+        RenderPath.StateSetTextureEnable(false);
 
         Tesselator* t = Tesselator::getInstance();
 
@@ -648,12 +651,12 @@ void ItemRenderer::renderGuiItemDecorations(Font* font, Textures* textures,
         fillRect(t, x + 2 + 3 + 3, y + 13, 1, 2, 0x000000);
         fillRect(t, x + 2 + 3 + 3 + 3, y + 13, 1, 2, 0x000000);
 
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_DEPTH_TEST);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetTextureEnable(true);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetDepthTestEnable(true);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     }
-    glDisable(GL_BLEND);
+    RenderPath.StateSetBlendEnable(false);
 }
 
 const int ItemRenderer::m_iPotionStrengthBarWidth[] = {3, 6, 9, 11};

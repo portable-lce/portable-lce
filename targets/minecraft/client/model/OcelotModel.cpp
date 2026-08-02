@@ -91,14 +91,14 @@ void OcelotModel::render(std::shared_ptr<Entity> entity, float time, float r,
     setupAnim(time, r, bob, yRot, xRot, scale, entity);
     if (young) {
         float ss = 2.0f;
-        glPushMatrix();
-        glScalef(1.5f / ss, 1.5f / ss, 1.5f / ss);
-        glTranslatef(0, 10 * scale, 4 * scale);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixScale(1.5f / ss, 1.5f / ss, 1.5f / ss);
+        RenderPath.MatrixTranslate(0, 10 * scale, 4 * scale);
         head->render(scale, usecompiled);
-        glPopMatrix();
-        glPushMatrix();
-        glScalef(1 / ss, 1 / ss, 1 / ss);
-        glTranslatef(0, 24 * scale, 0);
+        RenderPath.MatrixPop();
+        RenderPath.MatrixPush();
+        RenderPath.MatrixScale(1 / ss, 1 / ss, 1 / ss);
+        RenderPath.MatrixTranslate(0, 24 * scale, 0);
         body->render(scale, usecompiled);
         backLegL->render(scale, usecompiled);
         backLegR->render(scale, usecompiled);
@@ -106,7 +106,7 @@ void OcelotModel::render(std::shared_ptr<Entity> entity, float time, float r,
         frontLegR->render(scale, usecompiled);
         tail1->render(scale, usecompiled);
         tail2->render(scale, usecompiled);
-        glPopMatrix();
+        RenderPath.MatrixPop();
     } else {
         head->render(scale, usecompiled);
         body->render(scale, usecompiled);

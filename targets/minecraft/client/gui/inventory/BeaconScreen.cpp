@@ -164,7 +164,7 @@ void BeaconScreen::renderLabels() {
 
 void BeaconScreen::renderBg(float a) {
 #ifdef ENABLE_JAVA_GUIS
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
     minecraft->textures->bindTexture(&GUI_BEACON_LOCATION);
     int xo = (width - imageWidth) / 2;
     int yo = (height - imageHeight) / 2;
@@ -196,11 +196,11 @@ void BeaconScreen::render(int xm, int ym, float a) {
         AbstractBeaconButton* beaconButton =
             dynamic_cast<AbstractBeaconButton*>(button);
         if (beaconButton && beaconButton->isHovered()) {
-            glDisable(GL_LIGHTING);
-            glDisable(GL_DEPTH_TEST);
+            RenderPath.StateSetLightingEnable(false);
+            RenderPath.StateSetDepthTestEnable(false);
             beaconButton->renderTooltip(xm, ym);
-            glEnable(GL_LIGHTING);
-            glEnable(GL_DEPTH_TEST);
+            RenderPath.StateSetLightingEnable(true);
+            RenderPath.StateSetDepthTestEnable(true);
             break;
         }
     }

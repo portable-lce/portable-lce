@@ -325,9 +325,9 @@ void ModelHorse::render(std::shared_ptr<Entity> entity, float time, float r,
 
     // render legs
     if (!adult) {
-        glPushMatrix();
-        glScalef(sizeFactor, .5f + sizeFactor * .5f, sizeFactor);
-        glTranslatef(0, .95f * (1.0f - sizeFactor), 0);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixScale(sizeFactor, .5f + sizeFactor * .5f, sizeFactor);
+        RenderPath.MatrixTranslate(0, .95f * (1.0f - sizeFactor), 0);
     }
     Leg1A->render(scale, usecompiled);
     Leg1B->render(scale, usecompiled);
@@ -345,11 +345,11 @@ void ModelHorse::render(std::shared_ptr<Entity> entity, float time, float r,
     Leg4B->render(scale, usecompiled);
     Leg4C->render(scale, usecompiled);
     if (!adult) {
-        glPopMatrix();
+        RenderPath.MatrixPop();
 
-        glPushMatrix();
-        glScalef(sizeFactor, sizeFactor, sizeFactor);
-        glTranslatef(0, 1.35f * (1.0f - sizeFactor), 0);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixScale(sizeFactor, sizeFactor, sizeFactor);
+        RenderPath.MatrixTranslate(0, 1.35f * (1.0f - sizeFactor), 0);
     }
     // render body
     Body->render(scale, usecompiled);
@@ -359,15 +359,15 @@ void ModelHorse::render(std::shared_ptr<Entity> entity, float time, float r,
     Neck->render(scale, usecompiled);
     Mane->render(scale, usecompiled);
     if (!adult) {
-        glPopMatrix();
+        RenderPath.MatrixPop();
 
-        glPushMatrix();
+        RenderPath.MatrixPush();
         float headScale = .5f + (sizeFactor * sizeFactor) * .5f;
-        glScalef(headScale, headScale, headScale);
+        RenderPath.MatrixScale(headScale, headScale, headScale);
         if (eating <= 0) {
-            glTranslatef(0, 1.35f * (1.0f - sizeFactor), 0);
+            RenderPath.MatrixTranslate(0, 1.35f * (1.0f - sizeFactor), 0);
         } else {
-            glTranslatef(0,
+            RenderPath.MatrixTranslate(0,
                          .9f * (1.0f - sizeFactor) * eating +
                              (1.35f * (1.0f - sizeFactor)) * (1.0f - eating),
                          .15f * (1.0f - sizeFactor) * eating);
@@ -383,7 +383,7 @@ void ModelHorse::render(std::shared_ptr<Entity> entity, float time, float r,
     }
     Head->render(scale, usecompiled);
     if (!adult) {
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
     if (chested) {
         Bag1->render(scale, usecompiled);

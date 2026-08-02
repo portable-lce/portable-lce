@@ -1,6 +1,7 @@
 #include "PathfinderMob.h"
 
 #include <cstdlib>
+#include <numbers>
 
 #include "java/Class.h"
 #include "java/Random.h"

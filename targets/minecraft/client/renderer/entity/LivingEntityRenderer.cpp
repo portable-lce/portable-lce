@@ -26,6 +26,8 @@
 #include "minecraft/world/entity/projectile/Arrow.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 ResourceLocation LivingEntityRenderer::ENCHANT_GLINT_LOCATION =
     ResourceLocation(TN__BLUR__MISC_GLINT);
@@ -51,8 +53,8 @@ void LivingEntityRenderer::render(std::shared_ptr<Entity> _mob, double x,
     std::shared_ptr<LivingEntity> mob =
         std::dynamic_pointer_cast<LivingEntity>(_mob);
 
-    glPushMatrix();
-    glDisable(GL_CULL_FACE);
+    RenderPath.MatrixPush();
+    RenderPath.StateSetFaceCull(false);
 
     model->attackTime = getAttackAnim(mob, a);
     if (armor != nullptr) armor->attackTime = model->attackTime;
@@ -88,11 +90,11 @@ void LivingEntityRenderer::render(std::shared_ptr<Entity> _mob, double x,
         setupRotations(mob, bob, bodyRot, a);
 
         float fScale = 1 / 16.0f;
-        glEnable(GL_RESCALE_NORMAL);
-        glScalef(-1, -1, 1);
+        (void)0;
+        RenderPath.MatrixScale(-1, -1, 1);
 
         scale(mob, a);
-        glTranslatef(0, -24 * fScale - 0.125f / 16.0f, 0);
+        RenderPath.MatrixTranslate(0, -24 * fScale - 0.125f / 16.0f, 0);
 
         float ws = mob->walkAnimSpeedO +
                    (mob->walkAnimSpeed - mob->walkAnimSpeedO) * a;
@@ -103,7 +105,7 @@ void LivingEntityRenderer::render(std::shared_ptr<Entity> _mob, double x,
 
         if (ws > 1) ws = 1;
 
-        glEnable(GL_ALPHA_TEST);
+        RenderPath.StateSetAlphaTestEnable(true);
         model->prepareMobModel(mob, wp, ws, a);
         renderModel(mob, wp, ws, bob, headRot - bodyRot, headRotx, fScale);
 
@@ -130,71 +132,71 @@ void LivingEntityRenderer::render(std::shared_ptr<Entity> _mob, double x,
                     if ((armorType & 0xf) == 0xf) {
                         float time = mob->tickCount + a;
                         bindTexture(&ENCHANT_GLINT_LOCATION);
-                        glEnable(GL_BLEND);
+                        RenderPath.StateSetBlendEnable(true);
                         float br = 0.5f;
-                        glColor4f(br, br, br, 1);
-                        glDepthFunc(GL_EQUAL);
-                        glDepthMask(false);
+                        RenderPath.StateSetColour(br, br, br, 1);
+                        RenderPath.StateSetDepthFunc(rp::DepthTest::equal);
+                        RenderPath.StateSetDepthMask(false);
 
                         for (int j = 0; j < 2; j++) {
-                            glDisable(GL_LIGHTING);
+                            RenderPath.StateSetLightingEnable(false);
                             float brr = 0.76f;
-                            glColor4f(0.5f * brr, 0.25f * brr, 0.8f * brr, 1);
-                            glBlendFunc(GL_SRC_COLOR, GL_ONE);
-                            glMatrixMode(GL_TEXTURE);
-                            glLoadIdentity();
+                            RenderPath.StateSetColour(0.5f * brr, 0.25f * brr, 0.8f * brr, 1);
+                            RenderPath.StateSetBlendFunc(rp::BlendFactor::src_color, rp::BlendFactor::one);
+                            RenderPath.MatrixMode(rp::MatrixStack::texture);
+                            RenderPath.MatrixSetIdentity();
                             float uo = time * (0.001f + j * 0.003f) * 20;
                             float ss = 1 / 3.0f;
-                            glScalef(ss, ss, ss);
-                            glRotatef(30 - (j) * 60.0f, 0, 0, 1);
-                            glTranslatef(0, uo, 0);
-                            glMatrixMode(GL_MODELVIEW);
+                            RenderPath.MatrixScale(ss, ss, ss);
+                            RenderPath.MatrixRotate((30 - (j) * 60.0f)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+                            RenderPath.MatrixTranslate(0, uo, 0);
+                            RenderPath.MatrixMode(rp::MatrixStack::modelview);
                             armor->render(mob, wp, ws, bob, headRot - bodyRot,
                                           headRotx, fScale, false);
                         }
 
-                        glColor4f(1, 1, 1, 1);
-                        glMatrixMode(GL_TEXTURE);
-                        glDepthMask(true);
-                        glLoadIdentity();
-                        glMatrixMode(GL_MODELVIEW);
-                        glEnable(GL_LIGHTING);
-                        glDisable(GL_BLEND);
-                        glDepthFunc(GL_LEQUAL);
+                        RenderPath.StateSetColour(1, 1, 1, 1);
+                        RenderPath.MatrixMode(rp::MatrixStack::texture);
+                        RenderPath.StateSetDepthMask(true);
+                        RenderPath.MatrixSetIdentity();
+                        RenderPath.MatrixMode(rp::MatrixStack::modelview);
+                        RenderPath.StateSetLightingEnable(true);
+                        RenderPath.StateSetBlendEnable(false);
+                        RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
                     }
-                    glDisable(GL_BLEND);
+                    RenderPath.StateSetBlendEnable(false);
                 }
-                glEnable(GL_ALPHA_TEST);
+                RenderPath.StateSetAlphaTestEnable(true);
             }
         }
-        glDepthMask(true);
+        RenderPath.StateSetDepthMask(true);
 
         additionalRendering(mob, a);
         float br = mob->getBrightness(a);
         int overlayColor = getOverlayColor(mob, br, a);
-        glActiveTexture(GL_TEXTURE1);
-        glDisable(GL_TEXTURE_2D);
-        glActiveTexture(GL_TEXTURE0);
+        RenderPath.StateSetActiveTexture(0x84C1);
+        RenderPath.StateSetTextureEnable(false);
+        RenderPath.StateSetActiveTexture(0x84C0);
 
         if (((overlayColor >> 24) & 0xff) > 0 || mob->hurtTime > 0 ||
             mob->deathTime > 0) {
-            glDisable(GL_TEXTURE_2D);
-            glDisable(GL_ALPHA_TEST);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glDepthFunc(GL_EQUAL);
+            RenderPath.StateSetTextureEnable(false);
+            RenderPath.StateSetAlphaTestEnable(false);
+            RenderPath.StateSetBlendEnable(true);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+            RenderPath.StateSetDepthFunc(rp::DepthTest::equal);
 
             // 4J - changed these renders to not use the compiled version of
             // their models, because otherwise the render states set about (in
             // particular the depth & alpha test) don't work with our command
             // buffer versions
             if (mob->hurtTime > 0 || mob->deathTime > 0) {
-                glColor4f(br, 0, 0, 0.4f);
+                RenderPath.StateSetColour(br, 0, 0, 0.4f);
                 model->render(mob, wp, ws, bob, headRot - bodyRot, headRotx,
                               fScale, false);
                 for (int i = 0; i < MAX_ARMOR_LAYERS; i++) {
                     if (prepareArmorOverlay(mob, i, a) >= 0) {
-                        glColor4f(br, 0, 0, 0.4f);
+                        RenderPath.StateSetColour(br, 0, 0, 0.4f);
                         armor->render(mob, wp, ws, bob, headRot - bodyRot,
                                       headRotx, fScale, false);
                     }
@@ -206,36 +208,36 @@ void LivingEntityRenderer::render(std::shared_ptr<Entity> _mob, double x,
                 float g = ((overlayColor >> 8) & 0xff) / 255.0f;
                 float b = ((overlayColor) & 0xff) / 255.0f;
                 float aa = ((overlayColor >> 24) & 0xff) / 255.0f;
-                glColor4f(r, g, b, aa);
+                RenderPath.StateSetColour(r, g, b, aa);
                 model->render(mob, wp, ws, bob, headRot - bodyRot, headRotx,
                               fScale, false);
                 for (int i = 0; i < MAX_ARMOR_LAYERS; i++) {
                     if (prepareArmorOverlay(mob, i, a) >= 0) {
-                        glColor4f(r, g, b, aa);
+                        RenderPath.StateSetColour(r, g, b, aa);
                         armor->render(mob, wp, ws, bob, headRot - bodyRot,
                                       headRotx, fScale, false);
                     }
                 }
             }
 
-            glDepthFunc(GL_LEQUAL);
-            glDisable(GL_BLEND);
-            glEnable(GL_ALPHA_TEST);
-            glEnable(GL_TEXTURE_2D);
+            RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
+            RenderPath.StateSetBlendEnable(false);
+            RenderPath.StateSetAlphaTestEnable(true);
+            RenderPath.StateSetTextureEnable(true);
         }
-        glDisable(GL_RESCALE_NORMAL);
+        (void)0;
     }
     /* catch (Exception e)
     {
     e.printStackTrace();
     }*/
 
-    glActiveTexture(GL_TEXTURE1);
-    glEnable(GL_TEXTURE_2D);
-    glActiveTexture(GL_TEXTURE0);
-    glEnable(GL_CULL_FACE);
+    RenderPath.StateSetActiveTexture(0x84C1);
+    RenderPath.StateSetTextureEnable(true);
+    RenderPath.StateSetActiveTexture(0x84C0);
+    RenderPath.StateSetFaceCull(true);
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     renderName(mob, x, y, z);
 }
@@ -250,18 +252,18 @@ void LivingEntityRenderer::renderModel(std::shared_ptr<LivingEntity> mob,
                       true);
     } else if (!mob->isInvisibleTo(std::dynamic_pointer_cast<Player>(
                    Minecraft::GetInstance()->player))) {
-        glPushMatrix();
-        glColor4f(1, 1, 1, 0.15f);
-        glDepthMask(false);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glAlphaFunc(GL_GREATER, 1.0f / 255.0f);
+        RenderPath.MatrixPush();
+        RenderPath.StateSetColour(1, 1, 1, 0.15f);
+        RenderPath.StateSetDepthMask(false);
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+        RenderPath.StateSetAlphaFunc(rp::AlphaTest::greater, 1.0f / 255.0f);
         model->render(mob, wp, ws, bob, headRotMinusBodyRot, headRotx, scale,
                       true);
-        glDisable(GL_BLEND);
-        glAlphaFunc(GL_GREATER, .1f);
-        glPopMatrix();
-        glDepthMask(true);
+        RenderPath.StateSetBlendEnable(false);
+        RenderPath.StateSetAlphaFunc(rp::AlphaTest::greater, .1f);
+        RenderPath.MatrixPop();
+        RenderPath.StateSetDepthMask(true);
     } else {
         model->setupAnim(wp, ws, bob, headRotMinusBodyRot, headRotx, scale,
                          mob);
@@ -270,24 +272,24 @@ void LivingEntityRenderer::renderModel(std::shared_ptr<LivingEntity> mob,
 
 void LivingEntityRenderer::setupPosition(std::shared_ptr<LivingEntity> mob,
                                          double x, double y, double z) {
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
 }
 
 void LivingEntityRenderer::setupRotations(std::shared_ptr<LivingEntity> mob,
                                           float bob, float bodyRot, float a) {
-    glRotatef(180 - bodyRot, 0, 1, 0);
+    RenderPath.MatrixRotate((180 - bodyRot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     if (mob->deathTime > 0) {
         float fall = (mob->deathTime + a - 1) / 20.0f * 1.6f;
         fall = sqrt(fall);
         if (fall > 1) fall = 1;
-        glRotatef(fall * getFlipDegrees(mob), 0, 0, 1);
+        RenderPath.MatrixRotate((fall * getFlipDegrees(mob))*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
     } else {
         std::string name = mob->getAName();
         if (name == "Dinnerbone" || name == "Grumm") {
             if (!mob->instanceof(eTYPE_PLAYER) ||
                 !std::dynamic_pointer_cast<Player>(mob)->isCapeHidden()) {
-                glTranslatef(0, mob->bbHeight + 0.1f, 0);
-                glRotatef(180, 0, 0, 1);
+                RenderPath.MatrixTranslate(0, mob->bbHeight + 0.1f, 0);
+                RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
             }
         }
     }
@@ -314,7 +316,7 @@ void LivingEntityRenderer::renderArrows(std::shared_ptr<LivingEntity> mob,
         Random random = Random(mob->entityId);
         Lighting::turnOff();
         for (int i = 0; i < arrowCount; i++) {
-            glPushMatrix();
+            RenderPath.MatrixPush();
             ModelPart* modelPart = model->getRandomModelPart(random);
             Cube* cube =
                 modelPart->cubes[random.nextInt(modelPart->cubes.size())];
@@ -325,7 +327,7 @@ void LivingEntityRenderer::renderArrows(std::shared_ptr<LivingEntity> mob,
             float xo = (cube->x0 + (cube->x1 - cube->x0) * xd) / 16.0f;
             float yo = (cube->y0 + (cube->y1 - cube->y0) * yd) / 16.0f;
             float zo = (cube->z0 + (cube->z1 - cube->z0) * zd) / 16.0f;
-            glTranslatef(xo, yo, zo);
+            RenderPath.MatrixTranslate(xo, yo, zo);
             xd = xd * 2 - 1;
             yd = yd * 2 - 1;
             zd = zd * 2 - 1;
@@ -344,7 +346,7 @@ void LivingEntityRenderer::renderArrows(std::shared_ptr<LivingEntity> mob,
             double z = 0;
             float yRot = 0;
             entityRenderDispatcher->render(arrow, x, y, z, yRot, a);
-            glPopMatrix();
+            RenderPath.MatrixPop();
         }
         Lighting::turnOn();
     }
@@ -401,24 +403,24 @@ void LivingEntityRenderer::renderName(std::shared_ptr<LivingEntity> mob,
                     }
 
                     Font* font = getFont();
-                    glPushMatrix();
-                    glTranslatef((float)x + 0, (float)y + mob->bbHeight + 0.5f,
+                    RenderPath.MatrixPush();
+                    RenderPath.MatrixTranslate((float)x + 0, (float)y + mob->bbHeight + 0.5f,
                                  (float)z);
-                    glNormal3f(0, 1, 0);
+                    (void)0;
 
-                    glRotatef(-entityRenderDispatcher->playerRotY, 0, 1, 0);
-                    glRotatef(entityRenderDispatcher->playerRotX, 1, 0, 0);
+                    RenderPath.MatrixRotate((-entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                    RenderPath.MatrixRotate((entityRenderDispatcher->playerRotX)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
-                    glScalef(-s, -s, s);
-                    glDisable(GL_LIGHTING);
+                    RenderPath.MatrixScale(-s, -s, s);
+                    RenderPath.StateSetLightingEnable(false);
 
-                    glTranslatef(0, 0.25f / s, 0);
-                    glDepthMask(false);
-                    glEnable(GL_BLEND);
-                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                    RenderPath.MatrixTranslate(0, 0.25f / s, 0);
+                    RenderPath.StateSetDepthMask(false);
+                    RenderPath.StateSetBlendEnable(true);
+                    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
                     Tesselator* t = Tesselator::getInstance();
 
-                    glDisable(GL_TEXTURE_2D);
+                    RenderPath.StateSetTextureEnable(false);
                     t->begin();
                     int w = font->width(msg) / 2;
                     t->color(0.f, 0.f, 0.f, 0.25f);
@@ -427,13 +429,13 @@ void LivingEntityRenderer::renderName(std::shared_ptr<LivingEntity> mob,
                     t->vertex(+w + 1, +8, 0);
                     t->vertex(+w + 1, -1, 0);
                     t->end();
-                    glEnable(GL_TEXTURE_2D);
-                    glDepthMask(true);
+                    RenderPath.StateSetTextureEnable(true);
+                    RenderPath.StateSetDepthMask(true);
                     font->draw(msg, -font->width(msg) / 2, 0, 0x20ffffff);
-                    glEnable(GL_LIGHTING);
-                    glDisable(GL_BLEND);
-                    glColor4f(1, 1, 1, 1);
-                    glPopMatrix();
+                    RenderPath.StateSetLightingEnable(true);
+                    RenderPath.StateSetBlendEnable(false);
+                    RenderPath.StateSetColour(1, 1, 1, 1);
+                    RenderPath.MatrixPop();
                 } else {
                     renderNameTags(mob, x, y, z, msg, s, dist);
                 }
@@ -486,20 +488,20 @@ void LivingEntityRenderer::renderNameTag(std::shared_ptr<LivingEntity> mob,
     float size = 1.60f;
     float s = 1 / 60.0f * size;
 
-    glPushMatrix();
-    glTranslatef((float)x + 0, (float)y + 2.3f, (float)z);
-    glNormal3f(0, 1, 0);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)x + 0, (float)y + 2.3f, (float)z);
+    (void)0;
 
-    glRotatef(-this->entityRenderDispatcher->playerRotY, 0, 1, 0);
-    glRotatef(this->entityRenderDispatcher->playerRotX, 1, 0, 0);
+    RenderPath.MatrixRotate((-this->entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((this->entityRenderDispatcher->playerRotX)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
-    glScalef(-s, -s, s);
-    glDisable(GL_LIGHTING);
+    RenderPath.MatrixScale(-s, -s, s);
+    RenderPath.StateSetLightingEnable(false);
 
     // 4J Stu - If it's beyond readable distance, then just render a coloured
     // box
     int readableDist = PLAYER_NAME_READABLE_FULLSCREEN;
-    if (!PlatformRenderer.IsHiDef()) {
+    if (!RenderPath.framebuffer().is_hi_def) {
         readableDist = PLAYER_NAME_READABLE_DISTANCE_SD;
     } else if (gameServices().getLocalPlayerCount() > 2) {
         readableDist = PLAYER_NAME_READABLE_DISTANCE_SPLITSCREEN;
@@ -517,8 +519,8 @@ void LivingEntityRenderer::renderNameTag(std::shared_ptr<LivingEntity> mob,
     if (textOpacity < 0.0f) textOpacity = 0.0f;
     if (textOpacity > 1.0f) textOpacity = 1.0f;
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
     Tesselator* t = Tesselator::getInstance();
 
     int offs = 0;
@@ -537,12 +539,12 @@ void LivingEntityRenderer::renderNameTag(std::shared_ptr<LivingEntity> mob,
     }
 
     if (textOpacity > 0.0f) {
-        glColor4f(1.0f, 1.0f, 1.0f, textOpacity);
+        RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, textOpacity);
 
-        glDepthMask(false);
-        glDisable(GL_DEPTH_TEST);
+        RenderPath.StateSetDepthMask(false);
+        RenderPath.StateSetDepthTestEnable(false);
 
-        glDisable(GL_TEXTURE_2D);
+        RenderPath.StateSetTextureEnable(false);
 
         t->begin();
         int w = font->width(playerName) / 2;
@@ -558,11 +560,11 @@ void LivingEntityRenderer::renderNameTag(std::shared_ptr<LivingEntity> mob,
         t->vertex((float)(+w + 1), (float)(-1 + offs), (float)(0));
         t->end();
 
-        glEnable(GL_DEPTH_TEST);
-        glDepthMask(true);
-        glDepthFunc(GL_ALWAYS);
-        glLineWidth(2.0f);
-        t->begin(GL_LINE_STRIP);
+        RenderPath.StateSetDepthTestEnable(true);
+        RenderPath.StateSetDepthMask(true);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::always);
+        RenderPath.StateSetLineWidth(2.0f);
+        t->begin(0x0003);
         t->color(color, 255 * textOpacity);
         t->vertex((float)(-w - 1), (float)(-1 + offs), (float)(0));
         t->vertex((float)(-w - 1), (float)(+8 + offs + 1), (float)(0));
@@ -570,21 +572,21 @@ void LivingEntityRenderer::renderNameTag(std::shared_ptr<LivingEntity> mob,
         t->vertex((float)(+w + 1), (float)(-1 + offs), (float)(0));
         t->vertex((float)(-w - 1), (float)(-1 + offs), (float)(0));
         t->end();
-        glDepthFunc(GL_LEQUAL);
-        glDepthMask(false);
-        glDisable(GL_DEPTH_TEST);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
+        RenderPath.StateSetDepthMask(false);
+        RenderPath.StateSetDepthTestEnable(false);
 
-        glEnable(GL_TEXTURE_2D);
+        RenderPath.StateSetTextureEnable(true);
         font->draw(playerName, -font->width(playerName) / 2, offs, 0x20ffffff);
-        glEnable(GL_DEPTH_TEST);
+        RenderPath.StateSetDepthTestEnable(true);
 
-        glDepthMask(true);
+        RenderPath.StateSetDepthMask(true);
     }
 
     if (textOpacity < 1.0f) {
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-        glDisable(GL_TEXTURE_2D);
-        glDepthFunc(GL_ALWAYS);
+        RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderPath.StateSetTextureEnable(false);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::always);
         t->begin();
         int w = font->width(playerName) / 2;
         t->color(color, 255);
@@ -593,10 +595,10 @@ void LivingEntityRenderer::renderNameTag(std::shared_ptr<LivingEntity> mob,
         t->vertex((float)(+w + 1), (float)(+8 + offs), (float)(0));
         t->vertex((float)(+w + 1), (float)(-1 + offs), (float)(0));
         t->end();
-        glDepthFunc(GL_LEQUAL);
-        glEnable(GL_TEXTURE_2D);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
+        RenderPath.StateSetTextureEnable(true);
 
-        glTranslatef(0.0f, 0.0f, -0.04f);
+        RenderPath.MatrixTranslate(0.0f, 0.0f, -0.04f);
     }
 
     if (textOpacity > 0.0f) {
@@ -604,8 +606,8 @@ void LivingEntityRenderer::renderNameTag(std::shared_ptr<LivingEntity> mob,
         font->draw(playerName, -font->width(playerName) / 2, offs, textColor);
     }
 
-    glEnable(GL_LIGHTING);
-    glDisable(GL_BLEND);
-    glColor4f(1, 1, 1, 1);
-    glPopMatrix();
+    RenderPath.StateSetLightingEnable(true);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    RenderPath.MatrixPop();
 }

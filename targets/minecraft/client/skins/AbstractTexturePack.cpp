@@ -89,7 +89,7 @@ void AbstractTexturePack::load(Textures* textures) {
         if (textureId == -1) {
             textureId = textures->getTexture(iconImage);
         }
-        glBindTexture(GL_TEXTURE_2D, textureId);
+        RenderPath.TextureBind(textureId);
         textures->clearLastBoundId();
     } else {
         // 4J Stu - Don't do this

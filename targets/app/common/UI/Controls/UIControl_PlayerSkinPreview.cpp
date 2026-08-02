@@ -187,17 +187,17 @@ void UIControl_PlayerSkinPreview::CyclePreviousAnimation() {
 void UIControl_PlayerSkinPreview::render(IggyCustomDrawCallbackRegion* region) {
     Minecraft* pMinecraft = Minecraft::GetInstance();
 
-    glEnable(GL_RESCALE_NORMAL);
-    glEnable(GL_COLOR_MATERIAL);
-    glPushMatrix();
+    (void)0;
+    (void)0;
+    RenderPath.MatrixPush();
 
     float width = region->x1 - region->x0;
     float height = region->y1 - region->y0;
     float xo = width / 2;
     float yo = height;
 
-    glTranslatef(xo, yo - 3.5f, 50.0f);
-    // glTranslatef(120.0f, 294, 0.0f);
+    RenderPath.MatrixTranslate(xo, yo - 3.5f, 50.0f);
+    // RenderPath.MatrixTranslate(120.0f, 294, 0.0f);
 
     float ss;
 
@@ -205,14 +205,14 @@ void UIControl_PlayerSkinPreview::render(IggyCustomDrawCallbackRegion* region) {
     // Potentially we might want separate x & y scales here
     ss = width / (m_fScreenWidth / m_fScreenHeight);
 
-    glScalef(-ss, ss, ss);
-    glRotatef(180, 0, 0, 1);
+    RenderPath.MatrixScale(-ss, ss, ss);
+    RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
-    // glRotatef(45 + 90, 0, 1, 0);
+    // RenderPath.MatrixRotate((45 + 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     Lighting::turnOn();
-    // glRotatef(-45 - 90, 0, 1, 0);
+    // RenderPath.MatrixRotate((-45 - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-    glRotatef(-(float)m_xRot, 1, 0, 0);
+    RenderPath.MatrixRotate((-(float)m_xRot)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
     // 4J Stu - Turning on hideGui while we do this stops the name rendering in
     // split-screen
@@ -254,9 +254,9 @@ void UIControl_PlayerSkinPreview::render(IggyCustomDrawCallbackRegion* region) {
 
     pMinecraft->options->hideGui = wasHidingGui;
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
     Lighting::turnOff();
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 }
 
 // 4J Stu - Modified version of MobRenderer::render that does not require an
@@ -264,8 +264,8 @@ void UIControl_PlayerSkinPreview::render(IggyCustomDrawCallbackRegion* region) {
 void UIControl_PlayerSkinPreview::render(EntityRenderer* renderer, double x,
                                          double y, double z, float rot,
                                          float a) {
-    glPushMatrix();
-    glDisable(GL_CULL_FACE);
+    RenderPath.MatrixPush();
+    RenderPath.StateSetFaceCull(false);
 
     HumanoidModel* model = (HumanoidModel*)renderer->getModel();
 
@@ -315,7 +315,7 @@ void UIControl_PlayerSkinPreview::render(EntityRenderer* renderer, double x,
 
     // setupPosition(mob, x, y, z);
     //  is equivalent to
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
 
     // float bob = getBob(mob, a);
 #if defined(SKIN_PREVIEW_BOB_ANIM)
@@ -329,20 +329,20 @@ void UIControl_PlayerSkinPreview::render(EntityRenderer* renderer, double x,
 
     // setupRotations(mob, bob, bodyRot, a);
     //  is equivalent to
-    glRotatef(180 - bodyRot, 0, 1, 0);
+    RenderPath.MatrixRotate((180 - bodyRot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
     float _scale = 1 / 16.0f;
-    glEnable(GL_RESCALE_NORMAL);
-    glScalef(-1, -1, 1);
+    (void)0;
+    RenderPath.MatrixScale(-1, -1, 1);
 
     // scale(mob, a);
     //  is equivalent to
     float s = 15 / 16.0f;
-    glScalef(s, s, s);
+    RenderPath.MatrixScale(s, s, s);
 
     // 4J - TomK - pull up character a bit more to make sure extra geo around
     // feet doesn't cause rendering problems on PSVita
-    glTranslatef(0, -24 * _scale - 0.125f / 16.0f, 0);
+    RenderPath.MatrixTranslate(0, -24 * _scale - 0.125f / 16.0f, 0);
 
 #if defined(SKIN_PREVIEW_WALKING_ANIM)
     m_walkAnimSpeedO = m_walkAnimSpeed;
@@ -358,7 +358,7 @@ void UIControl_PlayerSkinPreview::render(EntityRenderer* renderer, double x,
     if (ws > 1) ws = 1;
 
     bindTexture(m_customTextureUrl, m_backupTexture);
-    glEnable(GL_ALPHA_TEST);
+    RenderPath.StateSetAlphaTestEnable(true);
 
     // model->prepareMobModel(mob, wp, ws, a);
     model->render(nullptr, wp, ws, bob, headRot - bodyRot, headRotx, _scale,
@@ -368,15 +368,15 @@ void UIControl_PlayerSkinPreview::render(EntityRenderer* renderer, double x,
     if (prepareArmor(mob, i, a))
     {
     armor->render(wp, ws, bob, headRot - bodyRot, headRotx, _scale, true);
-    glDisable(GL_BLEND);
-    glEnable(GL_ALPHA_TEST);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetAlphaTestEnable(true);
     }
     }*/
 
     // additionalRendering(mob, a);
     if (bindTexture(m_capeTextureUrl, "")) {
-        glPushMatrix();
-        glTranslatef(0, 0, 2 / 16.0f);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate(0, 0, 2 / 16.0f);
 
         double xd = 0;  //(mob->xCloakO + (mob->xCloak - mob->xCloakO) * a) -
                         //(mob->xo + (mob->x - mob->xo) * a);
@@ -405,12 +405,12 @@ void UIControl_PlayerSkinPreview::render(EntityRenderer* renderer, double x,
             flap += 25;
         }
 
-        glRotatef(6.0f + lean / 2 + flap, 1, 0, 0);
-        glRotatef(lean2 / 2, 0, 0, 1);
-        glRotatef(-lean2 / 2, 0, 1, 0);
-        glRotatef(180, 0, 1, 0);
+        RenderPath.MatrixRotate((6.0f + lean / 2 + flap)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+        RenderPath.MatrixRotate((lean2 / 2)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        RenderPath.MatrixRotate((-lean2 / 2)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
         model->renderCloak(1 / 16.0f, true);
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
     /*
     float br = mob->getBrightness(a);
@@ -419,24 +419,24 @@ void UIControl_PlayerSkinPreview::render(EntityRenderer* renderer, double x,
     if (((overlayColor >> 24) & 0xff) > 0 || mob->hurtTime > 0 || mob->deathTime
     > 0)
     {
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_ALPHA_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDepthFunc(GL_EQUAL);
+    RenderPath.StateSetTextureEnable(false);
+    RenderPath.StateSetAlphaTestEnable(false);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+    RenderPath.StateSetDepthFunc(rp::DepthTest::equal);
 
     // 4J - changed these renders to not use the compiled version of their
     models, because otherwise the render states set
     // about (in particular the depth & alpha test) don't work with our command
     buffer versions if (mob->hurtTime > 0 || mob->deathTime > 0)
     {
-    glColor4f(br, 0, 0, 0.4f);
+    RenderPath.StateSetColour(br, 0, 0, 0.4f);
     model->render(wp, ws, bob, headRot - bodyRot, headRotx, _scale, false);
     for (int i = 0; i < MAX_ARMOR_LAYERS; i++)
     {
     if (prepareArmorOverlay(mob, i, a))
     {
-    glColor4f(br, 0, 0, 0.4f);
+    RenderPath.StateSetColour(br, 0, 0, 0.4f);
     armor->render(wp, ws, bob, headRot - bodyRot, headRotx, _scale, false);
     }
     }
@@ -448,29 +448,29 @@ void UIControl_PlayerSkinPreview::render(EntityRenderer* renderer, double x,
     float g = ((overlayColor >> 8) & 0xff) / 255.0f;
     float b = ((overlayColor) & 0xff) / 255.0f;
     float aa = ((overlayColor >> 24) & 0xff) / 255.0f;
-    glColor4f(r, g, b, aa);
+    RenderPath.StateSetColour(r, g, b, aa);
     model->render(wp, ws, bob, headRot - bodyRot, headRotx, _scale, false);
     for (int i = 0; i < MAX_ARMOR_LAYERS; i++)
     {
     if (prepareArmorOverlay(mob, i, a))
     {
-    glColor4f(r, g, b, aa);
+    RenderPath.StateSetColour(r, g, b, aa);
     armor->render(wp, ws, bob, headRot - bodyRot, headRotx, _scale, false);
     }
     }
     }
 
-    glDepthFunc(GL_LEQUAL);
-    glDisable(GL_BLEND);
-    glEnable(GL_ALPHA_TEST);
-    glEnable(GL_TEXTURE_2D);
+    RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetAlphaTestEnable(true);
+    RenderPath.StateSetTextureEnable(true);
     }
     */
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 
-    glEnable(GL_CULL_FACE);
+    RenderPath.StateSetFaceCull(true);
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     // renderName(mob, x, y, z);
 

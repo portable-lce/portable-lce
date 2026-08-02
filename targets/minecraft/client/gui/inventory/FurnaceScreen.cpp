@@ -30,7 +30,7 @@ void FurnaceScreen::renderLabels() {
 
 void FurnaceScreen::renderBg(float a) {
 #ifdef ENABLE_JAVA_GUIS
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     minecraft->textures->bindTexture(&GUI_FURNACE_LOCATION);
     int xo = (width - imageWidth) / 2;
     int yo = (height - imageHeight) / 2;

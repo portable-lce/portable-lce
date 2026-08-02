@@ -27,20 +27,20 @@ void EnchantTableRenderer::render(std::shared_ptr<TileEntity> _table, double x,
     std::shared_ptr<EnchantmentTableEntity> table =
         std::dynamic_pointer_cast<EnchantmentTableEntity>(_table);
 
-    glPushMatrix();
-    glTranslatef((float)x + 0.5f, (float)y + 12 / 16.0f, (float)z + 0.5f);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)x + 0.5f, (float)y + 12 / 16.0f, (float)z + 0.5f);
 
     float tt = table->time + a;
 
-    glTranslatef(0, 0.1f + sin(tt * 0.1f) * 0.01f, 0);
+    RenderPath.MatrixTranslate(0, 0.1f + sin(tt * 0.1f) * 0.01f, 0);
     float orot = (table->rot - table->oRot);
     while (orot >= std::numbers::pi) orot -= std::numbers::pi * 2;
     while (orot < -std::numbers::pi) orot += std::numbers::pi * 2;
 
     float yRot = table->oRot + orot * a;
 
-    glRotatef(-yRot * 180 / std::numbers::pi, 0, 1, 0);
-    glRotatef(80, 0, 0, 1);
+    RenderPath.MatrixRotate((-yRot * 180 / std::numbers::pi)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((80)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
     bindTexture(&BOOK_LOCATION);  // 4J was "/item/book.png"
 
     float ff1 = table->oFlip + (table->flip - table->oFlip) * a + 0.25f;
@@ -54,7 +54,7 @@ void EnchantTableRenderer::render(std::shared_ptr<TileEntity> _table, double x,
     if (ff2 > 1) ff2 = 1;
 
     float o = table->oOpen + (table->open - table->oOpen) * a;
-    glEnable(GL_CULL_FACE);
+    RenderPath.StateSetFaceCull(true);
     bookModel->render(nullptr, tt, ff1, ff2, o, 0, 1 / 16.0f, true);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }

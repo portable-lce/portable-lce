@@ -1,6 +1,7 @@
 #include "InventoryScreen.h"
 
 #include <cmath>
+#include <numbers>
 #include <string>
 #include <vector>
 
@@ -44,20 +45,20 @@ void InventoryScreen::render(int xm, int ym, float a) {
 void InventoryScreen::renderBg(float a) {
 #ifdef ENABLE_JAVA_GUIS
     int tex = minecraft->textures->loadTexture(TN_GUI_INVENTORY);
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     minecraft->textures->bind(tex);
     int xo = (width - imageWidth) / 2;
     int yo = (height - imageHeight) / 2;
     this->blit(xo, yo, 0, 0, imageWidth, imageHeight);
 
-    glEnable(GL_RESCALE_NORMAL);
-    glEnable(GL_COLOR_MATERIAL);
+    (void)0;
+    (void)0;
 
-    glPushMatrix();
-    glTranslatef((float)xo + 51, (float)yo + 75, 50);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)xo + 51, (float)yo + 75, 50);
     float ss = 30;
-    glScalef(-ss, ss, ss);
-    glRotatef(180, 0, 0, 1);
+    RenderPath.MatrixScale(-ss, ss, ss);
+    RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
     float oybr = minecraft->player->yBodyRot;
     float oyr = minecraft->player->yRot;
@@ -68,18 +69,18 @@ void InventoryScreen::renderBg(float a) {
     float xd = (xo + 51) - xMouse;
     float yd = (yo + 75 - 50) - yMouse;
 
-    glRotatef(45 + 90, 0, 1, 0);
+    RenderPath.MatrixRotate((45 + 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     Lighting::turnOn();
-    glRotatef(-45 - 90, 0, 1, 0);
+    RenderPath.MatrixRotate((-45 - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-    glRotatef(-(float)atan(yd / 40.0f) * 20, 1, 0, 0);
+    RenderPath.MatrixRotate((-(float)atan(yd / 40.0f) * 20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
     minecraft->player->yBodyRot = (float)atan(xd / 40.0f) * 20;
     minecraft->player->yRot = (float)atan(xd / 40.0f) * 40;
     minecraft->player->xRot = -(float)atan(yd / 40.0f) * 20;
     minecraft->player->yHeadRot = (float)atan(xd / 40.0f) * 40;
     minecraft->player->yHeadRotO = (float)atan(xd / 40.0f) * 40;
-    glTranslatef(0, minecraft->player->heightOffset, 0);
+    RenderPath.MatrixTranslate(0, minecraft->player->heightOffset, 0);
     EntityRenderDispatcher::instance->playerRotY = 180;
     EntityRenderDispatcher::instance->render(minecraft->player, 0, 0, 0, 0, 1);
     minecraft->player->yBodyRot = oybr;
@@ -87,9 +88,9 @@ void InventoryScreen::renderBg(float a) {
     minecraft->player->xRot = oxr;
     minecraft->player->yHeadRot = oyh;
     minecraft->player->yHeadRotO = oyhp;
-    glPopMatrix();
+    RenderPath.MatrixPop();
     Lighting::turnOff();
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 #endif
 }
 

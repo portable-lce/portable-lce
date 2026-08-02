@@ -198,7 +198,7 @@ public:
 
     // RENDERING
     virtual void render(S32 width, S32 height,
-                        IPlatformRenderer::eViewportType viewpBort);
+                        int viewpBort);
 
     virtual void customDraw(IggyCustomDrawCallbackRegion* region);
 

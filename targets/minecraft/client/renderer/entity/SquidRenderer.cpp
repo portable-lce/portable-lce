@@ -1,6 +1,7 @@
 #include "SquidRenderer.h"
 
 #include <memory>
+#include <numbers>
 
 #include "minecraft/client/renderer/Textures.h"
 #include "minecraft/client/renderer/entity/MobRenderer.h"
@@ -31,11 +32,11 @@ void SquidRenderer::setupRotations(std::shared_ptr<LivingEntity> _mob,
     float bodyXRot = (mob->xBodyRotO + (mob->xBodyRot - mob->xBodyRotO) * a);
     float bodyZRot = (mob->zBodyRotO + (mob->zBodyRot - mob->zBodyRotO) * a);
 
-    glTranslatef(0, 0.5f, 0);
-    glRotatef(180 - bodyRot, 0, 1, 0);
-    glRotatef(bodyXRot, 1, 0, 0);
-    glRotatef(bodyZRot, 0, 1, 0);
-    glTranslatef(0, -1.2f, 0);
+    RenderPath.MatrixTranslate(0, 0.5f, 0);
+    RenderPath.MatrixRotate((180 - bodyRot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((bodyXRot)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+    RenderPath.MatrixRotate((bodyZRot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixTranslate(0, -1.2f, 0);
 }
 
 float SquidRenderer::getBob(std::shared_ptr<LivingEntity> _mob, float a) {

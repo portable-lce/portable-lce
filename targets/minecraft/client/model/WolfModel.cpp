@@ -73,13 +73,13 @@ void WolfModel::render(std::shared_ptr<Entity> entity, float time, float r,
 
     if (young) {
         float ss = 2;
-        glPushMatrix();
-        glTranslatef(0, 5 * scale, 2 * scale);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate(0, 5 * scale, 2 * scale);
         head->renderRollable(scale, usecompiled);
-        glPopMatrix();
-        glPushMatrix();
-        glScalef(1 / ss, 1 / ss, 1 / ss);
-        glTranslatef(0, 24 * scale, 0);
+        RenderPath.MatrixPop();
+        RenderPath.MatrixPush();
+        RenderPath.MatrixScale(1 / ss, 1 / ss, 1 / ss);
+        RenderPath.MatrixTranslate(0, 24 * scale, 0);
         body->render(scale, usecompiled);
         leg0->render(scale, usecompiled);
         leg1->render(scale, usecompiled);
@@ -87,7 +87,7 @@ void WolfModel::render(std::shared_ptr<Entity> entity, float time, float r,
         leg3->render(scale, usecompiled);
         tail->renderRollable(scale, usecompiled);
         upperBody->render(scale, usecompiled);
-        glPopMatrix();
+        RenderPath.MatrixPop();
     } else {
         head->renderRollable(scale, usecompiled);
         body->render(scale, usecompiled);

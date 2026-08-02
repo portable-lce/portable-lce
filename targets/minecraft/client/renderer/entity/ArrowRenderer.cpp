@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include <memory>
+#include <numbers>
 
 #include "minecraft/client/renderer/Tesselator.h"
 #include "minecraft/client/renderer/Textures.h"
@@ -23,7 +24,7 @@ void ArrowRenderer::render(std::shared_ptr<Entity> _arrow, double x, double y,
     std::shared_ptr<Arrow> arrow = std::dynamic_pointer_cast<Arrow>(_arrow);
     bindTexture(_arrow);  // 4J - was "/item/arrows.png"
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
     float yRot = arrow->yRot;
     float xRot = arrow->xRot;
@@ -38,9 +39,9 @@ void ArrowRenderer::render(std::shared_ptr<Entity> _arrow, double x, double y,
     else if ((xRot - xRotO) < -180.0f)
         xRot += 360.0f;
 
-    glTranslatef((float)x, (float)y, (float)z);
-    glRotatef(yRotO + (yRot - yRotO) * a - 90, 0, 1, 0);
-    glRotatef(xRotO + (xRot - xRotO) * a, 0, 0, 1);
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
+    RenderPath.MatrixRotate((yRotO + (yRot - yRotO) * a - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((xRotO + (xRot - xRotO) * a)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
     Tesselator* t = Tesselator::getInstance();
     int type = 0;
@@ -55,18 +56,18 @@ void ArrowRenderer::render(std::shared_ptr<Entity> _arrow, double x, double y,
     float v02 = (5 + type * 10) / 32.0f;
     float v12 = (10 + type * 10) / 32.0f;
     float ss = 0.9f / 16.0f;
-    glEnable(GL_RESCALE_NORMAL);
+    (void)0;
     float shake = arrow->shakeTime - a;
     if (shake > 0) {
         float pow = -sinf(shake * 3) * shake;
-        glRotatef(pow, 0, 0, 1);
+        RenderPath.MatrixRotate((pow)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
     }
-    glRotatef(45, 1, 0, 0);
-    glScalef(ss, ss, ss);
+    RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+    RenderPath.MatrixScale(ss, ss, ss);
 
-    glTranslatef(-4, 0, 0);
+    RenderPath.MatrixTranslate(-4, 0, 0);
 
-    //    glNormal3f(ss, 0, 0);		// 4J - changed to use tesselator
+    //    (void)0;		// 4J - changed to use tesselator
     t->begin();
     t->normal(1, 0, 0);
     t->vertexUV((float)(-7), (float)(-2), (float)(-2), (float)(u02),
@@ -79,7 +80,7 @@ void ArrowRenderer::render(std::shared_ptr<Entity> _arrow, double x, double y,
                 (float)(v12));
     t->end();
 
-    //    glNormal3f(-ss, 0, 0);	// 4J - changed to use tesselator
+    //    (void)0;	// 4J - changed to use tesselator
     t->begin();
     t->normal(-1, 0, 0);
     t->vertexUV((float)(-7), (float)(+2), (float)(-2), (float)(u02),
@@ -93,8 +94,8 @@ void ArrowRenderer::render(std::shared_ptr<Entity> _arrow, double x, double y,
     t->end();
 
     for (int i = 0; i < 4; i++) {
-        glRotatef(90, 1, 0, 0);
-        //        glNormal3f(0, 0, ss);		// 4J - changed to use
+        RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+        //        (void)0;		// 4J - changed to use
         //        tesselator
         t->begin();
         t->normal(0, 0, 1);
@@ -108,8 +109,8 @@ void ArrowRenderer::render(std::shared_ptr<Entity> _arrow, double x, double y,
                     (float)(v1));
         t->end();
     }
-    glDisable(GL_RESCALE_NORMAL);
-    glPopMatrix();
+    (void)0;
+    RenderPath.MatrixPop();
 }
 
 ResourceLocation* ArrowRenderer::getTextureLocation(

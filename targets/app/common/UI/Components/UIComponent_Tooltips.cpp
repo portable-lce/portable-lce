@@ -15,6 +15,8 @@
 #include "app/common/Iggy/include/rrCore.h"
 #include "app/common/UI/ConsoleUIController.h"
 #include "util/StringHelpers.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 UIComponent_Tooltips::UIComponent_Tooltips(int iPad, void* initData,
                                            UILayer* parentLayer)
@@ -30,18 +32,18 @@ UIComponent_Tooltips::UIComponent_Tooltips(int iPad, void* initData,
 
 std::string UIComponent_Tooltips::getMoviePath() {
     switch (m_parentLayer->getViewport()) {
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
             m_bSplitscreen = true;
             return "ToolTipsSplit";
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
+        case 0:
         default:
             m_bSplitscreen = false;
             return "ToolTips";
@@ -55,7 +57,7 @@ F64 UIComponent_Tooltips::getSafeZoneHalfWidth() {
     float safeWidth = 0.0f;
 
     // 85% safezone for tooltips in either SD mode
-    if (!PlatformRenderer.IsHiDef()) {
+    if (!RenderPath.framebuffer().is_hi_def) {
         // 85% safezone
         safeWidth = m_movieWidth * (0.15f / 2);
     } else {
@@ -73,39 +75,39 @@ void UIComponent_Tooltips::updateSafeZone() {
     F64 safeRight = 0.0;
 
     switch (m_parentLayer->getViewport()) {
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
+        case 1:
             safeTop = getSafeZoneHalfHeight();
             safeLeft = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+        case 2:
             safeBottom = getSafeZoneHalfHeight();
             safeLeft = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
+        case 3:
             safeLeft = getSafeZoneHalfWidth();
             safeBottom = getSafeZoneHalfHeight();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
+        case 4:
             safeRight = getSafeZoneHalfWidth();
             safeBottom = getSafeZoneHalfHeight();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
+        case 5:
             safeTop = getSafeZoneHalfHeight();
             safeLeft = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
+        case 6:
             safeTop = getSafeZoneHalfHeight();
             safeRight = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
+        case 7:
             safeBottom = getSafeZoneHalfHeight();
             safeLeft = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+        case 8:
             safeBottom = getSafeZoneHalfHeight();
             safeRight = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
+        case 0:
         default:
             safeTop = getSafeZoneHalfHeight();
             safeBottom = getSafeZoneHalfHeight();
@@ -166,7 +168,7 @@ void UIComponent_Tooltips::tick() {
 }
 
 void UIComponent_Tooltips::render(S32 width, S32 height,
-                                  IPlatformRenderer::eViewportType viewport) {
+                                  int viewport) {
     if ((PlatformProfile.GetLockedProfile() != -1) &&
         !ui.GetMenuDisplayed(m_iPad) &&
         (app.GetGameSettings(m_iPad, eGameSetting_Tooltips) == 0 ||
@@ -178,15 +180,15 @@ void UIComponent_Tooltips::render(S32 width, S32 height,
         S32 xPos = 0;
         S32 yPos = 0;
         switch (viewport) {
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
+            case 2:
+            case 7:
                 yPos = (S32)(ui.getScreenHeight() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
+            case 4:
+            case 6:
                 xPos = (S32)(ui.getScreenWidth() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+            case 8:
                 xPos = (S32)(ui.getScreenWidth() / 2);
                 yPos = (S32)(ui.getScreenHeight() / 2);
                 break;
@@ -201,22 +203,22 @@ void UIComponent_Tooltips::render(S32 width, S32 height,
         S32 tileHeight = height;
 
         switch (viewport) {
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
+            case 3:
+            case 4:
                 tileHeight = (S32)(ui.getScreenHeight());
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
+            case 1:
                 tileWidth = (S32)(ui.getScreenWidth());
                 tileYStart = (S32)(m_movieHeight / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+            case 2:
                 tileWidth = (S32)(ui.getScreenWidth());
                 tileYStart = (S32)(m_movieHeight / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
                 tileYStart = (S32)(m_movieHeight / 2);
                 break;
             default:

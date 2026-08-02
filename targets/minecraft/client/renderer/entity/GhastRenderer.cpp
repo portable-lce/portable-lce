@@ -26,8 +26,8 @@ void GhastRenderer::scale(std::shared_ptr<LivingEntity> mob, float a) {
     ss = 1 / (ss * ss * ss * ss * ss * 2 + 1);
     float s = (8 + ss) / 2;
     float hs = (8 + 1 / ss) / 2;
-    glScalef(hs, s, hs);
-    glColor4f(1, 1, 1, 1);
+    RenderPath.MatrixScale(hs, s, hs);
+    RenderPath.StateSetColour(1, 1, 1, 1);
 }
 
 ResourceLocation* GhastRenderer::getTextureLocation(

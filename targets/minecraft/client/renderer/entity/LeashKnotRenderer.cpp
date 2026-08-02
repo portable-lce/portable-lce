@@ -20,21 +20,21 @@ LeashKnotRenderer::~LeashKnotRenderer() { delete model; }
 
 void LeashKnotRenderer::render(std::shared_ptr<Entity> entity, double x,
                                double y, double z, float rot, float a) {
-    glPushMatrix();
-    glDisable(GL_CULL_FACE);
+    RenderPath.MatrixPush();
+    RenderPath.StateSetFaceCull(false);
 
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
 
     float scale = 1 / 16.0f;
-    glEnable(GL_RESCALE_NORMAL);
-    glScalef(-1, -1, 1);
+    (void)0;
+    RenderPath.MatrixScale(-1, -1, 1);
 
-    glEnable(GL_ALPHA_TEST);
+    RenderPath.StateSetAlphaTestEnable(true);
 
     bindTexture(entity);
     model->render(entity, 0, 0, 0, 0, 0, scale, true);
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
 
 ResourceLocation* LeashKnotRenderer::getTextureLocation(

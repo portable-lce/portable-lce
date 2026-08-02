@@ -33,9 +33,21 @@ float Camera::za = 0.0f;
 float Camera::xa2 = 0.0f;
 float Camera::za2 = 0.0f;
 
+const float* Camera::getModelviewData() {
+    return modelview->_getDataPointer();
+}
+
+const float* Camera::getProjectionData() {
+    return projection->_getDataPointer();
+}
+
 void Camera::prepare(std::shared_ptr<Player> player, bool mirror) {
-    glGetFloat(GL_MODELVIEW_MATRIX, modelview);
-    glGetFloat(GL_PROJECTION_MATRIX, projection);
+    {
+        const float* mv = RenderPath.MatrixGet(rp::MatrixStack::modelview);
+        if (mv) memcpy(modelview->_getDataPointer(), mv, 16 * sizeof(float));
+        const float* pj = RenderPath.MatrixGet(rp::MatrixStack::projection);
+        if (pj) memcpy(projection->_getDataPointer(), pj, 16 * sizeof(float));
+    }
 
     /* Original java code for reference
 glGetInteger(GL_VIEWPORT, viewport);

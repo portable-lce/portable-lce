@@ -30,6 +30,8 @@
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
 #include "util/StringHelpers.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 Random* TitleScreen::random = new Random();
 
@@ -175,7 +177,7 @@ void TitleScreen::buttonClicked(Button* button) {
     if (button->id == 4) {
         Log::info(
             "TitleScreen::buttonClicked() Exit Game if (button->id == 4)\n");
-        PlatformRenderer.Close();  // minecraft->stop();
+        RenderPath.Close();  // minecraft->stop();
     }
 }
 
@@ -187,57 +189,57 @@ void TitleScreen::renderPanorama(float a) {
 
     Tesselator* t = Tesselator::getInstance();
 #ifdef CLASSIC_PANORAMA
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixSetIdentity();
     gluPerspective(120.0f, 1.0f, 0.05f, 10.0f);
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-    glEnable(GL_BLEND);
-    glDisable(GL_ALPHA_TEST);
-    glDisable(GL_CULL_FACE);
-    glDepthMask(false);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixSetIdentity();
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.MatrixRotate((180.0f)*(std::numbers::pi_v<float>/180.f), 1.0f, 0.0f, 0.0f);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetAlphaTestEnable(false);
+    RenderPath.StateSetFaceCull(false);
+    RenderPath.StateSetDepthMask(false);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
     char offsetPasses = 8;
 
     for (int i = 0; i < (offsetPasses * offsetPasses); i++) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
         float x =
             ((float)(i % offsetPasses) / (float)offsetPasses - 0.5f) / 64.0f;
         float y =
             ((float)(i / offsetPasses) / (float)offsetPasses - 0.5f) / 64.0f;
         float z = 0.0f;
-        glTranslatef(x, y, z);
-        glRotatef(sin((vo + a) / 400.0f) * 25.0f + 20.0f, 1.0f, 0.0f, 0.0f);
-        glRotatef(-(vo + a) * 0.1f, 0.0f, 1.0f, 0.0f);
+        RenderPath.MatrixTranslate(x, y, z);
+        RenderPath.MatrixRotate((sin((vo + a) / 400.0f) * 25.0f + 20.0f)*(std::numbers::pi_v<float>/180.f), 1.0f, 0.0f, 0.0f);
+        RenderPath.MatrixRotate((-(vo + a) * 0.1f)*(std::numbers::pi_v<float>/180.f), 0.0f, 1.0f, 0.0f);
 
         for (int j = 0; j < 6; j++) {
-            glPushMatrix();
+            RenderPath.MatrixPush();
 
             switch (j) {
                 case 1:
-                    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+                    RenderPath.MatrixRotate((90.0f)*(std::numbers::pi_v<float>/180.f), 0.0f, 1.0f, 0.0f);
                     break;
                 case 2:
-                    glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
+                    RenderPath.MatrixRotate((180.0f)*(std::numbers::pi_v<float>/180.f), 0.0f, 1.0f, 0.0f);
                     break;
                 case 3:
-                    glRotatef(-90.0f, 0.0f, 1.0f, 0.0f);
+                    RenderPath.MatrixRotate((-90.0f)*(std::numbers::pi_v<float>/180.f), 0.0f, 1.0f, 0.0f);
                     break;
                 case 4:
-                    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+                    RenderPath.MatrixRotate((90.0f)*(std::numbers::pi_v<float>/180.f), 1.0f, 0.0f, 0.0f);
                     break;
                 case 5:
-                    glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
+                    RenderPath.MatrixRotate((-90.0f)*(std::numbers::pi_v<float>/180.f), 1.0f, 0.0f, 0.0f);
                     break;
                 default:
                     break;
             }
 
-            glBindTexture(GL_TEXTURE_2D, minecraft->textures->loadTexture(
+            RenderPath.TextureBind(minecraft->textures->loadTexture(
                                              TN_TITLE_BG_PANORAMA0 + j));
             t->begin();
             t->color(16777215, 255 / (i + 1));
@@ -246,47 +248,46 @@ void TitleScreen::renderPanorama(float a) {
             t->vertexUV(1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
             t->vertexUV(-1.0f, 1.0f, 1.0f, 0.0f, 1.0f);
             t->end();
-            glPopMatrix();
+            RenderPath.MatrixPop();
         }
-        glPopMatrix();
-        glColorMask(true, true, true, false);
+        RenderPath.MatrixPop();
+        RenderPath.StateSetWriteEnable(true, true, true, false);
     }
 
     t->offset(0.0f, 0.0f, 0.0f);
-    glColorMask(true, true, true, true);
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
-    glDepthMask(true);
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_ALPHA_TEST);
-    glEnable(GL_DEPTH_TEST);
+    RenderPath.StateSetWriteEnable(true, true, true, true);
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixPop();
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixPop();
+    RenderPath.StateSetDepthMask(true);
+    RenderPath.StateSetFaceCull(true);
+    RenderPath.StateSetAlphaTestEnable(true);
+    RenderPath.StateSetDepthTestEnable(true);
 #else
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
-    glOrtho(0, width, height, 0, 1000, 3000);
-    glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();
-    glLoadIdentity();
-    glTranslatef(0, 0, -2000);
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixOrthogonal(0, width, height, 0, 1000, 3000);
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixTranslate(0, 0, -2000);
 
-    glDisable(GL_LIGHTING);
-    glDisable(GL_FOG);
-    glEnable(GL_TEXTURE_2D);
-    glDisable(GL_ALPHA_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDepthMask(false);
+    RenderPath.StateSetLightingEnable(false);
+    RenderPath.StateSetFogEnable(false);
+    RenderPath.StateSetTextureEnable(true);
+    RenderPath.StateSetAlphaTestEnable(false);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+    RenderPath.StateSetDepthMask(false);
 
-    glBindTexture(GL_TEXTURE_2D,
-                  minecraft->textures->loadTexture(TN_TITLE_BG_PANORAMA));
+    RenderPath.TextureBind(                  minecraft->textures->loadTexture(TN_TITLE_BG_PANORAMA));
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    RenderPath.TextureSetParam(0x2802, 0x2901);
+    RenderPath.TextureSetParam(0x2803, 0x812F);
+    RenderPath.TextureSetParam(0x2801, 0x2601);
+    RenderPath.TextureSetParam(0x2800, 0x2601);
 
     float off = vo * 0.0004f;
 
@@ -305,7 +306,7 @@ void TitleScreen::renderPanorama(float a) {
 
     float uMax = off + (texWidth / 1748.0f);
 
-    t->begin(GL_QUADS);
+    t->begin(0x0007);
     t->color(0xffffff, 255);
     t->vertexUV(0, yOff + texHeight, 0, off, 1.0f);
     t->vertexUV(texWidth, yOff + texHeight, 0, uMax, 1.0f);
@@ -313,13 +314,13 @@ void TitleScreen::renderPanorama(float a) {
     t->vertexUV(0, yOff, 0, off, 0.0f);
     t->end();
 
-    glDepthMask(true);
-    glDisable(GL_BLEND);
-    glEnable(GL_ALPHA_TEST);
-    glMatrixMode(GL_PROJECTION);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
+    RenderPath.StateSetDepthMask(true);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetAlphaTestEnable(true);
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixPop();
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixPop();
 #endif
 #endif
 }
@@ -328,18 +329,18 @@ void TitleScreen::renderPanorama(float a) {
 void TitleScreen::renderSkybox(float a) {
 #ifdef ENABLE_JAVA_GUIS
 #ifdef CLASSIC_PANORAMA
-    glViewport(0, 0, 256, 256);
+    (void)0;
 #endif
     renderPanorama(a);
 #ifdef CLASSIC_PANORAMA
-    glDisable(GL_TEXTURE_2D);
-    glEnable(GL_TEXTURE_2D);
+    RenderPath.StateSetTextureEnable(false);
+    RenderPath.StateSetTextureEnable(true);
 
     for (int i = 0; i < 8; i++) {
         rotateAndBlur(a);
     }
 
-    glViewport(0, 0, minecraft->width, minecraft->height);
+    (void)0;
 
     Tesselator* t = Tesselator::getInstance();
     t->begin();
@@ -347,7 +348,7 @@ void TitleScreen::renderSkybox(float a) {
         width > height ? 120.0f / (float)width : 120.0f / (float)height;
     float sWidth = (float)height * aspect / 256.0f;
     float sHeight = (float)width * aspect / 256.0f;
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    RenderPath.TextureSetParam(0x2800, 0x2601);
     t->color(1.0f, 1.0f, 1.0f, 1.0f);
     t->vertexUV(0.0f, height, 0.0f, (0.5f - sWidth), (0.5f + sHeight));
     t->vertexUV(width, height, 0.0f, (0.5f - sWidth), (0.5f - sHeight));
@@ -361,11 +362,11 @@ void TitleScreen::renderSkybox(float a) {
 // 4jcraft
 void TitleScreen::rotateAndBlur(float a) {
 #if defined(ENABLE_JAVA_GUIS) && defined(CLASSIC_PANORAMA)
-    glBindTexture(GL_TEXTURE_2D, viewportTexture);
-    glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, 256, 256);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColorMask(true, true, true, false);
+    RenderPath.TextureBind(viewportTexture);
+    glCopyTexSubImage2D(0x0DE1, 0, 0, 0, 0, 0, 256, 256);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+    RenderPath.StateSetWriteEnable(true, true, true, false);
     Tesselator* t = Tesselator::getInstance();
     t->begin();
     char blurPasses = 3;
@@ -380,7 +381,7 @@ void TitleScreen::rotateAndBlur(float a) {
     }
 
     t->end();
-    glColorMask(true, true, true, true);
+    RenderPath.StateSetWriteEnable(true, true, true, true);
 #endif
 }
 
@@ -401,24 +402,23 @@ void TitleScreen::render(int xm, int ym, float a) {
     fillGradient(0, 0, width, height, 0, INT_MIN);
 #endif
 
-    glBindTexture(GL_TEXTURE_2D,
-                  minecraft->textures->loadTexture(TN_TITLE_MCLOGO));
-    glColor4f(1, 1, 1, 1);
+    RenderPath.TextureBind(                  minecraft->textures->loadTexture(TN_TITLE_MCLOGO));
+    RenderPath.StateSetColour(1, 1, 1, 1);
     blit(logoX + 0, logoY + 0, 0, 0, 155, 44);
     blit(logoX + 155, logoY + 0, 0, 45, 155, 44);
     t->color(0xffffff);
-    glPushMatrix();
-    glTranslatef((float)width / 2 + 90, 70, 0);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)width / 2 + 90, 70, 0);
 
-    glRotatef(-20, 0, 0, 1);
+    RenderPath.MatrixRotate((-20)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
     float sss = 1.8f - std::abs(sinf(System::currentTimeMillis() % 1000 /
                                      1000.0f * std::numbers::pi * 2) *
                                 0.1f);
 
     sss = sss * 100 / (font->width(splash) + 8 * 4);
-    glScalef(sss, sss, sss);
+    RenderPath.MatrixScale(sss, sss, sss);
     drawCenteredString(font, splash, 0, -8, 0xffff00);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     drawString(
         font, ClientConstants::VERSION_STRING, 2, height - 10,

@@ -272,7 +272,7 @@ typedef enum _TEXTURE_NAME {
 class Textures {
 public:
     static bool MIPMAP;
-    static IPlatformRenderer::eTextureFormat TEXTURE_FORMAT;
+    static int TEXTURE_FORMAT;
 
 private:
     static const char* preLoaded[TN_COUNT];
@@ -333,8 +333,8 @@ private:
 public:
     int loadTexture(int idx);  // 4J added
     int getTexture(BufferedImage* img,
-                   IPlatformRenderer::eTextureFormat format =
-                       IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw,
+                   int format =
+                       0,
                    bool mipmap = true);
     void loadTexture(BufferedImage* img, int id);
     void loadTexture(BufferedImage* img, int id, bool blur, bool clamp);

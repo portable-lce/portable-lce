@@ -104,7 +104,9 @@
 #include "platform/PlatformTypes.h"
 #include "platform/input/input.h"
 #include "platform/renderer/renderer.h"
+#include "platform/renderer/IRenderPath.h"
 #include "platform/stubs.h"
+
 #include "util/FrameProfiler.h"
 #include "util/StringHelpers.h"
 
@@ -233,20 +235,20 @@ LevelRenderer::LevelRenderer(Minecraft* mc, Textures* textures) {
 
     starList = MemoryTracker::genLists(4);
 
-    glPushMatrix();
-    glNewList(starList, GL_COMPILE);
+    RenderPath.MatrixPush();
+    RenderPath.CBuffStart(starList);
     renderStars();
-    glEndList();
+    RenderPath.CBuffEnd();
 
     // 4J added - create geometry for rendering clouds
     createCloudMesh();
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     Tesselator* t = Tesselator::getInstance();
     skyList = starList + 1;
-    glNewList(skyList, GL_COMPILE);
-    glDepthMask(false);  // 4J - added to get depth mask disabled within the
+    RenderPath.CBuffStart(skyList);
+    RenderPath.StateSetDepthMask(false);  // 4J - added to get depth mask disabled within the
                          // command buffer
     float yy;
     int s = 64;
@@ -262,10 +264,10 @@ LevelRenderer::LevelRenderer(Minecraft* mc, Textures* textures) {
             t->end();
         }
     }
-    glEndList();
+    RenderPath.CBuffEnd();
 
     darkList = starList + 2;
-    glNewList(darkList, GL_COMPILE);
+    RenderPath.CBuffStart(darkList);
     yy = -(float)(16);
     t->begin();
     for (int xx = -s * d; xx <= s * d; xx += s) {
@@ -277,7 +279,7 @@ LevelRenderer::LevelRenderer(Minecraft* mc, Textures* textures) {
         }
     }
     t->end();
-    glEndList();
+    RenderPath.CBuffEnd();
 
     // HALO ring for the texture pack
     {
@@ -296,8 +298,8 @@ LevelRenderer::LevelRenderer(Minecraft* mc, Textures* textures) {
         float width = WIDTH;
 
         haloRingList = starList + 3;
-        glNewList(haloRingList, GL_COMPILE);
-        t->begin(GL_TRIANGLE_STRIP);
+        RenderPath.CBuffStart(haloRingList);
+        t->begin(0x0005);
         t->color(0xffffff);
 
         for (unsigned int i = 0; i <= ARC_SEGMENTS; ++i) {
@@ -317,7 +319,7 @@ LevelRenderer::LevelRenderer(Minecraft* mc, Textures* textures) {
             u -= 0.25;
         }
         t->end();
-        glEndList();
+        RenderPath.CBuffEnd();
     }
 
     Chunk::levelRenderer = this;
@@ -438,7 +440,7 @@ void LevelRenderer::setLevel(int playerIndex, MultiPlayerLevel* level) {
         // actually exiting the game, so only when the primary player sets there
         // level to nullptr
         if (playerIndex == PlatformInput.GetPrimaryPad()) {
-            PlatformRenderer.CBuffDeleteAll();
+            RenderPath.CBuffDeleteAll();
             {
                 std::lock_guard<std::mutex> lock(m_csRenderableTileEntities);
                 renderableTileEntities.clear();
@@ -787,7 +789,7 @@ int LevelRenderer::render(std::shared_ptr<LivingEntity> player, int layer,
         // our chunks anymore
     }
     Lighting::turnOff();
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     mc->gameRenderer->turnOnLightLayer(alpha);
 
     int count = renderChunks(0, (int)chunks[playerIndex].size(), layer, alpha);
@@ -804,9 +806,9 @@ int LevelRenderer::renderChunks(int from, int to, int layer, double alpha) {
     double yOff = player->yOld + (player->y - player->yOld) * alpha;
     double zOff = player->zOld + (player->z - player->zOld) * alpha;
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
-    glTranslatef((float)-xOff, (float)-yOff, (float)-zOff);
+    RenderPath.MatrixTranslate((float)-xOff, (float)-yOff, (float)-zOff);
 
     bool first = true;
     int count = 0;
@@ -858,21 +860,19 @@ int LevelRenderer::renderChunks(int from, int to, int layer, double alpha) {
             int list = chunk->globalIdx * 2 + layer;
             list += chunkLists;
 
-            // 4jcraft: replaced glPushMatrix/glTranslatef/glPopMatrix per chunk
-            // no more full MVP upload per chunk, can also be bkwards compat
-            PlatformRenderer.SetChunkOffset((float)chunk->chunk->x,
-                                            (float)chunk->chunk->y,
-                                            (float)chunk->chunk->z);
+            RenderPath.SetChunkOffset((float)chunk->chunk->x,
+                                      (float)chunk->chunk->y,
+                                      (float)chunk->chunk->z);
 
-            if (PlatformRenderer.CBuffCall(list, first)) {
+            if (RenderPath.CBuffCall(list, first)) {
                 first = false;
             }
             count++;
         }
-        PlatformRenderer.SetChunkOffset(0.f, 0.f, 0.f);
+        RenderPath.SetChunkOffset(0.f, 0.f, 0.f);
     }
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
     mc->gameRenderer->turnOffLightLayer(alpha);
 
     return count;
@@ -907,24 +907,24 @@ void LevelRenderer::tick() {
 
 void LevelRenderer::renderSky(float alpha) {
     if (mc->level->dimension->id == 1) {
-        glDisable(GL_FOG);
-        glDisable(GL_ALPHA_TEST);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        RenderPath.StateSetFogEnable(false);
+        RenderPath.StateSetAlphaTestEnable(false);
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
         Lighting::turnOff();
 
-        glDepthMask(false);
+        RenderPath.StateSetDepthMask(false);
         textures->bindTexture(
             &END_SKY_LOCATION);  // 4J was "/1_2_2/misc/tunnel.png"
         Tesselator* t = Tesselator::getInstance();
         t->setMipmapEnable(false);
         for (int i = 0; i < 6; i++) {
-            glPushMatrix();
-            if (i == 1) glRotatef(90, 1, 0, 0);
-            if (i == 2) glRotatef(-90, 1, 0, 0);
-            if (i == 3) glRotatef(180, 1, 0, 0);
-            if (i == 4) glRotatef(90, 0, 0, 1);
-            if (i == 5) glRotatef(-90, 0, 0, 1);
+            RenderPath.MatrixPush();
+            if (i == 1) RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            if (i == 2) RenderPath.MatrixRotate((-90)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            if (i == 3) RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            if (i == 4) RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+            if (i == 5) RenderPath.MatrixRotate((-90)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
             t->begin();
             t->color(0x282828);
             t->vertexUV(-100, -100, -100, 0, 0);
@@ -932,19 +932,19 @@ void LevelRenderer::renderSky(float alpha) {
             t->vertexUV(+100, -100, +100, 16, 16);
             t->vertexUV(+100, -100, -100, 16, 0);
             t->end();
-            glPopMatrix();
+            RenderPath.MatrixPop();
         }
         t->setMipmapEnable(true);
-        glDepthMask(true);
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_ALPHA_TEST);
+        RenderPath.StateSetDepthMask(true);
+        RenderPath.StateSetTextureEnable(true);
+        RenderPath.StateSetAlphaTestEnable(true);
 
         return;
     }
 
     if (!mc->level->dimension->isNaturalDimension()) return;
 
-    glDisable(GL_TEXTURE_2D);
+    RenderPath.StateSetTextureEnable(false);
 
     int playerIndex = mc->player->GetXboxPad();
     Vec3 sc = level[playerIndex]->getSkyColor(mc->cameraTargetPlayer, alpha);
@@ -962,35 +962,35 @@ void LevelRenderer::renderSky(float alpha) {
         sb = sbb;
     }
 
-    glColor3f(sr, sg, sb);
+    RenderPath.StateSetColour(sr, sg, sb, 1.0f);
 
     Tesselator* t = Tesselator::getInstance();
 
-    glDepthMask(false);
+    RenderPath.StateSetDepthMask(false);
 
-    glEnable(GL_FOG);
-    glColor3f(sr, sg, sb);
-    glCallList(skyList);
+    RenderPath.StateSetFogEnable(true);
+    RenderPath.StateSetColour(sr, sg, sb, 1.0f);
+    ((void)RenderPath.CBuffCall(skyList));
 
-    glDisable(GL_FOG);
-    glDisable(GL_ALPHA_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.StateSetFogEnable(false);
+    RenderPath.StateSetAlphaTestEnable(false);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
     Lighting::turnOff();
 
     float* c = level[playerIndex]->dimension->getSunriseColor(
         level[playerIndex]->getTimeOfDay(alpha), alpha);
     if (c != nullptr) {
-        glDisable(GL_TEXTURE_2D);
-        glShadeModel(GL_SMOOTH);
+        RenderPath.StateSetTextureEnable(false);
+        (void)0;
 
-        glPushMatrix();
+        RenderPath.MatrixPush();
         {
-            glRotatef(90, 1, 0, 0);
-            glRotatef(
-                sinf(level[playerIndex]->getSunAngle(alpha)) < 0 ? 180 : 0, 0,
+            RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate(
+                (sinf(level[playerIndex]->getSunAngle(alpha)) < 0 ? 180.f : 0.f)*(std::numbers::pi_v<float>/180.f), 0,
                 0, 1);
-            glRotatef(90, 0, 0, 1);
+            RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
             float r = c[0];
             float g = c[1];
@@ -1005,7 +1005,7 @@ void LevelRenderer::renderSky(float alpha) {
                 b = sbb;
             }
 
-            t->begin(GL_TRIANGLE_FAN);
+            t->begin(0x0006);
             t->color(r, g, b, c[3]);
 
             t->vertex((float)(0), (float)(100), (float)(0));
@@ -1020,22 +1020,22 @@ void LevelRenderer::renderSky(float alpha) {
             }
             t->end();
         }
-        glPopMatrix();
-        glShadeModel(GL_FLAT);
+        RenderPath.MatrixPop();
+        (void)0;
     }
 
-    glEnable(GL_TEXTURE_2D);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-    glPushMatrix();
+    RenderPath.StateSetTextureEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one);
+    RenderPath.MatrixPush();
     {
         float rainBrightness = 1 - level[playerIndex]->getRainLevel(alpha);
         float xp = 0;
         float yp = 0;
         float zp = 0;
-        glColor4f(1, 1, 1, rainBrightness);
-        glTranslatef(xp, yp, zp);
-        glRotatef(-90, 0, 1, 0);
-        glRotatef(level[playerIndex]->getTimeOfDay(alpha) * 360, 1, 0, 0);
+        RenderPath.StateSetColour(1, 1, 1, rainBrightness);
+        RenderPath.MatrixTranslate(xp, yp, zp);
+        RenderPath.MatrixRotate((-90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixRotate((level[playerIndex]->getTimeOfDay(alpha) * 360)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
         float ss = 30;
 
         textures->bindTexture(&SUN_LOCATION);
@@ -1067,32 +1067,32 @@ void LevelRenderer::renderSky(float alpha) {
         t->vertexUV(-ss, -100, -ss, u1, v0);
         t->end();
 
-        glDisable(GL_TEXTURE_2D);
+        RenderPath.StateSetTextureEnable(false);
         float br =
             level[playerIndex]->getStarBrightness(alpha) * rainBrightness;
         if (br > 0) {
-            glColor4f(br, br, br, br);
-            glCallList(starList);
+            RenderPath.StateSetColour(br, br, br, br);
+            ((void)RenderPath.CBuffCall(starList));
         }
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     }
-    glDisable(GL_BLEND);
-    glEnable(GL_ALPHA_TEST);
-    glEnable(GL_FOG);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetAlphaTestEnable(true);
+    RenderPath.StateSetFogEnable(true);
 
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
-    glColor3f(0, 0, 0);
+    RenderPath.MatrixPop();
+    RenderPath.StateSetTextureEnable(false);
+    RenderPath.StateSetColour(0, 0, 0, 1.0f);
 
     double yy =
         mc->player->getPos(alpha).y -
         level[playerIndex]->getHorizonHeight();  // 4J - getHorizonHeight moved
                                                  // forward from 1.2.3
     if (yy < 0) {
-        glPushMatrix();
-        glTranslatef(0, -(float)(-12), 0);
-        glCallList(darkList);
-        glPopMatrix();
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate(0, -(float)(-12), 0);
+        ((void)RenderPath.CBuffCall(darkList));
+        RenderPath.MatrixPop();
 
         // 4J - can't work out what this big black box is for. Taking it out
         // until someone misses it... it causes a big black box to visible
@@ -1100,26 +1100,26 @@ void LevelRenderer::renderSky(float alpha) {
     }
 
     if (level[playerIndex]->dimension->hasGround()) {
-        glColor3f(sr * 0.2f + 0.04f, sg * 0.2f + 0.04f, sb * 0.6f + 0.1f);
+        RenderPath.StateSetColour(sr * 0.2f + 0.04f, sg * 0.2f + 0.04f, sb * 0.6f + 0.1f, 1.0f);
     } else {
-        glColor3f(sr, sg, sb);
+        RenderPath.StateSetColour(sr, sg, sb, 1.0f);
     }
-    glPushMatrix();
-    glTranslatef(0, -(float)(yy - 16), 0);
-    glCallList(darkList);
-    glPopMatrix();
-    glEnable(GL_TEXTURE_2D);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate(0, -(float)(yy - 16), 0);
+    ((void)RenderPath.CBuffCall(darkList));
+    RenderPath.MatrixPop();
+    RenderPath.StateSetTextureEnable(true);
 
-    glDepthMask(true);
+    RenderPath.StateSetDepthMask(true);
 }
 
 void LevelRenderer::renderHaloRing(float alpha) {
     if (!mc->level->dimension->isNaturalDimension()) return;
 
-    glDisable(GL_ALPHA_TEST);
-    glDisable(GL_TEXTURE_2D);
-    glDepthMask(false);
-    glEnable(GL_FOG);
+    RenderPath.StateSetAlphaTestEnable(false);
+    RenderPath.StateSetTextureEnable(false);
+    RenderPath.StateSetDepthMask(false);
+    RenderPath.StateSetFogEnable(true);
 
     int playerIndex = mc->player->GetXboxPad();
 
@@ -1132,33 +1132,33 @@ void LevelRenderer::renderHaloRing(float alpha) {
     float Y = (sr + sr + sb + sg + sg + sg) / 6;
     float br = 0.6f + (Y * 0.4f);
     // Log::info("Luminance = %f, brightness = %f\n", Y, br);
-    glColor3f(br, br, br);
+    RenderPath.StateSetColour(br, br, br, 1.0f);
 
     // Fog at the base near the world
-    glFogi(GL_FOG_MODE, GL_LINEAR);
-    glFogf(GL_FOG_START, HALO_RING_RADIUS);
-    glFogf(GL_FOG_END, HALO_RING_RADIUS * 0.20f);
+    RenderPath.StateSetFogMode(rp::FogMode::linear);
+    RenderPath.StateSetFogNearDistance(HALO_RING_RADIUS);
+    RenderPath.StateSetFogFarDistance(HALO_RING_RADIUS * 0.20f);
 
     Lighting::turnOn();
 
-    glDepthMask(false);
+    RenderPath.StateSetDepthMask(false);
     textures->bindTexture(
         "misc/haloRing.png");  // 4J was "/1_2_2/misc/tunnel.png"
     Tesselator* t = Tesselator::getInstance();
     bool prev = t->setMipmapEnable(true);
 
-    glPushMatrix();
-    glRotatef(-90, 1, 0, 0);
-    glRotatef(90, 0, 1, 0);
-    glCallList(haloRingList);
-    glPopMatrix();
+    RenderPath.MatrixPush();
+    RenderPath.MatrixRotate((-90)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+    RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    ((void)RenderPath.CBuffCall(haloRingList));
+    RenderPath.MatrixPop();
     t->setMipmapEnable(prev);
 
-    glDepthMask(true);
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_ALPHA_TEST);
+    RenderPath.StateSetDepthMask(true);
+    RenderPath.StateSetTextureEnable(true);
+    RenderPath.StateSetAlphaTestEnable(true);
 
-    glDisable(GL_FOG);
+    RenderPath.StateSetFogEnable(false);
 }
 
 void LevelRenderer::renderClouds(float alpha) {
@@ -1185,7 +1185,7 @@ void LevelRenderer::renderClouds(float alpha) {
             iTicks = m_freezeticks;
         }
     }
-    glDisable(GL_CULL_FACE);
+    RenderPath.StateSetFaceCull(false);
     float yOffs =
         (float)(mc->cameraTargetPlayer->yOld +
                 (mc->cameraTargetPlayer->y - mc->cameraTargetPlayer->yOld) *
@@ -1195,8 +1195,8 @@ void LevelRenderer::renderClouds(float alpha) {
     Tesselator* t = Tesselator::getInstance();
 
     textures->bindTexture(&CLOUDS_LOCATION);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
     Vec3 cc = level[playerIndex]->getCloudColor(alpha);
     float cr = (float)cc.x;
@@ -1253,9 +1253,9 @@ void LevelRenderer::renderClouds(float alpha) {
     }
     t->end();
 
-    glColor4f(1, 1, 1, 1.0f);
-    glDisable(GL_BLEND);
-    glEnable(GL_CULL_FACE);
+    RenderPath.StateSetColour(1, 1, 1, 1.0f);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetFaceCull(true);
 
     if (gameServices().debugSettingsOn()) {
         if (!(gameServices().debugGetMask(PlatformInput.GetPrimaryPad()) &
@@ -1286,7 +1286,7 @@ void LevelRenderer::createCloudMesh() {
     const int D = 8;
 
     for (int i = 0; i < 7; i++) {
-        glNewList(cloudList + i, GL_COMPILE);
+        RenderPath.CBuffStart(cloudList + i);
 
         if ((i == 0) || (i == 6)) {
             t->begin();
@@ -1420,20 +1420,20 @@ void LevelRenderer::createCloudMesh() {
             }
             t->end();
         }
-        glEndList();
+        RenderPath.CBuffEnd();
     }
 }
 
 void LevelRenderer::renderAdvancedClouds(float alpha) {
     // MGH - added, we were getting dark clouds sometimes on PS3, with this
     // being setup incorrectly
-    glMultiTexCoord2f(GL_TEXTURE1, 0, 0);
+    RenderPath.StateSetVertexTextureUV(0, 0);
 
     // 4J - most of our viewports are now rendered with no clip planes but using
     // stencilling to limit the area drawn to. Clouds have a relatively large
     // fill area compared to the number of vertices that they have, and so
     // enabling clipping here to try and reduce fill rate cost.
-    PlatformRenderer.StateSetEnableViewportClipPlanes(true);
+    RenderPath.StateSetEnableViewportClipPlanes(true);
     float yOffs =
         (float)(mc->cameraTargetPlayer->yOld +
                 (mc->cameraTargetPlayer->y - mc->cameraTargetPlayer->yOld) *
@@ -1483,15 +1483,15 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
 
     bool noBFCMode = ((yy > -h - 1) && (yy <= h + 1));
     if (noBFCMode) {
-        glDisable(GL_CULL_FACE);
+        RenderPath.StateSetFaceCull(false);
     } else {
-        glEnable(GL_CULL_FACE);
+        RenderPath.StateSetFaceCull(true);
     }
 
     textures->bindTexture(
         &CLOUDS_LOCATION);  // 4J was "/environment/clouds.png"
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
     Vec3 cc = level[playerIndex]->getCloudColor(alpha);
     float cr = (float)cc.x;
@@ -1531,19 +1531,19 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
         radius = 2;  // 4J - reduce the cloud render distance a bit for 3 & 4
                      // player split screen
     float e = 1 / 1024.0f;
-    glScalef(ss, 1, ss);
+    RenderPath.MatrixScale(ss, 1, ss);
     FrustumData* pFrustumData = Frustum::getFrustum();
     for (int pass = 0; pass < 2; pass++) {
         if (pass == 0) {
             // 4J - changed to use blend rather than color mask to avoid writing
             // to frame buffer, to work with our command buffers
-            glBlendFunc(GL_ZERO, GL_ONE);
-            //				glColorMask(false, false, false, false);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::zero, rp::BlendFactor::one);
+            //				RenderPath.StateSetWriteEnable(false, false, false, false);
         } else {
             // 4J - changed to use blend rather than color mask to avoid writing
             // to frame buffer, to work with our command buffers
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            //				glColorMask(true, true, true, true);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+            //				RenderPath.StateSetWriteEnable(true, true, true, true);
         }
         for (int xPos = -radius + 1; xPos <= radius; xPos++) {
             for (int zPos = -radius + 1; zPos <= radius; zPos++) {
@@ -1551,7 +1551,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
                 // geometry to get rid of seams. This is a huge amount more
                 // quads to render, so now using command buffers to render each
                 // section to cut CPU hit.
-                glDisable(GL_CULL_FACE);
+                RenderPath.StateSetFaceCull(false);
                 t->begin();
                 float xx = (float)(xPos * D);
                 float zz = (float)(zPos * D);
@@ -1686,9 +1686,9 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
         }
     }
 
-    glColor4f(1, 1, 1, 1.0f);
-    glDisable(GL_BLEND);
-    glEnable(GL_CULL_FACE);
+    RenderPath.StateSetColour(1, 1, 1, 1.0f);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetFaceCull(true);
 
     if (gameServices().debugSettingsOn()) {
         if (!(gameServices().debugGetMask(PlatformInput.GetPrimaryPad()) &
@@ -1696,7 +1696,7 @@ void LevelRenderer::renderAdvancedClouds(float alpha) {
             m_freezeticks = iTicks;
         }
     }
-    PlatformRenderer.StateSetEnableViewportClipPlanes(false);
+    RenderPath.StateSetEnableViewportClipPlanes(false);
 }
 
 bool LevelRenderer::updateDirtyChunks() {
@@ -1747,7 +1747,7 @@ bool LevelRenderer::updateDirtyChunks() {
     {
         FRAME_PROFILE_SCOPE(ChunkDirtyScan);
 
-        unsigned int memAlloc = PlatformRenderer.CBuffSize(-1);
+        unsigned int memAlloc = RenderPath.CBuffSize(-1);
         /*
         static int throttle = 0;
         if( ( throttle % 100 ) == 0 )
@@ -1962,7 +1962,7 @@ bool LevelRenderer::updateDirtyChunks() {
                 // exactly the same thing would happen further away, but we just
                 // don't care about it so much from terms of visual impact.
                 if (veryNearCount > 0) {
-                    PlatformRenderer.CBuffDeferredModeStart();
+                    RenderPath.CBuffDeferredModeStart();
                 }
                 // Build this chunk & return false to continue processing
                 chunk->clearDirty();
@@ -2054,7 +2054,7 @@ bool LevelRenderer::updateDirtyChunks() {
             // happen further away, but we just don't care about it so much from
             // terms of visual impact.
             if (veryNearCount > 0) {
-                PlatformRenderer.CBuffDeferredModeStart();
+                RenderPath.CBuffDeferredModeStart();
             }
             // Build this chunk & return false to continue processing
             chunk->clearDirty();
@@ -2128,25 +2128,25 @@ void LevelRenderer::renderHit(std::shared_ptr<Player> player, HitResult* h,
                               std::shared_ptr<ItemInstance> inventoryItem,
                               float a) {
     Tesselator* t = Tesselator::getInstance();
-    glEnable(GL_BLEND);
-    glEnable(GL_ALPHA_TEST);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-    glColor4f(
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetAlphaTestEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one);
+    RenderPath.StateSetColour(
         1, 1, 1,
         ((float)(sinf(Minecraft::currentTimeMillis() / 100.0f)) * 0.2f + 0.4f) *
             0.5f);
     if (mode != 0 && inventoryItem != nullptr) {
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
         float br =
             (sinf(Minecraft::currentTimeMillis() / 100.0f) * 0.2f + 0.8f);
-        glColor4f(
+        RenderPath.StateSetColour(
             br, br, br,
             (sinf(Minecraft::currentTimeMillis() / 200.0f) * 0.2f + 0.5f));
 
         textures->bindTexture(&TextureAtlas::LOCATION_BLOCKS);
     }
-    glDisable(GL_BLEND);
-    glDisable(GL_ALPHA_TEST);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetAlphaTestEnable(false);
 }
 
 void LevelRenderer::renderDestroyAnimation(Tesselator* t,
@@ -2158,18 +2158,18 @@ void LevelRenderer::renderDestroyAnimation(Tesselator* t,
 
     int playerIndex = mc->player->GetXboxPad();
     if (!destroyingBlocks.empty()) {
-        glBlendFunc(GL_DST_COLOR, GL_SRC_COLOR);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::dst_color, rp::BlendFactor::src_color);
 
         textures->bindTexture(&TextureAtlas::LOCATION_BLOCKS);
-        glColor4f(1, 1, 1, 0.5f);
-        glPushMatrix();
+        RenderPath.StateSetColour(1, 1, 1, 0.5f);
+        RenderPath.MatrixPush();
 
-        glDisable(GL_ALPHA_TEST);
+        RenderPath.StateSetAlphaTestEnable(false);
 
-        glPolygonOffset(-3.0f, -3.0f);
-        glEnable(GL_POLYGON_OFFSET_FILL);
+        RenderPath.StateSetDepthSlopeAndBias(-3.0f, -3.0f);
+        (void)0;
 
-        glEnable(GL_ALPHA_TEST);
+        RenderPath.StateSetAlphaTestEnable(true);
         t->begin();
         t->offset((float)-xo, (float)-yo, (float)-zo);
         t->noColor();
@@ -2201,17 +2201,17 @@ void LevelRenderer::renderDestroyAnimation(Tesselator* t,
 
         t->end();
         t->offset(0, 0, 0);
-        glDisable(GL_ALPHA_TEST);
+        RenderPath.StateSetAlphaTestEnable(false);
         /*
          * for (int i = 0; i < 6; i++) { tile.renderFace(t, h.x, h.y,
          * h.z, i, 15 * 16 + (int) (destroyProgress * 10)); }
          */
-        glPolygonOffset(0.0f, 0.0f);
-        glDisable(GL_POLYGON_OFFSET_FILL);
-        glEnable(GL_ALPHA_TEST);
+        RenderPath.StateSetDepthSlopeAndBias(0.0f, 0.0f);
+        (void)0;
+        RenderPath.StateSetAlphaTestEnable(true);
 
-        glDepthMask(true);
-        glPopMatrix();
+        RenderPath.StateSetDepthMask(true);
+        RenderPath.MatrixPop();
     }
 }
 void LevelRenderer::renderHitOutline(std::shared_ptr<Player> player,
@@ -2224,17 +2224,11 @@ void LevelRenderer::renderHitOutline(std::shared_ptr<Player> player,
         // 4J-PB - If Display HUD is false, don't render the hit outline
         if (gameServices().getGameSettings(iPad, eGameSetting_DisplayHUD) == 0)
             return;
-        PlatformRenderer.StateSetLightingEnable(false);
-        glDisable(GL_TEXTURE_2D);
-
-        // draw hit outline
-        PlatformRenderer.StateSetColour(0.0f, 0.0f, 0.0f, 0.4f);
-        PlatformRenderer.StateSetLineWidth(1.0f);
-
-        // hack
-        glDepthFunc(GL_LEQUAL);
-        glEnable(GL_POLYGON_OFFSET_LINE);
-        glPolygonOffset(-2.0f, -2.0f);
+        
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetTextureEnable(false);
+        RenderPath.StateSetColour(0.0f, 0.0f, 0.0f, 0.4f);
+        RenderPath.StateSetLineWidth(2.0f);
 
         int tileId = level[iPad]->getTile(h->x, h->y, h->z);
 
@@ -2253,25 +2247,17 @@ void LevelRenderer::renderHitOutline(std::shared_ptr<Player> player,
         }
 
         // restore
-        glDisable(GL_POLYGON_OFFSET_LINE);
-        PlatformRenderer.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
-        glEnable(GL_TEXTURE_2D);
-        PlatformRenderer.StateSetLightingEnable(true);
+        RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderPath.StateSetTextureEnable(true);
+        RenderPath.StateSetLightingEnable(true);
     }
 }
 
 void LevelRenderer::render(AABB* b) {
     Tesselator* t = Tesselator::getInstance();
-    PlatformRenderer.StateSetLightingEnable(false);
-    glDisable(GL_TEXTURE_2D);
-    PlatformRenderer.StateSetColour(0.0f, 0.0f, 0.0f, 0.4f);
-
-    // prevent zfight
-    glEnable(GL_POLYGON_OFFSET_LINE);
-    glPolygonOffset(-2.0f, -2.0f);
 
     // One call please!
-    t->begin(GL_LINES);
+    t->begin(0x0001);
 
     // Bottom
     t->vertex(b->x0, b->y0, b->z0);
@@ -2304,10 +2290,6 @@ void LevelRenderer::render(AABB* b) {
     t->vertex(b->x0, b->y1, b->z1);
 
     t->end();
-    glDisable(GL_POLYGON_OFFSET_LINE);
-    PlatformRenderer.StateSetLightingEnable(true);
-    glEnable(GL_TEXTURE_2D);
-    PlatformRenderer.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void LevelRenderer::setDirty(int x0, int y0, int z0, int x1, int y1, int z1,
@@ -4045,7 +4027,6 @@ void LevelRenderer::staticCtor() {
 
 int LevelRenderer::rebuildChunkThreadProc(void* lpParam) {
     Tesselator::CreateNewThreadStorage(1024 * 1024);
-    PlatformRenderer.InitialiseContext();
     Chunk::CreateNewThreadStorage();
     Tile::CreateNewThreadStorage();
 

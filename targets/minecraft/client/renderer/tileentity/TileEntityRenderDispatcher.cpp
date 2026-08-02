@@ -42,7 +42,7 @@ TileEntityRenderDispatcher::TileEntityRenderDispatcher() {
     ;
     xPlayer = yPlayer = zPlayer = 0;
 
-    glEnable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(true);
     renderers[eTYPE_SIGNTILEENTITY] = new SignRenderer();
     renderers[eTYPE_MOBSPAWNERTILEENTITY] = new MobSpawnerRenderer();
     renderers[eTYPE_PISTONPIECEENTITY] = new PistonPieceRenderer();
@@ -53,7 +53,7 @@ TileEntityRenderDispatcher::TileEntityRenderDispatcher() {
     renderers[eTYPE_SKULLTILEENTITY] = new SkullTileRenderer();
     renderers[eTYPE_FURNACETILEENTITY] = nullptr;
     renderers[eTYPE_BEACONTILEENTITY] = new BeaconRenderer();
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
 
     auto itEnd = renderers.end();
     for (classToTileRendererMap::iterator it = renderers.begin(); it != itEnd;
@@ -127,11 +127,11 @@ void TileEntityRenderDispatcher::render(std::shared_ptr<TileEntity> e, float a,
             int col = level->getLightColor(e->x, e->y, e->z, 0);
             int u = col % 65536;
             int v = col / 65536;
-            glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-            glColor4f(1, 1, 1, 1);
+            RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+            RenderPath.StateSetColour(1, 1, 1, 1);
         } else {
             float br = level->getBrightness(e->x, e->y, e->z);
-            glColor4f(br, br, br, 1);
+            RenderPath.StateSetColour(br, br, br, 1);
         }
         render(e, e->x - xOff, e->y - yOff, e->z - zOff, a, setColor);
     }

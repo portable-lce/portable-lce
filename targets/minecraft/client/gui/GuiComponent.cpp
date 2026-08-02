@@ -6,8 +6,10 @@
 #include "minecraft/client/gui/Font.h"
 #include "minecraft/client/gui/Gui.h"
 #include "minecraft/client/renderer/Tesselator.h"
+#include "platform/renderer/IRenderPath.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
+
 
 void GuiComponent::hLine(int x0, int x1, int y, int col) {
     if (x1 < x0) {
@@ -42,19 +44,38 @@ void GuiComponent::fill(int x0, int y0, int x1, int y1, int col) {
     float r = ((col >> 16) & 0xff) / 255.0f;
     float g = ((col >> 8) & 0xff) / 255.0f;
     float b = ((col) & 0xff) / 255.0f;
-    Tesselator* t = Tesselator::getInstance();
-    glEnable(GL_BLEND);
-    glDisable(GL_TEXTURE_2D);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(r, g, b, a);
-    t->begin();
-    t->vertex((float)(x0), (float)(y1), (float)(0));
-    t->vertex((float)(x1), (float)(y1), (float)(0));
-    t->vertex((float)(x1), (float)(y0), (float)(0));
-    t->vertex((float)(x0), (float)(y0), (float)(0));
-    t->end();
-    glEnable(GL_TEXTURE_2D);
-    glDisable(GL_BLEND);
+
+    auto [tvb, span] = RenderPath.alloc_transient_vertices(
+        4, rp::VertexLayout::world_standard, rp::PrimitiveType::triangle_fan);
+    if (span.empty()) {
+        return;
+    }
+    auto* v = reinterpret_cast<rp::WorldStandardVertex*>(span.data());
+    v[0] = {{(float)x0, (float)y1, 0}, {0, 0}, 0, 0, 0xfe00fe00};
+    v[1] = {{(float)x1, (float)y1, 0}, {0, 0}, 0, 0, 0xfe00fe00};
+    v[2] = {{(float)x1, (float)y0, 0}, {0, 0}, 0, 0, 0xfe00fe00};
+    v[3] = {{(float)x0, (float)y0, 0}, {0, 0}, 0, 0, 0xfe00fe00};
+
+    rp::DrawCall dc{};
+    dc.source = rp::VertexSource::transient;
+    dc.transient = tvb;
+    dc.material = Gui::gui_mat_untextured_alpha_;
+    dc.tint_color[0] = r;
+    dc.tint_color[1] = g;
+    dc.tint_color[2] = b;
+    dc.tint_color[3] = a;
+
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetTextureEnable(false);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+    RenderPath.submit_immediate(dc);
+    RenderPath.StateSetTextureEnable(true);
+    RenderPath.StateSetBlendEnable(false);
+}
+
+static uint32_t pack_color(float r, float g, float b, float a) {
+    return (uint32_t(r * 255) << 24) | (uint32_t(g * 255) << 16) |
+           (uint32_t(b * 255) << 8) | uint32_t(a * 255);
 }
 
 void GuiComponent::fillGradient(int x0, int y0, int x1, int y1, int col1,
@@ -68,26 +89,35 @@ void GuiComponent::fillGradient(int x0, int y0, int x1, int y1, int col1,
     float r2 = ((col2 >> 16) & 0xff) / 255.0f;
     float g2 = ((col2 >> 8) & 0xff) / 255.0f;
     float b2 = ((col2) & 0xff) / 255.0f;
-    glDisable(GL_TEXTURE_2D);
-    glEnable(GL_BLEND);
-    glDisable(GL_ALPHA_TEST);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glShadeModel(GL_SMOOTH);
 
-    Tesselator* t = Tesselator::getInstance();
-    t->begin();
-    t->color(r1, g1, b1, a1);
-    t->vertex((float)(x1), (float)(y0), blitOffset);
-    t->vertex((float)(x0), (float)(y0), blitOffset);
-    t->color(r2, g2, b2, a2);
-    t->vertex((float)(x0), (float)(y1), blitOffset);
-    t->vertex((float)(x1), (float)(y1), blitOffset);
-    t->end();
+    uint32_t c1 = pack_color(r1, g1, b1, a1);
+    uint32_t c2 = pack_color(r2, g2, b2, a2);
 
-    glShadeModel(GL_FLAT);
-    glDisable(GL_BLEND);
-    glEnable(GL_ALPHA_TEST);
-    glEnable(GL_TEXTURE_2D);
+    auto [tvb, span] = RenderPath.alloc_transient_vertices(
+        4, rp::VertexLayout::world_standard, rp::PrimitiveType::triangle_fan);
+    if (span.empty()) return;
+
+    auto* v = reinterpret_cast<rp::WorldStandardVertex*>(span.data());
+    v[0] = {{(float)x1, (float)y0, blitOffset}, {0, 0}, c1, 0, 0xfe00fe00};
+    v[1] = {{(float)x0, (float)y0, blitOffset}, {0, 0}, c1, 0, 0xfe00fe00};
+    v[2] = {{(float)x0, (float)y1, blitOffset}, {0, 0}, c2, 0, 0xfe00fe00};
+    v[3] = {{(float)x1, (float)y1, blitOffset}, {0, 0}, c2, 0, 0xfe00fe00};
+
+    rp::DrawCall dc{};
+    dc.source = rp::VertexSource::transient;
+    dc.transient = tvb;
+    dc.material = Gui::gui_mat_untextured_alpha_;
+
+    RenderPath.StateSetTextureEnable(false);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetAlphaTestEnable(false);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+    (void)0;
+    RenderPath.submit_immediate(dc);
+    (void)0;
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetAlphaTestEnable(true);
+    RenderPath.StateSetTextureEnable(true);
 }
 
 GuiComponent::GuiComponent() { blitOffset = 0; }
@@ -105,31 +135,12 @@ void GuiComponent::drawString(Font* font, const std::string& str, int x, int y,
 void GuiComponent::blit(int x, int y, int sx, int sy, int w, int h) {
     float us = 1 / 256.0f;
     float vs = 1 / 256.0f;
-    Tesselator* t = Tesselator::getInstance();
-    t->begin();
 
-    // This is a bit of a mystery. In general this ought to be 0.5 to match the
-    // centre of texels & pixels in the DX9 version of things. However, when
-    // scaling the GUI by a factor of 1.5, I'm really not sure how exactly point
-    // sampled rasterisation works, but when shifting by 0.5 we get a
-    // discontinuity down the diagonal of quads. Setting this shift to 0.75 in
-    // all cases seems to work fine.
     const float extraShift = 0.75f;
-
-    // 4J - subtracting extraShift (actual screen pixels, so need to compensate
-    // for physical & game width) from each x & y coordinate to compensate for
-    // centre of pixels in directx vs openGL
     float dx = (extraShift * (float)Minecraft::GetInstance()->width) /
                (float)Minecraft::GetInstance()->width_phys;
-    // 4J - Also factor in the scaling from gui coordinate space to the screen.
-    // This varies based on user-selected gui scale, and whether we are in a
-    // viewport mode or not
     dx /= Gui::currentGuiScaleFactor;
     float dy = extraShift / Gui::currentGuiScaleFactor;
-    // Ensure that the x/y, width and height are actually pixel aligned at our
-    // current scale factor - in particular, for split screen mode with the
-    // default (3X) scale, we have an overall scale factor of 3 * 0.5 = 1.5, and
-    // so any odd pixels won't align
     float fx = (floorf((float)x * Gui::currentGuiScaleFactor)) /
                Gui::currentGuiScaleFactor;
     float fy = (floorf((float)y * Gui::currentGuiScaleFactor)) /
@@ -139,13 +150,23 @@ void GuiComponent::blit(int x, int y, int sx, int sy, int w, int h) {
     float fh = (floorf((float)h * Gui::currentGuiScaleFactor)) /
                Gui::currentGuiScaleFactor;
 
-    t->vertexUV(fx + 0 - dx, fy + fh - dy, (float)(blitOffset),
-                (float)((sx + 0) * us), (float)((sy + h) * vs));
-    t->vertexUV(fx + fw - dx, fy + fh - dy, (float)(blitOffset),
-                (float)((sx + w) * us), (float)((sy + h) * vs));
-    t->vertexUV(fx + fw - dx, fy + 0 - dy, (float)(blitOffset),
-                (float)((sx + w) * us), (float)((sy + 0) * vs));
-    t->vertexUV(fx + 0 - dx, fy + 0 - dy, (float)(blitOffset),
-                (float)((sx + 0) * us), (float)((sy + 0) * vs));
-    t->end();
+    float u0 = (sx + 0) * us;
+    float u1 = (sx + w) * us;
+    float v0 = (sy + 0) * vs;
+    float v1 = (sy + h) * vs;
+
+    auto [tvb, span] = RenderPath.alloc_transient_vertices(
+        4, rp::VertexLayout::world_standard, rp::PrimitiveType::triangle_fan);
+    if (span.empty()) return;
+    auto* v = reinterpret_cast<rp::WorldStandardVertex*>(span.data());
+    v[0] = {{fx + 0  - dx, fy + fh - dy, blitOffset}, {u0, v1}, 0, 0, 0xfe00fe00};
+    v[1] = {{fx + fw - dx, fy + fh - dy, blitOffset}, {u1, v1}, 0, 0, 0xfe00fe00};
+    v[2] = {{fx + fw - dx, fy + 0  - dy, blitOffset}, {u1, v0}, 0, 0, 0xfe00fe00};
+    v[3] = {{fx + 0  - dx, fy + 0  - dy, blitOffset}, {u0, v0}, 0, 0, 0xfe00fe00};
+
+    rp::DrawCall dc{};
+    dc.source = rp::VertexSource::transient;
+    dc.transient = tvb;
+    RenderPath.submit_immediate(dc);
 }
+

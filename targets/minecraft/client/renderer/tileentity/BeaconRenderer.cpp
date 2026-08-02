@@ -31,14 +31,14 @@ void BeaconRenderer::render(std::shared_ptr<TileEntity> _beacon, double x,
 
         // TODO: 4J: Put this back in
         // assert(0);
-        // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        // glTexParameterf(0x0DE1, 0x2802, 0x2901);
+        // glTexParameterf(0x0DE1, 0x2803, 0x2901);
 
-        glDisable(GL_LIGHTING);
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_BLEND);
-        glDepthMask(true);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetFaceCull(false);
+        RenderPath.StateSetBlendEnable(false);
+        RenderPath.StateSetDepthMask(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one);
 
         float tt = beacon->getLevel()->getGameTime() + a;
         float texVOff = -tt * .20f - floor(-tt * .10f);
@@ -93,9 +93,9 @@ void BeaconRenderer::render(std::shared_ptr<TileEntity> _beacon, double x,
             t->end();
         }
 
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glDepthMask(false);
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+        RenderPath.StateSetDepthMask(false);
 
         {
             t->begin();
@@ -141,9 +141,9 @@ void BeaconRenderer::render(std::shared_ptr<TileEntity> _beacon, double x,
             t->end();
         }
 
-        glEnable(GL_LIGHTING);
-        glEnable(GL_TEXTURE_2D);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetTextureEnable(true);
 
-        glDepthMask(true);
+        RenderPath.StateSetDepthMask(true);
     }
 }

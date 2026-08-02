@@ -31,18 +31,18 @@ UIComponent_Panorama::UIComponent_Panorama(int iPad, void* initData,
 
 std::string UIComponent_Panorama::getMoviePath() {
     switch (m_parentLayer->getViewport()) {
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
             m_bSplitscreen = true;
             return "PanoramaSplit";
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
+        case 0:
         default:
             m_bSplitscreen = false;
             return "Panorama";
@@ -79,20 +79,20 @@ void UIComponent_Panorama::tick() {
 }
 
 void UIComponent_Panorama::render(S32 width, S32 height,
-                                  IPlatformRenderer::eViewportType viewport) {
+                                  int viewport) {
     bool specialViewport =
-        (viewport == IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP) ||
-        (viewport == IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM) ||
-        (viewport == IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT) ||
-        (viewport == IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT);
+        (viewport == 1) ||
+        (viewport == 2) ||
+        (viewport == 3) ||
+        (viewport == 4);
     if (m_bSplitscreen && specialViewport) {
         S32 xPos = 0;
         S32 yPos = 0;
         switch (viewport) {
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+            case 2:
                 yPos = (S32)(ui.getScreenHeight() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
+            case 4:
                 xPos = (S32)(ui.getScreenWidth() / 2);
                 break;
             default:
@@ -100,8 +100,8 @@ void UIComponent_Panorama::render(S32 width, S32 height,
         }
         ui.setupRenderPosition(xPos, yPos);
 
-        if ((viewport == IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT) ||
-            (viewport == IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT)) {
+        if ((viewport == 3) ||
+            (viewport == 4)) {
             // Need to render at full height, but only the left side of the
             // scene
             S32 tileXStart = 0;

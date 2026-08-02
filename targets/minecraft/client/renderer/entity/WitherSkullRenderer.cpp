@@ -18,25 +18,25 @@ WitherSkullRenderer::WitherSkullRenderer() { model = new SkeletonHeadModel(); }
 
 void WitherSkullRenderer::render(std::shared_ptr<Entity> entity, double x,
                                  double y, double z, float rot, float a) {
-    glPushMatrix();
-    glDisable(GL_CULL_FACE);
+    RenderPath.MatrixPush();
+    RenderPath.StateSetFaceCull(false);
 
     float headRot = rotlerp(entity->yRotO, entity->yRot, a);
     float headRotx = entity->xRotO + (entity->xRot - entity->xRotO) * a;
 
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
 
     float scale = 1 / 16.0f;
-    glEnable(GL_RESCALE_NORMAL);
-    glScalef(-1, -1, 1);
+    (void)0;
+    RenderPath.MatrixScale(-1, -1, 1);
 
-    glEnable(GL_ALPHA_TEST);
+    RenderPath.StateSetAlphaTestEnable(true);
 
     bindTexture(entity);
 
     model->render(entity, 0, 0, 0, headRot, headRotx, scale, true);
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
 
 ResourceLocation* WitherSkullRenderer::getTextureLocation(

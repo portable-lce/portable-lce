@@ -103,13 +103,13 @@ void AchievementScreen::render(int mouseX, int mouseY, float a) {
 
     renderBg(mouseX, mouseY, a);
 
-    glDisable(GL_LIGHTING);
-    glDisable(GL_DEPTH_TEST);
+    RenderPath.StateSetLightingEnable(false);
+    RenderPath.StateSetDepthTestEnable(false);
 
     renderLabels();
 
-    glEnable(GL_LIGHTING);
-    glEnable(GL_DEPTH_TEST);
+    RenderPath.StateSetLightingEnable(true);
+    RenderPath.StateSetDepthTestEnable(true);
 }
 
 void AchievementScreen::tick() {

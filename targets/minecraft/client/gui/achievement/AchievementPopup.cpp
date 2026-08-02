@@ -1,6 +1,9 @@
 #include "AchievementPopup.h"
 
+#include <numbers>
+
 #include "java/System.h"
+#include "minecraft/SharedConstants.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/gui/Font.h"
@@ -8,7 +11,7 @@
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
 #include "minecraft/locale/I18n.h"
 #include "minecraft/stats/Achievement.h"
-#include "minecraft/SharedConstants.h"
+#include "platform/renderer/IRenderPath.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
 
@@ -44,13 +47,13 @@ void AchievementPopup::permanent(Achievement* ach) {
 void AchievementPopup::prepareWindow() {
     {
         int fbw, fbh;
-        PlatformRenderer.GetFramebufferSize(fbw, fbh);
-        glViewport(0, 0, fbw, fbh);
+        fbw = RenderPath.framebuffer().width; fbh = RenderPath.framebuffer().height;
+        (void)0;
     }  // just future proofing
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixSetIdentity();
 
     this->width = mc->width;
     this->height = mc->height;
@@ -59,20 +62,20 @@ void AchievementPopup::prepareWindow() {
     width = ssc.getWidth();
     height = ssc.getHeight();
 
-    glClear(GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, (float)width, (float)height, 0, 1000, 3000);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glTranslatef(0, 0, -2000);
+    RenderPath.Clear(rp::CLEAR_DEPTH);
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixOrthogonal(0, (float)width, (float)height, 0, 1000, 3000);
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixTranslate(0, 0, -2000);
 }
 
 void AchievementPopup::render() {
 #ifdef ENABLE_JAVA_GUIS
     if (Minecraft::warezTime > 0) {
-        glDisable(GL_DEPTH_TEST);
-        glDepthMask(false);
+        RenderPath.StateSetDepthTestEnable(false);
+        RenderPath.StateSetDepthMask(false);
         Lighting::turnOff();
         prepareWindow();
 
@@ -85,8 +88,8 @@ void AchievementPopup::render() {
         mc->font->drawShadow(msg1, 2, 2 + 9 * 1, 0xffffff);
         mc->font->drawShadow(msg2, 2, 2 + 9 * 2, 0xffffff);
 
-        glDepthMask(true);
-        glEnable(GL_DEPTH_TEST);
+        RenderPath.StateSetDepthMask(true);
+        RenderPath.StateSetDepthTestEnable(true);
     }
     if (ach == nullptr || startTime == 0) return;
 
@@ -98,8 +101,8 @@ void AchievementPopup::render() {
     }
 
     prepareWindow();
-    glDisable(GL_DEPTH_TEST);
-    glDepthMask(false);
+    RenderPath.StateSetDepthTestEnable(false);
+    RenderPath.StateSetDepthMask(false);
 
     double yo = time * 2;
     if (yo > 1) yo = 2 - yo;
@@ -112,10 +115,10 @@ void AchievementPopup::render() {
     int xx = width - 160;
     int yy = 0 - (int)(yo * 36);
     int tex = mc->textures->loadTexture(TN_ACHIEVEMENT_BG);
-    glColor4f(1, 1, 1, 1);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, tex);
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    RenderPath.StateSetTextureEnable(true);
+    RenderPath.TextureBind(tex);
+    RenderPath.StateSetLightingEnable(false);
 
     blit(xx, yy, 96, 202, 160, 32);
 
@@ -129,19 +132,19 @@ void AchievementPopup::render() {
     mc->font->draw(desc, xx + 30, yy + 18, 0xffffffff);
     // }
 
-    glPushMatrix();
-    glRotatef(180, 1, 0, 0);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
     Lighting::turnOn();
-    glPopMatrix();
-    glDisable(GL_LIGHTING);
-    glEnable(GL_RESCALE_NORMAL);
-    glEnable(GL_COLOR_MATERIAL);
+    RenderPath.MatrixPop();
+    RenderPath.StateSetLightingEnable(false);
+    (void)0;
+    (void)0;
 
-    glEnable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(true);
     ir->renderGuiItem(mc->font, mc->textures, ach->icon, xx + 8, yy + 8);
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
 
-    glDepthMask(true);
-    glEnable(GL_DEPTH_TEST);
+    RenderPath.StateSetDepthMask(true);
+    RenderPath.StateSetDepthTestEnable(true);
 #endif
 }

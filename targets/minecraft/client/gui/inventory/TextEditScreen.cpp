@@ -1,5 +1,6 @@
 #include "TextEditScreen.h"
 
+#include <numbers>
 #include <vector>
 
 #include "minecraft/SharedConstants.h"
@@ -75,18 +76,18 @@ void TextEditScreen::render(int xm, int ym, float a) {
 
     drawCenteredString(font, title, width / 2, 40, 0xffffff);
 
-    glPushMatrix();
-    glTranslatef((float)width / 2, (float)height / 2, 50);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)width / 2, (float)height / 2, 50);
     float ss = 60 / (16 / 25.0f);
-    glScalef(-ss, -ss, -ss);
-    glRotatef(180, 0, 1, 0);
+    RenderPath.MatrixScale(-ss, -ss, -ss);
+    RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
     Tile* tile = sign->getTile();
 
     if (tile == Tile::sign) {
         float rot = sign->getData() * 360 / 16.0f;
-        glRotatef(rot, 0, 1, 0);
-        glTranslatef(0, 5 / 16.0f, 0);
+        RenderPath.MatrixRotate((rot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixTranslate(0, 5 / 16.0f, 0);
     } else {
         int face = sign->getData();
         float rot = 0;
@@ -94,8 +95,8 @@ void TextEditScreen::render(int xm, int ym, float a) {
         if (face == 2) rot = 180;
         if (face == 4) rot = 90;
         if (face == 5) rot = -90;
-        glRotatef(rot, 0, 1, 0);
-        glTranslatef(0, 5 / 16.0f, 0);
+        RenderPath.MatrixRotate((rot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixTranslate(0, 5 / 16.0f, 0);
     }
 
     if (frame / 6 % 2 == 0) sign->SetSelectedLine(line);
@@ -104,7 +105,7 @@ void TextEditScreen::render(int xm, int ym, float a) {
                                                  0 - 0.5f, 0);
     sign->SetSelectedLine(-1);
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     Screen::render(xm, ym, a);
 }

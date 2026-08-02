@@ -1,6 +1,7 @@
 #include "TheEndBiomeDecorator.h"
 
 #include <memory>
+#include <numbers>
 
 #include "java/Random.h"
 #include "minecraft/world/entity/boss/enderdragon/EnderDragon.h"

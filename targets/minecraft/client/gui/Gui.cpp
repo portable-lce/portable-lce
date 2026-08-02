@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <numbers>
 
 #include "Facing.h"
 #include "app/common/UI/ConsoleUIController.h"
@@ -50,6 +51,7 @@
 #include "platform/PlatformTypes.h"
 #include "platform/XboxStubs.h"
 #include "platform/input/input.h"
+#include "platform/renderer/IRenderPath.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
 #include "strings.h"
@@ -69,6 +71,10 @@ ResourceLocation Gui::GUI_ICONS_LOCATION = ResourceLocation(TN_GUI_ICONS);
 float Gui::currentGuiBlendFactor = 1.0f;  // 4J added
 float Gui::currentGuiScaleFactor = 1.0f;  // 4J added
 ItemRenderer* Gui::itemRenderer = new ItemRenderer();
+rp::MaterialHandle Gui::gui_mat_untextured_alpha_{};
+rp::MaterialHandle Gui::gui_mat_vignette_{};
+rp::MaterialHandle Gui::gui_mat_fullscreen_overlay_{};
+bool Gui::materials_initialized_ = false;
 
 Gui::Gui(Minecraft* minecraft) {
     // 4J - initialisers added
@@ -89,7 +95,49 @@ Gui::Gui(Minecraft* minecraft) {
     lastTickA = 0.0f;
 }
 
+void Gui::initMaterials() {
+    if (materials_initialized_) return;
+    materials_initialized_ = true;
+
+    rp::MaterialDesc untex{};
+    untex.shader      = rp::ShaderPath::standard;
+    untex.blend       = rp::BlendMode::alpha;
+    untex.textured    = false;
+    untex.lit         = false;
+    untex.fog_enabled = false;
+    untex.depth_test  = rp::DepthTest::less_equal;
+    untex.depth_write = true;
+    untex.cull        = rp::CullMode::none;
+    gui_mat_untextured_alpha_ = RenderPath.create_material(untex);
+
+    rp::MaterialDesc vig{};
+    vig.shader          = rp::ShaderPath::standard;
+    vig.blend           = rp::BlendMode::custom;
+    vig.blend_src_custom = rp::BlendFactor::zero;
+    vig.blend_dst_custom = rp::BlendFactor::one_minus_src_color;
+    vig.textured    = true;
+    vig.lit         = false;
+    vig.fog_enabled = false;
+    vig.depth_test  = rp::DepthTest::off;
+    vig.depth_write = false;
+    vig.cull        = rp::CullMode::none;
+    gui_mat_vignette_ = RenderPath.create_material(vig);
+
+    rp::MaterialDesc overlay{};
+    overlay.shader      = rp::ShaderPath::standard;
+    overlay.blend       = rp::BlendMode::alpha;
+    overlay.textured    = true;
+    overlay.lit         = false;
+    overlay.fog_enabled = false;
+    overlay.depth_test  = rp::DepthTest::off;
+    overlay.depth_write = false;
+    overlay.alpha_test  = rp::AlphaTest::off;
+    overlay.cull        = rp::CullMode::none;
+    gui_mat_fullscreen_overlay_ = RenderPath.create_material(overlay);
+}
+
 void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
+    initMaterials();
     // 4J Stu - I have copied this code for XUI_BaseScene. If/when it gets
     // changed it should be broken out 4J - altered to force full screen mode to
     // 3X scaling, and any split screen modes to 2X scaling. This is so that the
@@ -99,7 +147,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                        // scaling above to move the gui out of the way of the
                        // tool tips
     int guiScale;      // = ( minecraft->player->m_iScreenSection ==
-                       // IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN ? 3 : 2 );
+                       // 0 ? 3 : 2 );
     int iPad = minecraft->player->GetXboxPad();
     int iWidthOffset = 0,
         iHeightOffset = 0;  // used to get the interface looking right on a 2
@@ -107,7 +155,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
 
     // 4J-PB - selected the gui scale based on the slider settings
     if (minecraft->player->m_iScreenSection ==
-        IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN) {
+        0) {
         guiScale =
             gameServices().getGameSettings(iPad, eGameSetting_UISize) + 2;
     } else {
@@ -145,14 +193,14 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
 
     // Check which screen section this player is in
     switch (minecraft->player->m_iScreenSection) {
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
+        case 0:
             // single player
             iSafezoneXHalf = screenWidth / 20;   // 5%
             iSafezoneYHalf = screenHeight / 20;  // 5%
             iSafezoneTopYHalf = iSafezoneYHalf;
             iTooltipsYOffset = 40 + splitYOffset;
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
+        case 1:
             iSafezoneXHalf =
                 screenWidth /
                 10;  // 5%  (need to treat the whole screen is 2x this screen)
@@ -165,7 +213,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
             bTwoPlayerSplitscreen = true;
             currentGuiScaleFactor *= 0.5f;
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+        case 2:
             iSafezoneXHalf =
                 screenWidth /
                 10;  // 5% (need to treat the whole screen is 2x this screen)
@@ -180,7 +228,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
             bTwoPlayerSplitscreen = true;
             currentGuiScaleFactor *= 0.5f;
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
+        case 3:
             iSafezoneXHalf =
                 screenWidth / 10;  // 5% (the whole screen is 2x this screen)
             iSafezoneYHalf = splitYOffset +
@@ -193,7 +241,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
             bTwoPlayerSplitscreen = true;
             currentGuiScaleFactor *= 0.5f;
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
+        case 4:
             iSafezoneXHalf = 0;
             iSafezoneYHalf = splitYOffset +
                              screenHeight / 10;  // 5% (need to treat the whole
@@ -205,7 +253,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
             bTwoPlayerSplitscreen = true;
             currentGuiScaleFactor *= 0.5f;
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
+        case 5:
             iSafezoneXHalf =
                 screenWidth / 10;  // 5% (the whole screen is 2x this screen)
             iSafezoneYHalf = splitYOffset;
@@ -213,14 +261,14 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
             iTooltipsYOffset = 44;
             currentGuiScaleFactor *= 0.5f;
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
+        case 6:
             iSafezoneXHalf = 0;
             iSafezoneYHalf = splitYOffset;  // 5%
             iSafezoneTopYHalf = screenHeight / 10;
             iTooltipsYOffset = 44;
             currentGuiScaleFactor *= 0.5f;
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
+        case 7:
             iSafezoneXHalf =
                 screenWidth / 10;  // 5%  (the whole screen is 2x this screen)
             iSafezoneYHalf =
@@ -230,7 +278,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
             iTooltipsYOffset = 44;
             currentGuiScaleFactor *= 0.5f;
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+        case 8:
             iSafezoneXHalf = 0;
             iSafezoneYHalf =
                 splitYOffset +
@@ -251,7 +299,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
     if (gameServices().getGameSettings(iPad, eGameSetting_Tooltips) == 0 &&
         bDisplayGui) {
         switch (minecraft->player->m_iScreenSection) {
-            case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
+            case 0:
                 iTooltipsYOffset = screenHeight / 10;
                 break;
             default:
@@ -281,11 +329,11 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
 
     minecraft->gameRenderer->setupGuiScreen(guiScale);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA,
-                GL_ONE_MINUS_SRC_ALPHA);  // 4J - added - this did actually get
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha,
+                rp::BlendFactor::one_minus_src_alpha);  // 4J - added - this did actually get
                                           // set in renderVignette but that code
-                                          // is currently commented out
+                                                // is currently commented out
 
     if (Minecraft::useFancyGraphics()) {
         renderVignette(minecraft->player->getBrightness(a), screenWidth,
@@ -319,8 +367,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
     if (!minecraft->gameMode->isCutScene()) {
         if (bDisplayGui && bTwoPlayerSplitscreen) {
             // need to apply scale factors depending on the mode
-            glPushMatrix();
-            glScalef(fScaleFactorWidth, fScaleFactorHeight, fScaleFactorWidth);
+            RenderPath.MatrixPush();
+            RenderPath.MatrixScale(fScaleFactorWidth, fScaleFactorHeight, fScaleFactorWidth);
         }
 #if RENDER_HUD
         /////////////////////////////////////////////////////////////////////////////////////
@@ -328,7 +376,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
         // the crosshair
         /////////////////////////////////////////////////////////////////////////////////////
 
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetColour(1, 1, 1, 1);
 
         // 4J - this is where to set the blend factor for gui things
         // use the primary player's settings
@@ -356,11 +404,11 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
             fVal = fAlphaIncrementPerCent * (float)ucAlpha;
         }
 
-        PlatformRenderer.StateSetBlendFactor(0xffffff |
+        RenderPath.StateSetBlendFactor(0xffffff |
                                              (((unsigned int)fVal) << 24));
         currentGuiBlendFactor = fVal / 255.0f;
-        //	PlatformRenderer.StateSetBlendFactor(0x40ffffff);
-        glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
+        //	RenderPath.StateSetBlendFactor(0x40ffffff);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::constant_alpha, rp::BlendFactor::one_minus_constant_alpha);
 
         blitOffset = -90;
 
@@ -378,8 +426,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
 
                 // 4J Stu - Moved this push and scale further up as we still
                 // need to do it for the few HUD components not replaced by xui
-                // glPushMatrix();
-                // glScalef(fScaleFactorWidth, fScaleFactorHeight,
+                // RenderPath.MatrixPush();
+                // RenderPath.MatrixScale(fScaleFactorWidth, fScaleFactorHeight,
                 // fScaleFactorWidth);
 
                 // 4J-PB - move into the safe zone, and account for 2 player
@@ -407,11 +455,11 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
 
             minecraft->textures->bindTexture(
                 &GUI_ICONS_LOCATION);  // "/gui/icons.png"));
-            glEnable(GL_BLEND);
-            PlatformRenderer.StateSetBlendFactor(0xffffff |
-                                                 (((unsigned int)fVal) << 24));
-            glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
-            // glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ONE_MINUS_SRC_COLOR);
+            RenderPath.StateSetBlendEnable(true);
+            RenderPath.StateSetBlendFactor(0xffffff |
+                                           (((unsigned int)fVal) << 24));
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::constant_alpha, rp::BlendFactor::one_minus_constant_alpha);
+            // RenderPath.StateSetBlendFunc(GL_ONE_MINUS_DST_COLOR, rp::BlendFactor::one_minus_src_color);
             //  4J Stu - We don't want to adjust the cursor by the safezone, we
             //  want it centred
             if (bTwoPlayerSplitscreen) {
@@ -420,11 +468,11 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
             } else {
                 blit(screenWidth / 2 - 7, screenHeight / 2 - 7, 0, 0, 16, 16);
             }
-            glDisable(GL_BLEND);
+            RenderPath.StateSetBlendEnable(false);
 
             // 		if(bTwoPlayerSplitscreen)
             // 		{
-            // 			glPopMatrix();
+            // 			RenderPath.MatrixPop();
             // 		}
         }
 
@@ -451,8 +499,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
         /////////////////////////////////////////////////////////////////////////////////////
         if (bDisplayGui) {
             // 4J - added blend for fading gui
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE_MINUS_CONSTANT_ALPHA);
+            RenderPath.StateSetBlendEnable(true);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::constant_alpha, rp::BlendFactor::one_minus_constant_alpha);
 
             if (minecraft->gameMode->canHurtPlayer()) {
                 int xLeft, xRight;
@@ -696,10 +744,10 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
         // render the slot contents
         ////////////////////////////
         if (bDisplayGui) {
-            //		glDisable(GL_BLEND);		4J - removed - we want
+            //		RenderPath.StateSetBlendEnable(false);		4J - removed - we want
             // to be able to fade our gui
 
-            glEnable(GL_RESCALE_NORMAL);
+            (void)0;
 
             Lighting::turnOn();
 
@@ -718,7 +766,7 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                 this->renderSlot(i, x, y, a);
             }
             Lighting::turnOff();
-            glDisable(GL_RESCALE_NORMAL);
+            (void)0;
         }
 #endif
 
@@ -758,8 +806,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                     minecraft->level, minecraft->textures, minecraft->font,
                     minecraft->cameraTargetPlayer, minecraft->crosshairPickMob,
                     minecraft->options, a);
-                glEnable(GL_RESCALE_NORMAL);
-                glEnable(GL_COLOR_MATERIAL);
+                (void)0;
+                (void)0;
 
                 // 4J - TomK now using safe zone values directly instead of the
                 // magic number calculation that lived here before (which only
@@ -767,11 +815,11 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                 int xo = iSafezoneXHalf + 10;
                 int yo = iSafezoneTopYHalf + 10;
 
-                glPushMatrix();
-                glTranslatef((float)xo, (float)yo, 50);
+                RenderPath.MatrixPush();
+                RenderPath.MatrixTranslate((float)xo, (float)yo, 50);
                 float ss = 12;
-                glScalef(-ss, ss, ss);
-                glRotatef(180, 0, 0, 1);
+                RenderPath.MatrixScale(-ss, ss, ss);
+                RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
                 float oyr = minecraft->player->yRot;
                 float oyrO = minecraft->player->yRotO;
@@ -788,11 +836,11 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                 // minimising the changes to member variables of the player
                 // which are all related
 
-                glRotatef(45 + 90, 0, 1, 0);
+                RenderPath.MatrixRotate((45 + 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
                 Lighting::turnOn();
-                glRotatef(-45 - 90, 0, 1, 0);
+                RenderPath.MatrixRotate((-45 - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-                glRotatef(-(float)atan(yd / 40.0f) * 20, 1, 0, 0);
+                RenderPath.MatrixRotate((-(float)atan(yd / 40.0f) * 20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
                 float bodyRot = (minecraft->player->yBodyRotO +
                                  (minecraft->player->yBodyRot -
                                   minecraft->player->yBodyRotO));
@@ -803,8 +851,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                 // EntityRenderDispatcher::instance->playerRotY that we set
                 // below and (180 - bodyRot) is the angle of rotation that is
                 // performed within the mob renderer
-                glRotatef(bodyRot - ((float)atan(xd / 40.0f) * 20), 0, 1, 0);
-                glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+                RenderPath.MatrixRotate((bodyRot - ((float)atan(xd / 40.0f) * 20))*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
 
                 // Set head rotation to body rotation to make head static
                 minecraft->player->yRot = bodyRot;
@@ -816,8 +864,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
 
                 // 4J - TomK don't offset the player. it's easier to align it
                 // with the safe zones that way!
-                // glTranslatef(0, minecraft->player->heightOffset, 0);
-                glTranslatef(0, 0, 0);
+                // RenderPath.MatrixTranslate(0, minecraft->player->heightOffset, 0);
+                RenderPath.MatrixTranslate(0, 0, 0);
                 EntityRenderDispatcher::instance->playerRotY = 180;
                 EntityRenderDispatcher::instance->isGuiRender = true;
                 EntityRenderDispatcher::instance->render(minecraft->player, 0,
@@ -830,9 +878,9 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
                 minecraft->player->onFire = ofire;
                 minecraft->player->setSharedFlag(Entity::FLAG_ONFIRE,
                                                  ofireflag);
-                glPopMatrix();
+                RenderPath.MatrixPop();
                 Lighting::turnOff();
-                glDisable(GL_RESCALE_NORMAL);
+                (void)0;
             }
         }
     }
@@ -851,15 +899,15 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
         int alpha = (int)((float)remainingHighlightTicks * 256.0f / 10.0f);
         if (alpha > 255) alpha = 255;
         if (alpha > 0) {
-            glPushMatrix();
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            RenderPath.MatrixPush();
+            RenderPath.StateSetBlendEnable(true);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
             int color = 0xFFFFFF | (alpha << 24);
             font->drawShadow(displayName, x, y, color);
 
-            glDisable(GL_BLEND);
-            glPopMatrix();
+            RenderPath.StateSetBlendEnable(false);
+            RenderPath.MatrixPop();
         }
     }
 
@@ -902,13 +950,13 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
 
     // 4J - added to disable blends, which we have enabled previously to allow
     // gui fading
-    glDisable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
     // if the player is falling asleep we render a dark overlay
     if (minecraft->player->getSleepTimer() > 0) {
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_ALPHA_TEST);
+        RenderPath.StateSetDepthTestEnable(false);
+        RenderPath.StateSetAlphaTestEnable(false);
         int timer = minecraft->player->getSleepTimer();
         float amount = (float)timer / (float)Player::SLEEP_DURATION;
         if (amount > 1) {
@@ -920,22 +968,22 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
         int color = (int)(220.0f * amount) << 24 | (0x101020);
         fill(0, 0, screenWidth / fScaleFactorWidth,
              screenHeight / fScaleFactorHeight, color);
-        glEnable(GL_ALPHA_TEST);
-        glEnable(GL_DEPTH_TEST);
+        RenderPath.StateSetAlphaTestEnable(true);
+        RenderPath.StateSetDepthTestEnable(true);
     }
 
     // 4J-PB - Request from Mojang to have a red death screen
     if (!minecraft->player->isAlive()) {
-        glDisable(GL_DEPTH_TEST);
-        glDisable(GL_ALPHA_TEST);
+        RenderPath.StateSetDepthTestEnable(false);
+        RenderPath.StateSetAlphaTestEnable(false);
         int timer = minecraft->player->getDeathFadeTimer();
         float amount = (float)timer / (float)Player::DEATHFADE_DURATION;
 
         int color = (int)(220.0f * amount) << 24 | (0x200000);
         fill(0, 0, screenWidth / fScaleFactorWidth,
              screenHeight / fScaleFactorHeight, color);
-        glEnable(GL_ALPHA_TEST);
-        glEnable(GL_DEPTH_TEST);
+        RenderPath.StateSetAlphaTestEnable(true);
+        RenderPath.StateSetDepthTestEnable(true);
     }
 
     //        {
@@ -948,8 +996,8 @@ void Gui::render(float a, bool mouseFree, int xMouse, int yMouse) {
 
 #if !defined(_FINAL_BUILD)
     if (minecraft->options->renderDebug) {
-        glPushMatrix();
-        if (Minecraft::warezTime > 0) glTranslatef(0, 32, 0);
+        RenderPath.MatrixPush();
+        if (Minecraft::warezTime > 0) RenderPath.MatrixTranslate(0, 32, 0);
         font->drawShadow(
             ClientConstants::VERSION_STRING + " (" + minecraft->fpsString + ")",
             iSafezoneXHalf + 2, 20, 0xffffff);
@@ -1053,7 +1101,7 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
                 iSafezoneXHalf + 2, iYPos, 0xe0e0e0);
         }
 
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
 #endif
 
@@ -1066,21 +1114,21 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
         int alpha = (int)(t * 256 / 20);
         if (alpha > 255) alpha = 255;
         if (alpha > 0) {
-            glPushMatrix();
+            RenderPath.MatrixPush();
 
             if (bTwoPlayerSplitscreen) {
-                glTranslatef((float)((screenWidth / 2) + iWidthOffset),
+                RenderPath.MatrixTranslate((float)((screenWidth / 2) + iWidthOffset),
                              ((float)(screenHeight + iHeightOffset)) -
                                  iTooltipsYOffset - 12 - iSafezoneYHalf,
-                             0);
+                    0);
             } else {
-                glTranslatef(((float)screenWidth) / 2,
+                RenderPath.MatrixTranslate(((float)screenWidth) / 2,
                              ((float)screenHeight) - iTooltipsYOffset - 12 -
-                                 iSafezoneYHalf,
-                             0);
+                                               iSafezoneYHalf,
+                                           0);
             }
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            RenderPath.StateSetBlendEnable(true);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
             int col = 0xffffff;
             if (animateOverlayMessageColor) {
@@ -1092,8 +1140,8 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
             font->draw(overlayMessageString,
                        -font->width(overlayMessageString) / 2, -20,
                        col + (alpha << 24));
-            glDisable(GL_BLEND);
-            glPopMatrix();
+            RenderPath.StateSetBlendEnable(false);
+            RenderPath.MatrixPop();
         }
     }
 #endif
@@ -1105,21 +1153,21 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
         isChatting = true;
     }
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDisable(GL_ALPHA_TEST);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+    RenderPath.StateSetAlphaTestEnable(false);
 
 // 4J Stu - We have moved the chat text to a xui
 #if defined(ENABLE_JAVA_GUIS)
-    glPushMatrix();
+    RenderPath.MatrixPush();
     // 4J-PB we need to move this up a bit because we've moved the quick select
-    // glTranslatef(0, ((float)screenHeight) - 48, 0);
-    glTranslatef(0.0f,
+    // RenderPath.MatrixTranslate(0, ((float)screenHeight) - 48, 0);
+    RenderPath.MatrixTranslate(0.0f,
                  (float)(screenHeight - iSafezoneYHalf - iTooltipsYOffset - 16 -
                          3 + 22) -
-                     24.0f,
-                 0.0f);
-    // glScalef(1.0f / ssc.scale, 1.0f / ssc.scale, 1);
+                                   24.0f,
+                               0.0f);
+    // RenderPath.MatrixScale(1.0f / ssc.scale, 1.0f / ssc.scale, 1);
 
     // 4J-PB - we need gui messages for each of the possible 4 splitscreen
     // players
@@ -1148,7 +1196,7 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
                     // otherwise it looks odd due to the safe area
                     this->fill(0, y - 1, screenWidth / fScaleFactorWidth, y + 8,
                                (alpha / 2) << 24);
-                    glEnable(GL_BLEND);
+                    RenderPath.StateSetBlendEnable(true);
 
                     font->drawShadow(msg, iSafezoneXHalf + 4, y,
                                      0xffffff + (alpha << 24));
@@ -1156,19 +1204,19 @@ max) + "% (" + (total / 1024 / 1024) + "MB)"; drawString(font, msg, screenWidth
             }
         }
     }
-    glPopMatrix();
+    RenderPath.MatrixPop();
 #endif
 
     // 4J Stu - Copied over but not used
 
     if (bDisplayGui && bTwoPlayerSplitscreen) {
         // pop the scaled matrix
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
 
-    glColor4f(1, 1, 1, 1);
-    glDisable(GL_BLEND);
-    glEnable(GL_ALPHA_TEST);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetAlphaTestEnable(true);
 }
 
 // Moved to the xui base scene
@@ -1202,30 +1250,37 @@ void Gui::renderBossHealth(void) {
     // std::string msg = "Boss health" /*"Boss health - NON LOCALISED"*/;
     // font->drawShadow(msg, screenWidth / 2 - font->width(msg) / 2, yo - 10,
     //                  0xff00ff);
-    // glColor4f(1, 1, 1, 1);
-    // glBindTexture(GL_TEXTURE_2D, pMinecraft->textures->loadTexture(
+    // RenderPath.StateSetColour(1, 1, 1, 1);
+    // RenderPath.TextureBind(pMinecraft->textures->loadTexture(
     //                                  TN_GUI_ICONS));  //"/gui/icons.png"));
 }
 
 void Gui::renderPumpkin(int w, int h) {
-    glDisable(GL_DEPTH_TEST);
-    glDepthMask(false);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(1, 1, 1, 1);
-    glDisable(GL_ALPHA_TEST);
+    auto [tvb, span] = RenderPath.alloc_transient_vertices(
+        4, rp::VertexLayout::world_standard, rp::PrimitiveType::triangle_fan);
+    if (span.empty()) return;
+    auto* v = reinterpret_cast<rp::WorldStandardVertex*>(span.data());
+    v[0] = {{0,       (float)h, -90}, {0, 1}, 0, 0, 0xfe00fe00};
+    v[1] = {{(float)w, (float)h, -90}, {1, 1}, 0, 0, 0xfe00fe00};
+    v[2] = {{(float)w, 0,        -90}, {1, 0}, 0, 0, 0xfe00fe00};
+    v[3] = {{0,        0,        -90}, {0, 0}, 0, 0, 0xfe00fe00};
 
+    rp::DrawCall dc{};
+    dc.source = rp::VertexSource::transient;
+    dc.transient = tvb;
+    dc.material = gui_mat_fullscreen_overlay_;
+
+    RenderPath.StateSetDepthTestEnable(false);
+    RenderPath.StateSetDepthMask(false);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    RenderPath.StateSetAlphaTestEnable(false);
     minecraft->textures->bindTexture(&PUMPKIN_BLUR_LOCATION);
-    Tesselator* t = Tesselator::getInstance();
-    t->begin();
-    t->vertexUV((float)(0), (float)(h), (float)(-90), (float)(0), (float)(1));
-    t->vertexUV((float)(w), (float)(h), (float)(-90), (float)(1), (float)(1));
-    t->vertexUV((float)(w), (float)(0), (float)(-90), (float)(1), (float)(0));
-    t->vertexUV((float)(0), (float)(0), (float)(-90), (float)(0), (float)(0));
-    t->end();
-    glDepthMask(true);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_ALPHA_TEST);
-    glColor4f(1, 1, 1, 1);
+    RenderPath.submit_immediate(dc);
+    RenderPath.StateSetDepthMask(true);
+    RenderPath.StateSetDepthTestEnable(true);
+    RenderPath.StateSetAlphaTestEnable(true);
+    RenderPath.StateSetColour(1, 1, 1, 1);
 }
 
 void Gui::renderVignette(float br, int w, int h) {
@@ -1234,28 +1289,34 @@ void Gui::renderVignette(float br, int w, int h) {
     if (br > 1) br = 1;
     tbr += (br - tbr) * 0.01f;
 
-    // 4J removed this path; keep it gated until the blend-function path is
-    // intentionally restored for the Java-style UI.
 #if defined(ENABLE_JAVA_GUIS)
-    glDisable(GL_DEPTH_TEST);
-    glDepthMask(false);
-    glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
-    glColor4f(tbr, tbr, tbr, 1);
-    glBindTexture(
-        GL_TEXTURE_2D,
-        minecraft->textures->loadTexture(
-            TN__BLUR__MISC_VIGNETTE));  // "%blur%/misc/vignette.png"));
-    Tesselator* t = Tesselator::getInstance();
-    t->begin();
-    t->vertexUV((float)(0), (float)(h), (float)(-90), (float)(0), (float)(1));
-    t->vertexUV((float)(w), (float)(h), (float)(-90), (float)(1), (float)(1));
-    t->vertexUV((float)(w), (float)(0), (float)(-90), (float)(1), (float)(0));
-    t->vertexUV((float)(0), (float)(0), (float)(-90), (float)(0), (float)(0));
-    t->end();
-    glDepthMask(true);
-    glEnable(GL_DEPTH_TEST);
-    glColor4f(1, 1, 1, 1);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    auto [tvb, span] = RenderPath.alloc_transient_vertices(
+        4, rp::VertexLayout::world_standard, rp::PrimitiveType::triangle_fan);
+    if (span.empty()) return;
+    auto* v = reinterpret_cast<rp::WorldStandardVertex*>(span.data());
+    v[0] = {{0,        (float)h, -90}, {0, 1}, 0, 0, 0xfe00fe00};
+    v[1] = {{(float)w, (float)h, -90}, {1, 1}, 0, 0, 0xfe00fe00};
+    v[2] = {{(float)w, 0,        -90}, {1, 0}, 0, 0, 0xfe00fe00};
+    v[3] = {{0,        0,        -90}, {0, 0}, 0, 0, 0xfe00fe00};
+
+    rp::DrawCall dc{};
+    dc.source = rp::VertexSource::transient;
+    dc.transient = tvb;
+    dc.material = gui_mat_vignette_;
+    dc.tint_color[0] = tbr;
+    dc.tint_color[1] = tbr;
+    dc.tint_color[2] = tbr;
+    dc.tint_color[3] = 1.0f;
+
+    RenderPath.StateSetDepthTestEnable(false);
+    RenderPath.StateSetDepthMask(false);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::zero, rp::BlendFactor::one_minus_src_color);
+    RenderPath.TextureBind(                  minecraft->textures->loadTexture(TN__BLUR__MISC_VIGNETTE));
+    RenderPath.submit_immediate(dc);
+    RenderPath.StateSetDepthMask(true);
+    RenderPath.StateSetDepthTestEnable(true);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 #endif
 }
 
@@ -1266,30 +1327,40 @@ void Gui::renderTp(float br, int w, int h) {
         br = br * 0.8f + 0.2f;
     }
 
-    glDisable(GL_ALPHA_TEST);
-    glDisable(GL_DEPTH_TEST);
-    glDepthMask(false);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor4f(1, 1, 1, br);
-    minecraft->textures->bindTexture(
-        &TextureAtlas::LOCATION_BLOCKS);  // "/terrain.png"));
-
     Icon* slot = Tile::portalTile->getTexture(Facing::UP);
     float u0 = slot->getU0();
     float v0 = slot->getV0();
     float u1 = slot->getU1();
     float v1 = slot->getV1();
-    Tesselator* t = Tesselator::getInstance();
-    t->begin();
-    t->vertexUV((float)(0), (float)(h), (float)(-90), (float)(u0), (float)(v1));
-    t->vertexUV((float)(w), (float)(h), (float)(-90), (float)(u1), (float)(v1));
-    t->vertexUV((float)(w), (float)(0), (float)(-90), (float)(u1), (float)(v0));
-    t->vertexUV((float)(0), (float)(0), (float)(-90), (float)(u0), (float)(v0));
-    t->end();
-    glDepthMask(true);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_ALPHA_TEST);
-    glColor4f(1, 1, 1, 1);
+
+    auto [tvb, span] = RenderPath.alloc_transient_vertices(
+        4, rp::VertexLayout::world_standard, rp::PrimitiveType::triangle_fan);
+    if (span.empty()) return;
+    auto* v = reinterpret_cast<rp::WorldStandardVertex*>(span.data());
+    v[0] = {{0,        (float)h, -90}, {u0, v1}, 0, 0, 0xfe00fe00};
+    v[1] = {{(float)w, (float)h, -90}, {u1, v1}, 0, 0, 0xfe00fe00};
+    v[2] = {{(float)w, 0,        -90}, {u1, v0}, 0, 0, 0xfe00fe00};
+    v[3] = {{0,        0,        -90}, {u0, v0}, 0, 0, 0xfe00fe00};
+
+    rp::DrawCall dc{};
+    dc.source = rp::VertexSource::transient;
+    dc.transient = tvb;
+    dc.material = gui_mat_fullscreen_overlay_;
+    dc.tint_color[0] = 1;
+    dc.tint_color[1] = 1;
+    dc.tint_color[2] = 1;
+    dc.tint_color[3] = br;
+
+    RenderPath.StateSetAlphaTestEnable(false);
+    RenderPath.StateSetDepthTestEnable(false);
+    RenderPath.StateSetDepthMask(false);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+    minecraft->textures->bindTexture(&TextureAtlas::LOCATION_BLOCKS);
+    RenderPath.submit_immediate(dc);
+    RenderPath.StateSetDepthMask(true);
+    RenderPath.StateSetDepthTestEnable(true);
+    RenderPath.StateSetAlphaTestEnable(true);
+    RenderPath.StateSetColour(1, 1, 1, 1);
 }
 
 void Gui::renderSlot(int slot, int x, int y, float a) {
@@ -1299,11 +1370,11 @@ void Gui::renderSlot(int slot, int x, int y, float a) {
 
     float pop = item->popTime - a;
     if (pop > 0) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
         float squeeze = 1 + pop / (float)Inventory::POP_TIME_DURATION;
-        glTranslatef((float)(x + 8), (float)(y + 12), 0);
-        glScalef(1 / squeeze, (squeeze + 1) / 2, 1);
-        glTranslatef((float)-(x + 8), (float)-(y + 12), 0);
+        RenderPath.MatrixTranslate((float)(x + 8), (float)(y + 12), 0);
+        RenderPath.MatrixScale(1 / squeeze, (squeeze + 1) / 2, 1);
+        RenderPath.MatrixTranslate((float)-(x + 8), (float)-(y + 12), 0);
     }
 
     itemRenderer->renderAndDecorateItem(minecraft->font, minecraft->textures,
@@ -1311,7 +1382,7 @@ void Gui::renderSlot(int slot, int x, int y, float a) {
                                         item->isFoil(), false);
 
     if (pop > 0) {
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
 
     itemRenderer->renderGuiItemDecorations(minecraft->font, minecraft->textures,
@@ -1374,9 +1445,9 @@ void Gui::addMessage(const std::string& _string, int iPad,
     std::string string = _string;  // 4J - Take copy of input as it is const
     // int iScale=1;
 
-    // if((minecraft->player->m_iScreenSection==IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP)
+    // if((minecraft->player->m_iScreenSection==1)
     // ||
-    //	(minecraft->player->m_iScreenSection==IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM))
+    //	(minecraft->player->m_iScreenSection==2))
     //{
     //	iScale=2;
     // }
@@ -1404,10 +1475,10 @@ void Gui::addMessage(const std::string& _string, int iPad,
     int maximumChars;
 
     switch (minecraft->player->m_iScreenSection) {
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
-            if (PlatformRenderer.IsHiDef()) {
+        case 1:
+        case 2:
+        case 0:
+            if (RenderPath.framebuffer().is_hi_def) {
                 maximumChars = 105;
             } else {
                 maximumChars = 55;
@@ -1416,7 +1487,7 @@ void Gui::addMessage(const std::string& _string, int iPad,
                 case XC_LANGUAGE_JAPANESE:
                 case XC_LANGUAGE_TCHINESE:
                 case XC_LANGUAGE_KOREAN:
-                    if (PlatformRenderer.IsHiDef()) {
+                    if (RenderPath.framebuffer().is_hi_def) {
                         maximumChars = 70;
                     } else {
                         maximumChars = 35;
@@ -1533,19 +1604,19 @@ void Gui::renderGraph(int dataLength, int dataPos, int64_t* dataA,
     int xScale = 1;
     if (dataA != nullptr && dataB != nullptr) xScale = 2;
 
-    glClear(GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, (float)minecraft->width, (float)height, 0, 1000, 3000);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glTranslatef(0, 0, -2000);
+    RenderPath.Clear(rp::CLEAR_DEPTH);
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixOrthogonal(0, (float)minecraft->width, (float)height, 0, 1000, 3000);
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixTranslate(0, 0, -2000);
 
-    glLineWidth(1);
-    glDisable(GL_TEXTURE_2D);
+    RenderPath.StateSetLineWidth(1);
+    RenderPath.StateSetTextureEnable(false);
     Tesselator* t = Tesselator::getInstance();
 
-    t->begin(GL_LINES);
+    t->begin(0x0001);
     for (int i = 0; i < dataLength; i++) {
         int col = ((i - dataPos) & (dataLength - 1)) * 255 / dataLength;
         int cc = col * col / 255;
@@ -1585,7 +1656,7 @@ void Gui::renderGraph(int dataLength, int dataPos, int64_t* dataA,
     }
     t->end();
 
-    glEnable(GL_TEXTURE_2D);
+    RenderPath.StateSetTextureEnable(true);
 }
 
 void Gui::renderStackedGraph(int dataPos, int dataLength, int dataSources,
@@ -1593,19 +1664,19 @@ void Gui::renderStackedGraph(int dataPos, int dataLength, int dataSources,
                                              unsigned int dataSource)) {
     int height = minecraft->height;
 
-    glClear(GL_DEPTH_BUFFER_BIT);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, (float)minecraft->width, (float)height, 0, 1000, 3000);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glTranslatef(0, 0, -2000);
+    RenderPath.Clear(rp::CLEAR_DEPTH);
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixOrthogonal(0, (float)minecraft->width, (float)height, 0, 1000, 3000);
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixTranslate(0, 0, -2000);
 
-    glLineWidth(1);
-    glDisable(GL_TEXTURE_2D);
+    RenderPath.StateSetLineWidth(1);
+    RenderPath.StateSetTextureEnable(false);
     Tesselator* t = Tesselator::getInstance();
 
-    t->begin(GL_LINES);
+    t->begin(0x0001);
     int64_t thisVal = 0;
     int64_t topVal = 0;
     for (int i = 0; i < dataLength; i++) {
@@ -1650,5 +1721,5 @@ void Gui::renderStackedGraph(int dataPos, int dataLength, int dataSources,
     }
     t->end();
 
-    glEnable(GL_TEXTURE_2D);
+    RenderPath.StateSetTextureEnable(true);
 }

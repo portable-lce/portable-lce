@@ -72,12 +72,12 @@ void UIControl_EnchantmentButton::render(IggyCustomDrawCallbackRegion* region) {
     float height = region->y1 - region->y0;
     float xo = width / 2;
     float yo = height;
-    // glTranslatef(xo, yo, 50.0f);
+    // RenderPath.MatrixTranslate(xo, yo, 50.0f);
 
     // Revert the scale from the setup
     float ssX = width / m_width;
     float ssY = height / m_height;
-    glScalef(ssX, ssY, 1.0f);
+    RenderPath.MatrixScale(ssX, ssY, 1.0f);
 
     float ss = 1.0f;
 
@@ -95,7 +95,7 @@ void UIControl_EnchantmentButton::render(IggyCustomDrawCallbackRegion* region) {
         }
     }
 
-    glScalef(ss, ss, ss);
+    RenderPath.MatrixScale(ss, ss, ss);
 
     int cost = menu->costs[m_index];
 
@@ -104,10 +104,10 @@ void UIControl_EnchantmentButton::render(IggyCustomDrawCallbackRegion* region) {
     //	updateState();
     // }
 
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     if (cost != 0) {
-        glEnable(GL_ALPHA_TEST);
-        glAlphaFunc(GL_GREATER, 0.1f);
+        RenderPath.StateSetAlphaTestEnable(true);
+        RenderPath.StateSetAlphaFunc(rp::AlphaTest::greater, 0.1f);
         Minecraft* pMinecraft = Minecraft::GetInstance();
         std::string line = toWString<int>(cost);
         Font* font = pMinecraft->altFont;
@@ -134,12 +134,12 @@ void UIControl_EnchantmentButton::render(IggyCustomDrawCallbackRegion* region) {
             // col = 0x80ff20;
             // font->drawShadow(line, (bwidth - font->width(line))/ss, 7, col);
         }
-        glDisable(GL_ALPHA_TEST);
+        RenderPath.StateSetAlphaTestEnable(false);
     } else {
     }
 
     // Lighting::turnOff();
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 }
 
 void UIControl_EnchantmentButton::updateState() {

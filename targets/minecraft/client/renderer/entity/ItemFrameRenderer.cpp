@@ -6,6 +6,8 @@
 #include "minecraft/client/renderer/TileRenderer.h"
 #include "platform/stubs.h"
 // #include "ItemFrame"
+#include <numbers>
+
 #include "ItemFrameRenderer.h"
 #include "minecraft/Direction.h"
 #include "minecraft/Facing.h"
@@ -46,7 +48,7 @@ void ItemFrameRenderer::render(std::shared_ptr<Entity> _itemframe, double x,
     std::shared_ptr<ItemFrame> itemFrame =
         std::dynamic_pointer_cast<ItemFrame>(_itemframe);
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
     float xOffs = (float)(itemFrame->x - x) - 0.5f;
     float yOffs = (float)(itemFrame->y - y) - 0.5f;
     float zOffs = (float)(itemFrame->z - z) - 0.5f;
@@ -55,21 +57,21 @@ void ItemFrameRenderer::render(std::shared_ptr<Entity> _itemframe, double x,
     int yt = itemFrame->yTile;
     int zt = itemFrame->zTile + Direction::STEP_Z[itemFrame->dir];
 
-    glTranslatef((float)xt - xOffs, (float)yt - yOffs, (float)zt - zOffs);
+    RenderPath.MatrixTranslate((float)xt - xOffs, (float)yt - yOffs, (float)zt - zOffs);
 
     drawFrame(itemFrame);
     drawItem(itemFrame);
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
 
 void ItemFrameRenderer::drawFrame(std::shared_ptr<ItemFrame> itemFrame) {
     Minecraft* pMinecraft = Minecraft::GetInstance();
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
     entityRenderDispatcher->textures->bindTexture(
         &TextureAtlas::LOCATION_BLOCKS);
-    glRotatef(itemFrame->yRot, 0, 1, 0);
+    RenderPath.MatrixRotate((itemFrame->yRot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
     Tile* wood = Tile::wood;
     float depth = 1.0f / 16.0f;
@@ -77,7 +79,7 @@ void ItemFrameRenderer::drawFrame(std::shared_ptr<ItemFrame> itemFrame) {
     float widthHalf = width / 2.0f;
 
     // Back
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
     tileRenderer->setFixedShape(0, 0.5f - widthHalf + 1.0f / 16.0f,
                                 0.5f - widthHalf + 1.0f / 16.0f, depth * .5f,
@@ -87,45 +89,45 @@ void ItemFrameRenderer::drawFrame(std::shared_ptr<ItemFrame> itemFrame) {
     tileRenderer->renderTile(wood, 0, 1);
     tileRenderer->clearFixedTexture();
     tileRenderer->clearFixedShape();
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     tileRenderer->setFixedTexture(
         Tile::wood->getTexture(Facing::UP, TreeTile::BIRCH_TRUNK));
 
     // Bottom
-    glPushMatrix();
+    RenderPath.MatrixPush();
     tileRenderer->setFixedShape(0, 0.5f - widthHalf, 0.5f - widthHalf,
                                 depth + 0.0001f, depth + 0.5f - widthHalf,
                                 0.5f + widthHalf);
     tileRenderer->renderTile(wood, 0, 1);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     // Top
-    glPushMatrix();
+    RenderPath.MatrixPush();
     tileRenderer->setFixedShape(0, 0.5f + widthHalf - depth, 0.5f - widthHalf,
                                 depth + 0.0001f, 0.5f + widthHalf,
                                 0.5f + widthHalf);
     tileRenderer->renderTile(wood, 0, 1);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     // Right
-    glPushMatrix();
+    RenderPath.MatrixPush();
     tileRenderer->setFixedShape(0, 0.5f - widthHalf, 0.5f - widthHalf, depth,
                                 0.5f + widthHalf, depth + 0.5f - widthHalf);
     tileRenderer->renderTile(wood, 0, 1);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     // Left
-    glPushMatrix();
+    RenderPath.MatrixPush();
     tileRenderer->setFixedShape(0, 0.5f - widthHalf, 0.5f + widthHalf - depth,
                                 depth, 0.5f + widthHalf, 0.5f + widthHalf);
     tileRenderer->renderTile(wood, 0, 1);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     tileRenderer->clearFixedShape();
     tileRenderer->clearFixedTexture();
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
 
 void ItemFrameRenderer::drawItem(std::shared_ptr<ItemFrame> entity) {
@@ -139,22 +141,22 @@ void ItemFrameRenderer::drawItem(std::shared_ptr<ItemFrame> entity) {
     itemEntity->getItem()->count = 1;
     itemEntity->bobOffs = 0;
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
-    glTranslatef((-7.25f / 16.0f) * Direction::STEP_X[entity->dir], -0.18f,
-                 (-7.25f / 16.0f) * Direction::STEP_Z[entity->dir]);
-    glRotatef(180 + entity->yRot, 0, 1, 0);
-    glRotatef(-90 * entity->getRotation(), 0, 0, 1);
+    RenderPath.MatrixTranslate((-7.25f / 16.0f) * Direction::STEP_X[entity->dir], -0.18f,
+        (-7.25f / 16.0f) * Direction::STEP_Z[entity->dir]);
+    RenderPath.MatrixRotate((180 + entity->yRot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((-90 * entity->getRotation())*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
     switch (entity->getRotation()) {
         case 1:
-            glTranslatef(-0.16f, -0.16f, 0);
+            RenderPath.MatrixTranslate(-0.16f, -0.16f, 0);
             break;
         case 2:
-            glTranslatef(0, -0.32f, 0);
+            RenderPath.MatrixTranslate(0, -0.32f, 0);
             break;
         case 3:
-            glTranslatef(0.16f, -0.16f, 0);
+            RenderPath.MatrixTranslate(0.16f, -0.16f, 0);
             break;
     }
 
@@ -162,11 +164,11 @@ void ItemFrameRenderer::drawItem(std::shared_ptr<ItemFrame> entity) {
         entityRenderDispatcher->textures->bindTexture(&MAP_BACKGROUND_LOCATION);
         Tesselator* t = Tesselator::getInstance();
 
-        glRotatef(180, 0, 1, 0);
-        glRotatef(180, 0, 0, 1);
-        glScalef(1.0f / 256.0f, 1.0f / 256.0f, 1.0f / 256.0f);
-        glTranslatef(-65, -107, -3);
-        glNormal3f(0, 0, -1);
+        RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        RenderPath.MatrixScale(1.0f / 256.0f, 1.0f / 256.0f, 1.0f / 256.0f);
+        RenderPath.MatrixTranslate(-65, -107, -3);
+        (void)0;
         t->begin();
         int vo = 7;
         t->vertexUV(0 - vo, 128 + vo, 0, 0, 1);
@@ -205,5 +207,5 @@ void ItemFrameRenderer::drawItem(std::shared_ptr<ItemFrame> entity) {
         }
     }
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }

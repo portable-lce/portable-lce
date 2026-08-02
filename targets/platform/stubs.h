@@ -11,12 +11,8 @@
 #include <string.h>
 
 #include "java/File.h"
-#include "renderer/gl/gl_compat.h"
+#include "renderer/renderer.h"
 
-#undef GL_SMOOTH
-#undef GL_FLAT
-static const int GL_SMOOTH = 0x1D01;
-static const int GL_FLAT = 0x1D00;
 
 class FloatBuffer;
 class IntBuffer;
@@ -44,18 +40,14 @@ void glCallLists(IntBuffer*);
 
 class GL11 {
 public:
-    static const int GL_SMOOTH = 0x1D01;
-    static const int GL_FLAT = 0x1D00;
-#undef glShadeModel
-#define GL_SHADEMODEL_IS_FUNCTION
-    static void glShadeModel(int mode) { ::glShadeModel(mode); }
+    static constexpr int GL_SMOOTH = 0x1D01;
+    static constexpr int GL_FLAT = 0x1D00;
+    static void glShadeModel(int) {}
 };
-#undef GL_ARRAY_BUFFER_ARB
-#undef GL_STREAM_DRAW_ARB
 class ARBVertexBufferObject {
 public:
-    static const int GL_ARRAY_BUFFER_ARB = 0x8892;
-    static const int GL_STREAM_DRAW_ARB = 0x88E0;
+    static constexpr int GL_ARRAY_BUFFER_ARB = 0x8892;
+    static constexpr int GL_STREAM_DRAW_ARB = 0x88E0;
     static void glBindBufferARB(int, int) {}
     static void glBufferDataARB(int, ByteBuffer*, int) {}
     static void glGenBuffersARB(IntBuffer*) {}

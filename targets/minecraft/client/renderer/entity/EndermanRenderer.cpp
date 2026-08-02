@@ -1,6 +1,7 @@
 #include "EndermanRenderer.h"
 
 #include <memory>
+#include <numbers>
 
 #include "minecraft/SharedConstants.h"
 #include "minecraft/client/model/EndermanModel.h"
@@ -60,31 +61,31 @@ void EndermanRenderer::additionalRendering(std::shared_ptr<LivingEntity> _mob,
     MobRenderer::additionalRendering(_mob, a);
 
     if (mob->getCarryingTile() > 0) {
-        glEnable(GL_RESCALE_NORMAL);
-        glPushMatrix();
+        (void)0;
+        RenderPath.MatrixPush();
 
         float s = 8 / 16.0f;
-        glTranslatef(-0 / 16.0f, 11 / 16.0f, -12 / 16.0f);
+        RenderPath.MatrixTranslate(-0 / 16.0f, 11 / 16.0f, -12 / 16.0f);
         s *= 1.00f;
-        glRotatef(20, 1, 0, 0);
-        glRotatef(45, 0, 1, 0);
-        glScalef(-s, -s, s);
+        RenderPath.MatrixRotate((20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+        RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixScale(-s, -s, s);
 
         if (SharedConstants::TEXTURE_LIGHTING) {
             int col = mob->getLightColor(a);
             int u = col % 65536;
             int v = col / 65536;
 
-            glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-            glColor4f(1, 1, 1, 1);
+            RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+            RenderPath.StateSetColour(1, 1, 1, 1);
         }
 
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetColour(1, 1, 1, 1);
         bindTexture(&TextureAtlas::LOCATION_BLOCKS);  // TODO: bind by icon
         tileRenderer->renderTile(Tile::tiles[mob->getCarryingTile()],
                                  mob->getCarryingData(), 1);
-        glPopMatrix();
-        glDisable(GL_RESCALE_NORMAL);
+        RenderPath.MatrixPop();
+        (void)0;
     }
 }
 
@@ -99,18 +100,18 @@ int EndermanRenderer::prepareArmor(std::shared_ptr<LivingEntity> _mob,
 
     bindTexture(&ENDERMAN_EYES_LOCATION);  // 4J was "/mob/enderman_eyes.png"
     float br = 1;
-    glEnable(GL_BLEND);
+    RenderPath.StateSetBlendEnable(true);
     // 4J Stu - We probably don't need to do this on 360 either (as we force it
     // back on the renderer) However we do want it off for other platforms that
     // don't force it on in the render lib CBuff handling Several texture packs
     // have fully transparent bits that break if this is off
-    glBlendFunc(GL_ONE, GL_ONE);
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::one, rp::BlendFactor::one);
+    RenderPath.StateSetLightingEnable(false);
 
     if (mob->isInvisible()) {
-        glDepthMask(false);
+        RenderPath.StateSetDepthMask(false);
     } else {
-        glDepthMask(true);
+        RenderPath.StateSetDepthMask(true);
     }
 
     if (SharedConstants::TEXTURE_LIGHTING) {
@@ -118,11 +119,11 @@ int EndermanRenderer::prepareArmor(std::shared_ptr<LivingEntity> _mob,
         int u = col % 65536;
         int v = col / 65536;
 
-        glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     }
 
-    glEnable(GL_LIGHTING);
-    glColor4f(1, 1, 1, br);
+    RenderPath.StateSetLightingEnable(true);
+    RenderPath.StateSetColour(1, 1, 1, br);
     return 1;
 }

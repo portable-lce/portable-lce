@@ -43,7 +43,7 @@ void BrewingStandScreen::renderLabels() {
 
 void BrewingStandScreen::renderBg(float a) {
 #ifdef ENABLE_JAVA_GUIS
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
     Minecraft::GetInstance()->textures->bindTexture(
         &GUI_BREWING_STAND_LOCATION);
     int xo = (width - imageWidth) / 2;

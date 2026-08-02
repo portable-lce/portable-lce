@@ -1,5 +1,10 @@
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
+
 #include "app/common/AppGameServices.h"
 #include "app/common/GameMenuService.h"
+#include "minecraft/client/renderer/GameRenderer.h"
+#include "platform/renderer/IRenderPath.h"
 // Minecraft.cpp : Defines the entry point for the application.
 //
 
@@ -418,25 +423,28 @@ int main(int argc, const char* argv[]) {
     // Usage: Minecraft.Client [--width W] [--height H] [--fullscreen]
     // If --width/--height are omitted the primary monitor's native resolution
     // is used automatically.
-    {
-        int reqW = 0, reqH = 0;
-        bool fs = false;
-        for (int i = 1; i < argc; i++) {
-            if (strcmp(argv[i], "--fullscreen") == 0) {
-                fs = true;
-            } else if (strcmp(argv[i], "--width") == 0 && i + 1 < argc) {
-                reqW = atoi(argv[++i]);
-            } else if (strcmp(argv[i], "--height") == 0 && i + 1 < argc) {
-                reqH = atoi(argv[++i]);
-            }
+    int reqW = 0, reqH = 0;
+    bool fs = false;
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--fullscreen") == 0) {
+            fs = true;
+        } else if (strcmp(argv[i], "--width") == 0 && i + 1 < argc) {
+            reqW = atoi(argv[++i]);
+        } else if (strcmp(argv[i], "--height") == 0 && i + 1 < argc) {
+            reqH = atoi(argv[++i]);
         }
-        if (reqW > 0 && reqH > 0) PlatformRenderer.SetWindowSize(reqW, reqH);
-        if (fs) PlatformRenderer.SetFullscreen(true);
     }
 
     static bool bTrialTimerDisplayed = true;
 
-    PlatformRenderer.Initialise();
+    SDL_SetMainReady();
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Window* sdl_window = SDL_CreateWindow(
+        "Minecraft Console Edition", SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED, reqW > 0 ? reqW : 1280, reqH > 0 ? reqH : 720,
+        SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    auto render_path = make_bgfx_render_path(sdl_window);
+    rp::render_path_internal::set_active(render_path.get());
 
     // Read the file containing the product codes
     app.DebugPrintf("---ReadProductCodes()\n");
@@ -519,12 +527,16 @@ int main(int argc, const char* argv[]) {
     app.InitGameSettings();
 
     app.InitialiseTips();
-    while (!PlatformRenderer.ShouldClose()) {
-        PlatformRenderer.StartFrame();
+    while (!RenderPath.ShouldClose()) {
+        RenderPath.StartFrame();
+
+        rp::FrameDesc frame{};
+        {
+            frame.framebuffer = RenderPath.framebuffer();
+        }
+
         if (pMinecraft->pollResize()) {
-            int fbw, fbh;
-            PlatformRenderer.GetFramebufferSize(fbw, fbh);
-            ui.setScreenSize(fbw, fbh);
+            ui.setScreenSize(frame.framebuffer.width, frame.framebuffer.height);
         }
         app.UpdateTime();
         PlatformInput.Tick();
@@ -533,7 +545,7 @@ int main(int argc, const char* argv[]) {
 
         PlatformStorage.Tick();
 
-        PlatformRenderer.Tick();
+        RenderPath.tick();
 
         // Tick the social networking manager.
         //		CSocialManager::Instance()->Tick();
@@ -581,8 +593,12 @@ int main(int argc, const char* argv[]) {
         ui.tick();
         ui.render();
 
-        // Present the frame.
-        PlatformRenderer.Present();
+        if (pMinecraft->gameRenderer) {
+            rp::ViewDesc& gv = pMinecraft->gameRenderer->current_view;
+            frame.views = {&gv, 1};
+        }
+        RenderPath.render_frame(frame);
+        RenderPath.Present();
 
         ui.CheckMenuDisplayed();
         // has the game defined profile data been changed (by a profile load)
@@ -632,8 +648,8 @@ int main(int argc, const char* argv[]) {
     }  // end game loop
 
     // Graceful shutdown: destroy GL context and GLFW before any C++ dtors run.
-    // Without this, static/global destructors that touch GL objects cause
-    // SIGSEGV.
-    PlatformRenderer.Shutdown();
+    render_path.reset();  // destroy bgfx before _exit skips destructors
+    SDL_DestroyWindow(sdl_window);
+    SDL_Quit();
     _exit(0);
 }  // end main

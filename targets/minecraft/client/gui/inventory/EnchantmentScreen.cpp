@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iterator>
 #include <memory>
+#include <numbers>
 #include <sstream>
 #include <string>
 
@@ -21,6 +22,7 @@
 #include "minecraft/world/inventory/EnchantmentMenu.h"
 #include "minecraft/world/inventory/Slot.h"
 #include "minecraft/world/item/ItemInstance.h"
+#include "platform/renderer/IRenderPath.h"
 #include "platform/stubs.h"
 
 class Level;
@@ -138,16 +140,16 @@ void EnchantmentScreen::render(int xm, int ym, float a) {
 
 void EnchantmentScreen::renderBg(float a) {
 #ifdef ENABLE_JAVA_GUIS
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
     Minecraft::GetInstance()->textures->bindTexture(&GUI_ENCHANT_LOCATION);
     int xo = (width - imageWidth) / 2;
     int yo = (height - imageHeight) / 2;
     blit(xo, yo, 0, 0, imageWidth, imageHeight);
 
-    glPushMatrix();
-    glMatrixMode(GL_PROJECTION);
-    glPushMatrix();
-    glLoadIdentity();
+    RenderPath.MatrixPush();
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixSetIdentity();
 
     ScreenSizeCalculator screenSize(minecraft->options, minecraft->width,
                                     minecraft->height);
@@ -155,30 +157,28 @@ void EnchantmentScreen::renderBg(float a) {
     int scaledHeight = screenSize.getHeight();
     int scaleFactor = screenSize.scale;
 
-    glViewport(((scaledWidth - 320) / 2) * scaleFactor,
-               ((scaledHeight - 240) / 2) * scaleFactor, 320 * scaleFactor,
-               240 * scaleFactor);
+    // viewport managed by bgfx
 
-    glTranslatef(-0.34f, 0.23f, 0.0f);
-    PlatformRenderer.MatrixPerspective(90.0f, 1.3333334f, 9.0f, 80.0f);
+    RenderPath.MatrixTranslate(-0.34f, 0.23f, 0.0f);
+    RenderPath.MatrixPerspective(90.0f, 1.3333334f, 9.0f, 80.0f);
 
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixSetIdentity();
 
     Lighting::turnOn();
 
-    glTranslatef(0.0f, 3.3f, -16.0f);
-    glScalef(5.0f, 5.0f, 5.0f);
-    glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
+    RenderPath.MatrixTranslate(0.0f, 3.3f, -16.0f);
+    RenderPath.MatrixScale(5.0f, 5.0f, 5.0f);
+    RenderPath.MatrixRotate((180.0f)*(std::numbers::pi_v<float>/180.f), 0.0f, 0.0f, 1.0f);
 
     Minecraft::GetInstance()->textures->bindTexture(&ITEM_BOOK_LOCATION);
-    glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
+    RenderPath.MatrixRotate((20.0f)*(std::numbers::pi_v<float>/180.f), 1.0f, 0.0f, 0.0f);
 
     // 4jcraft: brought over from UIControl_EnchantmentBook
     float o = oOpen + (open - oOpen) * a;
-    glTranslatef((1 - o) * 0.2f, (1 - o) * 0.1f, (1 - o) * 0.25f);
-    glRotatef(-(1 - o) * 90 - 90, 0, 1, 0);
-    glRotatef(180, 1, 0, 0);
+    RenderPath.MatrixTranslate((1 - o) * 0.2f, (1 - o) * 0.1f, (1 - o) * 0.25f);
+    RenderPath.MatrixRotate((-(1 - o) * 90 - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
     float ff1 = oFlip + (flip - oFlip) * a + 0.25f;
     float ff2 = oFlip + (flip - oFlip) * a + 0.75f;
@@ -190,22 +190,22 @@ void EnchantmentScreen::renderBg(float a) {
     if (ff1 > 1.0f) ff1 = 1.0f;
     if (ff2 > 1.0f) ff2 = 1.0f;
 
-    glEnable(GL_RESCALE_NORMAL);
+    (void)0;
 
     static BookModel bookModel;
     bookModel.render(nullptr, 0.0f, ff1, ff2, o, 0.0f, 0.0625f, true);
 
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
     Lighting::turnOff();
 
-    glMatrixMode(GL_PROJECTION);
-    glViewport(0, 0, minecraft->width, minecraft->height);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
-    glPopMatrix();
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    (void)0;
+    RenderPath.MatrixPop();
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.MatrixPop();
 
     Minecraft::GetInstance()->textures->bindTexture(&GUI_ENCHANT_LOCATION);
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
 
     for (int i = 0; i < 3; ++i) {
         int cost = enchantMenu->costs[i];

@@ -33,6 +33,8 @@
 #include "platform/input/input.h"
 #include "platform/renderer/renderer.h"
 #include "strings.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 IUIScene_AbstractContainerMenu::IUIScene_AbstractContainerMenu() {
     m_menu = nullptr;
@@ -328,7 +330,7 @@ void IUIScene_AbstractContainerMenu::onMouseTick() {
         // 4J Stu - The cursor moves too fast in SD mode
         // The SD/splitscreen scenes are approximately 0.6 times the size of
         // the fullscreen on
-        if (!PlatformRenderer.IsHiDef() || app.GetLocalPlayerCount() > 1)
+        if (!RenderPath.framebuffer().is_hi_def || app.GetLocalPlayerCount() > 1)
             fInputScale *= 0.6f;
 
         fInputX *= fInputScale;

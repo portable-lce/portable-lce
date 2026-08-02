@@ -43,7 +43,7 @@ void MobRenderer::renderLeash(std::shared_ptr<Mob> entity, double x, double y,
     std::shared_ptr<Entity> roper = entity->getLeashHolder();
     // roper = entityRenderDispatcher.cameraEntity;
     if (roper != nullptr) {
-        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
 
         y -= (1.6 - entity->bbHeight) * .5;
         Tesselator* tessellator = Tesselator::getInstance();
@@ -83,9 +83,9 @@ void MobRenderer::renderLeash(std::shared_ptr<Mob> entity, double x, double y,
         double dy = (float)(endY - startY);
         double dz = (float)(endZ - startZ);
 
-        glDisable(GL_TEXTURE_2D);
-        glDisable(GL_LIGHTING);
-        glDisable(GL_CULL_FACE);
+        RenderPath.StateSetTextureEnable(false);
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetFaceCull(false);
 
         unsigned int lightCol =
             Minecraft::GetInstance()->getColourTable()->getColor(
@@ -103,7 +103,7 @@ void MobRenderer::renderLeash(std::shared_ptr<Mob> entity, double x, double y,
 
         int steps = 24;
         double width = .025;
-        tessellator->begin(GL_TRIANGLE_STRIP);
+        tessellator->begin(0x0005);
         for (int k = 0; k <= steps; k++) {
             if (k % 2 == 0) {
                 tessellator->color(rLightCol, gLightCol, bLightCol, 1.0F);
@@ -125,7 +125,7 @@ void MobRenderer::renderLeash(std::shared_ptr<Mob> entity, double x, double y,
         }
         tessellator->end();
 
-        tessellator->begin(GL_TRIANGLE_STRIP);
+        tessellator->begin(0x0005);
         for (int k = 0; k <= steps; k++) {
             if (k % 2 == 0) {
                 tessellator->color(rLightCol, gLightCol, bLightCol, 1.0F);
@@ -147,9 +147,9 @@ void MobRenderer::renderLeash(std::shared_ptr<Mob> entity, double x, double y,
         }
         tessellator->end();
 
-        glEnable(GL_LIGHTING);
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_CULL_FACE);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetTextureEnable(true);
+        RenderPath.StateSetFaceCull(true);
     }
 }
 

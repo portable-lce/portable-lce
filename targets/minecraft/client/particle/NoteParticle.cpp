@@ -2,6 +2,8 @@
 
 #include <math.h>
 
+#include <numbers>
+
 #include "minecraft/GameEnums.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/particle/Particle.h"

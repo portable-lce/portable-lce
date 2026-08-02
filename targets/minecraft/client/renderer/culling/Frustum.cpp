@@ -6,8 +6,8 @@
 #include <vector>
 
 #include "java/FloatBuffer.h"
+#include "minecraft/client/Camera.h"
 #include "minecraft/client/MemoryTracker.h"
-#include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
 
 class FrustumData;
@@ -54,14 +54,8 @@ void Frustum::normalizePlane(float** frustum, int side) {
 }
 
 void Frustum::calculateFrustum() {
-    // 4jcraft: GL 3.3 core removed GL_MODELVIEW_MATRIX / GL_PROJECTION_MATRIX
-    // queries.
-    // Camera::prepare() already captures both matrices every frame :)
-    // i spent an ungodly amount of time on this simple fix.
-    memcpy(proj.data(), PlatformRenderer.MatrixGet(GL_PROJECTION_MATRIX),
-           16 * sizeof(float));
-    memcpy(modl.data(), PlatformRenderer.MatrixGet(GL_MODELVIEW_MATRIX),
-           16 * sizeof(float));
+    memcpy(proj.data(), Camera::getProjectionData(), 16 * sizeof(float));
+    memcpy(modl.data(), Camera::getModelviewData(), 16 * sizeof(float));
 
     float* p = proj.data();
     float* m = modl.data();

@@ -32,18 +32,18 @@ UIComponent_Chat::UIComponent_Chat(int iPad, void* initData,
 
 std::string UIComponent_Chat::getMoviePath() {
     switch (m_parentLayer->getViewport()) {
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
             m_bSplitscreen = true;
             return "ComponentChatSplit";
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
+        case 0:
         default:
             m_bSplitscreen = false;
             return "ComponentChat";
@@ -89,20 +89,20 @@ void UIComponent_Chat::handleTimerComplete(int id) {
 }
 
 void UIComponent_Chat::render(S32 width, S32 height,
-                              IPlatformRenderer::eViewportType viewport) {
+                              int viewport) {
     if (m_bSplitscreen) {
         S32 xPos = 0;
         S32 yPos = 0;
         switch (viewport) {
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
+            case 2:
+            case 7:
                 yPos = (S32)(ui.getScreenHeight() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
+            case 4:
+            case 6:
                 xPos = (S32)(ui.getScreenWidth() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+            case 8:
                 xPos = (S32)(ui.getScreenWidth() / 2);
                 yPos = (S32)(ui.getScreenHeight() / 2);
                 break;
@@ -117,22 +117,22 @@ void UIComponent_Chat::render(S32 width, S32 height,
         S32 tileHeight = height;
 
         switch (viewport) {
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
+            case 3:
+            case 4:
                 tileHeight = (S32)(ui.getScreenHeight());
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
+            case 1:
                 tileWidth = (S32)(ui.getScreenWidth());
                 tileYStart = (S32)(m_movieHeight / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+            case 2:
                 tileWidth = (S32)(ui.getScreenWidth());
                 tileYStart = (S32)(m_movieHeight / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
                 tileYStart = (S32)(m_movieHeight / 2);
                 break;
             default:

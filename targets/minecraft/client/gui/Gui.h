@@ -10,6 +10,7 @@
 #include "minecraft/client/GuiMessage.h"
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
 #include "platform/PlatformTypes.h"
+#include "platform/renderer/IRenderPath.h"
 
 class Random;
 class Minecraft;
@@ -89,6 +90,12 @@ public:
     float getJukeboxOpacity(int iPad);
 
     // 4J Added
+    void initMaterials();
+    static rp::MaterialHandle gui_mat_untextured_alpha_;
+    static rp::MaterialHandle gui_mat_vignette_;
+    static rp::MaterialHandle gui_mat_fullscreen_overlay_;
+    static bool materials_initialized_;
+
     void renderGraph(int dataLength, int dataPos, int64_t* dataA,
                      float dataAScale, int dataAWarning, int64_t* dataB,
                      float dataBScale, int dataBWarning);

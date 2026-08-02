@@ -1,6 +1,7 @@
 #include "HorseInventoryScreen.h"
 
 #include <cmath>
+#include <numbers>
 #include <string>
 
 #include "minecraft/client/Lighting.h"
@@ -52,7 +53,7 @@ void HorseInventoryScreen::render(int xm, int ym, float a) {
 
 void HorseInventoryScreen::renderBg(float a) {
 #ifdef ENABLE_JAVA_GUIS
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     minecraft->textures->bindTexture(&GUI_HORSE_LOCATION);
 
     int xo = (width - imageWidth) / 2;
@@ -67,14 +68,14 @@ void HorseInventoryScreen::renderBg(float a) {
         blit(xo + 7, yo + 35, 0, imageHeight + 54, 18, 18);
     }
 
-    glEnable(GL_RESCALE_NORMAL);
-    glEnable(GL_COLOR_MATERIAL);
+    (void)0;
+    (void)0;
 
-    glPushMatrix();
-    glTranslatef((float)xo + 51, (float)yo + 60, 50);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)xo + 51, (float)yo + 60, 50);
     float ss = 30;
-    glScalef(-ss, ss, ss);
-    glRotatef(180, 0, 0, 1);
+    RenderPath.MatrixScale(-ss, ss, ss);
+    RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
     float oybr = horse->yBodyRot;
     float oyr = horse->yRot;
@@ -85,18 +86,18 @@ void HorseInventoryScreen::renderBg(float a) {
     float xd = (xo + 51) - xMouse;
     float yd = (yo + 75 - 50) - yMouse;
 
-    glRotatef(45 + 90, 0, 1, 0);
+    RenderPath.MatrixRotate((45 + 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     Lighting::turnOn();
-    glRotatef(-45 - 90, 0, 1, 0);
+    RenderPath.MatrixRotate((-45 - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-    glRotatef(-(float)atan(yd / 40.0f) * 20, 1, 0, 0);
+    RenderPath.MatrixRotate((-(float)atan(yd / 40.0f) * 20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
     horse->yBodyRot = (float)atan(xd / 40.0f) * 20;
     horse->yRot = (float)atan(xd / 40.0f) * 40;
     horse->xRot = -(float)atan(yd / 40.0f) * 20;
     horse->yHeadRot = (float)atan(xd / 40.0f) * 40;
     horse->yHeadRotO = (float)atan(xd / 40.0f) * 40;
-    glTranslatef(0, horse->heightOffset, 0);
+    RenderPath.MatrixTranslate(0, horse->heightOffset, 0);
     EntityRenderDispatcher::instance->playerRotY = 180;
     EntityRenderDispatcher::instance->render(horse, 0, 0, 0, 0, 1);
     horse->yBodyRot = oybr;
@@ -104,8 +105,8 @@ void HorseInventoryScreen::renderBg(float a) {
     horse->xRot = oxr;
     horse->yHeadRot = oyh;
     horse->yHeadRotO = oyhp;
-    glPopMatrix();
+    RenderPath.MatrixPop();
     Lighting::turnOff();
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 #endif
 }

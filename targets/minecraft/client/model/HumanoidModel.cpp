@@ -156,21 +156,21 @@ void HumanoidModel::render(std::shared_ptr<Entity> entity, float time, float r,
 
     if (young) {
         float ss = 2.0f;
-        glPushMatrix();
-        glScalef(1.5f / ss, 1.5f / ss, 1.5f / ss);
-        glTranslatef(0, 16 * scale, 0);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixScale(1.5f / ss, 1.5f / ss, 1.5f / ss);
+        RenderPath.MatrixTranslate(0, 16 * scale, 0);
         head->render(scale, usecompiled);
-        glPopMatrix();
-        glPushMatrix();
-        glScalef(1 / ss, 1 / ss, 1 / ss);
-        glTranslatef(0, 24 * scale, 0);
+        RenderPath.MatrixPop();
+        RenderPath.MatrixPush();
+        RenderPath.MatrixScale(1 / ss, 1 / ss, 1 / ss);
+        RenderPath.MatrixTranslate(0, 24 * scale, 0);
         body->render(scale, usecompiled);
         arm0->render(scale, usecompiled);
         arm1->render(scale, usecompiled);
         leg0->render(scale, usecompiled);
         leg1->render(scale, usecompiled);
         hair->render(scale, usecompiled);
-        glPopMatrix();
+        RenderPath.MatrixPop();
     } else {
         head->render(
             scale, usecompiled,

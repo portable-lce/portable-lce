@@ -55,11 +55,11 @@ void TakeAnimationParticle::render(Tesselator* t, float a, float xa, float ya,
         int col = getLightColor(a);
         int u = col % 65536;
         int v = col / 65536;
-        glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     } else {
         float br = level->getBrightness(xTile, yTile, zTile);
-        glColor4f(br, br, br, 1);
+        RenderPath.StateSetColour(br, br, br, 1);
     }
 
     xx -= xOff;

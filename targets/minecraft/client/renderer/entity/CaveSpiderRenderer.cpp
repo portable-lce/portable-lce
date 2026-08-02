@@ -17,7 +17,7 @@ CaveSpiderRenderer::CaveSpiderRenderer() : SpiderRenderer() {
 }
 
 void CaveSpiderRenderer::scale(std::shared_ptr<LivingEntity> mob, float a) {
-    glScalef(s_scale, s_scale, s_scale);
+    RenderPath.MatrixScale(s_scale, s_scale, s_scale);
 }
 
 ResourceLocation* CaveSpiderRenderer::getTextureLocation(

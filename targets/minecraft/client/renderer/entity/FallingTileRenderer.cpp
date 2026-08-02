@@ -30,16 +30,16 @@ void FallingTileRenderer::render(std::shared_ptr<Entity> _tile, double x,
 
     if (level->getTile(floor(tile->x), floor(tile->y), floor(tile->z)) !=
         tile->tile) {
-        glPushMatrix();
-        glTranslatef((float)x, (float)y, (float)z);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
 
         bindTexture(tile);  // 4J was "/terrain.png"
         Tile* tt = Tile::tiles[tile->tile];
 
         Level* level = tile->getLevel();
 
-        glDisable(GL_LIGHTING);
-        glColor4f(1, 1, 1,
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetColour(1, 1, 1,
                   1);  // 4J added - this wouldn't be needed in real opengl as
                        // the block render has vertex colours and so this isn't
                        // use, but our pretend gl always modulates with this
@@ -71,8 +71,8 @@ void FallingTileRenderer::render(std::shared_ptr<Entity> _tile, double x,
                                       std::floor(tile->y), std::floor(tile->z),
                                       tile->data);
         }
-        glEnable(GL_LIGHTING);
-        glPopMatrix();
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.MatrixPop();
     }
 }
 

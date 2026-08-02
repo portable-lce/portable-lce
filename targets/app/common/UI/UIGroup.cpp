@@ -24,7 +24,7 @@ UIGroup::UIGroup(EUIGroup group, int iPad) {
     m_bIgnorePlayerJoinMenuDisplayed = false;
     // 4jcraft, moved this to the top
     // uninitialized memory was read.
-    m_viewportType = IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN;
+    m_viewportType = 0;
 
     m_updateFocusStateCountdown = 0;
 
@@ -242,7 +242,7 @@ void UIGroup::removeComponent(EUIScene scene, EUILayer layer) {
     m_layers[layer]->removeComponent(scene);
 }
 
-void UIGroup::SetViewportType(IPlatformRenderer::eViewportType type) {
+void UIGroup::SetViewportType(int type) {
     if (m_viewportType != type) {
         m_viewportType = type;
         for (unsigned int i = 0; i < eUILayer_COUNT; ++i) {
@@ -251,7 +251,7 @@ void UIGroup::SetViewportType(IPlatformRenderer::eViewportType type) {
     }
 }
 
-IPlatformRenderer::eViewportType UIGroup::GetViewportType() {
+int UIGroup::GetViewportType() {
     return m_viewportType;
 }
 

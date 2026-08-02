@@ -39,7 +39,7 @@ void ChestModel::render(bool usecompiled) {
     // 4J - moved lid to last and added z-bias to avoid glitching caused by
     // z-fighting between the area of overlap between the lid & bottom of the
     // chest
-    glPolygonOffset(-0.3f, -0.3f);
+    RenderPath.StateSetDepthSlopeAndBias(-0.3f, -0.3f);
     lid->render(1 / 16.0f, usecompiled);
-    glPolygonOffset(0.0f, 0.0f);
+    RenderPath.StateSetDepthSlopeAndBias(0.0f, 0.0f);
 }

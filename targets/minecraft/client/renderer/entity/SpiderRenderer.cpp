@@ -35,17 +35,17 @@ int SpiderRenderer::prepareArmor(std::shared_ptr<LivingEntity> _spider,
     bindTexture(&SPIDER_EYES_LOCATION);
     // 4J - changes brought forward from 1.8.2
     float br = 1.0f;  // was (1-spider->getBrightness(1))*0.5f;
-    glEnable(GL_BLEND);
+    RenderPath.StateSetBlendEnable(true);
     // 4J Stu - We probably don't need to do this on 360 either (as we force it
     // back on the renderer) However we do want it off for other platforms that
     // don't force it on in the render lib CBuff handling Several texture packs
     // have fully transparent bits that break if this is off
     // 4J - changes brought forward from 1.8.2
-    glBlendFunc(GL_ONE, GL_ONE);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::one, rp::BlendFactor::one);
     if (spider->isInvisible())
-        glDepthMask(false);
+        RenderPath.StateSetDepthMask(false);
     else
-        glDepthMask(true);
+        RenderPath.StateSetDepthMask(true);
 
     if (SharedConstants::TEXTURE_LIGHTING) {
         // 4J - was 0xf0f0 but that looks like it is a mistake - maybe meant to
@@ -57,11 +57,11 @@ int SpiderRenderer::prepareArmor(std::shared_ptr<LivingEntity> _spider,
         int u = col % 65536;
         int v = col / 65536;
 
-        glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     }
     // 4J - this doesn't seem right - surely there should be an else in here?
-    glColor4f(1, 1, 1, br);
+    RenderPath.StateSetColour(1, 1, 1, br);
     return 1;
 }
 

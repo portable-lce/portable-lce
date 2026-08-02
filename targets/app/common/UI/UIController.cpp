@@ -50,6 +50,8 @@
 #include "strings.h"
 #include "util/StringHelpers.h"
 #include "util/Timer.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 class Tutorial;
 
@@ -236,7 +238,7 @@ UIController::UIController() {
 
     m_iPressStartQuadrantsMask = 0;
 
-    m_currentRenderViewport = IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN;
+    m_currentRenderViewport = 0;
     m_bCustomRenderPosition = false;
     m_winUserIndex = 0;
     m_accumulatedTicks = 0;
@@ -877,26 +879,26 @@ void UIController::renderScenes() {
 }
 
 void UIController::getRenderDimensions(
-    IPlatformRenderer::eViewportType viewport, S32& width, S32& height) {
+    int viewport, S32& width, S32& height) {
     switch (viewport) {
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
+        case 0:
             width = (S32)(getScreenWidth());
             height = (S32)(getScreenHeight());
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+        case 1:
+        case 2:
             width = (S32)(getScreenWidth() / 2);
             height = (S32)(getScreenHeight() / 2);
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
+        case 3:
+        case 4:
             width = (S32)(getScreenWidth() / 2);
             height = (S32)(getScreenHeight() / 2);
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
             width = (S32)(getScreenWidth() / 2);
             height = (S32)(getScreenHeight() / 2);
             break;
@@ -906,36 +908,36 @@ void UIController::getRenderDimensions(
 }
 
 void UIController::setupRenderPosition(
-    IPlatformRenderer::eViewportType viewport) {
+    int viewport) {
     if (m_bCustomRenderPosition || m_currentRenderViewport != viewport) {
         m_currentRenderViewport = viewport;
         m_bCustomRenderPosition = false;
         S32 xPos = 0;
         S32 yPos = 0;
         switch (viewport) {
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
+            case 1:
                 xPos = (S32)(getScreenWidth() / 4);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+            case 2:
                 xPos = (S32)(getScreenWidth() / 4);
                 yPos = (S32)(getScreenHeight() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
+            case 3:
                 yPos = (S32)(getScreenHeight() / 4);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
+            case 4:
                 xPos = (S32)(getScreenWidth() / 2);
                 yPos = (S32)(getScreenHeight() / 4);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
+            case 5:
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
+            case 6:
                 xPos = (S32)(getScreenWidth() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
+            case 7:
                 yPos = (S32)(getScreenHeight() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+            case 8:
                 xPos = (S32)(getScreenWidth() / 2);
                 yPos = (S32)(getScreenHeight() / 2);
                 break;
@@ -962,24 +964,24 @@ void UIController::setupCustomDrawGameState() {
     m_customRenderingClearRect.top = LONG_MAX;
     m_customRenderingClearRect.bottom = LONG_MIN;
 
-    PlatformRenderer.StartFrame();
-    PlatformRenderer.Set_matrixDirty();
+    RenderPath.StartFrame();
+    RenderPath.Set_matrixDirty();
 
     // 4J Stu - We don't need to clear this here as iggy hasn't written anything
     // to the depth buffer. We DO however clear after we render which is why we
     // still setup the rectangle here
-    // PlatformRenderer.Clear(GL_DEPTH_BUFFER_BIT, &m_customRenderingClearRect);
-    // glClear(GL_DEPTH_BUFFER_BIT);
+    // RenderPath.Clear(rp::CLEAR_DEPTH, &m_customRenderingClearRect);
+    // RenderPath.Clear(rp::CLEAR_DEPTH);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(0, m_fScreenWidth, m_fScreenHeight, 0, 1000, 3000);
-    glMatrixMode(GL_MODELVIEW);
-    glEnable(GL_ALPHA_TEST);
-    glAlphaFunc(GL_GREATER, 0.1f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
-    glDepthMask(true);
+    RenderPath.MatrixMode(rp::MatrixStack::projection);
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixOrthogonal(0, m_fScreenWidth, m_fScreenHeight, 0, 1000, 3000);
+    RenderPath.MatrixMode(rp::MatrixStack::modelview);
+    RenderPath.StateSetAlphaTestEnable(true);
+    RenderPath.StateSetAlphaFunc(rp::AlphaTest::greater, 0.1f);
+    RenderPath.StateSetDepthTestEnable(true);
+    RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
+    RenderPath.StateSetDepthMask(true);
 }
 
 void UIController::setupCustomDrawMatrices(UIScene* scene,
@@ -1023,11 +1025,11 @@ void UIController::setupCustomDrawMatrices(UIScene* scene,
         }
     }
 
-    glLoadIdentity();
-    glTranslatef(0, 0, -2000);
+    RenderPath.MatrixSetIdentity();
+    RenderPath.MatrixTranslate(0, 0, -2000);
     // Iggy translations are based on a double-size target, with the origin in
     // the centre
-    glTranslatef(
+    RenderPath.MatrixTranslate(
         (m_fScreenWidth + customDrawRegion->mat[(0 * 4) + 3] * m_fScreenWidth) /
             2,
         (m_fScreenHeight -
@@ -1035,7 +1037,7 @@ void UIController::setupCustomDrawMatrices(UIScene* scene,
             2,
         0);
     // Iggy scales are based on a double-size target
-    glScalef((m_fScreenWidth * customDrawRegion->mat[0]) / 2,
+    RenderPath.MatrixScale((m_fScreenWidth * customDrawRegion->mat[0]) / 2,
              (m_fScreenHeight * -customDrawRegion->mat[(1 * 4) + 1]) / 2, 1.0f);
 }
 
@@ -1046,10 +1048,10 @@ void UIController::setupCustomDrawGameStateAndMatrices(
 }
 
 void UIController::endCustomDrawGameState() {
-    PlatformRenderer.Clear(GL_DEPTH_BUFFER_BIT);
-    // glClear(GL_DEPTH_BUFFER_BIT);
-    glDepthMask(false);
-    glDisable(GL_ALPHA_TEST);
+    RenderPath.Clear(rp::CLEAR_DEPTH);
+    // RenderPath.Clear(rp::CLEAR_DEPTH);
+    RenderPath.StateSetDepthMask(false);
+    RenderPath.StateSetAlphaTestEnable(false);
 }
 
 void UIController::endCustomDrawMatrices() {}
@@ -1109,7 +1111,7 @@ GDrawTexture* RADLINK UIController::TextureSubstitutionCreateCallback(
             image.preMultiplyAlpha();
             Textures* t = Minecraft::GetInstance()->textures;
             int id = t->getTexture(
-                &image, IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw, false);
+                &image, 0, false);
 
             // 4J Stu - All our flash controls that allow replacing textures use
             // a special 64x64 symbol Force this size here so that our images
@@ -1935,13 +1937,13 @@ void UIController::UpdatePlayerBasePositions() {
     for (int idx = 0; idx < XUSER_MAX_COUNT; ++idx) {
         if (pMinecraft->localplayers[idx] != nullptr) {
             if (pMinecraft->localplayers[idx]->m_iScreenSection ==
-                IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN) {
+                0) {
                 DisplayGamertag(idx, false);
             } else {
                 DisplayGamertag(idx, true);
             }
             m_groups[idx + 1]->SetViewportType(
-                (IPlatformRenderer::eViewportType)pMinecraft->localplayers[idx]
+                pMinecraft->localplayers[idx]
                     ->m_iScreenSection);
         } else {
             // 4J Stu - This is a legacy thing from our XUI implementation that
@@ -1949,7 +1951,7 @@ void UIController::UpdatePlayerBasePositions() {
             // no longer exist is SLOW This should probably be on all platforms,
             // but I don't have time to test them all just now!
             m_groups[idx + 1]->SetViewportType(
-                IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN);
+                0);
             DisplayGamertag(idx, false);
         }
     }

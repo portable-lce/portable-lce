@@ -54,6 +54,6 @@ void OcelotRenderer::scale(std::shared_ptr<LivingEntity> _mob, float a) {
     std::shared_ptr<Ocelot> mob = std::dynamic_pointer_cast<Ocelot>(_mob);
     MobRenderer::scale(mob, a);
     if (mob->isTame()) {
-        glScalef(.8f, .8f, .8f);
+        RenderPath.MatrixScale(.8f, .8f, .8f);
     }
 }

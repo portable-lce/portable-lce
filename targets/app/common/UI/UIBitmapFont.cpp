@@ -7,6 +7,8 @@
 #include "UIFontData.h"
 #include "app/common/Iggy/include/rrCore.h"
 #include "minecraft/client/BufferedImage.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 /////////////////////////////
 // UI Abstract Bitmap Font //
@@ -274,7 +276,7 @@ rrbool UIBitmapFont::GetGlyphBitmap(S32 glyph, F32 pixel_scale,
     float glyphScale = 1.0f,
           truePixelScale = 1.0f / m_cFontData->getFontData()->m_fAdvPerPixel;
     F32 targetPixelScale = pixel_scale;
-    // if(!PlatformRenderer.IsWidescreen())
+    // if(!RenderPath.framebuffer().is_widescreen)
     //{
     //	// Fix for different scales in 480
     //	targetPixelScale = pixel_scale*2/3;

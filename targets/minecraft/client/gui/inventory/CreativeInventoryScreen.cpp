@@ -436,7 +436,7 @@ void CreativeInventoryScreen::renderBg(float a) {
     }
 
     // Load and render main creative inventory background
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     minecraft->textures->bind((selectedTabIndex == 5) ? searchTex : itemsTex);
     blit(x, y, 0, 0, imageWidth, imageHeight);
 
@@ -560,21 +560,21 @@ void CreativeInventoryScreen::renderTab(int tab) {
     }
 
     // Render tab background
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
     minecraft->textures->bind(tex);
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
     blit(x, y, tabColumn * 28, sy, 28, 32);
 
     // Render tab icon
     x += 6;
     y += 8 + (tabFirstRow ? 1 : -1);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_RESCALE_NORMAL);
+    RenderPath.StateSetLightingEnable(true);
+    (void)0;
     Lighting::turnOn();
     itemRenderer->renderGuiItem(font, minecraft->textures, tabIcons[tab], x, y);
     itemRenderer->renderGuiItemDecorations(font, minecraft->textures,
                                            tabIcons[tab], x, y);
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
 #endif
 }
 
@@ -584,13 +584,13 @@ bool CreativeInventoryScreen::renderIconTooltip(int tab, int mouseX,
     int y = mouseY - (height - imageHeight) / 2;
 
     if (isMouseOverIcon(tab, x, y)) {
-        glDisable(GL_LIGHTING);
-        glDisable(GL_DEPTH_TEST);
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetDepthTestEnable(false);
         renderTooltip(gameServices().getString(
                           IUIScene_CreativeMenu::specs[tab]->m_descriptionId),
                       mouseX, mouseY);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_DEPTH_TEST);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetDepthTestEnable(true);
         return true;
     }
     return false;

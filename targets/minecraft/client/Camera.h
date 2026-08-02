@@ -27,6 +27,8 @@ private:
 public:
     static float xa, ya, za, xa2, za2;
 
+    static const float* getModelviewData();
+    static const float* getProjectionData();
     static void prepare(std::shared_ptr<Player> player, bool mirror);
 
     static TilePos* getCameraTilePos(std::shared_ptr<LivingEntity> player,

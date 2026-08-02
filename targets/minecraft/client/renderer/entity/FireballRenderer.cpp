@@ -1,6 +1,7 @@
 #include "FireballRenderer.h"
 
 #include <memory>
+#include <numbers>
 
 #include "EntityRenderDispatcher.h"
 #include "java/Class.h"
@@ -25,12 +26,12 @@ void FireballRenderer::render(std::shared_ptr<Entity> _fireball, double x,
     std::shared_ptr<Fireball> fireball =
         std::dynamic_pointer_cast<Fireball>(_fireball);
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
-    glTranslatef((float)x, (float)y, (float)z);
-    glEnable(GL_RESCALE_NORMAL);
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
+    (void)0;
     float s = scale;
-    glScalef(s / 1.0f, s / 1.0f, s / 1.0f);
+    RenderPath.MatrixScale(s / 1.0f, s / 1.0f, s / 1.0f);
     Icon* icon = Item::fireball->getIcon(
         fireball->GetType() == eTYPE_DRAGON_FIREBALL ? 1 : 0);  // 14 + 2 * 16;
     bindTexture(fireball);
@@ -45,8 +46,8 @@ void FireballRenderer::render(std::shared_ptr<Entity> _fireball, double x,
     float xo = 0.5f;
     float yo = 0.25f;
 
-    glRotatef(180 - entityRenderDispatcher->playerRotY, 0, 1, 0);
-    glRotatef(-entityRenderDispatcher->playerRotX, 1, 0, 0);
+    RenderPath.MatrixRotate((180 - entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((-entityRenderDispatcher->playerRotX)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
     t->begin();
     t->normal(0, 1, 0);
     t->vertexUV((float)(0 - xo), (float)(0 - yo), (float)(0), (float)(u0),
@@ -59,21 +60,21 @@ void FireballRenderer::render(std::shared_ptr<Entity> _fireball, double x,
                 (float)(v0));
     t->end();
 
-    glDisable(GL_RESCALE_NORMAL);
-    glPopMatrix();
+    (void)0;
+    RenderPath.MatrixPop();
 }
 
 // 4J Added override. Based on EntityRenderer::renderFlame
 void FireballRenderer::renderFlame(std::shared_ptr<Entity> e, double x,
                                    double y, double z, float a) {
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
     Icon* tex = Tile::fire->getTextureLayer(0);
 
-    glPushMatrix();
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
 
     float s = e->bbWidth * 1.4f;
-    glScalef(s, s, s);
+    RenderPath.MatrixScale(s, s, s);
     bindTexture(&TextureAtlas::LOCATION_BLOCKS);
     Tesselator* t = Tesselator::getInstance();
 
@@ -84,14 +85,14 @@ void FireballRenderer::renderFlame(std::shared_ptr<Entity> e, double x,
     float h = e->bbHeight / s;
     float yo = (float)(e->y - e->bb.y0);
 
-    // glRotatef(-entityRenderDispatcher->playerRotY, 0, 1, 0);
+    // RenderPath.MatrixRotate((-entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-    glRotatef(180 - entityRenderDispatcher->playerRotY, 0, 1, 0);
-    glRotatef(-entityRenderDispatcher->playerRotX, 1, 0, 0);
-    glTranslatef(0, 0, 0.1f);
-    // glTranslatef(0, 0, -0.3f + ((int) h) * 0.02f);
-    glColor4f(1, 1, 1, 1);
-    // glRotatef(-playerRotX, 1, 0, 0);
+    RenderPath.MatrixRotate((180 - entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((-entityRenderDispatcher->playerRotX)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+    RenderPath.MatrixTranslate(0, 0, 0.1f);
+    // RenderPath.MatrixTranslate(0, 0, -0.3f + ((int) h) * 0.02f);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    // RenderPath.MatrixRotate((-playerRotX)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
     float zo = 0;
     t->begin();
     t->normal(0, 1, 0);
@@ -115,8 +116,8 @@ void FireballRenderer::renderFlame(std::shared_ptr<Entity> e, double x,
                 (float)(v0));
 
     t->end();
-    glPopMatrix();
-    glEnable(GL_LIGHTING);
+    RenderPath.MatrixPop();
+    RenderPath.StateSetLightingEnable(true);
 }
 
 ResourceLocation* FireballRenderer::getTextureLocation(

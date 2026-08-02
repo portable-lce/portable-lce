@@ -27,8 +27,8 @@ void ExperienceOrbRenderer::render(std::shared_ptr<Entity> _orb, double x,
                                    double y, double z, float rot, float a) {
     std::shared_ptr<ExperienceOrb> orb =
         std::dynamic_pointer_cast<ExperienceOrb>(_orb);
-    glPushMatrix();
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
 
     int icon = orb->getIcon();
     bindTexture(orb);  // 4J was "/item/xporb.png"
@@ -46,11 +46,11 @@ void ExperienceOrbRenderer::render(std::shared_ptr<Entity> _orb, double x,
         int col = orb->getLightColor(a);
         int u = col % 65536;
         int v = col / 65536;
-        glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     } else {
         float br = orb->getBrightness(a);
-        glColor4f(br, br, br, 1);
+        RenderPath.StateSetColour(br, br, br, 1);
     }
     float br = 255.0f;
     float rr = (orb->tickCount + a) / 2;
@@ -58,10 +58,10 @@ void ExperienceOrbRenderer::render(std::shared_ptr<Entity> _orb, double x,
     int gc = (int)(br);
     int bc = (int)((sinf(rr + 2 * std::numbers::pi * 2 / 3) + 1) * 0.1f * br);
     int col = rc << 16 | gc << 8 | bc;
-    glRotatef(180 - entityRenderDispatcher->playerRotY, 0, 1, 0);
-    glRotatef(-entityRenderDispatcher->playerRotX, 1, 0, 0);
+    RenderPath.MatrixRotate((180 - entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((-entityRenderDispatcher->playerRotX)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
     float s = 0.3f;
-    glScalef(s, s, s);
+    RenderPath.MatrixScale(s, s, s);
     Tesselator* t = Tesselator::getInstance();
     t->begin();
     t->color(col, 128);
@@ -72,9 +72,9 @@ void ExperienceOrbRenderer::render(std::shared_ptr<Entity> _orb, double x,
     t->vertexUV(0 - xo, 1 - yo, 0, u0, v0);
     t->end();
 
-    glDisable(GL_BLEND);
-    glDisable(GL_RESCALE_NORMAL);
-    glPopMatrix();
+    RenderPath.StateSetBlendEnable(false);
+    (void)0;
+    RenderPath.MatrixPop();
 }
 
 ResourceLocation* ExperienceOrbRenderer::getTextureLocation(

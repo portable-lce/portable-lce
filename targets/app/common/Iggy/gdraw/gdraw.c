@@ -140,7 +140,30 @@ void IggyDiscardVertexBufferCallback(void* owner, void* buf) {
     (void)owner;
     (void)buf;
 }
-#endif
+
+void gdraw_GL_BeginCustomDraw_4J(struct IggyCustomDrawCallbackRegion* region,
+                                 float* matrix) {
+    (void)region; (void)matrix;
+}
+
+void gdraw_GL_EndCustomDraw(struct IggyCustomDrawCallbackRegion* region) {
+    (void)region;
+}
+
+void gdraw_GL_CalculateCustomDraw_4J(struct IggyCustomDrawCallbackRegion* region,
+                                     float* matrix) {
+    (void)region; (void)matrix;
+}
+
+void gdraw_GL_SetTileOrigin(S32 vx, S32 vy, unsigned int framebuffer) {
+    (void)vx; (void)vy; (void)framebuffer;
+}
+
+void gdraw_GL_WrappedTextureDestroy(GDrawTexture* tex) {
+    (void)tex;
+}
+
+#else  // _ENABLEIGGY is defined - compile the real Iggy GDraw implementation
 
 // static void* get_gl_proc(const char* name) {
 //     void* p = SDL_GL_GetProcAddress(name);
@@ -946,3 +969,5 @@ void gdraw_GL_CalculateCustomDraw_4J(IggyCustomDrawCallbackRegion* region,
                                      F32* matrix) {
     gdraw_GetObjectSpaceMatrix(matrix, region->o2w, gdraw->projection, 0.0f, 0);
 }
+
+#endif  // _ENABLEIGGY

@@ -41,14 +41,14 @@ void PistonPieceRenderer::render(std::shared_ptr<TileEntity> _entity, double x,
         bindTexture(&TextureAtlas::LOCATION_BLOCKS);
 
         Lighting::turnOff();
-        glColor4f(1, 1, 1,
+        RenderPath.StateSetColour(1, 1, 1,
                   1);  // 4J added - this wouldn't be needed in real opengl as
                        // the block render has vertex colours and so this isn't
                        // use, but our pretend gl always modulates with this
 
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL_BLEND);
-        glDisable(GL_CULL_FACE);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetFaceCull(false);
 
         t->begin();
 

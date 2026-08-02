@@ -13,6 +13,8 @@
 #include "minecraft/world/entity/animal/EntityHorse.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 ResourceLocation HorseRenderer::HORSE_LOCATION =
     ResourceLocation(TN_MOB_HORSE_WHITE);
@@ -31,7 +33,7 @@ HorseRenderer::HorseRenderer(Model* model, float f) : MobRenderer(model, f) {}
 
 void HorseRenderer::adjustHeight(std::shared_ptr<PathfinderMob> mob,
                                  float FHeight) {
-    glTranslatef(0.0F, FHeight, 0.0F);
+    RenderPath.MatrixTranslate(0.0F, FHeight, 0.0F);
 }
 
 void HorseRenderer::scale(std::shared_ptr<LivingEntity> entityliving, float f) {
@@ -43,7 +45,7 @@ void HorseRenderer::scale(std::shared_ptr<LivingEntity> entityliving, float f) {
     } else if (type == EntityHorse::TYPE_MULE) {
         sizeFactor *= 0.92F;
     }
-    glScalef(sizeFactor, sizeFactor, sizeFactor);
+    RenderPath.MatrixScale(sizeFactor, sizeFactor, sizeFactor);
     MobRenderer::scale(entityliving, f);
 }
 
@@ -59,7 +61,7 @@ void HorseRenderer::renderModel(std::shared_ptr<LivingEntity> mob, float wp,
                       true);
         // Ensure that any extra layers of texturing are disabled after
         // rendering this horse
-        PlatformRenderer.TextureBind(-1);
+        RenderPath.TextureBind(-1);
     }
 }
 

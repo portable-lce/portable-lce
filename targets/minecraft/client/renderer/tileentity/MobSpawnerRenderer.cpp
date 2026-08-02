@@ -1,5 +1,7 @@
 #include "MobSpawnerRenderer.h"
 
+#include <numbers>
+
 #include "minecraft/client/renderer/entity/EntityRenderDispatcher.h"
 #include "minecraft/world/entity/Entity.h"
 #include "minecraft/world/level/BaseMobSpawner.h"
@@ -16,25 +18,25 @@ void MobSpawnerRenderer::render(std::shared_ptr<TileEntity> _spawner, double x,
     std::shared_ptr<MobSpawnerTileEntity> spawner =
         std::dynamic_pointer_cast<MobSpawnerTileEntity>(_spawner);
     render(spawner->getSpawner(), x, y, z, a);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
 
 void MobSpawnerRenderer::render(BaseMobSpawner* spawner, double x, double y,
                                 double z, float a) {
-    glPushMatrix();
-    glTranslatef((float)x + 0.5f, (float)y, (float)z + 0.5f);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)x + 0.5f, (float)y, (float)z + 0.5f);
 
     std::shared_ptr<Entity> e = spawner->getDisplayEntity();
     if (e != nullptr) {
         e->setLevel(spawner->getLevel());
         float s = 7 / 16.0f;
-        glTranslatef(0, 0.4f, 0);
-        glRotatef(
-            (float)(spawner->oSpin + (spawner->spin - spawner->oSpin) * a) * 10,
+        RenderPath.MatrixTranslate(0, 0.4f, 0);
+        RenderPath.MatrixRotate(
+            ((float)(spawner->oSpin + (spawner->spin - spawner->oSpin) * a) * 10) * (std::numbers::pi_v<float>/180.f),
             0, 1, 0);
-        glRotatef(-30, 1, 0, 0);
-        glTranslatef(0, -0.4f, 0);
-        glScalef(s, s, s);
+        RenderPath.MatrixRotate((-30)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+        RenderPath.MatrixTranslate(0, -0.4f, 0);
+        RenderPath.MatrixScale(s, s, s);
         e->moveTo(x, y, z, 0, 0);
         EntityRenderDispatcher::instance->render(e, 0, 0, 0, 0, a);
     }

@@ -22,6 +22,8 @@
 #include "strings.h"
 #include "util/StringHelpers.h"
 #include "app/common/UI/ConsoleUIController.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 int LocalizationManager::s_iHTMLFontSizesA[eHTMLSize_COUNT] = {20, 13, 20, 26};
 
@@ -108,7 +110,7 @@ int LocalizationManager::TipsSortFunction(const void* a, const void* b) {
 void LocalizationManager::initialiseTips() {
     memset(m_TipIDA, 0, sizeof(m_TipIDA));
 
-    if (!PlatformRenderer.IsHiDef()) {
+    if (!RenderPath.framebuffer().is_hi_def) {
         m_GameTipA[0].uiStringID = IDS_TIPS_GAMETIP_0;
     }
 

@@ -97,14 +97,14 @@ void ChestRenderer::render(std::shared_ptr<TileEntity> _chest, double x,
         }
     }
 
-    glPushMatrix();
-    glEnable(GL_RESCALE_NORMAL);
-    // if( setColor ) glColor4f(1, 1, 1, 1);
-    if (setColor) glColor4f(1, 1, 1, alpha);
-    glTranslatef((float)x, (float)y + 1, (float)z + 1);
-    glScalef(1, -1, -1);
+    RenderPath.MatrixPush();
+    (void)0;
+    // if( setColor ) RenderPath.StateSetColour(1, 1, 1, 1);
+    if (setColor) RenderPath.StateSetColour(1, 1, 1, alpha);
+    RenderPath.MatrixTranslate((float)x, (float)y + 1, (float)z + 1);
+    RenderPath.MatrixScale(1, -1, -1);
 
-    glTranslatef(0.5f, 0.5f, 0.5f);
+    RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
     int rot = 0;
     if (data == 2) rot = 180;
     if (data == 3) rot = 0;
@@ -112,13 +112,13 @@ void ChestRenderer::render(std::shared_ptr<TileEntity> _chest, double x,
     if (data == 5) rot = -90;
 
     if (data == 2 && chest->e.lock() != nullptr) {
-        glTranslatef(1, 0, 0);
+        RenderPath.MatrixTranslate(1, 0, 0);
     }
     if (data == 5 && chest->s.lock() != nullptr) {
-        glTranslatef(0, 0, -1);
+        RenderPath.MatrixTranslate(0, 0, -1);
     }
-    glRotatef(rot, 0, 1, 0);
-    glTranslatef(-0.5f, -0.5f, -0.5f);
+    RenderPath.MatrixRotate((rot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
 
     float open = chest->oOpenness + (chest->openness - chest->oOpenness) * a;
     if (chest->n.lock() != nullptr) {
@@ -139,7 +139,7 @@ void ChestRenderer::render(std::shared_ptr<TileEntity> _chest, double x,
 
     model->lid->xRot = -(open * std::numbers::pi / 2);
     model->render(useCompiled);
-    glDisable(GL_RESCALE_NORMAL);
-    glPopMatrix();
-    if (setColor) glColor4f(1, 1, 1, 1);
+    (void)0;
+    RenderPath.MatrixPop();
+    if (setColor) RenderPath.StateSetColour(1, 1, 1, 1);
 }

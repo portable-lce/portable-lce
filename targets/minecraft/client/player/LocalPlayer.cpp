@@ -123,7 +123,7 @@ LocalPlayer::LocalPlayer(Minecraft* minecraft, Level* level, User* user,
     input = nullptr;
     m_iPad = -1;
     m_iScreenSection =
-        IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN;  // assume singleplayer
+        0;  // assume singleplayer
                                                       // default
     m_bPlayerRespawned = false;
     ullButtonsPressed = 0LL;

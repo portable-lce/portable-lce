@@ -65,8 +65,8 @@ void HugeExplosionParticle::render(Tesselator* t, float a, float xa, float ya,
     float distSq = (x * x + y * y + z * z);
     if (distSq < (3.0f * 3.0f)) return;
 
-    glColor4f(1, 1, 1, 1);
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    RenderPath.StateSetLightingEnable(false);
     Lighting::turnOff();
     t->begin();
     t->color(rCol, gCol, bCol, 1.0f);
@@ -77,8 +77,8 @@ void HugeExplosionParticle::render(Tesselator* t, float a, float xa, float ya,
     t->vertexUV(x + xa * r + xa2 * r, y + ya * r, z + za * r + za2 * r, u0, v0);
     t->vertexUV(x + xa * r - xa2 * r, y - ya * r, z + za * r - za2 * r, u0, v1);
     t->end();
-    glPolygonOffset(0, 0.0f);
-    glEnable(GL_LIGHTING);
+    RenderPath.StateSetDepthSlopeAndBias(0, 0.0f);
+    RenderPath.StateSetLightingEnable(true);
 }
 
 int HugeExplosionParticle::getLightColor(float a) { return 0xf0f0; }

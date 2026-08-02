@@ -48,10 +48,10 @@ void Button::render(Minecraft* minecraft, int xm, int ym) {
 
     Font* font = minecraft->font;
 
-    // glBindTexture(GL_TEXTURE_2D, minecraft->textures->loadTexture(
+    // RenderPath.TextureBind(minecraft->textures->loadTexture(
     //  TN_GUI_GUI));  // 4J was "/gui/gui.png"
     minecraft->textures->bindTexture(&GUI_GUI_LOCATION);
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
 
     bool hovered = xm >= x && ym >= y && xm < x + w && ym < y + h;
     int yImage = getYImage(hovered);

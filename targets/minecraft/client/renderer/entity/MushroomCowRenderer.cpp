@@ -1,6 +1,7 @@
 #include "MushroomCowRenderer.h"
 
 #include <memory>
+#include <numbers>
 
 #include "minecraft/client/model/QuadrupedModel.h"
 #include "minecraft/client/model/geom/ModelPart.h"
@@ -46,26 +47,26 @@ void MushroomCowRenderer::additionalRendering(
     MobRenderer::additionalRendering(mob, a);
     if (mob->isBaby()) return;
     bindTexture(&TextureAtlas::LOCATION_BLOCKS);  // 4J was "/terrain.png"
-    glEnable(GL_CULL_FACE);
-    glPushMatrix();
-    glScalef(1, -1, 1);
-    glTranslatef(0.2f, 0.4f, 0.5f);
-    glRotatef(42, 0, 1, 0);
+    RenderPath.StateSetFaceCull(true);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixScale(1, -1, 1);
+    RenderPath.MatrixTranslate(0.2f, 0.4f, 0.5f);
+    RenderPath.MatrixRotate((42)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     tileRenderer->renderTile(Tile::mushroom_red, 0, 1);
-    glTranslatef(0.1f, 0, -0.6f);
-    glRotatef(42, 0, 1, 0);
+    RenderPath.MatrixTranslate(0.1f, 0, -0.6f);
+    RenderPath.MatrixRotate((42)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     tileRenderer->renderTile(Tile::mushroom_red, 0, 1);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
     ((QuadrupedModel*)model)->head->translateTo(1 / 16.0f);
-    glScalef(1, -1, 1);
-    glTranslatef(0, 0.75f, -0.2f);
-    glRotatef(12, 0, 1, 0);
+    RenderPath.MatrixScale(1, -1, 1);
+    RenderPath.MatrixTranslate(0, 0.75f, -0.2f);
+    RenderPath.MatrixRotate((12)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     tileRenderer->renderTile(Tile::mushroom_red, 0, 1);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
-    glDisable(GL_CULL_FACE);
+    RenderPath.StateSetFaceCull(false);
 }
 
 ResourceLocation* MushroomCowRenderer::getTextureLocation(

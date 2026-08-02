@@ -30,16 +30,13 @@
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
 #include "util/StringHelpers.h"
+#include "platform/renderer/IRenderPath.h"
 
-// Linux/PC port: disable mipmapping globally so textures are always sampled
-// from the full-resolution level 0 with GL_NEAREST, giving pixel-crisp
-// Minecraft blocks at all distances. Mipmapping causes glGenerateMipmap() to
-// fire (which resets the min-filter to GL_NEAREST_MIPMAP_LINEAR on many
-// Mesa/Nvidia drivers) and the per-level crispBlend loop is both wasteful and
-// still causes visible blurring.
-bool Textures::MIPMAP = false;
-IPlatformRenderer::eTextureFormat Textures::TEXTURE_FORMAT =
-    IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw;
+
+// PLCE: who the hell disabled mipmaps!?
+bool Textures::MIPMAP = true;
+int Textures::TEXTURE_FORMAT =
+    0;
 
 int Textures::preLoadedIdx[TN_COUNT];
 const char* Textures::preLoaded[TN_COUNT] = {
@@ -415,7 +412,7 @@ int Textures::loadTexture(int idx) {
 void Textures::setTextureFormat(const std::string& resourceName) {
     // 4J Stu - These texture formats are not currently in the render header
     {
-        TEXTURE_FORMAT = IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw;
+        TEXTURE_FORMAT = 0;
     }
 }
 
@@ -525,7 +522,7 @@ void Textures::bindTextureLayers(ResourceLocation* resource) {
             memcpy(mergedImage->getData(), mergedPixels.data(),
                    mergedWidth * mergedHeight * sizeof(int));
             id = getTexture(mergedImage,
-                            IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw, false);
+                            0, false);
         } else {
             id = 0;
         }
@@ -533,7 +530,7 @@ void Textures::bindTextureLayers(ResourceLocation* resource) {
         idMap[cacheKey] = id;
     }
 
-    PlatformRenderer.TextureBind(id);
+    RenderPath.TextureBind(id);
 }
 
 void Textures::bind(int id) {
@@ -546,7 +543,7 @@ void Textures::bind(int id) {
     // rendering. if (id != lastBoundId)
     {
         if (id < 0) return;
-        glBindTexture(GL_TEXTURE_2D, id);
+        RenderPath.TextureBind(id);
         // lastBoundId = id;
     }
 }
@@ -604,7 +601,9 @@ int Textures::loadTexture(TEXTURE_NAME texId, const std::string& resourceName) {
         (resourceName == "%blur%misc/pumpkinblur.png") ||
         (resourceName == "%clamp%misc/shadow.png") ||
         (resourceName == "gui/icons.png") || (resourceName == "gui/gui.png") ||
-        (resourceName == "misc/footprint.png")) {
+        (resourceName == "misc/footprint.png") || // PLCE: is this used??
+        (resourceName.find("font/") == 0) ||
+        (resourceName.find("title/") == 0)) {
         MIPMAP = false;
     }
     setTextureFormat(resourceName);
@@ -636,7 +635,7 @@ int Textures::loadTexture(TEXTURE_NAME texId, const std::string& resourceName) {
 
     idMap[resourceName] = id;
     MIPMAP = true;  // 4J added
-    TEXTURE_FORMAT = IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw;
+    TEXTURE_FORMAT = 0;
     return id;
     /*
 } catch (IOException e) {
@@ -651,13 +650,13 @@ return id;
 }
 
 int Textures::getTexture(BufferedImage* img,
-                         IPlatformRenderer::eTextureFormat format,
+                         int format,
                          bool mipmap) {
     int id = MemoryTracker::genTextures();
     TEXTURE_FORMAT = format;
     MIPMAP = mipmap;
     loadTexture(img, id);
-    TEXTURE_FORMAT = IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw;
+    TEXTURE_FORMAT = 0;
     MIPMAP = true;
     loadedImages[id] = img;
     return id;
@@ -673,34 +672,36 @@ void Textures::loadTexture(BufferedImage* img, int id, bool blur, bool clamp) {
     //	printf("Textures::loadTexture BufferedImage with blur and clamp
     //%d\n",id);
     int iMipLevels = 1;
-    glBindTexture(GL_TEXTURE_2D, id);
+    RenderPath.TextureBind(id);
 
     if (MIPMAP) {
-        // Linux/PC port: force GL_NEAREST to avoid mip-level distance blurring
+        // Linux/PC port: force 0x2600 to avoid mip-level distance blurring
         // and keep Minecraft textures pixel-crisp at all distances.
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        // PLCE: "To keep Minecraft textures pixel crisp at all distances"
+        //       ^ Whoever wrote this does not know about mipmaps at all.
+        RenderPath.TextureSetParam(0x2801, 0x2600);
+        RenderPath.TextureSetParam(0x2800, 0x2600);
         /*
-         * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, 0);
-         * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, 4);
-         * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-         * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 4);
+         * RenderPath.TextureSetParam(GL_TEXTURE_MIN_LOD, 0);
+         * RenderPath.TextureSetParam(GL_TEXTURE_MAX_LOD, 4);
+         * RenderPath.TextureSetParam(GL_TEXTURE_BASE_LEVEL, 0);
+         * RenderPath.TextureSetParam(GL_TEXTURE_MAX_LEVEL, 4);
          */
     } else {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        RenderPath.TextureSetParam(0x2801, 0x2600);
+        RenderPath.TextureSetParam(0x2800, 0x2600);
     }
     if (blur) {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        RenderPath.TextureSetParam(0x2801, 0x2601);
+        RenderPath.TextureSetParam(0x2800, 0x2601);
     }
 
     if (clamp) {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        RenderPath.TextureSetParam(0x2802, 0x812F);
+        RenderPath.TextureSetParam(0x2803, 0x812F);
     } else {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        RenderPath.TextureSetParam(0x2802, 0x2901);
+        RenderPath.TextureSetParam(0x2803, 0x2901);
     }
 
     int w = img->getWidth();
@@ -740,12 +741,12 @@ void Textures::loadTexture(BufferedImage* img, int id, bool blur, bool clamp) {
         while ((8 << iHeightMips) < h) iHeightMips++;
 
         iMipLevels = (iWidthMips < iHeightMips) ? iWidthMips : iHeightMips;
-        // PlatformRenderer.TextureSetTextureLevels(5);	// 4J added
+        // RenderPath.TextureSetTextureLevels(5);	// 4J added
         if (iMipLevels > 5) iMipLevels = 5;
-        PlatformRenderer.TextureSetTextureLevels(iMipLevels);  // 4J added
+        RenderPath.TextureSetTextureLevels(iMipLevels);  // 4J added
     }
-    PlatformRenderer.TextureData(w, h, pixels->getBuffer(), 0, TEXTURE_FORMAT);
-    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL12.GL_BGRA,
+    RenderPath.TextureData(w, h, pixels->getBuffer(), 0, TEXTURE_FORMAT);
+    // glTexImage2D(0x0DE1, 0, 0x1908, w, h, 0, GL12.0x80E1,
     // GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixels);
 
     if (MIPMAP) {
@@ -801,14 +802,14 @@ void Textures::loadTexture(BufferedImage* img, int id, bool blur, bool clamp) {
                     pixels->putInt((x + y * ww) * 4, tempData[x + y * ww]);
                 }
             delete[] tempData;
-            PlatformRenderer.TextureData(ww, hh, pixels->getBuffer(), level,
+            RenderPath.TextureData(ww, hh, pixels->getBuffer(), level,
                                          TEXTURE_FORMAT);
         }
     }
 
     /*
-     * if (MIPMAP) { GLU.gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, w, h,
-     * GL_RGBA, GL_UNSIGNED_BYTE, pixels); } else { }
+     * if (MIPMAP) { GLU.gluBuild2DMipmaps(0x0DE1, 0x1908, w, h,
+     * 0x1908, 0x1401, pixels); } else { }
      */
     delete pixels;  // 4J - now creating this dynamically
 }
@@ -837,12 +838,12 @@ void Textures::replaceTexture(std::vector<int>& rawPixels, int w, int h,
 
     // Removed in Java
     {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        RenderPath.TextureSetParam(0x2801, 0x2600);
+        RenderPath.TextureSetParam(0x2800, 0x2600);
     }
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    RenderPath.TextureSetParam(0x2802, 0x2901);
+    RenderPath.TextureSetParam(0x2803, 0x2901);
 
     if (options != nullptr && options->anaglyph3d) {
         rawPixels = anaglyph(rawPixels);
@@ -876,11 +877,11 @@ void Textures::replaceTexture(std::vector<int>& rawPixels, int w, int h,
     pixels->position(0)->limit(newPixels.size());
 
     // New
-    // glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w, h, GL12.GL_BGRA,
+    // glTexSubImage2D(0x0DE1, 0, 0, 0, w, h, GL12.0x80E1,
     // GL12.GL_UNSIGNED_INT_8_8_8_8_REV, pixels);
-    PlatformRenderer.TextureDataUpdate(0, 0, w, h, pixels->getBuffer(), 0);
+    RenderPath.TextureDataUpdate(0, 0, w, h, pixels->getBuffer(), 0);
     // Old
-    // glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE,
+    // glTexSubImage2D(0x0DE1, 0, 0, 0, w, h, 0x1908, 0x1401,
     // pixels);
     delete pixels;
 }
@@ -890,18 +891,18 @@ void Textures::replaceTexture(std::vector<int>& rawPixels, int w, int h,
 // copying round that the original java version does
 void Textures::replaceTextureDirect(const std::vector<int>& rawPixels, int w,
                                     int h, int id) {
-    glBindTexture(GL_TEXTURE_2D, id);
+    RenderPath.TextureBind(id);
 
     // Remove in Java
     {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        RenderPath.TextureSetParam(0x2801, 0x2600);
+        RenderPath.TextureSetParam(0x2800, 0x2600);
     }
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    RenderPath.TextureSetParam(0x2802, 0x2901);
+    RenderPath.TextureSetParam(0x2803, 0x2901);
 
-    PlatformRenderer.TextureDataUpdate(0, 0, w, h,
+    RenderPath.TextureDataUpdate(0, 0, w, h,
                                        const_cast<int*>(rawPixels.data()), 0);
 }
 
@@ -910,18 +911,18 @@ void Textures::replaceTextureDirect(const std::vector<int>& rawPixels, int w,
 // copying round that the original java version does
 void Textures::replaceTextureDirect(const std::vector<short>& rawPixels, int w,
                                     int h, int id) {
-    glBindTexture(GL_TEXTURE_2D, id);
+    RenderPath.TextureBind(id);
 
     // Remove in Java
     {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        RenderPath.TextureSetParam(0x2801, 0x2600);
+        RenderPath.TextureSetParam(0x2800, 0x2600);
     }
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    RenderPath.TextureSetParam(0x2802, 0x2901);
+    RenderPath.TextureSetParam(0x2803, 0x2901);
 
-    PlatformRenderer.TextureDataUpdate(0, 0, w, h,
+    RenderPath.TextureDataUpdate(0, 0, w, h,
                                        const_cast<short*>(rawPixels.data()), 0);
 }
 
@@ -1018,7 +1019,7 @@ int Textures::loadMemTexture(const std::string& url,
             if (texture->id < 0) {
                 texture->id = getTexture(
                     texture->loadedImage,
-                    IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw, MIPMAP);
+                    0, MIPMAP);
             } else {
                 loadTexture(texture->loadedImage, texture->id);
             }
@@ -1055,7 +1056,7 @@ int Textures::loadMemTexture(const std::string& url, int backup) {
             if (texture->id < 0) {
                 texture->id = getTexture(
                     texture->loadedImage,
-                    IPlatformRenderer::TEXTURE_FORMAT_RxGyBzAw, MIPMAP);
+                    0, MIPMAP);
             } else {
                 loadTexture(texture->loadedImage, texture->id);
             }
@@ -1146,10 +1147,10 @@ void Textures::tick(
         // 4J - added - tell renderer that we're about to do a block of dynamic
         // texture updates, so we can unlock the resources after they are done
         // rather than a series of locks/unlocks
-        // PlatformRenderer.TextureDynamicUpdateStart();
+        // RenderPath.TextureDynamicUpdateStart();
         terrain->cycleAnimationFrames();
         items->cycleAnimationFrames();
-        // PlatformRenderer.TextureDynamicUpdateEnd();	// 4J added - see
+        // RenderPath.TextureDynamicUpdateEnd();	// 4J added - see
         // comment above
     }
 

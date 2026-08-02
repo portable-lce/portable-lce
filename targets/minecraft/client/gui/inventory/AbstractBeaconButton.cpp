@@ -28,7 +28,7 @@ void AbstractBeaconButton::renderBg(Minecraft* minecraft, int xm, int ym) {
 
     hovered = (xm >= x && ym >= y && xm < x + w && ym < y + h);
 
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
     minecraft->textures->bindTexture(&GUI_BEACON_LOCATION);
 
     int texU = 0;

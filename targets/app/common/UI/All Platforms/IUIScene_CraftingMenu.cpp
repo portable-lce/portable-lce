@@ -27,6 +27,8 @@
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #include "strings.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 Recipy::_eGroupType IUIScene_CraftingMenu::m_GroupTypeMapping4GridA
     [IUIScene_CraftingMenu::m_iMaxGroup2x2] = {
@@ -480,7 +482,7 @@ bool IUIScene_CraftingMenu::handleKeyDown(int iPad, int iAction, bool bRepeat) {
     // Vita)
     bool bNoScrollSlots = false;
     if (m_bSplitscreen ||
-        (!PlatformRenderer.IsHiDef() && !PlatformRenderer.IsWidescreen())) {
+        (!RenderPath.framebuffer().is_hi_def && !RenderPath.framebuffer().is_widescreen)) {
         bNoScrollSlots = true;
     }
 
@@ -1035,7 +1037,7 @@ void IUIScene_CraftingMenu::UpdateVerticalSlots() {
         // splits & Vita)
         bool bNoScrollSlots = false;
         if (m_bSplitscreen ||
-            (!PlatformRenderer.IsHiDef() && !PlatformRenderer.IsWidescreen())) {
+            (!RenderPath.framebuffer().is_hi_def && !RenderPath.framebuffer().is_widescreen)) {
             bNoScrollSlots = true;
         }
 
@@ -1314,8 +1316,8 @@ void IUIScene_CraftingMenu::UpdateDescriptionText(bool bCanBeMade) {
 
             // 12 for splitscreen, 14 for normal
             EHTMLFontSize size = eHTMLSize_Normal;
-            if (m_bSplitscreen || (!PlatformRenderer.IsHiDef() &&
-                                   !PlatformRenderer.IsWidescreen())) {
+            if (m_bSplitscreen || (!RenderPath.framebuffer().is_hi_def &&
+                                   !RenderPath.framebuffer().is_widescreen)) {
                 size = eHTMLSize_Splitscreen;
             }
             char startTags[64];

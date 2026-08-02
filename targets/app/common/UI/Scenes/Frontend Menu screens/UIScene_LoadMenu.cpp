@@ -34,6 +34,8 @@
 #include "platform/profile/profile.h"
 #include "platform/renderer/renderer.h"
 #include "strings.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 #define GAME_CREATE_ONLINE_TIMER_ID 0
 #define GAME_CREATE_ONLINE_TIMER_TIME 100
@@ -250,7 +252,7 @@ void UIScene_LoadMenu::updateTooltips() {
 void UIScene_LoadMenu::updateComponents() {
     m_parentLayer->showComponent(m_iPad, eUIComponent_Panorama, true);
 
-    if (PlatformRenderer.IsWidescreen()) {
+    if (RenderPath.framebuffer().is_widescreen) {
         m_parentLayer->showComponent(m_iPad, eUIComponent_Logo, true);
     } else {
         m_parentLayer->showComponent(m_iPad, eUIComponent_Logo, false);

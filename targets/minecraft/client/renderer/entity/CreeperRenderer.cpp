@@ -34,7 +34,7 @@ void CreeperRenderer::scale(std::shared_ptr<LivingEntity> mob, float a) {
     g = g * g;
     float s = (1.0f + g * 0.4f) * wobble;
     float hs = (1.0f + g * 0.1f) / wobble;
-    glScalef(s, hs, s);
+    RenderPath.MatrixScale(s, hs, s);
 }
 
 int CreeperRenderer::getOverlayColor(std::shared_ptr<LivingEntity> mob,
@@ -65,33 +65,33 @@ int CreeperRenderer::prepareArmor(std::shared_ptr<LivingEntity> _mob, int layer,
     std::shared_ptr<Creeper> mob = std::dynamic_pointer_cast<Creeper>(_mob);
     if (mob->isPowered()) {
         if (mob->isInvisible())
-            glDepthMask(false);
+            RenderPath.StateSetDepthMask(false);
         else
-            glDepthMask(true);
+            RenderPath.StateSetDepthMask(true);
 
         if (layer == 1) {
             float time = mob->tickCount + a;
             bindTexture(&POWER_LOCATION);
-            glMatrixMode(GL_TEXTURE);
-            glLoadIdentity();
+            RenderPath.MatrixMode(rp::MatrixStack::texture);
+            RenderPath.MatrixSetIdentity();
             float uo = time * 0.01f;
             float vo = time * 0.01f;
-            glTranslatef(uo, vo, 0);
+            RenderPath.MatrixTranslate(uo, vo, 0);
             setArmor(armorModel);
-            glMatrixMode(GL_MODELVIEW);
-            glEnable(GL_BLEND);
+            RenderPath.MatrixMode(rp::MatrixStack::modelview);
+            RenderPath.StateSetBlendEnable(true);
             float br = 0.5f;
-            glColor4f(br, br, br, 1);
-            glDisable(GL_LIGHTING);
-            glBlendFunc(GL_ONE, GL_ONE);
+            RenderPath.StateSetColour(br, br, br, 1);
+            RenderPath.StateSetLightingEnable(false);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::one, rp::BlendFactor::one);
             return 1;
         }
         if (layer == 2) {
-            glMatrixMode(GL_TEXTURE);
-            glLoadIdentity();
-            glMatrixMode(GL_MODELVIEW);
-            glEnable(GL_LIGHTING);
-            glDisable(GL_BLEND);
+            RenderPath.MatrixMode(rp::MatrixStack::texture);
+            RenderPath.MatrixSetIdentity();
+            RenderPath.MatrixMode(rp::MatrixStack::modelview);
+            RenderPath.StateSetLightingEnable(true);
+            RenderPath.StateSetBlendEnable(false);
         }
     }
     return -1;

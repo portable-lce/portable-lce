@@ -35,5 +35,5 @@ void LavaSlimeRenderer::scale(std::shared_ptr<LivingEntity> _slime, float a) {
                (size * 0.5f + 1);
     float w = 1 / (ss + 1);
     float s = size;
-    glScalef(w * s, 1 / w * s, w * s);
+    RenderPath.MatrixScale(w * s, 1 / w * s, w * s);
 }

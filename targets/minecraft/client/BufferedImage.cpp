@@ -11,6 +11,8 @@
 #include "platform/fs/fs.h"
 #include "platform/renderer/renderer.h"
 #include "util/StringHelpers.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 BufferedImage::BufferedImage(int width, int height, int type) {
     data[0] = new int[width * height];
@@ -89,14 +91,14 @@ BufferedImage::BufferedImage(const std::string& File, bool filenameHasExtension,
 
         if (foundOnDisk) {
             std::string nativePath = std::filesystem::path(finalPath).string();
-            hr = PlatformRenderer.LoadTextureData(nativePath.c_str(),
+            hr = RenderPath.LoadTextureData(nativePath.c_str(),
                                                   &ImageInfo, &data[l]);
         } else {
             std::string archiveKey = "res/" + fileName;
             if (gameServices().hasArchiveFile(archiveKey)) {
                 std::vector<uint8_t> ba =
                     gameServices().getArchiveFile(archiveKey);
-                hr = PlatformRenderer.LoadTextureData(ba.data(), ba.size(),
+                hr = RenderPath.LoadTextureData(ba.data(), ba.size(),
                                                       &ImageInfo, &data[l]);
             }
         }
@@ -130,7 +132,7 @@ bool BufferedImage::loadMipmapPng(int level, std::uint8_t* bytes,
         return false;
     }
     D3DXIMAGE_INFO ImageInfo;
-    int32_t hr = PlatformRenderer.LoadTextureData(bytes, numBytes, &ImageInfo,
+    int32_t hr = RenderPath.LoadTextureData(bytes, numBytes, &ImageInfo,
                                                   &data[level]);
     if (hr != 0) {
         return false;
@@ -149,7 +151,7 @@ BufferedImage::BufferedImage(std::uint8_t* pbData, std::uint32_t dataBytes) {
 
     D3DXIMAGE_INFO ImageInfo;
     memset(&ImageInfo, 0, sizeof(D3DXIMAGE_INFO));
-    int32_t hr = PlatformRenderer.LoadTextureData(pbData, dataBytes, &ImageInfo,
+    int32_t hr = RenderPath.LoadTextureData(pbData, dataBytes, &ImageInfo,
                                                   &data[0]);
 
     if (hr == 0) {

@@ -54,8 +54,8 @@ void GhastModel::render(std::shared_ptr<Entity> entity, float time, float r,
                         bool usecompiled) {
     setupAnim(time, r, bob, yRot, xRot, scale, entity);
 
-    glPushMatrix();
-    glTranslatef(0, .6f, 0);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate(0, .6f, 0);
 
     body->render(scale, usecompiled);
     for (int i = 0; i < TENTACLESLENGTH; i++)  // 4J - 9 was  tentacles.size()
@@ -63,5 +63,5 @@ void GhastModel::render(std::shared_ptr<Entity> entity, float time, float r,
         tentacles[i]->render(scale, usecompiled);
     }
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }

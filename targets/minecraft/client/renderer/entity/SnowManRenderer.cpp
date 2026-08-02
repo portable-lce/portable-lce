@@ -1,6 +1,7 @@
 #include "SnowManRenderer.h"
 
 #include <memory>
+#include <numbers>
 
 #include "EntityRenderDispatcher.h"
 #include "minecraft/client/model/SnowManModel.h"
@@ -37,21 +38,21 @@ void SnowManRenderer::additionalRendering(std::shared_ptr<LivingEntity> _mob,
     std::shared_ptr<ItemInstance> headGear =
         std::make_shared<ItemInstance>(Tile::pumpkin, 1);
     if (headGear != nullptr && headGear->getItem()->id < 256) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
         model->head->translateTo(1 / 16.0f);
 
         if (TileRenderer::canRender(
                 Tile::tiles[headGear->id]->getRenderShape())) {
             float s = 10 / 16.0f;
-            glTranslatef(-0 / 16.0f, -5.5f / 16.0f, 0 / 16.0f);
-            glRotatef(90, 0, 1, 0);
-            glScalef(s, -s, s);
+            RenderPath.MatrixTranslate(-0 / 16.0f, -5.5f / 16.0f, 0 / 16.0f);
+            RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixScale(s, -s, s);
         }
 
         entityRenderDispatcher->itemInHandRenderer->renderItem(mob, headGear,
                                                                0);
 
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
 }
 

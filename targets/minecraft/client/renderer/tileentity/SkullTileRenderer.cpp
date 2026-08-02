@@ -95,39 +95,39 @@ void SkullTileRenderer::renderSkull(float x, float y, float z, int face,
             break;
     }
 
-    glPushMatrix();
-    glDisable(GL_CULL_FACE);
+    RenderPath.MatrixPush();
+    RenderPath.StateSetFaceCull(false);
 
     if (face != Facing::UP) {
         switch (face) {
             case Facing::NORTH:
-                glTranslatef(x + 0.5f, y + .25f, z + 0.74f);
+                RenderPath.MatrixTranslate(x + 0.5f, y + .25f, z + 0.74f);
                 break;
             case Facing::SOUTH:
-                glTranslatef(x + 0.5f, y + .25f, z + 0.26f);
+                RenderPath.MatrixTranslate(x + 0.5f, y + .25f, z + 0.26f);
                 rot = 180.0f;
                 break;
             case Facing::WEST:
-                glTranslatef(x + 0.74f, y + .25f, z + 0.5f);
+                RenderPath.MatrixTranslate(x + 0.74f, y + .25f, z + 0.5f);
                 rot = 270.0f;
                 break;
             case Facing::EAST:
             default:
-                glTranslatef(x + 0.26f, y + .25f, z + 0.5f);
+                RenderPath.MatrixTranslate(x + 0.26f, y + .25f, z + 0.5f);
                 rot = 90.0f;
                 break;
         }
     } else {
-        glTranslatef(x + 0.5f, y, z + 0.5f);
+        RenderPath.MatrixTranslate(x + 0.5f, y, z + 0.5f);
     }
 
     float scale = 1 / 16.0f;
-    glEnable(GL_RESCALE_NORMAL);
-    glScalef(-1, -1, 1);
+    (void)0;
+    RenderPath.MatrixScale(-1, -1, 1);
 
-    glEnable(GL_ALPHA_TEST);
+    RenderPath.StateSetAlphaTestEnable(true);
 
     model->render(nullptr, 0, 0, 0, rot, 0, scale, true);
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }

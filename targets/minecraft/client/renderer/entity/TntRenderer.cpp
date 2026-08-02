@@ -22,8 +22,8 @@ void TntRenderer::render(std::shared_ptr<Entity> _tnt, double x, double y,
     // our version
     std::shared_ptr<PrimedTnt> tnt = std::dynamic_pointer_cast<PrimedTnt>(_tnt);
 
-    glPushMatrix();
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
     if (tnt->life - a + 1 < 10) {
         float g = 1 - ((tnt->life - a + 1) / 10.0f);
         if (g < 0) g = 0;
@@ -31,7 +31,7 @@ void TntRenderer::render(std::shared_ptr<Entity> _tnt, double x, double y,
         g = g * g;
         g = g * g;
         float s = 1.0f + g * 0.3f;
-        glScalef(s, s, s);
+        RenderPath.MatrixScale(s, s, s);
     }
 
     float br = (1 - ((tnt->life - a + 1) / 100.0f)) * 0.8f;
@@ -41,22 +41,22 @@ void TntRenderer::render(std::shared_ptr<Entity> _tnt, double x, double y,
         SharedConstants::TEXTURE_LIGHTING ? 1.0f : tnt->getBrightness(a);
     renderer->renderTile(Tile::tnt, 0, brightness);
     if (tnt->life / 5 % 2 == 0) {
-        glDisable(GL_TEXTURE_2D);
-        glDisable(GL_LIGHTING);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
-        glColor4f(1, 1, 1, br);
+        RenderPath.StateSetTextureEnable(false);
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::dst_alpha);
+        RenderPath.StateSetColour(1, 1, 1, br);
         renderer->setColor = false;  // 4J added so that renderTile doesn't set
                                      // its own colour here
         renderer->renderTile(Tile::tnt, 0, 1);
         renderer->setColor = true;  // 4J added so that renderTile doesn't set
                                     // its own colour here
-        glColor4f(1, 1, 1, 1);
-        glDisable(GL_BLEND);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_TEXTURE_2D);
+        RenderPath.StateSetColour(1, 1, 1, 1);
+        RenderPath.StateSetBlendEnable(false);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetTextureEnable(true);
     }
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
 
 ResourceLocation* TntRenderer::getTextureLocation(std::shared_ptr<Entity> mob) {

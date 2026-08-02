@@ -10,6 +10,8 @@
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
+#include <numbers>
+
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/Options.h"
@@ -35,9 +37,9 @@ UIControl_MinecraftHorse::UIControl_MinecraftHorse() {
 
 void UIControl_MinecraftHorse::render(IggyCustomDrawCallbackRegion* region) {
     Minecraft* pMinecraft = Minecraft::GetInstance();
-    glEnable(GL_RESCALE_NORMAL);
-    glEnable(GL_COLOR_MATERIAL);
-    glPushMatrix();
+    (void)0;
+    (void)0;
+    RenderPath.MatrixPush();
 
     float width = region->x1 - region->x0;
     float height = region->y1 - region->y0;
@@ -45,7 +47,7 @@ void UIControl_MinecraftHorse::render(IggyCustomDrawCallbackRegion* region) {
     float yo = height;
 
     // dynamic y offset according to region height
-    glTranslatef(xo, yo - (height / 7.5f), 50.0f);
+    RenderPath.MatrixTranslate(xo, yo - (height / 7.5f), 50.0f);
 
     // UIScene_InventoryMenu *containerMenu = (UIScene_InventoryMenu
     // *)m_parentScene;
@@ -58,8 +60,8 @@ void UIControl_MinecraftHorse::render(IggyCustomDrawCallbackRegion* region) {
     // Potentially we might want separate x & y scales here
     float ss = width / (m_fScreenWidth / m_fScreenHeight) * 0.71f;
 
-    glScalef(-ss, ss, ss);
-    glRotatef(180, 0, 0, 1);
+    RenderPath.MatrixScale(-ss, ss, ss);
+    RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
     float oybr = entityHorse->yBodyRot;
     float oyr = entityHorse->yRot;
@@ -74,18 +76,18 @@ void UIControl_MinecraftHorse::render(IggyCustomDrawCallbackRegion* region) {
     // m_pointerPos.y;
     float yd = (m_y + m_height / 2 - 40) - containerMenu->m_pointerPos.y;
 
-    glRotatef(45 + 90, 0, 1, 0);
+    RenderPath.MatrixRotate((45 + 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     Lighting::turnOn();
-    glRotatef(-45 - 90, 0, 1, 0);
+    RenderPath.MatrixRotate((-45 - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-    glRotatef(-(float)atan(yd / 40.0f) * 20, 1, 0, 0);
+    RenderPath.MatrixRotate((-(float)atan(yd / 40.0f) * 20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
     entityHorse->yBodyRot = (float)atan(xd / 40.0f) * 20;
     entityHorse->yRot = (float)atan(xd / 40.0f) * 40;
     entityHorse->xRot = -(float)atan(yd / 40.0f) * 20;
     entityHorse->yHeadRot = entityHorse->yRot;
     // entityHorse->glow = 1;
-    glTranslatef(0, entityHorse->heightOffset, 0);
+    RenderPath.MatrixTranslate(0, entityHorse->heightOffset, 0);
     EntityRenderDispatcher::instance->playerRotY = 180;
 
     // 4J Stu - Turning on hideGui while we do this stops the name rendering in
@@ -101,7 +103,7 @@ void UIControl_MinecraftHorse::render(IggyCustomDrawCallbackRegion* region) {
     entityHorse->yRot = oyr;
     entityHorse->xRot = oxr;
     entityHorse->yHeadRot = oyhr;
-    glPopMatrix();
+    RenderPath.MatrixPop();
     Lighting::turnOff();
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 }

@@ -76,7 +76,7 @@ void MerchantScreen::renderLabels() {
 
 void MerchantScreen::renderBg(float a) {
 #ifdef ENABLE_JAVA_GUIS
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
     minecraft->textures->bindTexture(&GUI_VILLAGER_LOCATION);
     int xo = (width - imageWidth) / 2;
     int yo = (height - imageHeight) / 2;
@@ -109,12 +109,12 @@ void MerchantScreen::render(int xm, int ym, float a) {
             std::shared_ptr<ItemInstance> buyItem2 = recipe->getBuyBItem();
             std::shared_ptr<ItemInstance> sellItem = recipe->getSellItem();
 
-            glPushMatrix();
-            glTranslatef((float)xo, (float)yo, 0.0f);
+            RenderPath.MatrixPush();
+            RenderPath.MatrixTranslate((float)xo, (float)yo, 0.0f);
 
             Lighting::turnOn();
-            glEnable(GL_RESCALE_NORMAL);
-            glEnable(GL_LIGHTING);
+            (void)0;
+            RenderPath.StateSetLightingEnable(true);
 
             if (buyItem1 != nullptr) {
                 itemRenderer->renderGuiItem(font, minecraft->textures, buyItem1,
@@ -137,11 +137,11 @@ void MerchantScreen::render(int xm, int ym, float a) {
                     font, minecraft->textures, sellItem, 120, 24);
             }
 
-            glDisable(GL_LIGHTING);
-            glDisable(GL_RESCALE_NORMAL);
+            RenderPath.StateSetLightingEnable(false);
+            (void)0;
             Lighting::turnOff();
 
-            glPopMatrix();
+            RenderPath.MatrixPop();
 
             if (buyItem1 != nullptr && isHoveringOver(36, 24, 16, 16, xm, ym)) {
                 renderTooltip(buyItem1, xm, ym);

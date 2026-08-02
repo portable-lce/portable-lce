@@ -56,17 +56,17 @@ void EnderDragonRenderer::setupRotations(std::shared_ptr<LivingEntity> _mob,
     // rot2 -= lp[1];
     float rot2 = mob->getTilt(a);
 
-    glRotatef(-yr, 0, 1, 0);
+    RenderPath.MatrixRotate((-yr)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-    glRotatef(rot2, 1, 0, 0);
-    // glRotatef(rot2 * 10, 1, 0, 0);
+    RenderPath.MatrixRotate((rot2)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+    // RenderPath.MatrixRotate((rot2 * 10)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
-    glTranslatef(0, 0, 1);
+    RenderPath.MatrixTranslate(0, 0, 1);
     if (mob->deathTime > 0) {
         float fall = (mob->deathTime + a - 1) / 20.0f * 1.6f;
         fall = sqrt(fall);
         if (fall > 1) fall = 1;
-        glRotatef(fall * getFlipDegrees(mob), 0, 0, 1);
+        RenderPath.MatrixRotate((fall * getFlipDegrees(mob))*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
     }
 }
 
@@ -81,33 +81,33 @@ void EnderDragonRenderer::renderModel(std::shared_ptr<LivingEntity> _mob,
 
     if (mob->dragonDeathTime > 0) {
         float tt = (mob->dragonDeathTime / 200.0f);
-        glDepthFunc(GL_LEQUAL);
-        glEnable(GL_ALPHA_TEST);
-        glAlphaFunc(GL_GREATER, tt);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
+        RenderPath.StateSetAlphaTestEnable(true);
+        RenderPath.StateSetAlphaFunc(rp::AlphaTest::greater, tt);
         bindTexture(
             &DRAGON_EXPLODING_LOCATION);  // 4J was
                                           // "/mob/enderdragon/shuffle.png"
         model->render(mob, wp, ws, bob, headRotMinusBodyRot, headRotx, scale,
                       true);
-        glAlphaFunc(GL_GREATER, 0.1f);
+        RenderPath.StateSetAlphaFunc(rp::AlphaTest::greater, 0.1f);
 
-        glDepthFunc(GL_EQUAL);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::equal);
     }
 
     bindTexture(mob);
     model->render(mob, wp, ws, bob, headRotMinusBodyRot, headRotx, scale, true);
 
     if (mob->hurtTime > 0) {
-        glDepthFunc(GL_EQUAL);
-        glDisable(GL_TEXTURE_2D);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glColor4f(1, 0, 0, 0.5f);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::equal);
+        RenderPath.StateSetTextureEnable(false);
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
+        RenderPath.StateSetColour(1, 0, 0, 0.5f);
         model->render(mob, wp, ws, bob, headRotMinusBodyRot, headRotx, scale,
                       false);
-        glEnable(GL_TEXTURE_2D);
-        glDisable(GL_BLEND);
-        glDepthFunc(GL_LEQUAL);
+        RenderPath.StateSetTextureEnable(true);
+        RenderPath.StateSetBlendEnable(false);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
     }
 }
 
@@ -136,18 +136,18 @@ void EnderDragonRenderer::render(std::shared_ptr<Entity> _mob, double x,
 
         // this fixes a problem when the dragon is hit and the beam goes black
         // because the diffuse colour isn't being reset in MobRenderer::render
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetColour(1, 1, 1, 1);
 
-        glPushMatrix();
-        glTranslatef((float)x, (float)y + 2, (float)z);
-        glRotatef((float)(-atan2(zd, xd)) * 180.0f / std::numbers::pi - 90.0f,
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate((float)x, (float)y + 2, (float)z);
+        RenderPath.MatrixRotate((float)(-atan2(zd, xd)) - (90.0f * std::numbers::pi_v<float> / 180.f),
                   0, 1, 0);
-        glRotatef((float)(-atan2(sdd, yd)) * 180.0f / std::numbers::pi - 90.0f,
+        RenderPath.MatrixRotate((float)(-atan2(sdd, yd)) - (90.0f * std::numbers::pi_v<float> / 180.f),
                   1, 0, 0);
 
         // 4J-PB - Rotating the healing beam too
         static float fRot = 0.0f;
-        glRotatef(fRot, 0, 0, 1);
+        RenderPath.MatrixRotate((fRot)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
         fRot += 0.5f;  // 4J - rate of rotation changed from 5.0 to 0.5 for
                        // photosensitivity reasons
         if (fRot >= 360.0f) {
@@ -156,15 +156,15 @@ void EnderDragonRenderer::render(std::shared_ptr<Entity> _mob, double x,
 
         Tesselator* t = Tesselator::getInstance();
         Lighting::turnOff();
-        glDisable(GL_CULL_FACE);
+        RenderPath.StateSetFaceCull(false);
 
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::dst_alpha);
 
         bindTexture(
             &CRYSTAL_BEAM_LOCATION);  // 4J was "/mob/enderdragon/beam.png"
 
-        glShadeModel(GL_SMOOTH);
+        (void)0;
 
         float v0 = 0 - (mob->tickCount + a) *
                            0.005f;  // 4J - rate of movement changed from 0.01
@@ -172,7 +172,7 @@ void EnderDragonRenderer::render(std::shared_ptr<Entity> _mob, double x,
         float v1 = sqrt(xd * xd + yd * yd + zd * zd) / 32.0f -
                    (mob->tickCount + a) * 0.005f;
 
-        t->begin(GL_TRIANGLE_STRIP);
+        t->begin(0x0005);
 
         int steps = 8;
         for (int i = 0; i <= steps; i++) {
@@ -187,11 +187,11 @@ void EnderDragonRenderer::render(std::shared_ptr<Entity> _mob, double x,
         }
 
         t->end();
-        glEnable(GL_CULL_FACE);
-        glShadeModel(GL_FLAT);
-        glDisable(GL_BLEND);
+        RenderPath.StateSetFaceCull(true);
+        (void)0;
+        RenderPath.StateSetBlendEnable(false);
 
-        glPopMatrix();
+        RenderPath.MatrixPop();
         Lighting::turnOn();
     }
 }
@@ -219,23 +219,23 @@ void EnderDragonRenderer::additionalRendering(
         }
 
         Random random(432);
-        glDisable(GL_TEXTURE_2D);
-        glShadeModel(GL_SMOOTH);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-        glDisable(GL_ALPHA_TEST);
-        glEnable(GL_CULL_FACE);
-        glDepthMask(false);
-        glPushMatrix();
-        glTranslatef(0, -1, -2);
+        RenderPath.StateSetTextureEnable(false);
+        (void)0;
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one);
+        RenderPath.StateSetAlphaTestEnable(false);
+        RenderPath.StateSetFaceCull(true);
+        RenderPath.StateSetDepthMask(false);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate(0, -1, -2);
         for (int i = 0; i < (tt + tt * tt) / 2 * 60; i++) {
-            glRotatef(random.nextFloat() * 360, 1, 0, 0);
-            glRotatef(random.nextFloat() * 360, 0, 1, 0);
-            glRotatef(random.nextFloat() * 360, 0, 0, 1);
-            glRotatef(random.nextFloat() * 360, 1, 0, 0);
-            glRotatef(random.nextFloat() * 360, 0, 1, 0);
-            glRotatef(random.nextFloat() * 360 + tt * 90, 0, 0, 1);
-            t->begin(GL_TRIANGLE_FAN);
+            RenderPath.MatrixRotate((random.nextFloat() * 360)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((random.nextFloat() * 360)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixRotate((random.nextFloat() * 360)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+            RenderPath.MatrixRotate((random.nextFloat() * 360)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((random.nextFloat() * 360)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixRotate((random.nextFloat() * 360 + tt * 90)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+            t->begin(0x0006);
             float dist = random.nextFloat() * 20 + 5 + overDrive * 10;
             float w = random.nextFloat() * 2 + 1 + overDrive * 2;
             t->color(0xffffff, (int)(255 * (1 - overDrive)));
@@ -247,14 +247,14 @@ void EnderDragonRenderer::additionalRendering(
             t->vertex(-0.866 * w, dist, -0.5f * w);
             t->end();
         }
-        glPopMatrix();
-        glDepthMask(true);
-        glDisable(GL_CULL_FACE);
-        glDisable(GL_BLEND);
-        glShadeModel(GL_FLAT);
-        glColor4f(1, 1, 1, 1);
-        glEnable(GL_TEXTURE_2D);
-        glEnable(GL_ALPHA_TEST);
+        RenderPath.MatrixPop();
+        RenderPath.StateSetDepthMask(true);
+        RenderPath.StateSetFaceCull(false);
+        RenderPath.StateSetBlendEnable(false);
+        (void)0;
+        RenderPath.StateSetColour(1, 1, 1, 1);
+        RenderPath.StateSetTextureEnable(true);
+        RenderPath.StateSetAlphaTestEnable(true);
         Lighting::turnOn();
     }
 }
@@ -267,32 +267,32 @@ int EnderDragonRenderer::prepareArmor(std::shared_ptr<LivingEntity> _mob,
         std::dynamic_pointer_cast<EnderDragon>(_mob);
 
     if (layer == 1) {
-        glDepthFunc(GL_LEQUAL);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
     }
     if (layer != 0) return -1;
 
     bindTexture(
         &DRAGON_EYES_LOCATION);  // 4J was "/mob/enderdragon/ender_eyes.png"
     float br = 1;
-    glEnable(GL_BLEND);
+    RenderPath.StateSetBlendEnable(true);
     // 4J Stu - We probably don't need to do this on 360 either (as we force it
     // back on the renderer) However we do want it off for other platforms that
     // don't force it on in the render lib CBuff handling Several texture packs
     // have fully transparent bits that break if this is off
-    glBlendFunc(GL_ONE, GL_ONE);
-    glDisable(GL_LIGHTING);
-    glDepthFunc(GL_EQUAL);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::one, rp::BlendFactor::one);
+    RenderPath.StateSetLightingEnable(false);
+    RenderPath.StateSetDepthFunc(rp::DepthTest::equal);
 
     if (SharedConstants::TEXTURE_LIGHTING) {
         int col = 0xf0f0;
         int u = col % 65536;
         int v = col / 65536;
 
-        glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     }
 
-    glEnable(GL_LIGHTING);
-    glColor4f(1, 1, 1, br);
+    RenderPath.StateSetLightingEnable(true);
+    RenderPath.StateSetColour(1, 1, 1, br);
     return 1;
 }

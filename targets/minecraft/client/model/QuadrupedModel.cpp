@@ -55,19 +55,19 @@ void QuadrupedModel::render(std::shared_ptr<Entity> entity, float time, float r,
 
     if (young) {
         float ss = 2.0f;
-        glPushMatrix();
-        glTranslatef(0, yHeadOffs * scale, zHeadOffs * scale);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate(0, yHeadOffs * scale, zHeadOffs * scale);
         head->render(scale, usecompiled);
-        glPopMatrix();
-        glPushMatrix();
-        glScalef(1 / ss, 1 / ss, 1 / ss);
-        glTranslatef(0, 24 * scale, 0);
+        RenderPath.MatrixPop();
+        RenderPath.MatrixPush();
+        RenderPath.MatrixScale(1 / ss, 1 / ss, 1 / ss);
+        RenderPath.MatrixTranslate(0, 24 * scale, 0);
         body->render(scale, usecompiled);
         leg0->render(scale, usecompiled);
         leg1->render(scale, usecompiled);
         leg2->render(scale, usecompiled);
         leg3->render(scale, usecompiled);
-        glPopMatrix();
+        RenderPath.MatrixPop();
     } else {
         head->render(scale, usecompiled);
         body->render(scale, usecompiled);
@@ -111,19 +111,19 @@ void QuadrupedModel::render(QuadrupedModel* model, float scale,
 
     if (young) {
         float ss = 2.0f;
-        glPushMatrix();
-        glTranslatef(0, 8 * scale, 4 * scale);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate(0, 8 * scale, 4 * scale);
         head->render(scale, usecompiled);
-        glPopMatrix();
-        glPushMatrix();
-        glScalef(1 / ss, 1 / ss, 1 / ss);
-        glTranslatef(0, 24 * scale, 0);
+        RenderPath.MatrixPop();
+        RenderPath.MatrixPush();
+        RenderPath.MatrixScale(1 / ss, 1 / ss, 1 / ss);
+        RenderPath.MatrixTranslate(0, 24 * scale, 0);
         body->render(scale, usecompiled);
         leg0->render(scale, usecompiled);
         leg1->render(scale, usecompiled);
         leg2->render(scale, usecompiled);
         leg3->render(scale, usecompiled);
-        glPopMatrix();
+        RenderPath.MatrixPop();
     } else {
         head->render(scale, usecompiled);
         body->render(scale, usecompiled);

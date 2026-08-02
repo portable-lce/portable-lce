@@ -10,6 +10,8 @@
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
 
+#include <numbers>
+
 #include "java/Class.h"
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
@@ -32,41 +34,41 @@ UIControl_EnchantmentBook::UIControl_EnchantmentBook() {
 }
 
 void UIControl_EnchantmentBook::render(IggyCustomDrawCallbackRegion* region) {
-    glPushMatrix();
+    RenderPath.MatrixPush();
     float width = region->x1 - region->x0;
     float height = region->y1 - region->y0;
 
     // Revert the scale from the setup
     float ssX = width / m_width;
     float ssY = height / m_height;
-    glScalef(ssX, ssY, 1.0f);
+    RenderPath.MatrixScale(ssX, ssY, 1.0f);
 
-    glTranslatef(m_width / 2, m_height / 2, 50.0f);
+    RenderPath.MatrixTranslate(m_width / 2, m_height / 2, 50.0f);
 
     // Add a uniform scale
-    glScalef(-57 / ssX, 57 / ssX, 360.0f);
+    RenderPath.MatrixScale(-57 / ssX, 57 / ssX, 360.0f);
 
-    glRotatef(45 + 90, 0, 1, 0);
+    RenderPath.MatrixRotate((45 + 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     Lighting::turnOn();
-    glRotatef(-45 - 90, 0, 1, 0);
+    RenderPath.MatrixRotate((-45 - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
     // float sss = 4;
 
-    // glTranslatef(0, 3.3f, -16);
-    // glScalef(sss, sss, sss);
+    // RenderPath.MatrixTranslate(0, 3.3f, -16);
+    // RenderPath.MatrixScale(sss, sss, sss);
 
     Minecraft* pMinecraft = Minecraft::GetInstance();
     int tex = pMinecraft->textures->loadTexture(
         TN_ITEM_BOOK);  // 4J was "/1_2_2/item/book.png"
     pMinecraft->textures->bind(tex);
 
-    glRotatef(20, 1, 0, 0);
+    RenderPath.MatrixRotate((20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
     float a = 1;
     float o = oOpen + (open - oOpen) * a;
-    glTranslatef((1 - o) * 0.2f, (1 - o) * 0.1f, (1 - o) * 0.25f);
-    glRotatef(-(1 - o) * 90 - 90, 0, 1, 0);
-    glRotatef(180, 1, 0, 0);
+    RenderPath.MatrixTranslate((1 - o) * 0.2f, (1 - o) * 0.1f, (1 - o) * 0.25f);
+    RenderPath.MatrixRotate((-(1 - o) * 90 - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
     float ff1 = oFlip + (flip - oFlip) * a + 0.25f;
     float ff2 = oFlip + (flip - oFlip) * a + 0.75f;
@@ -78,7 +80,7 @@ void UIControl_EnchantmentBook::render(IggyCustomDrawCallbackRegion* region) {
     if (ff1 > 1) ff1 = 1;
     if (ff2 > 1) ff2 = 1;
 
-    glEnable(GL_CULL_FACE);
+    RenderPath.StateSetFaceCull(true);
 
     if (model == nullptr) {
         // Share the model the the EnchantTableRenderer
@@ -94,11 +96,11 @@ void UIControl_EnchantmentBook::render(IggyCustomDrawCallbackRegion* region) {
     }
 
     model->render(nullptr, 0, ff1, ff2, o, 0, 1 / 16.0f, true);
-    glDisable(GL_CULL_FACE);
+    RenderPath.StateSetFaceCull(false);
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
     Lighting::turnOff();
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 
     tickBook();
 }

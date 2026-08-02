@@ -31,15 +31,15 @@ int SlimeRenderer::prepareArmor(std::shared_ptr<LivingEntity> _slime, int layer,
     if (layer == 0) {
         setArmor(armor);
 
-        glEnable(GL_NORMALIZE);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        (void)0;
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
         return 1;
     }
     if (layer == 1) {
-        glDisable(GL_BLEND);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetBlendEnable(false);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     }
     return -1;
 }
@@ -53,7 +53,7 @@ void SlimeRenderer::scale(std::shared_ptr<LivingEntity> _slime, float a) {
     float ss = (slime->oSquish + (slime->squish - slime->oSquish) * a) /
                (size * 0.5f + 1);
     float w = 1 / (ss + 1);
-    glScalef(w * size, 1 / w * size, w * size);
+    RenderPath.MatrixScale(w * size, 1 / w * size, w * size);
 }
 
 ResourceLocation* SlimeRenderer::getTextureLocation(

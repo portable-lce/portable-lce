@@ -46,7 +46,7 @@ void VillagerGolemRenderer::setupRotations(std::shared_ptr<LivingEntity> _mob,
     float wp = mob->walkAnimPos - mob->walkAnimSpeed * (1 - a) + 6;
     float triangleWave =
         (std::abs(std::fmod(wp, p) - p * 0.5f) - p * 0.25f) / (p * 0.25f);
-    glRotatef(6.5f * triangleWave, 0, 0, 1);
+    RenderPath.MatrixRotate((6.5f * triangleWave)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 }
 
 ResourceLocation* VillagerGolemRenderer::getTextureLocation(
@@ -64,27 +64,27 @@ void VillagerGolemRenderer::additionalRendering(
     MobRenderer::additionalRendering(mob, a);
     if (mob->getOfferFlowerTick() == 0) return;
 
-    glEnable(GL_RESCALE_NORMAL);
-    glPushMatrix();
+    (void)0;
+    RenderPath.MatrixPush();
 
     // dont ask me how I got the flower into his hand.
-    glRotatef(5 + 180 * golemModel->arm0->xRot / std::numbers::pi, 1, 0, 0);
-    glTranslatef(-11 / 16.0f, 20 / 16.0f, -15 / 16.0f);
-    glRotatef(90, 1, 0, 0);
+    RenderPath.MatrixRotate((5 + 180 * golemModel->arm0->xRot / std::numbers::pi)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+    RenderPath.MatrixTranslate(-11 / 16.0f, 20 / 16.0f, -15 / 16.0f);
+    RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
     float s = 0.8f;
-    glScalef(s, -s, s);
+    RenderPath.MatrixScale(s, -s, s);
 
     if (SharedConstants::TEXTURE_LIGHTING) {
         int col = mob->getLightColor(a);
         int u = col % 65536;
         int v = col / 65536;
-        glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     }
 
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     bindTexture(&TextureAtlas::LOCATION_BLOCKS);  // TODO: By Icon
     tileRenderer->renderTile(Tile::rose, 0, 1);
-    glPopMatrix();
-    glDisable(GL_RESCALE_NORMAL);
+    RenderPath.MatrixPop();
+    (void)0;
 }

@@ -25,26 +25,26 @@ void TntMinecartRenderer::renderMinecartContents(
             g *= g;
             g *= g;
             float s = 1.0f + g * 0.3f;
-            glScalef(s, s, s);
+            RenderPath.MatrixScale(s, s, s);
         }
     }
 
     MinecartRenderer::renderMinecartContents(cart, a, tile, tileData);
 
     if (fuse > -1 && fuse / 5 % 2 == 0) {
-        glDisable(GL_TEXTURE_2D);
-        glDisable(GL_LIGHTING);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
-        glColor4f(1, 1, 1, (1 - ((fuse - a + 1) / 100.0f)) * 0.8f);
+        RenderPath.StateSetTextureEnable(false);
+        RenderPath.StateSetLightingEnable(false);
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::dst_alpha);
+        RenderPath.StateSetColour(1, 1, 1, (1 - ((fuse - a + 1) / 100.0f)) * 0.8f);
 
-        glPushMatrix();
+        RenderPath.MatrixPush();
         renderer->renderTile(Tile::tnt, 0, 1);
-        glPopMatrix();
+        RenderPath.MatrixPop();
 
-        glColor4f(1, 1, 1, 1);
-        glDisable(GL_BLEND);
-        glEnable(GL_LIGHTING);
-        glEnable(GL_TEXTURE_2D);
+        RenderPath.StateSetColour(1, 1, 1, 1);
+        RenderPath.StateSetBlendEnable(false);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetTextureEnable(true);
     }
 }

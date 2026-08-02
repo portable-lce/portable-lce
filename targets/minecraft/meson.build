@@ -6,14 +6,17 @@
 fs = import('fs')
 minecraft_sources = files(fs.read('sources.txt').strip().split('\n'))
 
-lib_minecraft = static_library(
-    'minecraft',
+lib_minecraft = static_library('minecraft',
     minecraft_sources,
-    dependencies: [
+    dependencies : [
         # dependency('libcrypto'), # for MD5 in Hasher.cpp on Linux
         dependency('zlib'),
         dependency('glm'),
-        dependency('glew'),  # TODO remove
+        dependency('glew'), # TODO remove
+        host_machine.system() == 'darwin' ? dependency('metal') : [],
+        host_machine.system() == 'darwin' ? dependency('metalkit') : [],
+        host_machine.system() == 'darwin' ? dependency('quartzcore') : [],
+        host_machine.system() == 'darwin' ? dependency('iokit') : [],
         nbt_dep,
         java_dep,
         util_dep,
@@ -26,8 +29,8 @@ lib_minecraft = static_library(
         platform_fs_dep,
         platform_thread_dep,
     ],
-    include_directories: include_directories('..'),
-    cpp_args: global_cpp_args + global_cpp_defs,
+    include_directories : include_directories('..'),
+    cpp_args : global_cpp_args + global_cpp_defs,
 )
 
-minecraft_dep = declare_dependency(link_with: lib_minecraft)
+minecraft_dep = declare_dependency(link_with : lib_minecraft)

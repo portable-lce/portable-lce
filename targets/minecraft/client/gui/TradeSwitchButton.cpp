@@ -25,7 +25,7 @@ void TradeSwitchButton::renderBg(Minecraft* minecraft, int xm, int ym) {
 #ifdef ENABLE_JAVA_GUIS
     if (!visible) return;
 
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
     minecraft->textures->bindTexture(&GUI_VILLAGER_LOCATION);
 
     bool hovered = (xm >= x && ym >= y && xm < x + w && ym < y + h);

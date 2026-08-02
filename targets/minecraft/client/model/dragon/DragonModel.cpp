@@ -125,7 +125,7 @@ void DragonModel::prepareMobModel(std::shared_ptr<LivingEntity> mob, float time,
 void DragonModel::render(std::shared_ptr<Entity> entity, float time, float r,
                          float bob, float yRot, float xRot, float scale,
                          bool usecompiled) {
-    glPushMatrix();
+    RenderPath.MatrixPush();
     std::shared_ptr<EnderDragon> dragon =
         std::dynamic_pointer_cast<EnderDragon>(entity);
 
@@ -135,8 +135,8 @@ void DragonModel::render(std::shared_ptr<Entity> entity, float time, float r,
     float yo = (float)(sinf(ttt * std::numbers::pi * 2 - 1) + 1);
     yo = (yo * yo * 1 + yo * 2) * 0.05f;
 
-    glTranslatef(0, yo - 2.0f, -3);
-    glRotatef(yo * 2, 1, 0, 0);
+    RenderPath.MatrixTranslate(0, yo - 2.0f, -3);
+    RenderPath.MatrixRotate((yo * 2)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
     float yy = -30.0f;
     float zz = 22.0f;
@@ -204,14 +204,14 @@ void DragonModel::render(std::shared_ptr<Entity> entity, float time, float r,
                  std::numbers::pi / 180.0f * rotScale * 5.0f;  // 4J Added
     head->zRot = -rotWrap(p[0] - rot) * std::numbers::pi / 180 * 1;
     head->render(scale, usecompiled);
-    glPushMatrix();
-    glTranslatef(0, 1, 0);
-    glRotatef(-(float)(rot2)*rotScale * 1, 0, 0, 1);
-    glTranslatef(0, -1, 0);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate(0, 1, 0);
+    RenderPath.MatrixRotate((-(float)(rot2)*rotScale * 1)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+    RenderPath.MatrixTranslate(0, -1, 0);
     body->zRot = 0;
     body->render(scale, usecompiled);
 
-    glEnable(GL_CULL_FACE);
+    RenderPath.StateSetFaceCull(true);
     for (int i = 0; i < 2; i++) {
         float flapTime = ttt * std::numbers::pi * 2;
         wing->xRot = 0.125f - (float)(cosf(flapTime)) * 0.2f;
@@ -229,14 +229,14 @@ void DragonModel::render(std::shared_ptr<Entity> entity, float time, float r,
         wing->render(scale, usecompiled);
         frontLeg->render(scale, usecompiled);
         rearLeg->render(scale, usecompiled);
-        glScalef(-1, 1, 1);
+        RenderPath.MatrixScale(-1, 1, 1);
         if (i == 0) {
-            glCullFace(GL_FRONT);
+            (void)0;
         }
     }
-    glPopMatrix();
-    glCullFace(GL_BACK);
-    glDisable(GL_CULL_FACE);
+    RenderPath.MatrixPop();
+    (void)0;
+    RenderPath.StateSetFaceCull(false);
 
     rr = -(float)sinf(ttt * std::numbers::pi * 2) * 0.0f;
     roff = ttt * std::numbers::pi * 2;
@@ -260,7 +260,7 @@ void DragonModel::render(std::shared_ptr<Entity> entity, float time, float r,
         xx -= sinf(neck->yRot) * cosf(neck->xRot) * 10;
         neck->render(scale, usecompiled);
     }
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
 float DragonModel::rotWrap(double d) {
     while (d >= 180) d -= 360;

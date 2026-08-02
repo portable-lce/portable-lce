@@ -35,7 +35,7 @@ void FootstepParticle::render(Tesselator* t, float a, float xa, float ya,
     if (alpha > 1) alpha = 1;
     alpha = alpha * 0.2f;
 
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
     float r = 2 / 16.0f;
 
     float xx = (float)(x - xOff);
@@ -46,8 +46,8 @@ void FootstepParticle::render(Tesselator* t, float a, float xa, float ya,
         level->getBrightness(std::floor(x), std::floor(y), std::floor(z));
 
     textures->bindTexture(&FOOTPRINT_LOCATION);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
     t->begin();
     t->color(br, br, br, alpha);
@@ -61,8 +61,8 @@ void FootstepParticle::render(Tesselator* t, float a, float xa, float ya,
                 (float)(0));
     t->end();
 
-    glDisable(GL_BLEND);
-    glEnable(GL_LIGHTING);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetLightingEnable(true);
 }
 
 void FootstepParticle::tick() {

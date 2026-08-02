@@ -46,17 +46,17 @@ UIComponent_TutorialPopup::UIComponent_TutorialPopup(int iPad, void* initData,
 
 std::string UIComponent_TutorialPopup::getMoviePath() {
     switch (m_parentLayer->getViewport()) {
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
             return "TutorialPopupSplit";
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
+        case 0:
         default:
             return "TutorialPopup";
             break;
@@ -409,9 +409,9 @@ void UIComponent_TutorialPopup::UpdateInteractScenePosition(bool visible) {
     bool isTradingScene =
         (m_interactScene->getSceneType() == eUIScene_TradingMenu);
     switch (Minecraft::GetInstance()->localplayers[m_iPad]->m_iScreenSection) {
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+        case 0:
+        case 1:
+        case 2:
             bAllowAnim = true;
             break;
         default:
@@ -442,24 +442,24 @@ void UIComponent_TutorialPopup::UpdateInteractScenePosition(bool visible) {
 }
 
 void UIComponent_TutorialPopup::render(
-    S32 width, S32 height, IPlatformRenderer::eViewportType viewport) {
-    if (viewport != IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN) {
+    S32 width, S32 height, int viewport) {
+    if (viewport != 0) {
         S32 xPos = 0;
         S32 yPos = 0;
         switch (viewport) {
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+            case 2:
                 xPos = (S32)(ui.getScreenWidth() / 2);
                 yPos = (S32)(ui.getScreenHeight() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
+            case 7:
                 yPos = (S32)(ui.getScreenHeight() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
+            case 1:
+            case 4:
+            case 6:
                 xPos = (S32)(ui.getScreenWidth() / 2);
                 break;
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+            case 8:
                 xPos = (S32)(ui.getScreenWidth() / 2);
                 yPos = (S32)(ui.getScreenHeight() / 2);
                 break;
@@ -468,22 +468,22 @@ void UIComponent_TutorialPopup::render(
         }
         // Adjust for safezone
         switch (viewport) {
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
+            case 1:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
                 yPos += getSafeZoneHalfHeight();
                 break;
             default:
                 break;
         }
         switch (viewport) {
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
-            case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
-            case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+            case 1:
+            case 2:
+            case 4:
+            case 6:
+            case 8:
                 xPos -= getSafeZoneHalfWidth();
                 break;
             default:

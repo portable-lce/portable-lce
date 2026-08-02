@@ -64,7 +64,7 @@ void RepairScreen::removed() {
 
 void RepairScreen::render(int xm, int ym, float a) {
     AbstractContainerScreen::render(xm, ym, a);
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
     if (editName) {
         editName->render();
     }
@@ -121,7 +121,7 @@ void RepairScreen::renderLabels() {
 
 void RepairScreen::renderBg(float a) {
 #ifdef ENABLE_JAVA_GUIS
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
     Minecraft::GetInstance()->textures->bindTexture(&GUI_ANVIL_LOCATION);
     int xo = (width - imageWidth) / 2;
     int yo = (height - imageHeight) / 2;

@@ -1,6 +1,7 @@
 #include "EntityRenderer.h"
 
 #include <cmath>
+#include <numbers>
 
 #include "EntityRenderDispatcher.h"
 #include "java/Class.h"
@@ -52,7 +53,7 @@ bool EntityRenderer::bindTexture(const std::string& urlTexture,
     int id = t->loadMemTexture(urlTexture, backupTexture);
 
     if (id >= 0) {
-        glBindTexture(GL_TEXTURE_2D, id);
+        RenderPath.TextureBind(id);
         t->clearLastBoundId();
         return true;
     } else {
@@ -70,7 +71,7 @@ bool EntityRenderer::bindTexture(const std::string& urlTexture,
     int id = t->loadMemTexture(urlTexture, backupTexture);
 
     if (id >= 0) {
-        glBindTexture(GL_TEXTURE_2D, id);
+        RenderPath.TextureBind(id);
         t->clearLastBoundId();
         return true;
     } else {
@@ -80,16 +81,16 @@ bool EntityRenderer::bindTexture(const std::string& urlTexture,
 
 void EntityRenderer::renderFlame(std::shared_ptr<Entity> e, double x, double y,
                                  double z, float a) {
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
 
     Icon* fire1 = Tile::fire->getTextureLayer(0);
     Icon* fire2 = Tile::fire->getTextureLayer(1);
 
-    glPushMatrix();
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
 
     float s = e->bbWidth * 1.4f;
-    glScalef(s, s, s);
+    RenderPath.MatrixScale(s, s, s);
     bindTexture(&TextureAtlas::LOCATION_BLOCKS);
     Tesselator* t = Tesselator::getInstance();
 
@@ -99,10 +100,10 @@ void EntityRenderer::renderFlame(std::shared_ptr<Entity> e, double x, double y,
     float h = e->bbHeight / s;
     float yo = (float)(e->y - e->bb.y0);
 
-    glRotatef(-entityRenderDispatcher->playerRotY, 0, 1, 0);
+    RenderPath.MatrixRotate((-entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-    glTranslatef(0, 0, -0.3f + ((int)h) * 0.02f);
-    glColor4f(1, 1, 1, 1);
+    RenderPath.MatrixTranslate(0, 0, -0.3f + ((int)h) * 0.02f);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     float zo = 0;
     int ss = 0;
     t->begin();
@@ -139,20 +140,20 @@ void EntityRenderer::renderFlame(std::shared_ptr<Entity> e, double x, double y,
         ss++;
     }
     t->end();
-    glPopMatrix();
-    glEnable(GL_LIGHTING);
+    RenderPath.MatrixPop();
+    RenderPath.StateSetLightingEnable(true);
 }
 void EntityRenderer::renderShadow(std::shared_ptr<Entity> e, double x, double y,
                                   double z, float pow, float a) {
-    glDisable(GL_LIGHTING);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.StateSetLightingEnable(false);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
     entityRenderDispatcher->textures->bindTexture(&SHADOW_LOCATION);
 
     Level* level = getLevel();
 
-    glDepthMask(false);
+    RenderPath.StateSetDepthMask(false);
     float r = shadowRadius;
     float fYLocalPlayerShadowOffset = 0.0f;
 
@@ -208,10 +209,10 @@ void EntityRenderer::renderShadow(std::shared_ptr<Entity> e, double x, double y,
             }
     tt->end();
 
-    glColor4f(1, 1, 1, 1);
-    glDisable(GL_BLEND);
-    glDepthMask(true);
-    glEnable(GL_LIGHTING);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetDepthMask(true);
+    RenderPath.StateSetLightingEnable(true);
 }
 
 Level* EntityRenderer::getLevel() { return entityRenderDispatcher->level; }
@@ -229,7 +230,7 @@ void EntityRenderer::renderTileShadow(Tile* tt, double x, double y, double z,
     if (a > 1) a = 1;
 
     t->color(1.0f, 1.0f, 1.0f, (float)a);
-    // glColor4f(1, 1, 1, (float) a);
+    // RenderPath.StateSetColour(1, 1, 1, (float) a);
 
     double x0 = xt + tt->getShapeX0() + xo;
     double x1 = xt + tt->getShapeX1() + xo;
@@ -258,9 +259,9 @@ void EntityRenderer::renderTileShadow(Tile* tt, double x, double y, double z,
 }
 
 void EntityRenderer::render(AABB* bb, double xo, double yo, double zo) {
-    glDisable(GL_TEXTURE_2D);
+    RenderPath.StateSetTextureEnable(false);
     Tesselator* t = Tesselator::getInstance();
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     t->begin();
     t->offset((float)xo, (float)yo, (float)zo);
     t->normal(0, 0, -1);
@@ -300,7 +301,7 @@ void EntityRenderer::render(AABB* bb, double xo, double yo, double zo) {
     t->vertex((float)(bb->x1), (float)(bb->y0), (float)(bb->z1));
     t->offset(0, 0, 0);
     t->end();
-    glEnable(GL_TEXTURE_2D);
+    RenderPath.StateSetTextureEnable(true);
     // model.render(0, 1)
 }
 

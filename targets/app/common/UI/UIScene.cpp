@@ -17,6 +17,8 @@
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
+#include <numbers>
+
 #include "app/common/Audio/SoundTypes.h"
 #include "app/common/Game.h"
 #include "app/common/Iggy/include/rrCore.h"
@@ -27,6 +29,7 @@
 #include "minecraft/client/renderer/entity/ItemRenderer.h"
 #include "minecraft/world/entity/player/Inventory.h"
 #include "minecraft/world/item/ItemInstance.h"
+#include "platform/renderer/IRenderPath.h"
 #include "util/StringHelpers.h"
 
 class MultiplayerLocalPlayer;
@@ -144,7 +147,7 @@ F64 UIScene::getSafeZoneHalfHeight() {
 
     float safeHeight = 0.0f;
 
-    if (!PlatformRenderer.IsHiDef() && PlatformRenderer.IsWidescreen()) {
+    if (!RenderPath.framebuffer().is_hi_def && RenderPath.framebuffer().is_widescreen) {
         // 90% safezone
         safeHeight = height * (0.15f / 2);
     } else {
@@ -158,7 +161,7 @@ F64 UIScene::getSafeZoneHalfWidth() {
     float width = ui.getScreenWidth();
 
     float safeWidth = 0.0f;
-    if (!PlatformRenderer.IsHiDef() && PlatformRenderer.IsWidescreen()) {
+    if (!RenderPath.framebuffer().is_hi_def && RenderPath.framebuffer().is_widescreen) {
         // 85% safezone
         safeWidth = width * (0.15f / 2);
     } else {
@@ -176,35 +179,35 @@ void UIScene::updateSafeZone() {
     F64 safeRight = 0.0;
 
     switch (m_parentLayer->getViewport()) {
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP:
+        case 1:
             safeTop = getSafeZoneHalfHeight();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM:
+        case 2:
             safeBottom = getSafeZoneHalfHeight();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT:
+        case 3:
             safeLeft = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT:
+        case 4:
             safeRight = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_LEFT:
+        case 5:
             safeTop = getSafeZoneHalfHeight();
             safeLeft = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_TOP_RIGHT:
+        case 6:
             safeTop = getSafeZoneHalfHeight();
             safeRight = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_LEFT:
+        case 7:
             safeBottom = getSafeZoneHalfHeight();
             safeLeft = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_QUADRANT_BOTTOM_RIGHT:
+        case 8:
             safeBottom = getSafeZoneHalfHeight();
             safeRight = getSafeZoneHalfWidth();
             break;
-        case IPlatformRenderer::VIEWPORT_TYPE_FULLSCREEN:
+        case 0:
         default:
             safeTop = getSafeZoneHalfHeight();
             safeBottom = getSafeZoneHalfHeight();
@@ -497,7 +500,7 @@ void UIScene::doHorizontalResizeCheck() {
 }
 
 void UIScene::render(S32 width, S32 height,
-                     IPlatformRenderer::eViewportType viewport) {
+                     int viewport) {
     if (m_bIsReloading) return;
     if (!m_hasTickedOnce || !swf) return;
     ui.setupRenderPosition(viewport);
@@ -561,7 +564,7 @@ void UIScene::customDrawSlotControl(IggyCustomDrawCallbackRegion* region,
 
                 if (!useCommandBuffers || m_needsCacheRendered) {
                     if (useCommandBuffers)
-                        PlatformRenderer.CBuffStart(list, true);
+                        RenderPath.CBuffStart(list, true);
                     ui.setupCustomDrawMatrices(this, customDrawRegion);
                     _customDrawSlotControl(customDrawRegion, iPad, item, fAlpha,
                                            isFoil, bDecorations,
@@ -582,11 +585,11 @@ void UIScene::customDrawSlotControl(IggyCustomDrawCallbackRegion* region,
                         delete drawData;
                     }
 
-                    if (useCommandBuffers) PlatformRenderer.CBuffEnd();
+                    if (useCommandBuffers) RenderPath.CBuffEnd();
                 }
                 m_cachedSlotDraw.clear();
 
-                if (useCommandBuffers) (void)PlatformRenderer.CBuffCall(list);
+                if (useCommandBuffers) (void)RenderPath.CBuffCall(list);
 
                 // Finish GDraw and anything else that needs to be finalised
                 ui.endCustomDraw(region);
@@ -650,32 +653,32 @@ void UIScene::_customDrawSlotControl(CustomDrawData* region, int iPad,
 
     // 4jcraft: make sure we cull the back to not make transparent blocks (like
     // leaves) look weird
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
+    RenderPath.StateSetFaceCull(true);
+    (void)0;
 
     // 4jcraft: needed for transparency in the item renders (like in the
     // crafting menu)
     if (fAlpha < 1) {
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        RenderPath.StateSetBlendEnable(true);
+        RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
     }
-    glEnable(GL_RESCALE_NORMAL);
-    glPushMatrix();
+    (void)0;
+    RenderPath.MatrixPush();
     Lighting::turnOn();
-    glRotatef(120, 1, 0, 0);
-    glPopMatrix();
+    RenderPath.MatrixRotate((120)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+    RenderPath.MatrixPop();
 
     float pop = item->popTime;
     if (pop > 0) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
         float squeeze = 1 + pop / (float)Inventory::POP_TIME_DURATION;
         float sx = x;
         float sy = y;
         float sxoffs = 8 * scaleX;
         float syoffs = 12 * scaleY;
-        glTranslatef((float)(sx + sxoffs), (float)(sy + syoffs), 0);
-        glScalef(1 / squeeze, (squeeze + 1) / 2, 1);
-        glTranslatef((float)-(sx + sxoffs), (float)-(sy + syoffs), 0);
+        RenderPath.MatrixTranslate((float)(sx + sxoffs), (float)(sy + syoffs), 0);
+        RenderPath.MatrixScale(1 / squeeze, (squeeze + 1) / 2, 1);
+        RenderPath.MatrixTranslate((float)-(sx + sxoffs), (float)-(sy + syoffs), 0);
     }
 
     if (m_pItemRenderer == nullptr) m_pItemRenderer = new ItemRenderer();
@@ -684,19 +687,19 @@ void UIScene::_customDrawSlotControl(CustomDrawData* region, int iPad,
         fAlpha, isFoil, false, !usingCommandBuffer);
 
     if (pop > 0) {
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
 
     if (bDecorations) {
         if ((scaleX != 1.0f) || (scaleY != 1.0f)) {
-            glPushMatrix();
-            glScalef(scaleX, scaleY, 1.0f);
+            RenderPath.MatrixPush();
+            RenderPath.MatrixScale(scaleX, scaleY, 1.0f);
             int iX = (int)(0.5f + ((float)x) / scaleX);
             int iY = (int)(0.5f + ((float)y) / scaleY);
 
             m_pItemRenderer->renderGuiItemDecorations(
                 pMinecraft->font, pMinecraft->textures, item, iX, iY, fAlpha);
-            glPopMatrix();
+            RenderPath.MatrixPop();
         } else {
             m_pItemRenderer->renderGuiItemDecorations(
                 pMinecraft->font, pMinecraft->textures, item, (int)x, (int)y,
@@ -705,10 +708,10 @@ void UIScene::_customDrawSlotControl(CustomDrawData* region, int iPad,
     }
 
     Lighting::turnOff();
-    glDisable(GL_RESCALE_NORMAL);
-    glDisable(GL_CULL_FACE);
+    (void)0;
+    RenderPath.StateSetFaceCull(false);
     if (fAlpha < 1) {
-        glDisable(GL_BLEND);
+        RenderPath.StateSetBlendEnable(false);
     }
 }
 

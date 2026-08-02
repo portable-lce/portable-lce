@@ -65,9 +65,9 @@ void WitherBossRenderer::scale(std::shared_ptr<LivingEntity> _mob, float a) {
         float scale = 2.0f - (((float)inTicks - a) /
                               (SharedConstants::TICKS_PER_SECOND * 11)) *
                                  .5f;
-        glScalef(scale, scale, scale);
+        RenderPath.MatrixScale(scale, scale, scale);
     } else {
-        glScalef(2, 2, 2);
+        RenderPath.MatrixScale(2, 2, 2);
     }
 }
 
@@ -78,36 +78,36 @@ int WitherBossRenderer::prepareArmor(std::shared_ptr<LivingEntity> entity,
 
     if (mob->isPowered()) {
         if (mob->isInvisible()) {
-            glDepthMask(false);
+            RenderPath.StateSetDepthMask(false);
         } else {
-            glDepthMask(true);
+            RenderPath.StateSetDepthMask(true);
         }
 
         if (layer == 1) {
             float time = mob->tickCount + a;
             bindTexture(&WITHER_ARMOR_LOCATION);
-            glMatrixMode(GL_TEXTURE);
-            glLoadIdentity();
+            RenderPath.MatrixMode(rp::MatrixStack::texture);
+            RenderPath.MatrixSetIdentity();
             float uo = cos(time * 0.02f) * 3;
             float vo = time * 0.01f;
-            glTranslatef(uo, vo, 0);
+            RenderPath.MatrixTranslate(uo, vo, 0);
             setArmor(model);
-            glMatrixMode(GL_MODELVIEW);
-            glEnable(GL_BLEND);
+            RenderPath.MatrixMode(rp::MatrixStack::modelview);
+            RenderPath.StateSetBlendEnable(true);
             float br = 0.5f;
-            glColor4f(br, br, br, 1);
-            glDisable(GL_LIGHTING);
-            glBlendFunc(GL_ONE, GL_ONE);
-            glTranslatef(0, -.01f, 0);
-            glScalef(1.1f, 1.1f, 1.1f);
+            RenderPath.StateSetColour(br, br, br, 1);
+            RenderPath.StateSetLightingEnable(false);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::one, rp::BlendFactor::one);
+            RenderPath.MatrixTranslate(0, -.01f, 0);
+            RenderPath.MatrixScale(1.1f, 1.1f, 1.1f);
             return 1;
         }
         if (layer == 2) {
-            glMatrixMode(GL_TEXTURE);
-            glLoadIdentity();
-            glMatrixMode(GL_MODELVIEW);
-            glEnable(GL_LIGHTING);
-            glDisable(GL_BLEND);
+            RenderPath.MatrixMode(rp::MatrixStack::texture);
+            RenderPath.MatrixSetIdentity();
+            RenderPath.MatrixMode(rp::MatrixStack::modelview);
+            RenderPath.StateSetLightingEnable(true);
+            RenderPath.StateSetBlendEnable(false);
         }
     }
     return -1;

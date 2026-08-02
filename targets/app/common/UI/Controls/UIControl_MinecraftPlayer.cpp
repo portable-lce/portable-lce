@@ -10,6 +10,8 @@
 #ifndef _ENABLEIGGY
 #include "app/common/Iggy/iggy_stubs.h"
 #endif
+#include <numbers>
+
 #include "minecraft/client/Lighting.h"
 #include "minecraft/client/Minecraft.h"
 #include "minecraft/client/Options.h"
@@ -32,9 +34,9 @@ UIControl_MinecraftPlayer::UIControl_MinecraftPlayer() {
 
 void UIControl_MinecraftPlayer::render(IggyCustomDrawCallbackRegion* region) {
     Minecraft* pMinecraft = Minecraft::GetInstance();
-    glEnable(GL_RESCALE_NORMAL);
-    glEnable(GL_COLOR_MATERIAL);
-    glPushMatrix();
+    (void)0;
+    (void)0;
+    RenderPath.MatrixPush();
 
     float width = region->x1 - region->x0;
     float height = region->y1 - region->y0;
@@ -42,7 +44,7 @@ void UIControl_MinecraftPlayer::render(IggyCustomDrawCallbackRegion* region) {
     float yo = height;
 
     // dynamic y offset according to region height
-    glTranslatef(xo, yo - (height / 9.0f), 50.0f);
+    RenderPath.MatrixTranslate(xo, yo - (height / 9.0f), 50.0f);
 
     float ss;
 
@@ -50,8 +52,8 @@ void UIControl_MinecraftPlayer::render(IggyCustomDrawCallbackRegion* region) {
     // Potentially we might want separate x & y scales here
     ss = width / (m_fScreenWidth / m_fScreenHeight);
 
-    glScalef(-ss, ss, ss);
-    glRotatef(180, 0, 0, 1);
+    RenderPath.MatrixScale(-ss, ss, ss);
+    RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
     UIScene_InventoryMenu* containerMenu =
         (UIScene_InventoryMenu*)m_parentScene;
@@ -69,11 +71,11 @@ void UIControl_MinecraftPlayer::render(IggyCustomDrawCallbackRegion* region) {
     // m_pointerPos.y;
     float yd = (m_y + m_height / 2 - 40) - containerMenu->m_pointerPos.y;
 
-    glRotatef(45 + 90, 0, 1, 0);
+    RenderPath.MatrixRotate((45 + 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     Lighting::turnOn();
-    glRotatef(-45 - 90, 0, 1, 0);
+    RenderPath.MatrixRotate((-45 - 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-    glRotatef(-(float)atan(yd / 40.0f) * 20, 1, 0, 0);
+    RenderPath.MatrixRotate((-(float)atan(yd / 40.0f) * 20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
     pMinecraft->localplayers[containerMenu->getPad()]->yBodyRot =
         (float)atan(xd / 40.0f) * 20;
@@ -84,7 +86,7 @@ void UIControl_MinecraftPlayer::render(IggyCustomDrawCallbackRegion* region) {
     pMinecraft->localplayers[containerMenu->getPad()]->yHeadRot =
         pMinecraft->localplayers[containerMenu->getPad()]->yRot;
     // pMinecraft->localplayers[m_iPad]->glow = 1;
-    glTranslatef(
+    RenderPath.MatrixTranslate(
         0, pMinecraft->localplayers[containerMenu->getPad()]->heightOffset, 0);
     EntityRenderDispatcher::instance->playerRotY = 180;
 
@@ -102,7 +104,7 @@ void UIControl_MinecraftPlayer::render(IggyCustomDrawCallbackRegion* region) {
     pMinecraft->localplayers[containerMenu->getPad()]->yRot = oyr;
     pMinecraft->localplayers[containerMenu->getPad()]->xRot = oxr;
     pMinecraft->localplayers[containerMenu->getPad()]->yHeadRot = oyhr;
-    glPopMatrix();
+    RenderPath.MatrixPop();
     Lighting::turnOff();
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
 }

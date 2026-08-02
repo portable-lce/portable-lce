@@ -49,25 +49,25 @@ int SheepRenderer::prepareArmor(std::shared_ptr<LivingEntity> _sheep, int layer,
             float subStep =
                 ((sheep->tickCount % colorDuration) + a) / (float)colorDuration;
 
-            glColor3f(Sheep::COLOR[c1][0] * (1.0f - subStep) +
+            RenderPath.StateSetColour(Sheep::COLOR[c1][0] * (1.0f - subStep) +
                           Sheep::COLOR[c2][0] * subStep,
                       Sheep::COLOR[c1][1] * (1.0f - subStep) +
                           Sheep::COLOR[c2][1] * subStep,
                       Sheep::COLOR[c1][2] * (1.0f - subStep) +
-                          Sheep::COLOR[c2][2] * subStep);
+                          Sheep::COLOR[c2][2] * subStep, 1.0f);
         } else {
             int color = sheep->getColor();
-            glColor3f(Sheep::COLOR[color][0], Sheep::COLOR[color][1],
-                      Sheep::COLOR[color][2]);
+            RenderPath.StateSetColour(Sheep::COLOR[color][0], Sheep::COLOR[color][1],
+                      Sheep::COLOR[color][2], 1.0f);
         }
 
         // 4J - change brought forward from 1.8.2
         float brightness =
             SharedConstants::TEXTURE_LIGHTING ? 1.0f : sheep->getBrightness(a);
         int color = sheep->getColor();
-        glColor3f(brightness * Sheep::COLOR[color][0],
+        RenderPath.StateSetColour(brightness * Sheep::COLOR[color][0],
                   brightness * Sheep::COLOR[color][1],
-                  brightness * Sheep::COLOR[color][2]);
+                  brightness * Sheep::COLOR[color][2], 1.0f);
         return 1;
     }
     return -1;

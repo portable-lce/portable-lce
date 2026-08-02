@@ -7776,7 +7776,7 @@ void TileRenderer::renderCube(Tile* tile, float alpha) {
 
     if (shape == Tile::SHAPE_BLOCK) {
         tile->updateDefaultShape();
-        glTranslatef(-0.5f, -0.5f, -0.5f);
+        RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
         float c10 = 0.5f;
         float c11 = 1;
         float c2 = 0.8f;
@@ -7796,7 +7796,7 @@ void TileRenderer::renderCube(Tile* tile, float alpha) {
 
         t->end();
 
-        glTranslatef(0.5f, 0.5f, 0.5f);
+        RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
     }
 }
 
@@ -7820,7 +7820,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
         float g = ((col >> 8) & 0xff) / 255.0f;
         float b = ((col) & 0xff) / 255.0f;
 
-        glColor4f(red * brightness, g * brightness, b * brightness, fAlpha);
+        RenderPath.StateSetColour(red * brightness, g * brightness, b * brightness, fAlpha);
     }
 
     int shape = tile->getRenderShape();
@@ -7837,9 +7837,9 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
 
         tile->updateDefaultShape();
         setShape(tile);
-        glRotatef(90, 0, 1, 0);
+        RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
-        glTranslatef(-0.5f, -0.5f, -0.5f);
+        RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
         t->begin();
         t->normal(0, -1, 0);
         renderFaceDown(tile, 0, 0, 0, getTexture(tile, 0, data));
@@ -7851,7 +7851,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             float g = ((col >> 8) & 0xff) / 255.0f;
             float b = ((col) & 0xff) / 255.0f;
 
-            glColor4f(red * brightness, g * brightness, b * brightness, fAlpha);
+            RenderPath.StateSetColour(red * brightness, g * brightness, b * brightness, fAlpha);
         }
 
         t->begin();
@@ -7860,7 +7860,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
         t->end();
 
         if (isGrass && setColor) {
-            glColor4f(brightness, brightness, brightness, fAlpha);
+            RenderPath.StateSetColour(brightness, brightness, brightness, fAlpha);
         }
 
         t->begin();
@@ -7874,14 +7874,14 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             float g = ((col >> 8) & 0xff) / 255.0f;
             float b = ((col) & 0xff) / 255.0f;
 
-            glColor4f(red * brightness, g * brightness, b * brightness, fAlpha);
+            RenderPath.StateSetColour(red * brightness, g * brightness, b * brightness, fAlpha);
 
             t->begin();
             t->normal(0, 0, -1);
             renderNorth(tile, 0, 0, 0, GrassTile::getSideTextureOverlay());
             t->end();
 
-            glColor4f(brightness, brightness, brightness, fAlpha);
+            RenderPath.StateSetColour(brightness, brightness, brightness, fAlpha);
         }
 
         t->begin();
@@ -7895,14 +7895,14 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             float g = ((col >> 8) & 0xff) / 255.0f;
             float b = ((col) & 0xff) / 255.0f;
 
-            glColor4f(red * brightness, g * brightness, b * brightness, fAlpha);
+            RenderPath.StateSetColour(red * brightness, g * brightness, b * brightness, fAlpha);
 
             t->begin();
             t->normal(0, 0, 1);
             renderSouth(tile, 0, 0, 0, GrassTile::getSideTextureOverlay());
             t->end();
 
-            glColor4f(brightness, brightness, brightness, fAlpha);
+            RenderPath.StateSetColour(brightness, brightness, brightness, fAlpha);
         }
 
         t->begin();
@@ -7916,14 +7916,14 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             float g = ((col >> 8) & 0xff) / 255.0f;
             float b = ((col) & 0xff) / 255.0f;
 
-            glColor4f(red * brightness, g * brightness, b * brightness, fAlpha);
+            RenderPath.StateSetColour(red * brightness, g * brightness, b * brightness, fAlpha);
 
             t->begin();
             t->normal(-1, 0, 0);
             renderWest(tile, 0, 0, 0, GrassTile::getSideTextureOverlay());
             t->end();
 
-            glColor4f(brightness, brightness, brightness, fAlpha);
+            RenderPath.StateSetColour(brightness, brightness, brightness, fAlpha);
         }
 
         t->begin();
@@ -7937,17 +7937,17 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             float g = ((col >> 8) & 0xff) / 255.0f;
             float b = ((col) & 0xff) / 255.0f;
 
-            glColor4f(red * brightness, g * brightness, b * brightness, fAlpha);
+            RenderPath.StateSetColour(red * brightness, g * brightness, b * brightness, fAlpha);
 
             t->begin();
             t->normal(1, 0, 0);
             renderEast(tile, 0, 0, 0, GrassTile::getSideTextureOverlay());
             t->end();
 
-            glColor4f(brightness, brightness, brightness, fAlpha);
+            RenderPath.StateSetColour(brightness, brightness, brightness, fAlpha);
         }
 
-        glTranslatef(0.5f, 0.5f, 0.5f);
+        RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
     } else if (shape == Tile::SHAPE_CROSS_TEXTURE) {
         t->begin();
         t->normal(0, -1, 0);
@@ -7966,7 +7966,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
         t->end();
     } else if (shape == Tile::SHAPE_CACTUS) {
         tile->updateDefaultShape();
-        glTranslatef(-0.5f, -0.5f, -0.5f);
+        RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
         float s = 1 / 16.0f;
         t->begin();
         t->normal(0, -1, 0);
@@ -8006,13 +8006,13 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
         t->addOffset(s, 0, 0);
         t->end();
 
-        glTranslatef(0.5f, 0.5f, 0.5f);
+        RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
     } else if (shape == Tile::SHAPE_ENTITYTILE_ANIMATED) {
-        glRotatef(90, 0, 1, 0);
-        glTranslatef(-0.5f, -0.5f, -0.5f);
+        RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
         EntityTileRenderer::instance->render(tile, data, brightness, fAlpha,
                                              setColor, useCompiled);
-        glEnable(GL_RESCALE_NORMAL);
+        (void)0;
     } else if (shape == Tile::SHAPE_ROWS) {
         t->begin();
         t->normal(0, -1, 0);
@@ -8028,7 +8028,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             if (i == 0) setShape(0, 0, 0, 1, 1, 0.5f);
             if (i == 1) setShape(0, 0, 0.5f, 1, 0.5f, 1);
 
-            glTranslatef(-0.5f, -0.5f, -0.5f);
+            RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
             t->begin();
             t->normal(0, -1, 0);
             renderFaceDown(tile, 0, 0, 0, getTexture(tile, 0));
@@ -8059,11 +8059,11 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             renderEast(tile, 0, 0, 0, getTexture(tile, 5));
             t->end();
 
-            glTranslatef(0.5f, 0.5f, 0.5f);
+            RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
         }
     } else if (shape == Tile::SHAPE_EGG) {
         int y0 = 0;
-        glTranslatef(-0.5f, -0.5f, -0.5f);
+        RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
         t->begin();
         for (int i = 0; i < 8; i++) {
             int ww = 0;
@@ -8107,7 +8107,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             renderEast(tile, 0, 0, 0, getTexture(tile, 5));
         }
         t->end();
-        glTranslatef(0.5f, 0.5f, 0.5f);
+        RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
         setShape(0, 0, 0, 1, 1, 1);
     }
 
@@ -8124,7 +8124,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
                 setShape(0.5f - w, 0.5f - w * 3, -w * 2, 0.5f + w, 0.5f - w,
                          1 + w * 2);
 
-            glTranslatef(-0.5f, -0.5f, -0.5f);
+            RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
             t->begin();
             t->normal(0, -1, 0);
             renderFaceDown(tile, 0, 0, 0, getTexture(tile, 0));
@@ -8155,7 +8155,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             renderEast(tile, 0, 0, 0, getTexture(tile, 5));
             t->end();
 
-            glTranslatef(0.5f, 0.5f, 0.5f);
+            RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
         }
         setShape(0, 0, 0, 1, 1, 1);
     } else if (shape == Tile::SHAPE_FENCE_GATE) {
@@ -8166,7 +8166,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             w = 1 / 16.0f;
             if (i == 2) setShape(0.5f - w, .5f, 0, 0.5f + w, 1 - w, 1);
 
-            glTranslatef(-0.5f, -0.5f, -0.5f);
+            RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
             t->begin();
             t->normal(0, -1, 0);
             renderFaceDown(tile, 0, 0, 0, getTexture(tile, 0));
@@ -8197,7 +8197,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             renderEast(tile, 0, 0, 0, getTexture(tile, 5));
             t->end();
 
-            glTranslatef(0.5f, 0.5f, 0.5f);
+            RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
         }
     } else if (shape == Tile::SHAPE_WALL) {
         for (int i = 0; i < 2; i++) {
@@ -8209,7 +8209,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
                          .5f - WallTile::POST_WIDTH, .5f + WallTile::POST_WIDTH,
                          WallTile::POST_HEIGHT, .5f + WallTile::POST_WIDTH);
 
-            glTranslatef(-0.5f, -0.5f, -0.5f);
+            RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
             t->begin();
             t->normal(0, -1, 0);
             renderFaceDown(tile, 0, 0, 0, tile->getTexture(0, data));
@@ -8240,18 +8240,18 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             renderEast(tile, 0, 0, 0, tile->getTexture(5, data));
             t->end();
 
-            glTranslatef(0.5f, 0.5f, 0.5f);
+            RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
         }
         setShape(0, 0, 0, 1, 1, 1);
     } else if (shape == Tile::SHAPE_ANVIL) {
-        glTranslatef(-0.5f, -0.5f, -0.5f);
+        RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
         tesselateAnvilInWorld((AnvilTile*)tile, 0, 0, 0, data << 2, true);
-        glTranslatef(0.5f, 0.5f, 0.5f);
+        RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
     } else if (shape == Tile::SHAPE_PORTAL_FRAME) {
         // 4J added
         setShape(0, 0, 0, 1, 13.0f / 16.0f, 1);
 
-        glTranslatef(-0.5f, -0.5f, -0.5f);
+        RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
         t->begin();
         t->normal(0, -1, 0);
         renderFaceDown(tile, 0, 0, 0, getTexture(tile, 0, 0));
@@ -8282,7 +8282,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
         renderEast(tile, 0, 0, 0, getTexture(tile, 5, 0));
         t->end();
 
-        glTranslatef(0.5f, 0.5f, 0.5f);
+        RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
 
         tile->updateDefaultShape();
 
@@ -8301,7 +8301,7 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
                 setFixedTexture(getTexture(Tile::glass));
             }
 
-            glTranslatef(-0.5f, -0.5f, -0.5f);
+            RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
             t->begin();
             t->normal(0, -1, 0);
             renderFaceDown(tile, 0, 0, 0, getTexture(tile, 0, data));
@@ -8332,14 +8332,14 @@ void TileRenderer::renderTile(Tile* tile, int data, float brightness,
             renderEast(tile, 0, 0, 0, getTexture(tile, 5, data));
             t->end();
 
-            glTranslatef(0.5f, 0.5f, 0.5f);
+            RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
         }
         setShape(0, 0, 0, 1, 1, 1);
         clearFixedTexture();
     } else if (shape == Tile::SHAPE_HOPPER) {
-        glTranslatef(-0.5f, -0.5f, -0.5f);
+        RenderPath.MatrixTranslate(-0.5f, -0.5f, -0.5f);
         tesselateHopperInWorld(tile, 0, 0, 0, 0, true);
-        glTranslatef(0.5f, 0.5f, 0.5f);
+        RenderPath.MatrixTranslate(0.5f, 0.5f, 0.5f);
     }
 
     t->setMipmapEnable(true);  // 4J added

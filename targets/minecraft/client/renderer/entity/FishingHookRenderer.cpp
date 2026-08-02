@@ -27,11 +27,11 @@ void FishingHookRenderer::render(std::shared_ptr<Entity> _hook, double x,
     std::shared_ptr<FishingHook> hook =
         std::dynamic_pointer_cast<FishingHook>(_hook);
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
-    glTranslatef((float)x, (float)y, (float)z);
-    glEnable(GL_RESCALE_NORMAL);
-    glScalef(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
+    (void)0;
+    RenderPath.MatrixScale(1 / 2.0f, 1 / 2.0f, 1 / 2.0f);
     int xi = 1;
     int yi = 2;
     bindTexture(hook);  // 4J was "/particles.png"
@@ -46,8 +46,8 @@ void FishingHookRenderer::render(std::shared_ptr<Entity> _hook, double x,
     float xo = 0.5f;
     float yo = 0.5f;
 
-    glRotatef(180 - entityRenderDispatcher->playerRotY, 0, 1, 0);
-    glRotatef(-entityRenderDispatcher->playerRotX, 1, 0, 0);
+    RenderPath.MatrixRotate((180 - entityRenderDispatcher->playerRotY)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixRotate((-entityRenderDispatcher->playerRotX)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
     t->begin();
     t->normal(0, 1, 0);
     t->vertexUV((float)(0 - xo), (float)(0 - yo), (float)(0), (float)(u0),
@@ -60,8 +60,8 @@ void FishingHookRenderer::render(std::shared_ptr<Entity> _hook, double x,
                 (float)(v0));
     t->end();
 
-    glDisable(GL_RESCALE_NORMAL);
-    glPopMatrix();
+    (void)0;
+    RenderPath.MatrixPop();
 
     if (hook->owner != nullptr) {
         float swing = hook->owner->getAttackAnim(a);
@@ -113,9 +113,9 @@ void FishingHookRenderer::render(std::shared_ptr<Entity> _hook, double x,
         double ya = (float)(yp - yh);
         double za = (float)(zp - zh);
 
-        glDisable(GL_TEXTURE_2D);
-        glDisable(GL_LIGHTING);
-        t->begin(GL_LINE_STRIP);
+        RenderPath.StateSetTextureEnable(false);
+        RenderPath.StateSetLightingEnable(false);
+        t->begin(0x0003);
         t->color(0x000000);
         int steps = 16;
         for (int i = 0; i <= steps; i++) {
@@ -125,8 +125,8 @@ void FishingHookRenderer::render(std::shared_ptr<Entity> _hook, double x,
                       (float)(z + za * aa));
         }
         t->end();
-        glEnable(GL_LIGHTING);
-        glEnable(GL_TEXTURE_2D);
+        RenderPath.StateSetLightingEnable(true);
+        RenderPath.StateSetTextureEnable(true);
     }
 }
 

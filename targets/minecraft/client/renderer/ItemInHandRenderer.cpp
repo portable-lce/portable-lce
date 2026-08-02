@@ -38,6 +38,8 @@
 #include "minecraft/world/level/tile/Tile.h"
 #include "platform/renderer/renderer.h"
 #include "platform/stubs.h"
+#include "platform/renderer/IRenderPath.h"
+
 
 class EntityRenderer;
 class MapItemSavedData;
@@ -75,7 +77,7 @@ ItemInHandRenderer::ItemInHandRenderer(Minecraft* minecraft,
         listItem = MemoryTracker::genLists(1);
         float dd = 1 / 16.0f;
 
-        glNewList(listItem, GL_COMPILE);
+        RenderPath.CBuffStart(listItem);
         Tesselator* t = Tesselator::getInstance();
         t->begin();
         for (int yp = 0; yp < 16; yp++)
@@ -123,7 +125,7 @@ ItemInHandRenderer::ItemInHandRenderer(Minecraft* minecraft,
                 t->vertexUV(x1, y1, z0, u, v);
             }
         t->end();
-        glEndList();
+        RenderPath.CBuffEnd();
     }
 
     // Terrain texture is a different layout from the item texture
@@ -131,7 +133,7 @@ ItemInHandRenderer::ItemInHandRenderer(Minecraft* minecraft,
         listTerrain = MemoryTracker::genLists(1);
         float dd = 1 / 16.0f;
 
-        glNewList(listTerrain, GL_COMPILE);
+        RenderPath.CBuffStart(listTerrain);
         Tesselator* t = Tesselator::getInstance();
         t->begin();
         for (int yp = 0; yp < 16; yp++)
@@ -179,7 +181,7 @@ ItemInHandRenderer::ItemInHandRenderer(Minecraft* minecraft,
                 t->vertexUV(x1, y1, z0, u, v);
             }
         t->end();
-        glEndList();
+        RenderPath.CBuffEnd();
     }
 
     // Also create special object for glint overlays - this is the same as the
@@ -188,8 +190,8 @@ ItemInHandRenderer::ItemInHandRenderer(Minecraft* minecraft,
         listGlint = MemoryTracker::genLists(1);
         float dd = 1 / 16.0f;
 
-        glNewList(listGlint, GL_COMPILE);
-        glDepthFunc(GL_EQUAL);
+        RenderPath.CBuffStart(listGlint);
+        RenderPath.StateSetDepthFunc(rp::DepthTest::equal);
         Tesselator* t = Tesselator::getInstance();
         t->begin();
         for (int yp = 0; yp < 16; yp++)
@@ -244,8 +246,8 @@ ItemInHandRenderer::ItemInHandRenderer(Minecraft* minecraft,
                 t->vertexUV(x1, y1, z0, u1, v1);
             }
         t->end();
-        glDepthFunc(GL_LEQUAL);
-        glEndList();
+        RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
+        RenderPath.CBuffEnd();
     }
 }
 
@@ -261,10 +263,10 @@ void ItemInHandRenderer::renderItem(std::shared_ptr<LivingEntity> mob,
         float g = ((col >> 8) & 0xff) / 255.0f;
         float b = ((col) & 0xff) / 255.0f;
 
-        glColor4f(red, g, b, 1);
+        RenderPath.StateSetColour(red, g, b, 1);
     }
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
     Tile* tile = Tile::tiles[item->id];
     if (item->getIconType() == Icon::TYPE_TERRAIN && tile != nullptr &&
         TileRenderer::canRender(tile->getRenderShape())) {
@@ -279,7 +281,7 @@ void ItemInHandRenderer::renderItem(std::shared_ptr<LivingEntity> mob,
     } else {
         Icon* icon = mob->getItemInHandIcon(item, layer);
         if (icon == nullptr) {
-            glPopMatrix();
+            RenderPath.MatrixPop();
             return;
         }
 
@@ -300,7 +302,7 @@ void ItemInHandRenderer::renderItem(std::shared_ptr<LivingEntity> mob,
             LOD = 2;  // Force LOD level 2 to achieve texture reads from 256x256
                       // map
         }
-        PlatformRenderer.StateSetForceLOD(LOD);
+        RenderPath.StateSetForceLOD(LOD);
 
         // 4J Original comment
         // Yes, these are backwards.
@@ -314,59 +316,59 @@ void ItemInHandRenderer::renderItem(std::shared_ptr<LivingEntity> mob,
         float xo = 0.0f;
         float yo = 0.3f;
 
-        glEnable(GL_RESCALE_NORMAL);
-        glTranslatef(-xo, -yo, 0);
+        (void)0;
+        RenderPath.MatrixTranslate(-xo, -yo, 0);
         float s = 1.5f;
-        glScalef(s, s, s);
+        RenderPath.MatrixScale(s, s, s);
 
-        glRotatef(50, 0, 1, 0);
-        glRotatef(45 + 290, 0, 0, 1);
-        glTranslatef(-15 / 16.0f, -1 / 16.0f, 0);
+        RenderPath.MatrixRotate((50)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixRotate((45 + 290)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        RenderPath.MatrixTranslate(-15 / 16.0f, -1 / 16.0f, 0);
         float dd = 1 / 16.0f;
 
         renderItem3D(t, u0, v0, u1, v1, icon->getSourceWidth(),
                      icon->getSourceHeight(), 1 / 16.0f, false, bIsTerrain);
 
         if (item != nullptr && item->isFoil() && layer == 0) {
-            glDepthFunc(GL_EQUAL);
-            glDisable(GL_LIGHTING);
+            RenderPath.StateSetDepthFunc(rp::DepthTest::equal);
+            RenderPath.StateSetLightingEnable(false);
             minecraft->textures->bindTexture(&ENCHANT_GLINT_LOCATION);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_COLOR, GL_ONE);
+            RenderPath.StateSetBlendEnable(true);
+            RenderPath.StateSetBlendFunc(rp::BlendFactor::src_color, rp::BlendFactor::one);
             float br = 0.76f;
-            glColor4f(0.5f * br, 0.25f * br, 0.8f * br,
+            RenderPath.StateSetColour(0.5f * br, 0.25f * br, 0.8f * br,
                       1);  // MGH - for some reason this colour isn't making it
                            // through to the render, so I've added to the
                            // tesselator for the glint geom above
-            glMatrixMode(GL_TEXTURE);
-            glPushMatrix();
+            RenderPath.MatrixMode(rp::MatrixStack::texture);
+            RenderPath.MatrixPush();
             float ss = 1 / 8.0f;
-            glScalef(ss, ss, ss);
+            RenderPath.MatrixScale(ss, ss, ss);
             float sx = Minecraft::currentTimeMillis() % (3000) / (3000.0f) * 8;
-            glTranslatef(sx, 0, 0);
-            glRotatef(-50, 0, 0, 1);
+            RenderPath.MatrixTranslate(sx, 0, 0);
+            RenderPath.MatrixRotate((-50)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
             renderItem3D(t, 0, 0, 1, 1, 256, 256, 1 / 16.0f, true, bIsTerrain);
-            glPopMatrix();
-            glPushMatrix();
-            glScalef(ss, ss, ss);
+            RenderPath.MatrixPop();
+            RenderPath.MatrixPush();
+            RenderPath.MatrixScale(ss, ss, ss);
             sx = System::currentTimeMillis() % (3000 + 1873) /
                  (3000 + 1873.0f) * 8;
-            glTranslatef(-sx, 0, 0);
-            glRotatef(10, 0, 0, 1);
+            RenderPath.MatrixTranslate(-sx, 0, 0);
+            RenderPath.MatrixRotate((10)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
             renderItem3D(t, 0, 0, 1, 1, 256, 256, 1 / 16.0f, true, bIsTerrain);
-            glPopMatrix();
-            glMatrixMode(GL_MODELVIEW);
-            glDisable(GL_BLEND);
-            glEnable(GL_LIGHTING);
-            glDepthFunc(GL_LEQUAL);
+            RenderPath.MatrixPop();
+            RenderPath.MatrixMode(rp::MatrixStack::modelview);
+            RenderPath.StateSetBlendEnable(false);
+            RenderPath.StateSetLightingEnable(true);
+            RenderPath.StateSetDepthFunc(rp::DepthTest::less_equal);
         }
 
-        PlatformRenderer.StateSetForceLOD(-1);
+        RenderPath.StateSetForceLOD(-1);
 
-        glDisable(GL_RESCALE_NORMAL);
+        (void)0;
     }
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
 
 // 4J added useList parameter
@@ -382,23 +384,23 @@ void ItemInHandRenderer::renderItem3D(Tesselator* t, float u0, float v0,
     // matrix offset to put it in the final place for the current icon
 
     if (isGlint) {
-        glCallList(listGlint);
+        ((void)RenderPath.CBuffCall(listGlint));
     } else {
         // 4J - replaced mesh that is used to render held items with individual
         // cubes, so we can make it all join up properly without seams. This has
         // a lot more quads in it than the original, so is now precompiled with
         // a UV matrix offset to put it in the final place for the current icon
 
-        glMatrixMode(GL_TEXTURE);
-        glLoadIdentity();
-        glTranslatef(u0, v0, 0);
-        glCallList(isTerrain ? listTerrain : listItem);
-        glLoadIdentity();
-        glMatrixMode(GL_MODELVIEW);
+        RenderPath.MatrixMode(rp::MatrixStack::texture);
+        RenderPath.MatrixSetIdentity();
+        RenderPath.MatrixTranslate(u0, v0, 0);
+        ((void)RenderPath.CBuffCall(isTerrain ? listTerrain : listItem));
+        RenderPath.MatrixSetIdentity();
+        RenderPath.MatrixMode(rp::MatrixStack::modelview);
     }
     // 4J added since we are setting the colour to other values at the start of
     // the function now
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    RenderPath.StateSetColour(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void ItemInHandRenderer::render(float a) {
@@ -415,26 +417,26 @@ void ItemInHandRenderer::render(float a) {
         std::dynamic_pointer_cast<LocalPlayer>(player);
     if (localPlayer) {
         if (localPlayer->m_iScreenSection ==
-                IPlatformRenderer::VIEWPORT_TYPE_SPLIT_BOTTOM ||
+                2 ||
             localPlayer->m_iScreenSection ==
-                IPlatformRenderer::VIEWPORT_TYPE_SPLIT_TOP) {
+                1) {
             fudgeY = 0.08f;
             splitHoriz = true;
         } else if (localPlayer->m_iScreenSection ==
-                       IPlatformRenderer::VIEWPORT_TYPE_SPLIT_LEFT ||
+                       3 ||
                    localPlayer->m_iScreenSection ==
-                       IPlatformRenderer::VIEWPORT_TYPE_SPLIT_RIGHT) {
+                       4) {
             fudgeX = -0.18f;
         }
     }
 
     float xr = player->xRotO + (player->xRot - player->xRotO) * a;
 
-    glPushMatrix();
-    glRotatef(xr, 1, 0, 0);
-    glRotatef(player->yRotO + (player->yRot - player->yRotO) * a, 0, 1, 0);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixRotate((xr)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+    RenderPath.MatrixRotate((player->yRotO + (player->yRot - player->yRotO) * a)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     Lighting::turnOn();
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
     if (localPlayer) {
         float xrr =
@@ -444,8 +446,8 @@ void ItemInHandRenderer::render(float a) {
         // 4J - was using player->xRot and yRot directly here rather than
         // interpolating between old & current with a
         float yr = player->yRotO + (player->yRot - player->yRotO) * a;
-        glRotatef((xr - xrr) * 0.1f, 1, 0, 0);
-        glRotatef((yr - yrr) * 0.1f, 0, 1, 0);
+        RenderPath.MatrixRotate(((xr - xrr) * 0.1f)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+        RenderPath.MatrixRotate(((yr - yrr) * 0.1f)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     }
 
     std::shared_ptr<ItemInstance> item = selectedItem;
@@ -469,8 +471,8 @@ void ItemInHandRenderer::render(float a) {
                       col, u, v);
         }
 
-        glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-        glColor4f(1, 1, 1, 1);
+        RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+        RenderPath.StateSetColour(1, 1, 1, 1);
     }
     if (item != nullptr) {
         int col = Item::items[item->id]->getColor(item, 0);
@@ -478,19 +480,19 @@ void ItemInHandRenderer::render(float a) {
         float g = ((col >> 8) & 0xff) / 255.0f;
         float b = ((col) & 0xff) / 255.0f;
 
-        glColor4f(br * red, br * g, br * b, 1);
+        RenderPath.StateSetColour(br * red, br * g, br * b, 1);
     } else {
-        glColor4f(br, br, br, 1);
+        RenderPath.StateSetColour(br, br, br, 1);
     }
 
     if (item != nullptr && item->id == Item::map->id) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
         float d = 0.8f;
 
         // 4J - move the map away a bit if we're in horizontal split screen, so
         // it doesn't clip out of the save zone
         if (splitHoriz) {
-            glTranslatef(0.0f, 0.0f, -0.3f);
+            RenderPath.MatrixTranslate(0.0f, 0.0f, -0.3f);
         }
 
         {
@@ -498,7 +500,7 @@ void ItemInHandRenderer::render(float a) {
 
             float swing1 = sinf(swing * std::numbers::pi);
             float swing2 = sinf((sqrt(swing)) * std::numbers::pi);
-            glTranslatef(-swing2 * 0.4f,
+            RenderPath.MatrixTranslate(-swing2 * 0.4f,
                          sinf(sqrt(swing) * std::numbers::pi * 2) * 0.2f,
                          -swing1 * 0.2f);
         }
@@ -508,39 +510,37 @@ void ItemInHandRenderer::render(float a) {
         if (tilt > 1) tilt = 1;
         tilt = -cosf(tilt * std::numbers::pi) * 0.5f + 0.5f;
 
-        glTranslatef(0.0f, 0.0f * d - (1 - h) * 1.2f - tilt * 0.5f + 0.04f,
+        RenderPath.MatrixTranslate(0.0f, 0.0f * d - (1 - h) * 1.2f - tilt * 0.5f + 0.04f,
                      -0.9f * d);
 
-        glRotatef(90, 0, 1, 0);
-        glRotatef((tilt) * -85, 0, 0, 1);
-        glEnable(GL_RESCALE_NORMAL);
+        RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixRotate(((tilt) * -85)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        (void)0;
 
         {
             // 4J-PB - if we've got a player texture, use that
-            // glBindTexture(GL_TEXTURE_2D,
-            // minecraft->textures->loadHttpTexture(minecraft->player->customTextureUrl,
+            // RenderPath.TextureBind(            // minecraft->textures->loadHttpTexture(minecraft->player->customTextureUrl,
             // minecraft->player->getTexture()));
-            glBindTexture(GL_TEXTURE_2D,
-                          minecraft->textures->loadMemTexture(
+            RenderPath.TextureBind(                          minecraft->textures->loadMemTexture(
                               minecraft->player->customTextureUrl,
                               minecraft->player->getTexture()));
             minecraft->textures->clearLastBoundId();
             for (int i = 0; i < 2; i++) {
                 int flip = i * 2 - 1;
-                glPushMatrix();
+                RenderPath.MatrixPush();
 
-                glTranslatef(-0.0f, -0.6f, 1.1f * flip);
-                glRotatef((float)(-45 * flip), 1, 0, 0);
-                glRotatef(-90, 0, 0, 1);
-                glRotatef(59, 0, 0, 1);
-                glRotatef((float)(-65 * flip), 0, 1, 0);
+                RenderPath.MatrixTranslate(-0.0f, -0.6f, 1.1f * flip);
+                RenderPath.MatrixRotate(((float)(-45 * flip))*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+                RenderPath.MatrixRotate((-90)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+                RenderPath.MatrixRotate((59)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+                RenderPath.MatrixRotate(((float)(-65 * flip))*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
                 EntityRenderer* er =
                     EntityRenderDispatcher::instance->getRenderer(
                         minecraft->player);
                 PlayerRenderer* playerRenderer = (PlayerRenderer*)er;
                 float ss = 1;
-                glScalef(ss, ss, ss);
+                RenderPath.MatrixScale(ss, ss, ss);
 
                 // Can't turn off the hand if the player is holding a map
                 std::shared_ptr<ItemInstance> itemInstance =
@@ -552,7 +552,7 @@ void ItemInHandRenderer::render(float a) {
                         0) {
                     playerRenderer->renderHand();
                 }
-                glPopMatrix();
+                RenderPath.MatrixPop();
             }
         }
 
@@ -560,27 +560,27 @@ void ItemInHandRenderer::render(float a) {
             float swing = player->getAttackAnim(a);
             float swing3 = sinf(swing * swing * std::numbers::pi);
             float swing2 = sinf(sqrt(swing) * std::numbers::pi);
-            glRotatef(-swing3 * 20, 0, 1, 0);
-            glRotatef(-swing2 * 20, 0, 0, 1);
-            glRotatef(-swing2 * 80, 1, 0, 0);
+            RenderPath.MatrixRotate((-swing3 * 20)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixRotate((-swing2 * 20)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+            RenderPath.MatrixRotate((-swing2 * 80)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
         }
 
         float ss = 0.38f;
-        glScalef(ss, ss, ss);
+        RenderPath.MatrixScale(ss, ss, ss);
 
-        glRotatef(90, 0, 1, 0);
-        glRotatef(180, 0, 0, 1);
+        RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
 
-        glTranslatef(-1, -1, +0);
+        RenderPath.MatrixTranslate(-1, -1, +0);
 
         float s = 2 / 128.0f;
-        glScalef(s, s, s);
+        RenderPath.MatrixScale(s, s, s);
 
         minecraft->textures->bindTexture(
             &MAP_BACKGROUND_LOCATION);  // 4J was "/misc/mapbg.png"
         Tesselator* t = Tesselator::getInstance();
 
-        //        glNormal3f(0, 0, -1);	// 4J - changed to use tesselator
+        //        (void)0;	// 4J - changed to use tesselator
         t->begin();
         int vo = 7;
         t->normal(0, 0, -1);
@@ -600,9 +600,9 @@ void ItemInHandRenderer::render(float a) {
             minimap->render(minecraft->player, minecraft->textures, data,
                             minecraft->player->entityId);
 
-        glPopMatrix();
+        RenderPath.MatrixPop();
     } else if (item != nullptr) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
         float d = 0.8f;
 
         static const float swingPowFactor =
@@ -619,79 +619,79 @@ void ItemInHandRenderer::render(float a) {
                 is = is * is * is;
                 is = is * is * is;
                 float iss = 1 - is;
-                glTranslatef(0,
+                RenderPath.MatrixTranslate(0,
                              std::abs(cosf(t / 4 * std::numbers::pi) * 0.1f) *
                                  (swing > 0.2 ? 1 : 0),
                              0);
-                glTranslatef(iss * 0.6f, -iss * 0.5f, 0);
-                glRotatef(iss * 90, 0, 1, 0);
-                glRotatef(iss * 10, 1, 0, 0);
-                glRotatef(iss * 30, 0, 0, 1);
+                RenderPath.MatrixTranslate(iss * 0.6f, -iss * 0.5f, 0);
+                RenderPath.MatrixRotate((iss * 90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                RenderPath.MatrixRotate((iss * 10)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+                RenderPath.MatrixRotate((iss * 30)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
             }
         } else {
             float swing = powf(player->getAttackAnim(a), swingPowFactor);
 
             float swing1 = sinf(swing * std::numbers::pi);
             float swing2 = sinf((sqrt(swing)) * std::numbers::pi);
-            glTranslatef(-swing2 * 0.4f,
+            RenderPath.MatrixTranslate(-swing2 * 0.4f,
                          sinf(sqrt(swing) * std::numbers::pi * 2) * 0.2f,
                          -swing1 * 0.2f);
         }
 
-        glTranslatef(0.7f * d, -0.65f * d - (1 - h) * 0.6f, -0.9f * d);
-        glTranslatef(fudgeX, fudgeY, fudgeZ);  // 4J added
+        RenderPath.MatrixTranslate(0.7f * d, -0.65f * d - (1 - h) * 0.6f, -0.9f * d);
+        RenderPath.MatrixTranslate(fudgeX, fudgeY, fudgeZ);  // 4J added
 
-        glRotatef(45, 0, 1, 0);
-        glEnable(GL_RESCALE_NORMAL);
+        RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        (void)0;
 
         float swing = powf(player->getAttackAnim(a), swingPowFactor);
         float swing3 = sinf(swing * swing * std::numbers::pi);
         float swing2 = sinf(sqrt(swing) * std::numbers::pi);
-        glRotatef(-swing3 * 20, 0, 1, 0);
-        glRotatef(-swing2 * 20, 0, 0, 1);
-        glRotatef(-swing2 * 80, 1, 0, 0);
+        RenderPath.MatrixRotate((-swing3 * 20)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixRotate((-swing2 * 20)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        RenderPath.MatrixRotate((-swing2 * 80)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
 
         float ss = 0.4f;
-        glScalef(ss, ss, ss);
+        RenderPath.MatrixScale(ss, ss, ss);
 
         if (player->getUseItemDuration() > 0) {
             UseAnim anim = item->getUseAnimation();
             if (anim == UseAnim_block) {
-                glTranslatef(-0.5f, 0.2f, 0.0f);
-                glRotatef(30, 0, 1, 0);
-                glRotatef(-80, 1, 0, 0);
-                glRotatef(60, 0, 1, 0);
+                RenderPath.MatrixTranslate(-0.5f, 0.2f, 0.0f);
+                RenderPath.MatrixRotate((30)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                RenderPath.MatrixRotate((-80)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+                RenderPath.MatrixRotate((60)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
             } else if (anim == UseAnim_bow) {
-                glRotatef(-18, 0, 0, 1);
-                glRotatef(-12, 0, 1, 0);
-                glRotatef(-8, 1, 0, 0);
-                glTranslatef(-0.9f, 0.2f, 0.0f);
+                RenderPath.MatrixRotate((-18)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+                RenderPath.MatrixRotate((-12)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                RenderPath.MatrixRotate((-8)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+                RenderPath.MatrixTranslate(-0.9f, 0.2f, 0.0f);
                 float timeHeld = (item->getUseDuration() -
                                   (player->getUseItemDuration() - a + 1));
                 float pow = timeHeld / (float)(BowItem::MAX_DRAW_DURATION);
                 pow = ((pow * pow) + pow * 2) / 3;
                 if (pow > 1) pow = 1;
                 if (pow > 0.1f) {
-                    glTranslatef(
+                    RenderPath.MatrixTranslate(
                         0,
                         sinf((timeHeld - 0.1f) * 1.3f) * 0.01f * (pow - 0.1f),
                         0);
                 }
-                glTranslatef(0, 0, pow * 0.1f);
+                RenderPath.MatrixTranslate(0, 0, pow * 0.1f);
 
-                glRotatef(-45 - 290, 0, 0, 1);
-                glRotatef(-50, 0, 1, 0);
-                glTranslatef(0, 0.5f, 0);
+                RenderPath.MatrixRotate((-45 - 290)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+                RenderPath.MatrixRotate((-50)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                RenderPath.MatrixTranslate(0, 0.5f, 0);
                 float ys = 1 + pow * 0.2f;
-                glScalef(1, 1, ys);
-                glTranslatef(0, -0.5f, 0);
-                glRotatef(50, 0, 1, 0);
-                glRotatef(45 + 290, 0, 0, 1);
+                RenderPath.MatrixScale(1, 1, ys);
+                RenderPath.MatrixTranslate(0, -0.5f, 0);
+                RenderPath.MatrixRotate((50)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                RenderPath.MatrixRotate((45 + 290)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
             }
         }
 
         if (item->getItem()->isMirroredArt()) {
-            glRotatef(180, 0, 1, 0);
+            RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
         }
 
         if (item->getItem()->hasMultipleSpriteLayers()) {
@@ -704,15 +704,15 @@ void ItemInHandRenderer::render(float a) {
             float g = ((col >> 8) & 0xff) / 255.0f;
             float b = ((col) & 0xff) / 255.0f;
 
-            glColor4f(br * red, br * g, br * b, 1);
+            RenderPath.StateSetColour(br * red, br * g, br * b, 1);
 
             renderItem(player, item, 1, false);
         } else {
             renderItem(player, item, 0, false);
         }
-        glPopMatrix();
+        RenderPath.MatrixPop();
     } else if (!player->isInvisible()) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
         float d = 0.8f;
 
         {
@@ -720,46 +720,45 @@ void ItemInHandRenderer::render(float a) {
 
             float swing1 = sinf(swing * std::numbers::pi);
             float swing2 = sinf((sqrt(swing)) * std::numbers::pi);
-            glTranslatef(-swing2 * 0.3f,
+            RenderPath.MatrixTranslate(-swing2 * 0.3f,
                          sinf(sqrt(swing) * std::numbers::pi * 2) * 0.4f,
                          -swing1 * 0.4f);
         }
 
-        glTranslatef(0.8f * d, -0.75f * d - (1 - h) * 0.6f, -0.9f * d);
-        glTranslatef(fudgeX, fudgeY, fudgeZ);  // 4J added
+        RenderPath.MatrixTranslate(0.8f * d, -0.75f * d - (1 - h) * 0.6f, -0.9f * d);
+        RenderPath.MatrixTranslate(fudgeX, fudgeY, fudgeZ);  // 4J added
 
-        glRotatef(45, 0, 1, 0);
-        glEnable(GL_RESCALE_NORMAL);
+        RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        (void)0;
         {
             float swing = player->getAttackAnim(a);
             float swing3 = sinf(swing * swing * std::numbers::pi);
             float swing2 = sinf(sqrt(swing) * std::numbers::pi);
-            glRotatef(swing2 * 70, 0, 1, 0);
-            glRotatef(-swing3 * 20, 0, 0, 1);
+            RenderPath.MatrixRotate((swing2 * 70)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixRotate((-swing3 * 20)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
         }
 
         // 4J-PB - if we've got a player texture, use that
 
-        // glBindTexture(GL_TEXTURE_2D,
-        // minecraft->textures->loadHttpTexture(minecraft->player->customTextureUrl,
+        // RenderPath.TextureBind(        // minecraft->textures->loadHttpTexture(minecraft->player->customTextureUrl,
         // minecraft->player->getTexture()));
 
-        glBindTexture(GL_TEXTURE_2D, minecraft->textures->loadMemTexture(
+        RenderPath.TextureBind(minecraft->textures->loadMemTexture(
                                          minecraft->player->customTextureUrl,
                                          minecraft->player->getTexture()));
         minecraft->textures->clearLastBoundId();
-        glTranslatef(-1.0f, +3.6f, +3.5f);
-        glRotatef(120, 0, 0, 1);
-        glRotatef(180 + 20, 1, 0, 0);
-        glRotatef(-90 - 45, 0, 1, 0);
-        glScalef(1.5f / 24.0f * 16, 1.5f / 24.0f * 16, 1.5f / 24.0f * 16);
-        glTranslatef(5.6f, 0, 0);
+        RenderPath.MatrixTranslate(-1.0f, +3.6f, +3.5f);
+        RenderPath.MatrixRotate((120)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        RenderPath.MatrixRotate((180 + 20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+        RenderPath.MatrixRotate((-90 - 45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixScale(1.5f / 24.0f * 16, 1.5f / 24.0f * 16, 1.5f / 24.0f * 16);
+        RenderPath.MatrixTranslate(5.6f, 0, 0);
 
         EntityRenderer* er =
             EntityRenderDispatcher::instance->getRenderer(minecraft->player);
         PlayerRenderer* playerRenderer = (PlayerRenderer*)er;
         float ss = 1;
-        glScalef(ss, ss, ss);
+        RenderPath.MatrixScale(ss, ss, ss);
         // Can't turn off the hand if the player is holding a map
         std::shared_ptr<ItemInstance> itemInstance =
             player->inventory->getSelected();
@@ -769,15 +768,15 @@ void ItemInHandRenderer::render(float a) {
                                            eGameSetting_DisplayHand) != 0) {
             playerRenderer->renderHand();
         }
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
 
-    glDisable(GL_RESCALE_NORMAL);
+    (void)0;
     Lighting::turnOff();
 }
 
 void ItemInHandRenderer::renderScreenEffect(float a) {
-    glDisable(GL_ALPHA_TEST);
+    RenderPath.StateSetAlphaTestEnable(false);
     if (minecraft->player->isOnFire()) {
         renderFire(a);
     }
@@ -817,7 +816,7 @@ void ItemInHandRenderer::renderScreenEffect(float a) {
             &UNDERWATER_LOCATION);  // 4J was "/misc/water.png"
         renderWater(a);
     }
-    glEnable(GL_ALPHA_TEST);
+    RenderPath.StateSetAlphaTestEnable(true);
 }
 
 void ItemInHandRenderer::renderTex(float a, Icon* slot) {
@@ -828,9 +827,9 @@ void ItemInHandRenderer::renderTex(float a, Icon* slot) {
 
     float br = 0.1f;
     br = 0.1f;
-    glColor4f(br, br, br, 0.5f);
+    RenderPath.StateSetColour(br, br, br, 0.5f);
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
     float x0 = -1;
     float x1 = +1;
@@ -854,9 +853,9 @@ void ItemInHandRenderer::renderTex(float a, Icon* slot) {
     t->vertexUV((float)(x0), (float)(y1), (float)(z0), (float)(u1),
                 (float)(v0));
     t->end();
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
 }
 
 void ItemInHandRenderer::renderWater(float a) {
@@ -865,11 +864,11 @@ void ItemInHandRenderer::renderWater(float a) {
     Tesselator* t = Tesselator::getInstance();
 
     float br = minecraft->player->getBrightness(a);
-    glColor4f(br, br, br, 0.5f);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.StateSetColour(br, br, br, 0.5f);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
 
     float size = 4;
 
@@ -892,10 +891,10 @@ void ItemInHandRenderer::renderWater(float a) {
     t->vertexUV((float)(x0), (float)(y1), (float)(z0), (float)(size + uo),
                 (float)(0 + vo));
     t->end();
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
-    glColor4f(1, 1, 1, 1);
-    glDisable(GL_BLEND);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    RenderPath.StateSetBlendEnable(false);
 }
 
 void ItemInHandRenderer::renderFire(float a) {
@@ -908,13 +907,13 @@ void ItemInHandRenderer::renderFire(float a) {
     float gCol = ((col >> 8) & 0xFF) / 255.0;
     float bCol = (col & 0xFF) / 255.0;
 
-    glColor4f(rCol, gCol, bCol, aCol);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    RenderPath.StateSetColour(rCol, gCol, bCol, aCol);
+    RenderPath.StateSetBlendEnable(true);
+    RenderPath.StateSetBlendFunc(rp::BlendFactor::src_alpha, rp::BlendFactor::one_minus_src_alpha);
 
     float size = 1;
     for (int i = 0; i < 2; i++) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
         Icon* slot = Tile::fire->getTextureLayer(1);
         minecraft->textures->bindTexture(
             &TextureAtlas::LOCATION_BLOCKS);  // TODO: Get this from Icon
@@ -929,8 +928,8 @@ void ItemInHandRenderer::renderFire(float a) {
         float y0 = 0 - size / 2;
         float y1 = y0 + size;
         float z0 = -0.5f;
-        glTranslatef(-(i * 2 - 1) * 0.24f, -0.3f, 0);
-        glRotatef((i * 2 - 1) * 10.0f, 0, 1, 0);
+        RenderPath.MatrixTranslate(-(i * 2 - 1) * 0.24f, -0.3f, 0);
+        RenderPath.MatrixRotate(((i * 2 - 1) * 10.0f)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
         t->begin();
         t->vertexUV((float)(x0), (float)(y0), (float)(z0), (float)(u1),
@@ -942,10 +941,10 @@ void ItemInHandRenderer::renderFire(float a) {
         t->vertexUV((float)(x0), (float)(y1), (float)(z0), (float)(u1),
                     (float)(v0));
         t->end();
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
-    glColor4f(1, 1, 1, 1);
-    glDisable(GL_BLEND);
+    RenderPath.StateSetColour(1, 1, 1, 1);
+    RenderPath.StateSetBlendEnable(false);
 }
 
 void ItemInHandRenderer::tick() {

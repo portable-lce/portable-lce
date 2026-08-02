@@ -48,7 +48,7 @@ int WolfRenderer::prepareArmor(std::shared_ptr<LivingEntity> mob, int layer,
     if (layer == 0 && wolf->isWet()) {
         float brightness = wolf->getBrightness(a) * wolf->getWetShade(a);
         bindTexture(WOLF_LOCATION);
-        glColor3f(brightness, brightness, brightness);
+        RenderPath.StateSetColour(brightness, brightness, brightness, 1.0f);
 
         return 1;
     }
@@ -57,9 +57,9 @@ int WolfRenderer::prepareArmor(std::shared_ptr<LivingEntity> mob, int layer,
         float brightness =
             SharedConstants::TEXTURE_LIGHTING ? 1 : wolf->getBrightness(a);
         int color = wolf->getCollarColor();
-        glColor3f(brightness * Sheep::COLOR[color][0],
+        RenderPath.StateSetColour(brightness * Sheep::COLOR[color][0],
                   brightness * Sheep::COLOR[color][1],
-                  brightness * Sheep::COLOR[color][2]);
+                  brightness * Sheep::COLOR[color][2], 1.0f);
 
         return 1;
     }

@@ -34,7 +34,7 @@ ResourceLocation* BatRenderer::getTextureLocation(std::shared_ptr<Entity> mob) {
 }
 
 void BatRenderer::scale(std::shared_ptr<LivingEntity> mob, float a) {
-    glScalef(.35f, .35f, .35f);
+    RenderPath.MatrixScale(.35f, .35f, .35f);
 }
 
 void BatRenderer::setupPosition(std::shared_ptr<LivingEntity> mob, double x,
@@ -46,9 +46,9 @@ void BatRenderer::setupRotations(std::shared_ptr<LivingEntity> _mob, float bob,
                                  float bodyRot, float a) {
     std::shared_ptr<Bat> mob = std::dynamic_pointer_cast<Bat>(_mob);
     if (!mob->isResting()) {
-        glTranslatef(0, cos(bob * .3f) * .1f, 0);
+        RenderPath.MatrixTranslate(0, cos(bob * .3f) * .1f, 0);
     } else {
-        glTranslatef(0, -.1f, 0);
+        RenderPath.MatrixTranslate(0, -.1f, 0);
     }
     MobRenderer::setupRotations(mob, bob, bodyRot, a);
 }

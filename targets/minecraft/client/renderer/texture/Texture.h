@@ -13,20 +13,20 @@ class BufferedImage;
 
 class Texture {
 public:
-    static const int WM_WRAP = GL_REPEAT;
-    static const int WM_CLAMP = GL_CLAMP;
+    static const int WM_WRAP = 0x2901;
+    static const int WM_CLAMP = 0x2900;
     static const int WM_MIRROR = 0;  // GL_MIRRORED_REPEAT;
 
-    static const int TFMT_RGBA = GL_RGBA;
-    static const int TFMT_BGRA = GL_BGRA;
+    static const int TFMT_RGBA = 0x1908;
+    static const int TFMT_BGRA = 0x80E1;
 
-    static const int TFLT_NEAREST = GL_NEAREST;
-    static const int TFLT_LINEAR = GL_LINEAR;
+    static const int TFLT_NEAREST = 0x2600;
+    static const int TFLT_LINEAR = 0x2601;
     static const int TFLT_LINEAR_MIP_NEAREST = 0;  // GL_LINEAR_MIPMAP_NEAREST;
     static const int TFLT_LINEAR_MIP_LINEAR = 0;   // GL_LINEAR_MIPMAP_LINEAR;
     static const int TFLT_NEAREST_MIP_NEAREST =
         0;  // GL_NEAREST_MIPMAP_NEAREST;
-    static const int TFLT_NEAREST_MIP_LINEAR = GL_NEAREST_MIPMAP_LINEAR;
+    static const int TFLT_NEAREST_MIP_LINEAR = 0x2702;
 
     static const int TM_STATIC = 0;
     static const int TM_DYNAMIC = 1;

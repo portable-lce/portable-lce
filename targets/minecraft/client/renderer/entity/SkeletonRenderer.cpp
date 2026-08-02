@@ -23,12 +23,12 @@ SkeletonRenderer::SkeletonRenderer()
 void SkeletonRenderer::scale(std::shared_ptr<LivingEntity> mob, float a) {
     if (std::dynamic_pointer_cast<Skeleton>(mob)->getSkeletonType() ==
         Skeleton::TYPE_WITHER) {
-        glScalef(1.2f, 1.2f, 1.2f);
+        RenderPath.MatrixScale(1.2f, 1.2f, 1.2f);
     }
 }
 
 void SkeletonRenderer::translateWeaponItem() {
-    glTranslatef(1.5f / 16.0f, 3 / 16.0f, 0);
+    RenderPath.MatrixTranslate(1.5f / 16.0f, 3 / 16.0f, 0);
 }
 
 ResourceLocation* SkeletonRenderer::getTextureLocation(

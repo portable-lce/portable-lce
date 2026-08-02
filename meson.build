@@ -62,6 +62,7 @@ if get_option('enable_vsync')
     global_cpp_defs += ['-DENABLE_VSYNC']
 endif
 
+
 if get_option('classic_panorama')
     global_cpp_defs += '-DCLASSIC_PANORAMA'
 endif
@@ -105,7 +106,7 @@ if host_machine.system() in ['linux', 'windows', 'darwin']
     platform_leaderboard_dep = platform_leaderboard_stub_dep
     platform_network_dep = platform_network_stub_dep
     platform_profile_dep = platform_profile_stub_dep
-    platform_renderer_dep = platform_renderer_gl_dep
+    platform_renderer_dep = platform_renderer_bgfx_dep
     platform_sound_dep = platform_sound_miniaudio_dep
     platform_storage_dep = platform_storage_stub_dep
     platform_thread_dep = platform_thread_dep  # standardized backend (for now)

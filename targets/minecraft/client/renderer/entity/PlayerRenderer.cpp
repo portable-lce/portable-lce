@@ -111,13 +111,13 @@ int PlayerRenderer::prepareArmor(std::shared_ptr<LivingEntity> _player,
                 float red = (float)((color >> 16) & 0xFF) / 0xFF;
                 float green = (float)((color >> 8) & 0xFF) / 0xFF;
                 float blue = (float)(color & 0xFF) / 0xFF;
-                glColor3f(brightness * red, brightness * green,
-                          brightness * blue);
+                RenderPath.StateSetColour(brightness * red, brightness * green,
+                          brightness * blue, 1.0f);
 
                 if (itemInstance->isEnchanted()) return 0x1f;
                 return 0x10;
             } else {
-                glColor3f(brightness, brightness, brightness);
+                RenderPath.StateSetColour(brightness, brightness, brightness, 1.0f);
             }
 
             if (itemInstance->isEnchanted()) return 0xf;
@@ -145,7 +145,7 @@ void PlayerRenderer::prepareSecondPassArmor(
             float brightness = SharedConstants::TEXTURE_LIGHTING
                                    ? 1
                                    : player->getBrightness(a);
-            glColor3f(brightness, brightness, brightness);
+            RenderPath.StateSetColour(brightness, brightness, brightness, 1.0f);
         }
     }
 }
@@ -252,7 +252,7 @@ void PlayerRenderer::additionalRendering(std::shared_ptr<LivingEntity> _mob,
                                          float a) {
     float brightness =
         SharedConstants::TEXTURE_LIGHTING ? 1 : _mob->getBrightness(a);
-    glColor3f(brightness, brightness, brightness);
+    RenderPath.StateSetColour(brightness, brightness, brightness, 1.0f);
 
     LivingEntityRenderer::additionalRendering(_mob, a);
     LivingEntityRenderer::renderArrows(_mob, a);
@@ -269,23 +269,23 @@ void PlayerRenderer::additionalRendering(std::shared_ptr<LivingEntity> _mob,
 
         if ((uiAnimOverrideBitmask &
              (1 << HumanoidModel::eAnim_DontRenderArmour)) == 0) {
-            glPushMatrix();
+            RenderPath.MatrixPush();
             humanoidModel->head->translateTo(1 / 16.0f);
 
             if (headGear->getItem()->id < 256) {
                 if (TileRenderer::canRender(
                         Tile::tiles[headGear->id]->getRenderShape())) {
                     float s = 10 / 16.0f;
-                    glTranslatef(-0 / 16.0f, -4 / 16.0f, 0 / 16.0f);
-                    glRotatef(90, 0, 1, 0);
-                    glScalef(s, -s, s);
+                    RenderPath.MatrixTranslate(-0 / 16.0f, -4 / 16.0f, 0 / 16.0f);
+                    RenderPath.MatrixRotate((90)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                    RenderPath.MatrixScale(s, -s, s);
                 }
 
                 entityRenderDispatcher->itemInHandRenderer->renderItem(
                     mob, headGear, 0);
             } else if (headGear->getItem()->id == Item::skull_Id) {
                 float s = 17 / 16.0f;
-                glScalef(s, -s, -s);
+                RenderPath.MatrixScale(s, -s, -s);
 
                 std::string extra = "";
                 if (headGear->hasTag() &&
@@ -297,7 +297,7 @@ void PlayerRenderer::additionalRendering(std::shared_ptr<LivingEntity> _mob,
                     extra);
             }
 
-            glPopMatrix();
+            RenderPath.MatrixPop();
         }
     }
 
@@ -308,18 +308,18 @@ void PlayerRenderer::additionalRendering(std::shared_ptr<LivingEntity> _mob,
             float yr = (mob->yRotO + (mob->yRot - mob->yRotO) * a) -
                        (mob->yBodyRotO + (mob->yBodyRot - mob->yBodyRotO) * a);
             float xr = mob->xRotO + (mob->xRot - mob->xRotO) * a;
-            glPushMatrix();
-            glRotatef(yr, 0, 1, 0);
-            glRotatef(xr, 1, 0, 0);
-            glTranslatef((6 / 16.0f) * (i * 2 - 1), 0, 0);
-            glTranslatef(0, -6 / 16.0f, 0);
-            glRotatef(-xr, 1, 0, 0);
-            glRotatef(-yr, 0, 1, 0);
+            RenderPath.MatrixPush();
+            RenderPath.MatrixRotate((yr)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixRotate((xr)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixTranslate((6 / 16.0f) * (i * 2 - 1), 0, 0);
+            RenderPath.MatrixTranslate(0, -6 / 16.0f, 0);
+            RenderPath.MatrixRotate((-xr)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((-yr)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
 
             float s = 8 / 6.0f;
-            glScalef(s, s, s);
+            RenderPath.MatrixScale(s, s, s);
             humanoidModel->renderEars(1 / 16.0f, true);
-            glPopMatrix();
+            RenderPath.MatrixPop();
         }
     }
 
@@ -328,8 +328,8 @@ void PlayerRenderer::additionalRendering(std::shared_ptr<LivingEntity> _mob,
 bool b1 = !mob->isInvisible();
 bool b2 = !mob->isCapeHidden();*/
     if (bindTexture(mob->customTextureUrl2, "") && !mob->isInvisible()) {
-        glPushMatrix();
-        glTranslatef(0, 0, 2 / 16.0f);
+        RenderPath.MatrixPush();
+        RenderPath.MatrixTranslate(0, 0, 2 / 16.0f);
 
         double xd = (mob->xCloakO + (mob->xCloak - mob->xCloakO) * a) -
                     (mob->xo + (mob->x - mob->xo) * a);
@@ -364,20 +364,20 @@ bool b2 = !mob->isCapeHidden();*/
         float xRot = 6.0f + lean / 2 + flap;
         if (xRot > 64.0f) xRot = 64.0f;
 
-        glRotatef(xRot, 1, 0, 0);
-        glRotatef(lean2 / 2, 0, 0, 1);
-        glRotatef(-lean2 / 2, 0, 1, 0);
-        glRotatef(180, 0, 1, 0);
+        RenderPath.MatrixRotate((xRot)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+        RenderPath.MatrixRotate((lean2 / 2)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        RenderPath.MatrixRotate((-lean2 / 2)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
         humanoidModel->renderCloak(1 / 16.0f, true);
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
 
     std::shared_ptr<ItemInstance> item = mob->inventory->getSelected();
 
     if (item != nullptr) {
-        glPushMatrix();
+        RenderPath.MatrixPush();
         humanoidModel->arm0->translateTo(1 / 16.0f);
-        glTranslatef(-1 / 16.0f, 7 / 16.0f, 1 / 16.0f);
+        RenderPath.MatrixTranslate(-1 / 16.0f, 7 / 16.0f, 1 / 16.0f);
 
         if (mob->fishing != nullptr) {
             item = std::make_shared<ItemInstance>(Item::stick);
@@ -391,43 +391,43 @@ bool b2 = !mob->isCapeHidden();*/
         if (item->id < 256 &&
             TileRenderer::canRender(Tile::tiles[item->id]->getRenderShape())) {
             float s = 8 / 16.0f;
-            glTranslatef(-0 / 16.0f, 3 / 16.0f, -5 / 16.0f);
+            RenderPath.MatrixTranslate(-0 / 16.0f, 3 / 16.0f, -5 / 16.0f);
             s *= 0.75f;
-            glRotatef(20, 1, 0, 0);
-            glRotatef(45, 0, 1, 0);
-            glScalef(-s, -s, s);
+            RenderPath.MatrixRotate((20)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixScale(-s, -s, s);
         } else if (item->id == Item::bow->id) {
             float s = 10 / 16.0f;
-            glTranslatef(0 / 16.0f, 2 / 16.0f, 5 / 16.0f);
-            glRotatef(-20, 0, 1, 0);
-            glScalef(s, -s, s);
-            glRotatef(-100, 1, 0, 0);
-            glRotatef(45, 0, 1, 0);
+            RenderPath.MatrixTranslate(0 / 16.0f, 2 / 16.0f, 5 / 16.0f);
+            RenderPath.MatrixRotate((-20)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+            RenderPath.MatrixScale(s, -s, s);
+            RenderPath.MatrixRotate((-100)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
         } else if (Item::items[item->id]->isHandEquipped()) {
             float s = 10 / 16.0f;
             if (Item::items[item->id]->isMirroredArt()) {
-                glRotatef(180, 0, 0, 1);
-                glTranslatef(0, -2 / 16.0f, 0);
+                RenderPath.MatrixRotate((180)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+                RenderPath.MatrixTranslate(0, -2 / 16.0f, 0);
             }
             if (mob->getUseItemDuration() > 0) {
                 if (anim == UseAnim_block) {
-                    glTranslatef(0.05f, 0, -0.1f);
-                    glRotatef(-50, 0, 1, 0);
-                    glRotatef(-10, 1, 0, 0);
-                    glRotatef(-60, 0, 0, 1);
+                    RenderPath.MatrixTranslate(0.05f, 0, -0.1f);
+                    RenderPath.MatrixRotate((-50)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+                    RenderPath.MatrixRotate((-10)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+                    RenderPath.MatrixRotate((-60)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
                 }
             }
-            glTranslatef(0, 3 / 16.0f, 0);
-            glScalef(s, -s, s);
-            glRotatef(-100, 1, 0, 0);
-            glRotatef(45, 0, 1, 0);
+            RenderPath.MatrixTranslate(0, 3 / 16.0f, 0);
+            RenderPath.MatrixScale(s, -s, s);
+            RenderPath.MatrixRotate((-100)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((45)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
         } else {
             float s = 6 / 16.0f;
-            glTranslatef(+4 / 16.0f, +3 / 16.0f, -3 / 16.0f);
-            glScalef(s, s, s);
-            glRotatef(60, 0, 0, 1);
-            glRotatef(-90, 1, 0, 0);
-            glRotatef(20, 0, 0, 1);
+            RenderPath.MatrixTranslate(+4 / 16.0f, +3 / 16.0f, -3 / 16.0f);
+            RenderPath.MatrixScale(s, s, s);
+            RenderPath.MatrixRotate((60)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+            RenderPath.MatrixRotate((-90)*(std::numbers::pi_v<float>/180.f), 1, 0, 0);
+            RenderPath.MatrixRotate((20)*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
         }
 
         if (item->getItem()->hasMultipleSpriteLayers()) {
@@ -437,7 +437,7 @@ bool b2 = !mob->isCapeHidden();*/
                 float g = ((col >> 8) & 0xff) / 255.0f;
                 float b = ((col) & 0xff) / 255.0f;
 
-                glColor4f(red, g, b, 1);
+                RenderPath.StateSetColour(red, g, b, 1);
                 this->entityRenderDispatcher->itemInHandRenderer->renderItem(
                     mob, item, layer, false);
             }
@@ -447,12 +447,12 @@ bool b2 = !mob->isCapeHidden();*/
             float g = ((col >> 8) & 0xff) / 255.0f;
             float b = ((col) & 0xff) / 255.0f;
 
-            glColor4f(red, g, b, 1);
+            RenderPath.StateSetColour(red, g, b, 1);
             this->entityRenderDispatcher->itemInHandRenderer->renderItem(
                 mob, item, 0);
         }
 
-        glPopMatrix();
+        RenderPath.MatrixPop();
     }
 }
 
@@ -464,12 +464,12 @@ void PlayerRenderer::renderNameTags(std::shared_ptr<LivingEntity> player,
 
 void PlayerRenderer::scale(std::shared_ptr<LivingEntity> player, float a) {
     float s = 15 / 16.0f;
-    glScalef(s, s, s);
+    RenderPath.MatrixScale(s, s, s);
 }
 
 void PlayerRenderer::renderHand() {
     float brightness = 1;
-    glColor3f(brightness, brightness, brightness);
+    RenderPath.StateSetColour(brightness, brightness, brightness, 1.0f);
 
     humanoidModel->m_uiAnimOverrideBitmask =
         Minecraft::GetInstance()->player->getAnimOverrideBitmask();
@@ -511,9 +511,9 @@ void PlayerRenderer::setupRotations(std::shared_ptr<LivingEntity> _mob,
     std::shared_ptr<Player> mob = std::dynamic_pointer_cast<Player>(_mob);
 
     if (mob->isAlive() && mob->isSleeping()) {
-        glRotatef(mob->getSleepRotation(), 0, 1, 0);
-        glRotatef(getFlipDegrees(mob), 0, 0, 1);
-        glRotatef(270, 0, 1, 0);
+        RenderPath.MatrixRotate((mob->getSleepRotation())*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+        RenderPath.MatrixRotate((getFlipDegrees(mob))*(std::numbers::pi_v<float>/180.f), 0, 0, 1);
+        RenderPath.MatrixRotate((270)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     } else {
         LivingEntityRenderer::setupRotations(mob, bob, bodyRot, a);
     }

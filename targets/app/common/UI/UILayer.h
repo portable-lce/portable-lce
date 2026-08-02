@@ -45,7 +45,7 @@ public:
 
     void tick();
     void render(S32 width, S32 height,
-                IPlatformRenderer::eViewportType viewport);
+                int viewport);
     void getRenderDimensions(S32& width, S32& height);
 
     void DestroyAll();
@@ -84,7 +84,7 @@ public:
 
 public:
     bool IsFullscreenGroup();
-    IPlatformRenderer::eViewportType getViewport();
+    int getViewport();
 
     virtual void HandleDLCMountingComplete();
     virtual void HandleDLCInstalled();

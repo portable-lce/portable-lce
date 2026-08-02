@@ -1,6 +1,7 @@
 #include "PaintingRenderer.h"
 
 #include <cmath>
+#include <numbers>
 
 #include "EntityRenderDispatcher.h"
 #include "java/Random.h"
@@ -26,19 +27,19 @@ void PaintingRenderer::render(std::shared_ptr<Entity> _painting, double x,
 
     random->setSeed(187);
 
-    glPushMatrix();
-    glTranslatef((float)x, (float)y, (float)z);
-    glRotatef(rot, 0, 1, 0);
-    glEnable(GL_RESCALE_NORMAL);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
+    RenderPath.MatrixRotate((rot)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    (void)0;
     bindTexture(painting);  // 4J was "/art/kz.png"
 
     Painting::Motive* motive = painting->motive;
 
     float s = 1 / 16.0f;
-    glScalef(s, s, s);
+    RenderPath.MatrixScale(s, s, s);
     renderPainting(painting, motive->w, motive->h, motive->uo, motive->vo);
-    glDisable(GL_RESCALE_NORMAL);
-    glPopMatrix();
+    (void)0;
+    RenderPath.MatrixPop();
 }
 
 void PaintingRenderer::renderPainting(std::shared_ptr<Painting> painting, int w,
@@ -136,8 +137,8 @@ void PaintingRenderer::setBrightness(std::shared_ptr<Painting> painting,
     int col = this->entityRenderDispatcher->level->getLightColor(x, y, z, 0);
     int u = col % 65536;
     int v = col / 65536;
-    glMultiTexCoord2f(0, u, v);
-    glColor3f(1, 1, 1);
+    (void)0;
+    RenderPath.StateSetColour(1, 1, 1, 1.0f);
 }
 
 ResourceLocation* PaintingRenderer::getTextureLocation(

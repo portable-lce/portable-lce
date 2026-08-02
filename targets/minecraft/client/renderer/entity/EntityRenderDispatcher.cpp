@@ -97,7 +97,7 @@ void EntityRenderDispatcher::staticCtor() {
 }
 
 EntityRenderDispatcher::EntityRenderDispatcher() {
-    glEnable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(true);
     renderers[eTYPE_SPIDER] = new SpiderRenderer();
     renderers[eTYPE_CAVESPIDER] = new CaveSpiderRenderer();
     renderers[eTYPE_PIG] =
@@ -177,7 +177,7 @@ EntityRenderDispatcher::EntityRenderDispatcher() {
     renderers[eTYPE_HORSE] = new HorseRenderer(new ModelHorse(), .75f);
 
     renderers[eTYPE_LIGHTNINGBOLT] = new LightningBoltRenderer();
-    glDisable(GL_LIGHTING);
+    RenderPath.StateSetLightingEnable(false);
 
     auto itEnd = renderers.end();
     for (classToRendererMap::iterator it = renderers.begin(); it != itEnd;
@@ -278,8 +278,8 @@ void EntityRenderDispatcher::render(std::shared_ptr<Entity> entity, float a) {
     }
     int u = col % 65536;
     int v = col / 65536;
-    glMultiTexCoord2f(GL_TEXTURE1, u / 1.0f, v / 1.0f);
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetVertexTextureUV(u / 1.0f, v / 1.0f);
+    RenderPath.StateSetColour(1, 1, 1, 1);
 
     render(entity, x - xOff, y - yOff, z - zOff, r, a);
 }
@@ -317,13 +317,13 @@ void EntityRenderDispatcher::registerTerrainTextures(
 void EntityRenderDispatcher::renderHitbox(std::shared_ptr<Entity> entity,
                                           double x, double y, double z,
                                           float rot, float a) {
-    glDepthMask(false);
-    glDisable(GL_TEXTURE_2D);
-    glDisable(GL_LIGHTING);
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_BLEND);
+    RenderPath.StateSetDepthMask(false);
+    RenderPath.StateSetTextureEnable(false);
+    RenderPath.StateSetLightingEnable(false);
+    RenderPath.StateSetFaceCull(false);
+    RenderPath.StateSetBlendEnable(false);
 
-    glPushMatrix();
+    RenderPath.MatrixPush();
     Tesselator* t = Tesselator::getInstance();
 
     t->begin();
@@ -362,11 +362,11 @@ void EntityRenderDispatcher::renderHitbox(std::shared_ptr<Entity> entity,
     t->vertex(x + wnx, y + top, z + wnz);
 
     t->end();
-    glPopMatrix();
+    RenderPath.MatrixPop();
 
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_CULL_FACE);
-    glDisable(GL_BLEND);
-    glDepthMask(true);
+    RenderPath.StateSetTextureEnable(true);
+    RenderPath.StateSetLightingEnable(true);
+    RenderPath.StateSetFaceCull(true);
+    RenderPath.StateSetBlendEnable(false);
+    RenderPath.StateSetDepthMask(true);
 }

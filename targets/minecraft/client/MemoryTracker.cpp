@@ -11,7 +11,7 @@ std::unordered_map<int, int> MemoryTracker::GL_LIST_IDS;
 std::vector<int> MemoryTracker::TEXTURE_IDS;
 
 int MemoryTracker::genLists(int count) {
-    int id = glGenLists(count);
+    int id = RenderPath.CBuffCreate(count);
     GL_LIST_IDS.insert(std::pair<int, int>(id, count));
     return id;
 }
@@ -25,7 +25,7 @@ int MemoryTracker::genTextures() {
 void MemoryTracker::releaseLists(int id) {
     auto it = GL_LIST_IDS.find(id);
     if (it != GL_LIST_IDS.end()) {
-        glDeleteLists(id, it->second);
+        RenderPath.CBuffDelete(id, it->second);
         GL_LIST_IDS.erase(it);
     }
 }
@@ -40,7 +40,7 @@ void MemoryTracker::releaseTextures() {
 void MemoryTracker::release() {
     // for (Map.Entry<Integer, Integer> entry : GL_LIST_IDS.entrySet())
     for (auto it = GL_LIST_IDS.begin(); it != GL_LIST_IDS.end(); ++it) {
-        glDeleteLists(it->first, it->second);
+        RenderPath.CBuffDelete(it->first, it->second);
     }
     GL_LIST_IDS.clear();
 

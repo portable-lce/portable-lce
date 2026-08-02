@@ -27,7 +27,7 @@ void ContainerScreen::renderBg(float a) {
     // 4J Unused
 #if defined(ENABLE_JAVA_GUIS)
     int tex = minecraft->textures->loadTexture(TN_GUI_CONTAINER);
-    glColor4f(1, 1, 1, 1);
+    RenderPath.StateSetColour(1, 1, 1, 1);
     minecraft->textures->bind(tex);
     int xo = (width - imageWidth) / 2;
     int yo = (height - imageHeight) / 2;

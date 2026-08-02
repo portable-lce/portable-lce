@@ -33,14 +33,14 @@ void EnderCrystalRenderer::render(std::shared_ptr<Entity> _crystal, double x,
     }
 
     float tt = crystal->time + a;
-    glPushMatrix();
-    glTranslatef((float)x, (float)y, (float)z);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixTranslate((float)x, (float)y, (float)z);
     bindTexture(&ENDER_CRYSTAL_LOCATION);
     float hh = sin(tt * 0.2f) / 2 + 0.5f;
     hh = hh * hh + hh;
     model->render(crystal, 0, tt * 3, hh * 0.2f, 0, 0, 1 / 16.0f, true);
 
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
 
 ResourceLocation* EnderCrystalRenderer::getTextureLocation(

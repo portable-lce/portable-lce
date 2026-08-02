@@ -75,5 +75,5 @@ void VillagerRenderer::scale(std::shared_ptr<LivingEntity> _mob, float a) {
         shadowRadius = 0.25f;
     } else
         shadowRadius = 0.5f;
-    glScalef(s, s, s);
+    RenderPath.MatrixScale(s, s, s);
 }

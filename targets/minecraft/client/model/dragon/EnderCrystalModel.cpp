@@ -1,6 +1,7 @@
 #include "EnderCrystalModel.h"
 
 #include <memory>
+#include <numbers>
 #include <string>
 
 #include "minecraft/client/model/geom/ModelPart.h"
@@ -27,22 +28,22 @@ EnderCrystalModel::EnderCrystalModel(float g) {
 void EnderCrystalModel::render(std::shared_ptr<Entity> entity, float time,
                                float r, float bob, float yRot, float xRot,
                                float scale, bool usecompiled) {
-    glPushMatrix();
-    glScalef(2, 2, 2);
-    glTranslatef(0, -0.5f, 0);
+    RenderPath.MatrixPush();
+    RenderPath.MatrixScale(2, 2, 2);
+    RenderPath.MatrixTranslate(0, -0.5f, 0);
     base->render(scale, usecompiled);
-    glRotatef(r, 0, 1, 0);
-    glTranslatef(0, 0.8f + bob, 0);
-    glRotatef(60, 0.7071f, 0, 0.7071f);
+    RenderPath.MatrixRotate((r)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
+    RenderPath.MatrixTranslate(0, 0.8f + bob, 0);
+    RenderPath.MatrixRotate((60)*(std::numbers::pi_v<float>/180.f), 0.7071f, 0, 0.7071f);
     glass->render(scale, usecompiled);
     float ss = 14 / 16.0f;
-    glScalef(ss, ss, ss);
-    glRotatef(60, 0.7071f, 0, 0.7071f);
-    glRotatef(r, 0, 1, 0);
+    RenderPath.MatrixScale(ss, ss, ss);
+    RenderPath.MatrixRotate((60)*(std::numbers::pi_v<float>/180.f), 0.7071f, 0, 0.7071f);
+    RenderPath.MatrixRotate((r)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     glass->render(scale, usecompiled);
-    glScalef(ss, ss, ss);
-    glRotatef(60, 0.7071f, 0, 0.7071f);
-    glRotatef(r, 0, 1, 0);
+    RenderPath.MatrixScale(ss, ss, ss);
+    RenderPath.MatrixRotate((60)*(std::numbers::pi_v<float>/180.f), 0.7071f, 0, 0.7071f);
+    RenderPath.MatrixRotate((r)*(std::numbers::pi_v<float>/180.f), 0, 1, 0);
     cube->render(scale, usecompiled);
-    glPopMatrix();
+    RenderPath.MatrixPop();
 }
